@@ -9,9 +9,13 @@ import java.sql.Timestamp;
 @Builder
 public class WriterEntity {
     private int id;
+    private int images_id;
     private String email;
-    private String avatar;
     private String name;
+    private String username;
+    private String about;
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    private ImageEntity avatar;
 }

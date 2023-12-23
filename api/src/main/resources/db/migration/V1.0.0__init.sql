@@ -90,7 +90,9 @@ $$ LANGUAGE plpgsql;
 CREATE TABLE images (
     id              serial PRIMARY KEY,
     title           text,
-    path            text NOT NULL,
+    source_url      text NOT NULL,
+    thumbnail_url   text NOT NULL,
+    optimized_url   text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -110,9 +112,11 @@ CREATE TRIGGER update_updated_at_users BEFORE UPDATE ON "public".users FOR EACH 
 
 CREATE TABLE writers (
     id              serial PRIMARY KEY,
+    images_id       integer REFERENCES images(id),
     email           _email NOT NULL UNIQUE,
-    avatar          text,
-    name            text,
+    username        _username DEFAULT gen_random_uuid() NOT NULL UNIQUE,
+    name            text NOT NULL,
+    about           text,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );

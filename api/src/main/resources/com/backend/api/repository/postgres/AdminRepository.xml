@@ -4,8 +4,24 @@
 
 <mapper namespace="com.backend.api.repository.postgres.AdminRepository">
 
-    <select id="createArticle">
+    <insert id="createArticle">
 
-    </select>
+    </insert>
+
+    <insert id="createWriter">
+        INSERT INTO writers (
+            images_id,
+            name,
+            email,
+            username,
+            about
+        ) VALUES (
+            #{imagesId},
+            #{name},
+            #{email},
+            #{username},
+            #{about}
+        )
+    </insert>
 
 </mapper>
