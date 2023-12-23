@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.backend.api.entity.UserEntity;
 import com.backend.api.repository.postgres.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,10 +42,11 @@ public class AuthService {
                 .sign(Algorithm.HMAC256(magicTokenSecret));
     }
 
-    public String generateAccessToken(String email){
+    public String generateAccessToken(UserEntity userEntity){
         Instant now = Instant.now();
         return JWT.create()
-                .withSubject(email)
+                .withSubject(userEntity.getEmail())
+                .withClaim("id", userEntity.getId())
                 .withIssuedAt(Instant.now())
                 .withExpiresAt(now.plus(accessTokenExpTime, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(accessTokenSecret));
@@ -52,6 +54,7 @@ public class AuthService {
 
     public void emailMagicLink(String email){
         String token = generateMagicToken(email);
+//        Email the token here
         System.out.println(token);
     }
 
@@ -73,8 +76,8 @@ public class AuthService {
     @Transactional
     public String getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
-        userRepository.createUserByEmail(email);
-        return generateAccessToken(email);
+        UserEntity userEntity = userRepository.createUserByEmail(email);
+        return generateAccessToken(userEntity);
     }
 
     @Transactional

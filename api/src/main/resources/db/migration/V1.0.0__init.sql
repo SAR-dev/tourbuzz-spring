@@ -2,6 +2,7 @@
 
 CREATE TYPE provider_type AS ENUM('OKTA', 'AUTH0', 'LINKEDIN', 'AMAZON', 'APPLE', 'MICROSOFT', 'GITHUB', 'TWITTER', 'FACEBOOK', 'GOOGLE');
 CREATE TYPE level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
+CREATE TYPE payment_type AS ENUM('BKASH', 'NAGAD');
 
 --DOMAINS
 
@@ -11,6 +12,11 @@ CREATE DOMAIN _email AS TEXT
     CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
 CREATE DOMAIN _link AS TEXT
     CHECK (VALUE ~* '^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$');
+CREATE DOMAIN number_list AS TEXT
+    CHECK ( VALUE ~* '^(\\d+,)*\\d*$');
+CREATE DOMAIN _slug AS TEXT
+    CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
+
 
 --FUNCTIONS
 
@@ -62,12 +68,22 @@ BEGIN
 END
 $$;
 
---Unique Array Integer Function
-CREATE FUNCTION public.array_unique_int (a integer[]) RETURNS integer[] as $$
-  SELECT array (
-    SELECT DISTINCT v FROM unnest(a) AS b(v)
-  )
-$$ LANGUAGE SQL STRICT;
+--number_list to array Function
+CREATE OR REPLACE FUNCTION number_list_to_array(input_text TEXT)
+RETURNS INTEGER[] AS $$
+DECLARE
+    num_array INTEGER[];
+    num_list TEXT[];
+    i INTEGER := 1;
+BEGIN
+    num_list := string_to_array(input_text, ',');
+    WHILE i <= array_length(num_list, 1) LOOP
+        num_array := num_array || ARRAY[CAST(num_list[i] AS INTEGER)];
+        i := i + 1;
+    END LOOP;
+    RETURN num_array;
+END;
+$$ LANGUAGE plpgsql;
 
 --Schema
 
@@ -77,6 +93,7 @@ CREATE TABLE users (
     username        _username DEFAULT gen_random_uuid() NOT NULL UNIQUE,
     avatar          text,
     name            text,
+    last_logged_in  timestamp DEFAULT CURRENT_TIMESTAMP,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -94,16 +111,15 @@ CREATE TRIGGER update_updated_at_images BEFORE UPDATE ON "public".images FOR EAC
 
 CREATE TABLE articles (
     id              serial PRIMARY KEY,
-    slug            text NOT NULL UNIQUE,
+    slug            _slug NOT NULL UNIQUE,
     title           text NOT NULL,
     summary         text NOT NULL,
     subtitle        text NOT NULL,
     details         text NOT NULL,
     writer          text NOT NULL,
+    image_ids       number_list,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    images          text[],
-    tags            text[]
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_articles BEFORE UPDATE ON "public".articles FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
@@ -132,11 +148,11 @@ CREATE TABLE organizers (
     id              serial PRIMARY KEY,
     username        _username NOT NULL UNIQUE,
     email           _email NOT NULL UNIQUE,
+    images_id       integer REFERENCES images(id),
     verification    level_type,
     name            text NOT NULL,
-    social_link     text NOT NULL,
+    social_link     _link NOT NULL,
     contact_number  text NOT NULL,
-    avatar          text NOT NULL,
     description     text NOT NULL,
     slogan          text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -148,30 +164,39 @@ CREATE TABLE tours (
     id              serial PRIMARY KEY,
     tour_types_id   integer NOT NULL REFERENCES tour_types(id),
     organizers_id   integer NOT NULL REFERENCES organizers(id),
-    price           integer NOT NULL,
-    slug            text NOT NULL UNIQUE,
-    thumbnail       text NOT NULL,
+    images_id       integer NOT NULL REFERENCES images(id),
+    slug            _slug NOT NULL UNIQUE,
     title           text NOT NULL,
-    organizer       text NOT NULL,
-    description     text NOT NULL,
-    start_at        timestamp NOT NULL,
-    finish_at       timestamp NOT NULL,
-    start_point     text NOT NULL,
-    end_point       text NOT NULL,
+    md_description  text NOT NULL,
+    summary         text NOT NULL,
     included        text,
     additional_info text,
-    last_sell_at    timestamp NOT NULL,
-    summary         text NOT NULL,
-    verification    text NOT NULL,
+    verification    level_type NOT NULL,
     group_size      text NOT NULL,
     transportation  text NOT NULL,
     instruction     text NOT NULL,
     cancellation    text NOT NULL,
+    start_point     text NOT NULL,
+    finish_point    text NOT NULL,
+    start_at        timestamp NOT NULL,
+    finish_at       timestamp NOT NULL,
+    last_sell_at    timestamp NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     images text[]
 );
 CREATE TRIGGER update_updated_at_tours BEFORE UPDATE ON "public".tours FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE packages (
+    id              serial PRIMARY KEY,
+    tours_id        integer NOT NULL REFERENCES tours(id),
+    title           text NOT NULL,
+    description     text NOT NULL,
+    price           integer NOT NULL,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_packages BEFORE UPDATE ON "public".packages FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE comments (
     id              serial PRIMARY KEY,
@@ -197,13 +222,13 @@ CREATE TRIGGER update_updated_at_hotels BEFORE UPDATE ON "public".hotels FOR EAC
 CREATE TABLE places (
     id              serial PRIMARY KEY,
     name            text NOT NULL UNIQUE,
+    images_id       integer NOT NULL REFERENCES images(id),
     division        text NOT NULL,
     map_link        _link NOT NULL,
-    thumbnail       text NOT NULL,
     description     text NOT NULL,
+    image_ids       number_list,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    images text[]
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_places BEFORE UPDATE ON "public".places FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
@@ -211,9 +236,9 @@ CREATE TABLE tour_logs (
     id              serial PRIMARY KEY,
     tours_id        integer NOT NULL REFERENCES tours(id),
     hotels_id       integer NOT NULL REFERENCES hotels(id),
+    images_id       integer NOT NULL REFERENCES images(id),
     title           text NOT NULL,
     description     text NOT NULL,
-    thumbnail       text NOT NULL,
     date            date NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
@@ -228,9 +253,11 @@ CREATE TABLE tour_logs_places (
 
 CREATE TABLE tickets (
     id              serial PRIMARY KEY,
-    tours_id        integer NOT NULL REFERENCES tours(id),
+    packages_id     integer NOT NULL REFERENCES tours(id),
     users_id        integer NOT NULL REFERENCES users(id),
     paid_amount     integer NOT NULL,
+    payment_by      payment_type,
+    payment_id      text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );

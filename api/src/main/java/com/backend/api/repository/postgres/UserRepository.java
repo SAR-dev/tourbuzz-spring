@@ -1,8 +1,9 @@
 package com.backend.api.repository.postgres;
 
+import com.backend.api.entity.UserEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserRepository {
-    void createUserByEmail(String email);
+    UserEntity createUserByEmail(String email);
 }

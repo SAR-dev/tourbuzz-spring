@@ -4,9 +4,12 @@
 
 <mapper namespace="com.backend.api.repository.postgres.UserRepository">
 
-    <insert id="createUserByEmail">
+    <select id="createUserByEmail" resultType="com.backend.api.entity.UserEntity">
         INSERT INTO users (email) VALUES ( #{email} )
-        ON CONFLICT (email) DO NOTHING;
-    </insert>
+        ON CONFLICT (email)
+        DO UPDATE SET
+            last_logged_in = CURRENT_TIMESTAMP
+        RETURNING *
+    </select>
 
 </mapper>
