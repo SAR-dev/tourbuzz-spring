@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.NonNull;
 
 @Data
-public class SignUpReq {
+public class MagicLinkReq {
     @NotBlank(message = "Email address is required")
     @Email
     @JsonProperty("email")

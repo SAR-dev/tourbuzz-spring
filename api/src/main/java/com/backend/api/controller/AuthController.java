@@ -1,13 +1,12 @@
 package com.backend.api.controller;
 
-import com.backend.api.payload.SignUpReq;
+import com.backend.api.payload.MagicLinkReq;
+import com.backend.api.payload.SignInReq;
+import com.backend.api.response.AccessToken;
 import com.backend.api.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,8 +15,14 @@ public class AuthController {
     private final AuthService authService;
 
 
-    @PostMapping("/sign-up")
-    public void signUp(@Valid @RequestBody SignUpReq request) {
+    @PostMapping("/magic-link")
+    public void reqMagicLink(@Valid @RequestBody MagicLinkReq request) {
         authService.emailMagicLink(request.getEmail());
+    }
+
+    @PostMapping("/sign-in")
+    public AccessToken signIn(@Valid @RequestBody SignInReq request) throws Exception {
+        String accessToken = authService.getAccessToken(request.getToken());
+        return AccessToken.builder().accessToken(accessToken).build();
     }
 }

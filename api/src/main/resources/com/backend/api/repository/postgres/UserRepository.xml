@@ -4,4 +4,9 @@
 
 <mapper namespace="com.backend.api.repository.postgres.UserRepository">
 
+    <insert id="createUserByEmail">
+        INSERT INTO users (email) VALUES ( #{email} )
+        ON CONFLICT (email) DO NOTHING;
+    </insert>
+
 </mapper>
