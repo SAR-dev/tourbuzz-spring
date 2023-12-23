@@ -11,8 +11,8 @@ import java.util.List;
 public class ArticleEntity {
     private int id;
     private int writers_id;
-    private String slug;
     private String title;
+    private String slug;
     private String subtitle;
     private String summary;
     private String md_desc;
