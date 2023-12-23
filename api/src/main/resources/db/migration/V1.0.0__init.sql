@@ -99,6 +99,16 @@ CREATE TABLE users (
 );
 CREATE TRIGGER update_updated_at_users BEFORE UPDATE ON "public".users FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
+CREATE TABLE writers (
+    id              serial PRIMARY KEY,
+    email           _email NOT NULL UNIQUE,
+    avatar          text,
+    name            text,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_writers BEFORE UPDATE ON "public".writers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
 CREATE TABLE images (
     id              serial PRIMARY KEY,
     users_id        integer NOT NULL REFERENCES users(id),
@@ -111,12 +121,12 @@ CREATE TRIGGER update_updated_at_images BEFORE UPDATE ON "public".images FOR EAC
 
 CREATE TABLE articles (
     id              serial PRIMARY KEY,
+    writers_id      integer NOT NULL REFERENCES writers(id),
+    title           text NOT NULL UNIQUE,
     slug            _slug NOT NULL UNIQUE,
-    title           text NOT NULL,
     summary         text NOT NULL,
     subtitle        text NOT NULL,
-    details         text NOT NULL,
-    writer          text NOT NULL,
+    md_desc         text NOT NULL,
     image_ids       number_list,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
@@ -128,7 +138,6 @@ CREATE TABLE enquiries (
     users_id        integer NOT NULL REFERENCES users(id),
     contact_number  text NOT NULL,
     message         text NOT NULL,
-    email           text NOT NULL,
     answer          text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
@@ -137,8 +146,9 @@ CREATE TRIGGER update_updated_at_enquiries BEFORE UPDATE ON "public".enquiries F
 
 CREATE TABLE tour_types (
     id              serial PRIMARY KEY,
+    name            text NOT NULL UNIQUE,
+    slug            _slug NOT NULL UNIQUE,
     details         text NOT NULL,
-    name            text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -146,15 +156,15 @@ CREATE TRIGGER update_updated_at_tour_types BEFORE UPDATE ON "public".tour_types
 
 CREATE TABLE organizers (
     id              serial PRIMARY KEY,
+    name            text NOT NULL UNIQUE,
     username        _username NOT NULL UNIQUE,
+    description     text NOT NULL,
+    slogan          text NOT NULL,
     email           _email NOT NULL UNIQUE,
     images_id       integer REFERENCES images(id),
     verification    level_type,
-    name            text NOT NULL,
     social_link     _link NOT NULL,
     contact_number  text NOT NULL,
-    description     text NOT NULL,
-    slogan          text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -165,25 +175,24 @@ CREATE TABLE tours (
     tour_types_id   integer NOT NULL REFERENCES tour_types(id),
     organizers_id   integer NOT NULL REFERENCES organizers(id),
     images_id       integer NOT NULL REFERENCES images(id),
+    title           text NOT NULL UNIQUE,
     slug            _slug NOT NULL UNIQUE,
-    title           text NOT NULL,
-    md_description  text NOT NULL,
+    md_desc         text NOT NULL,
     summary         text NOT NULL,
     included        text,
     additional_info text,
-    verification    level_type NOT NULL,
     group_size      text NOT NULL,
     transportation  text NOT NULL,
     instruction     text NOT NULL,
     cancellation    text NOT NULL,
     start_point     text NOT NULL,
     finish_point    text NOT NULL,
+    image_ids       number_list,
     start_at        timestamp NOT NULL,
     finish_at       timestamp NOT NULL,
     last_sell_at    timestamp NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    images text[]
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_tours BEFORE UPDATE ON "public".tours FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
@@ -221,12 +230,12 @@ CREATE TRIGGER update_updated_at_hotels BEFORE UPDATE ON "public".hotels FOR EAC
 
 CREATE TABLE places (
     id              serial PRIMARY KEY,
-    name            text NOT NULL UNIQUE,
     images_id       integer NOT NULL REFERENCES images(id),
+    name            text NOT NULL UNIQUE,
     division        text NOT NULL,
+    district        text NOT NULL,
     map_link        _link NOT NULL,
     description     text NOT NULL,
-    image_ids       number_list,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -236,10 +245,10 @@ CREATE TABLE tour_logs (
     id              serial PRIMARY KEY,
     tours_id        integer NOT NULL REFERENCES tours(id),
     hotels_id       integer NOT NULL REFERENCES hotels(id),
-    images_id       integer NOT NULL REFERENCES images(id),
     title           text NOT NULL,
     description     text NOT NULL,
     date            date NOT NULL,
+    image_ids       number_list,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -248,7 +257,8 @@ CREATE TRIGGER update_updated_at_tour_logs BEFORE UPDATE ON "public".tour_logs F
 CREATE TABLE tour_logs_places (
     id              serial PRIMARY KEY,
     places_id       integer NOT NULL REFERENCES places(id),
-    tour_logs_id    integer NOT NULL REFERENCES tour_logs(id)
+    tour_logs_id    integer NOT NULL REFERENCES tour_logs(id),
+    CONSTRAINT unq_tour_logs_places UNIQUE ( tour_logs_id, places_id )
 );
 
 CREATE TABLE tickets (
@@ -259,7 +269,8 @@ CREATE TABLE tickets (
     payment_by      payment_type,
     payment_id      text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unq_tickets_payments UNIQUE ( payment_by, payment_id )
 );
 CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON "public".tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 

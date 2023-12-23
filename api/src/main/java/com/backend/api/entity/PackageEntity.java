@@ -1,0 +1,18 @@
+package com.backend.api.entity;
+
+import lombok.Builder;
+import lombok.Data;
+
+import java.sql.Timestamp;
+
+@Data
+@Builder
+public class PackageEntity {
+    private int id;
+    private int tours_id;
+    private String title;
+    private String description;
+    private int price;
+    private Timestamp created_at;
+    private Timestamp updated_at;
+}
