@@ -22,7 +22,6 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     public AccessToken signIn(@Valid @RequestBody SignInReq request) throws Exception {
-        String accessToken = authService.getAccessToken(request.getToken());
-        return AccessToken.builder().accessToken(accessToken).build();
+        return authService.getAccessToken(request.getToken());
     }
 }
