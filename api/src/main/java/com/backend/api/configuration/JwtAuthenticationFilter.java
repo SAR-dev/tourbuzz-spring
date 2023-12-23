@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -19,25 +20,30 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final AuthService authService;
     private static final String BEARER_HEADER = "Bearer ";
+    private static final String HEADER_NAME = "Authorization";
+    private static final String DEFAULT_PASSWORD = "";
+    private static final List<GrantedAuthority> DEFAULT_AUTHORITIES = new ArrayList<>();
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader(HEADER_NAME);
+
         if (StringUtils.startsWith(authHeader, BEARER_HEADER)) {
             String accessToken = authHeader.substring(BEARER_HEADER.length());
             try {
                 String email = authService.getEmailFromAuthToken(accessToken);
                 if (StringUtils.isNotEmpty(email) && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = new User(email, "", new ArrayList<>());
+                    UserDetails userDetails = new User(email, DEFAULT_PASSWORD, DEFAULT_AUTHORITIES);
                     SecurityContext context = SecurityContextHolder.createEmptyContext();
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
