@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.backend.api.entity.UserEntity;
 import com.backend.api.repository.postgres.UserRepository;
-import com.backend.api.response.AccessToken;
+import com.backend.api.response.AccessTokenRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -75,11 +75,11 @@ public class AuthService {
     }
 
     @Transactional
-    public AccessToken getAccessToken(String token) throws Exception {
+    public AccessTokenRes getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
         UserEntity userEntity = userRepository.createUserByEmail(email);
         String accessToken = generateAccessToken(userEntity);
-        return AccessToken.builder().accessToken(accessToken).tokenType("Bearer").build();
+        return AccessTokenRes.builder().accessToken(accessToken).tokenType("Bearer").build();
     }
 
     @Transactional

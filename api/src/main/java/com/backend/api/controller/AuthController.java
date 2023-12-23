@@ -1,8 +1,8 @@
 package com.backend.api.controller;
 
-import com.backend.api.payload.MagicLinkReq;
-import com.backend.api.payload.SignInReq;
-import com.backend.api.response.AccessToken;
+import com.backend.api.request.MagicLinkReq;
+import com.backend.api.request.SignInReq;
+import com.backend.api.response.AccessTokenRes;
 import com.backend.api.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign-in")
-    public AccessToken signIn(@Valid @RequestBody SignInReq request) throws Exception {
+    public AccessTokenRes signIn(@Valid @RequestBody SignInReq request) throws Exception {
         return authService.getAccessToken(request.getToken());
     }
 }

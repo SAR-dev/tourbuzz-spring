@@ -1,4 +1,4 @@
-package com.backend.api.payload;
+package com.backend.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
