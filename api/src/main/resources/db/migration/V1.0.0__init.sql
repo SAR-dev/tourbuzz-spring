@@ -87,11 +87,20 @@ $$ LANGUAGE plpgsql;
 
 --Schema
 
+CREATE TABLE images (
+    id              serial PRIMARY KEY,
+    title           text,
+    path            text NOT NULL,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_images BEFORE UPDATE ON "public".images FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
 CREATE TABLE users (
     id              serial PRIMARY KEY,
     email           _email NOT NULL UNIQUE,
     username        _username DEFAULT gen_random_uuid() NOT NULL UNIQUE,
-    avatar          text,
+    images_id       integer REFERENCES images(id),
     name            text,
     last_logged_in  timestamp DEFAULT CURRENT_TIMESTAMP,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -108,16 +117,6 @@ CREATE TABLE writers (
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_writers BEFORE UPDATE ON "public".writers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
-
-CREATE TABLE images (
-    id              serial PRIMARY KEY,
-    users_id        integer NOT NULL REFERENCES users(id),
-    title           text,
-    path            text NOT NULL,
-    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TRIGGER update_updated_at_images BEFORE UPDATE ON "public".images FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE articles (
     id              serial PRIMARY KEY,

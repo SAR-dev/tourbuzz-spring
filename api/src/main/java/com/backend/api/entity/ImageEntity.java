@@ -9,7 +9,6 @@ import java.sql.Timestamp;
 @Builder
 public class ImageEntity {
     private int id;
-    private int users_id;
     private String title;
     private String path;
     private Timestamp created_at;

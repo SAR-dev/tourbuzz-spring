@@ -3,6 +3,8 @@ package com.backend.api.request;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
 public class ArticleCreateReq {
@@ -16,7 +18,7 @@ public class ArticleCreateReq {
         private String subtitle;
         private String summary;
         private String md_desc;
-        private String image_ids;
+        private List<Integer> image_ids;
     }
 
     @Data
@@ -25,6 +27,4 @@ public class ArticleCreateReq {
         private String avatar;
         private String name;
     }
-
-
 }
