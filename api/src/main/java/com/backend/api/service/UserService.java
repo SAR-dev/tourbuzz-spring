@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.entity.UserEntity;
 import com.backend.api.repository.postgres.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    public void createUserByEmail(String email){
-        userRepository.createUserByEmail(email);
+    public UserEntity getUserByEmail(String email){
+        return userRepository.getUserByEmail(email);
     }
+
+
 }

@@ -12,4 +12,9 @@
         RETURNING *
     </select>
 
+    <select id="getUserByEmail" resultType="com.backend.api.entity.UserEntity">
+        SELECT u.* FROM users u
+        WHERE u.email = #{email}
+    </select>
+
 </mapper>
