@@ -23,6 +23,9 @@ jwt:
   accesstoken:
     secretkey: Dp/^po=<bbbTv&<Xg%&kL#8I3sg9|u
     expirationtime: 864000
+  admin:
+    secretkey: Dp/^po=<bbbTv&<Xg%&kL#8I3sg9|u
+    validatekey: Dp/^po=<bbbTv&<Xg%&kL#8I3sg9|u
 server:
   port: ${PORT:8080}
 flyway:

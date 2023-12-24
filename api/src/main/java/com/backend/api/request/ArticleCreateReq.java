@@ -1,9 +1,11 @@
 package com.backend.api.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -12,7 +14,22 @@ public class ArticleCreateReq {
     private String slug;
     private String subtitle;
     private String summary;
-    private String md_desc;
-    private List<Integer> image_ids;
-    private int writers_id;
+
+    @JsonProperty("md_desc")
+    private String mdDesc;
+    @JsonProperty("image_ids")
+    private List<Integer> imageIds;
+    @JsonProperty("writers_id")
+    private int writersId;
+
+    private String imageIdsStr;
+    public String getImageIdsStr() {
+        if(imageIds.isEmpty()){
+            return null;
+        } else {
+            return imageIds.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+        }
+    }
 }

@@ -2,13 +2,13 @@ package com.backend.api.controller;
 
 import com.backend.api.entity.ImageEntity;
 import com.backend.api.request.ArticleCreateReq;
-import com.backend.api.request.TourCreateReq;
 import com.backend.api.request.WriterCreateReq;
+import com.backend.api.response.ArticleCheckRes;
+import com.backend.api.response.WriterCheckRes;
 import com.backend.api.service.AdminService;
+import com.backend.api.service.AuthService;
 import com.backend.api.service.ImageUploadService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,9 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class AdminController {
     private final ImageUploadService imageUploadService;
     private final AdminService adminService;
+    private final AuthService authService;
 
     @PostMapping("/image")
     public ImageEntity uploadImage(@RequestParam("file") MultipartFile file) throws Exception {
+        authService.verifyAdminToken();
         try {
             if (file.isEmpty()) {
                 throw new Exception("Please select a file to upload");
@@ -35,13 +37,27 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/writers")
-    public void createWriter(@RequestBody WriterCreateReq request){
-        adminService.createWriter(request);
+    @PostMapping("/writers/check")
+    public WriterCheckRes checkWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        return adminService.checkWriter(writerCreateReq);
     }
 
-    @GetMapping("/tour")
-    public void createArticle(@RequestBody ArticleCreateReq createReq) {
+    @PostMapping("/writers")
+    public void createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        adminService.createWriter(writerCreateReq);
+    }
 
+    @PostMapping("/article/check")
+    public ArticleCheckRes checkArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        return adminService.checkArticle(articleCreateReq);
+    }
+
+    @PostMapping("/article")
+    public void createArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        adminService.createArticle(articleCreateReq);
     }
 }

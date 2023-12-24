@@ -7,7 +7,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.backend.api.entity.UserEntity;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.response.AccessTokenRes;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.Authentication;
@@ -33,6 +35,17 @@ public class AuthService {
 
     @Value("${jwt.accesstoken.secretkey}")
     private String accessTokenSecret;
+
+    @Value("${jwt.admin.secretkey}")
+    private String adminSecret;
+
+    @Value("${jwt.admin.validatekey}")
+    private String adminValidateKey;
+
+    @Autowired
+    HttpServletRequest httpServletRequest;
+
+    private static final String ADMIN_HEADER_NAME = "x-api-key";
 
     private final UserRepository userRepository;
 
@@ -102,5 +115,26 @@ public class AuthService {
     public String getLoggedInEmail() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
+    }
+
+    public void verifyAdminToken() throws Exception {
+        String token = httpServletRequest.getHeader(ADMIN_HEADER_NAME);
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(adminSecret)).build();
+        try {
+            DecodedJWT decodedJWT = verifier.verify(token);
+            long issuedAt = decodedJWT.getIssuedAt().getTime();
+            long now = System.currentTimeMillis();
+            long oneHourInMillis = 60 * 60 * 1000;
+            if (now - issuedAt > oneHourInMillis) {
+                throw new Exception();
+            }
+
+            String subject = decodedJWT.getSubject();
+            if (!adminValidateKey.equals(subject)) {
+                throw new Exception();
+            }
+        } catch (Exception e){
+            throw new Exception("Invalid token");
+        }
     }
 }
