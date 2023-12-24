@@ -2,29 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.AdminRepository">
-
-    <select id="checkWriter" resultType="com.backend.api.response.WriterCheckRes">
-        SELECT
-            EXISTS (SELECT 1 FROM writers WHERE email = #{email}) AS email_exists,
-            EXISTS (SELECT 1 FROM writers WHERE username = #{username}) AS username_exists
-    </select>
-
-    <insert id="createWriter">
-        INSERT INTO writers (
-            images_id,
-            name,
-            email,
-            username,
-            about
-        ) VALUES (
-            #{imagesId},
-            #{name},
-            #{email},
-            #{username},
-            #{about}
-        )
-    </insert>
+<mapper namespace="com.backend.api.repository.postgres.ArticleRepository">
 
     <select id="checkArticle" resultType="com.backend.api.response.ArticleCheckRes">
         SELECT

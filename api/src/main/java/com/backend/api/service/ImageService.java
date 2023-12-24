@@ -16,7 +16,7 @@ import java.util.Base64;
 
 @Service
 @RequiredArgsConstructor
-public class ImageUploadService {
+public class ImageService {
     @Value("${imgbb.api-key}")
     private String imgBbApiKey;
 
