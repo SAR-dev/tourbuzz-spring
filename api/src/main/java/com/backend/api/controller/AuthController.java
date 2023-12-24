@@ -4,6 +4,7 @@ import com.backend.api.request.MagicLinkReq;
 import com.backend.api.request.SignInReq;
 import com.backend.api.response.AccessTokenRes;
 import com.backend.api.service.AuthService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ public class AuthController {
 
 
     @PostMapping("/magic-link")
-    public void reqMagicLink(@RequestBody MagicLinkReq request) {
+    public void reqMagicLink(@RequestBody MagicLinkReq request) throws MessagingException {
         authService.emailMagicLink(request.getEmail());
     }
 

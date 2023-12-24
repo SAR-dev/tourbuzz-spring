@@ -13,6 +13,20 @@ spring:
         auto-commit: false
         minimum-idle: 10
         maximum-pool-size: 10
+  mail:
+    protocol: smtp
+    test-connection: false
+    host: smtp.example.com
+    port: 587
+    username: no-reply@example.com
+    password: password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: true
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
