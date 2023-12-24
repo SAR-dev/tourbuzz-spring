@@ -5,8 +5,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.backend.api.entity.UserEntity;
+import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.response.AccessTokenRes;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +48,8 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
+    private final EmailSenderService emailSenderService;
+
     public String generateMagicToken(String email){
         Instant now = Instant.now();
         return JWT.create()
@@ -65,10 +69,9 @@ public class AuthService {
                 .sign(Algorithm.HMAC256(accessTokenSecret));
     }
 
-    public void emailMagicLink(String email){
+    public void emailMagicLink(String email) throws MessagingException {
         String token = generateMagicToken(email);
-//        Email the token here
-        System.out.println(token);
+        emailSenderService.sendMagicLink(email, token);
     }
 
     @Transactional
