@@ -24,20 +24,20 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    @Value("${jwt.magictoken.expirationtime}")
+    @Value("${jwt.magic-token.expiration-time}")
     private long magicTokenExpTime;
 
-    @Value("${jwt.magictoken.secretkey}")
+    @Value("${jwt.magic-token.secret-key}")
     private String magicTokenSecret;
 
-    @Value("${jwt.accesstoken.expirationtime}")
+    @Value("${jwt.access-token.expiration-time}")
     private long accessTokenExpTime;
 
-    @Value("${jwt.accesstoken.secretkey}")
+    @Value("${jwt.access-token.secret-key}")
     private String accessTokenSecret;
 
-    @Value("${jwt.admin.secretkey}")
-    private String adminSecret;
+    @Value("${jwt.admin.api-secret-key}")
+    private String adminApiSecret;
 
     @Autowired
     HttpServletRequest httpServletRequest;
@@ -116,7 +116,7 @@ public class AuthService {
 
     public void verifyAdminToken() throws Exception {
         String token = httpServletRequest.getHeader(ADMIN_HEADER_NAME);
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(adminSecret)).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(adminApiSecret)).build();
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             long issuedAt = decodedJWT.getIssuedAt().getTime();

@@ -17,14 +17,14 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 jwt:
-  magictoken:
-    secretkey: Dp/^po=<bbbTv&<Xg%&kL#8I3sg9|u
-    expirationtime: 1800
-  accesstoken:
-    secretkey: Dp/^po=<bbbTv&<Xg%&kL#8I3sg9|u
-    expirationtime: 864000
+  magic-token:
+    secret-key: 7zy#&i=ft5q7r3uooj=r-bo2ffi&nhdq_trg_h23z8r2qw4^
+    expiration-time: 1800
+  access-token:
+    secret-key: d7k*n2iz7!+lt58=n(2hz3*fh+ttrv9th(qw_5)*d_i67tzu
+    expiration-time: 864000
   admin:
-    secretkey: Dp/^po=<bbbTv&<Xg%&kL#8I3sg9|u
+    api-secret-key: lv9!wd(l_4zjv43ve**m2#5au#1oysg^davtl&d7yzm9vw11e
 server:
   port: ${PORT:8080}
 flyway:
@@ -38,5 +38,5 @@ springdoc:
   api-docs:
     path: /api-docs
 imgbb:
-  apikey: 613ee68f6bc89f194d175614a4ca500f
+  api-key: 613ee68f6bc89f194d175614a4ca500f
   baseurl: https://api.imgbb.com/1/upload
