@@ -59,11 +59,10 @@ public class AuthService {
                 .sign(Algorithm.HMAC256(magicTokenSecret));
     }
 
-    public String generateAccessToken(UserEntity userEntity){
+    public String generateAccessToken(String email){
         Instant now = Instant.now();
         return JWT.create()
-                .withSubject(userEntity.getEmail())
-                .withClaim("id", userEntity.getId())
+                .withSubject(email)
                 .withIssuedAt(Instant.now())
                 .withExpiresAt(now.plus(accessTokenExpTime, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(accessTokenSecret));
@@ -92,8 +91,8 @@ public class AuthService {
     @Transactional
     public AccessTokenRes getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
-        UserEntity userEntity = userRepository.createUserByEmail(email);
-        String accessToken = generateAccessToken(userEntity);
+        userRepository.createUserByEmail(email);
+        String accessToken = generateAccessToken(email);
         return AccessTokenRes.builder().accessToken(accessToken).tokenType("Bearer").build();
     }
 
