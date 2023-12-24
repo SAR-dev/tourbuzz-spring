@@ -39,9 +39,6 @@ public class AuthService {
     @Value("${jwt.admin.secretkey}")
     private String adminSecret;
 
-    @Value("${jwt.admin.validatekey}")
-    private String adminValidateKey;
-
     @Autowired
     HttpServletRequest httpServletRequest;
 
@@ -126,11 +123,6 @@ public class AuthService {
             long now = System.currentTimeMillis();
             long oneHourInMillis = 60 * 60 * 1000;
             if (now - issuedAt > oneHourInMillis) {
-                throw new Exception();
-            }
-
-            String subject = decodedJWT.getSubject();
-            if (!adminValidateKey.equals(subject)) {
                 throw new Exception();
             }
         } catch (Exception e){
