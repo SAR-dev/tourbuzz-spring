@@ -18,4 +18,14 @@
         ) RETURNING *;
     </select>
 
+    <select id="getImageByImagesId" resultType="com.backend.api.entity.ImageEntity">
+        SELECT * FROM images WHERE id = #{images_id}
+    </select>
+
+    <select id="getImageIdsFromList" resultMap="imageResult">
+        SELECT * FROM images WHERE id = ANY(number_list_to_array(#{image_ids}))
+    </select>
+
+    <resultMap id="imageResult" type="com.backend.api.entity.ImageEntity" />
+
 </mapper>

@@ -7,6 +7,7 @@ import com.backend.api.response.WriterCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class WriterService {
         return writerRepository.checkWriter(writerCreateReq);
     }
 
+    @Transactional
     public void createWriter(WriterCreateReq writerCreateReq) throws ValidationException {
         WriterCheckRes writerCheckRes = checkWriter(writerCreateReq);
         List<String> messages = new ArrayList<>();

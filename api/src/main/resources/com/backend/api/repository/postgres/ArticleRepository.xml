@@ -30,4 +30,23 @@
         )
     </insert>
 
+    <select id="getArticles" resultMap="articleResultMap">
+        SELECT * FROM articles
+    </select>
+
+    <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">
+        <association
+                property="writer"
+                select="com.backend.api.repository.postgres.WriterRepository.getWritersByWritersId"
+                javaType="com.backend.api.entity.WriterEntity"
+                column="writers_id = writers_id"
+        />
+        <collection
+                property="images"
+                ofType="com.backend.api.entity.ImageEntity"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
+                column="image_ids = image_ids"
+        />
+    </resultMap>
+
 </mapper>

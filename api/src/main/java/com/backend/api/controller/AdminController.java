@@ -1,5 +1,6 @@
 package com.backend.api.controller;
 
+import com.backend.api.entity.ArticleEntity;
 import com.backend.api.entity.ImageEntity;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.ArticleCreateReq;
@@ -74,5 +75,19 @@ public class AdminController {
     public void createArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
         authService.verifyAdminToken();
         articleService.createArticle(articleCreateReq);
+    }
+
+    @Tag(name = "Get Articles List")
+    @GetMapping("/articles")
+    public PaginatedRes getArticles(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+
+        PageHelper.startPage(pageNo, pageSize);
+        List<ArticleEntity> articleEntities = articleService.getArticles();
+        Page<ArticleEntity> pageInfo = (Page<ArticleEntity>) articleEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 }

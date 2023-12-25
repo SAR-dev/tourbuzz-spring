@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.entity.ArticleEntity;
 import com.backend.api.repository.postgres.ArticleRepository;
 import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.ArticleCreateReq;
@@ -9,6 +10,7 @@ import com.backend.api.response.WriterCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class ArticleService {
         return articleRepository.checkArticle(articleCreateReq);
     }
 
+    @Transactional
     public void createArticle(ArticleCreateReq articleCreateReq) throws ValidationException {
         ArticleCheckRes articleCheckRes = checkArticle(articleCreateReq);
         List<String> messages = new ArrayList<>();
@@ -35,5 +38,9 @@ public class ArticleService {
             throw new ValidationException(String.join("", messages));
         }
         articleRepository.createArticle(articleCreateReq);
+    }
+
+    public List<ArticleEntity> getArticles(){
+        return articleRepository.getArticles();
     }
 }
