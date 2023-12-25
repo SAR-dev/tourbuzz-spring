@@ -29,7 +29,12 @@ spring:
         debug: true
 mybatis:
   configuration:
-    map-underscore-to-camel-case: true
+    map-underscore-to-camel-case: false
+pagehelper:
+  helperDialect: postgresql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 jwt:
   magic-token:
     secret-key: 7zy#&i=ft5q7r3uooj=r-bo2ffi&nhdq_trg_h23z8r2qw4^
@@ -54,3 +59,4 @@ springdoc:
 imgbb:
   api-key: 613ee68f6bc89f194d175614a4ca500f
   baseurl: https://api.imgbb.com/1/upload
+local: true

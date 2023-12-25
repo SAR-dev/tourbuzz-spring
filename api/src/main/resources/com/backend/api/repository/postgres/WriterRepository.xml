@@ -26,4 +26,16 @@
         )
     </insert>
 
+    <select id="getWriters" resultMap="writerResultMap">
+        SELECT * FROM writers
+    </select>
+
+    <resultMap id="writerResultMap" type="com.backend.api.entity.WriterEntity">
+        <association property="avatar" select="getImageByImageId" javaType="com.backend.api.entity.ImageEntity" column="images_id = images_id" />
+    </resultMap>
+
+    <select id="getImageByImageId" resultType="com.backend.api.entity.ImageEntity">
+        SELECT * FROM images WHERE id = #{images_id}
+    </select>
+
 </mapper>

@@ -1,6 +1,7 @@
 package com.backend.api.controller;
 
 import com.backend.api.entity.ImageEntity;
+import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.ArticleCreateReq;
 import com.backend.api.request.WriterCreateReq;
 import com.backend.api.response.ArticleCheckRes;
@@ -9,6 +10,8 @@ import com.backend.api.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,6 +51,12 @@ public class AdminController {
     public void createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
         writerService.createWriter(writerCreateReq);
+    }
+
+    @GetMapping("/writers")
+    public List<WriterEntity> createWriter() throws Exception {
+        authService.verifyAdminToken();
+        return writerService.getWriters();
     }
 
 //    Article API

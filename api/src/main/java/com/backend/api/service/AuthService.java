@@ -26,6 +26,9 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    @Value("${local}")
+    private boolean local;
+
     @Value("${jwt.magic-token.expiration-time}")
     private long magicTokenExpTime;
 
@@ -117,6 +120,7 @@ public class AuthService {
     }
 
     public void verifyAdminToken() throws Exception {
+        if(local) return;
         String token = httpServletRequest.getHeader(ADMIN_HEADER_NAME);
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(adminApiSecret)).build();
         try {
