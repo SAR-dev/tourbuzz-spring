@@ -18,6 +18,10 @@
         ) RETURNING *;
     </select>
 
+    <select id="getImages" resultMap="imageResult">
+        SELECT * FROM images
+    </select>
+
     <select id="getImageByImagesId" resultType="com.backend.api.entity.ImageEntity">
         SELECT * FROM images WHERE id = #{images_id}
     </select>
@@ -27,5 +31,4 @@
     </select>
 
     <resultMap id="imageResult" type="com.backend.api.entity.ImageEntity" />
-
 </mapper>

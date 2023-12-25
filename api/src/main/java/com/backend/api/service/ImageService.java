@@ -13,6 +13,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -61,5 +62,9 @@ public class ImageService {
         } else {
             throw new Exception("Error occurred: " + response.getStatusCode());
         }
+    }
+
+    public List<ImageEntity> getImages(){
+        return imageRepository.getImages();
     }
 }

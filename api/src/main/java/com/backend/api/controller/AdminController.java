@@ -47,6 +47,20 @@ public class AdminController {
         }
     }
 
+    @Tag(name = "Get Images List")
+    @GetMapping("/images")
+    public PaginatedRes getImages(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+
+        PageHelper.startPage(pageNo, pageSize);
+        List<ImageEntity> imageEntities = imageService.getImages();
+        Page<ImageEntity> pageInfo = (Page<ImageEntity>) imageEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
 //    Writers API
     @Tag(name = "Create Writer")
     @PostMapping("/writers")
