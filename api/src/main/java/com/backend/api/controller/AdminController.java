@@ -10,6 +10,7 @@ import com.backend.api.response.WriterCheckRes;
 import com.backend.api.service.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,7 +28,8 @@ public class AdminController {
     private final PaginationService paginationService;
 
 //    Images API
-    @PostMapping("/image")
+    @Tag(name = "Upload Image")
+    @PostMapping(value = "/image",  consumes = {"multipart/form-data"})
     public ImageEntity uploadImage(@RequestParam("file") MultipartFile file) throws Exception {
         authService.verifyAdminToken();
         try {
@@ -45,12 +47,14 @@ public class AdminController {
     }
 
 //    Writers API
+    @Tag(name = "Create Writer")
     @PostMapping("/writers")
     public void createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
         writerService.createWriter(writerCreateReq);
     }
 
+    @Tag(name = "Get Writers List")
     @GetMapping("/writers")
     public PaginatedRes getWriters(
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
@@ -65,6 +69,7 @@ public class AdminController {
     }
 
 //    Article API
+    @Tag(name = "Create Article")
     @PostMapping("/article")
     public void createArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
         authService.verifyAdminToken();
