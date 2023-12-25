@@ -45,12 +45,6 @@ public class AdminController {
     }
 
 //    Writers API
-    @PostMapping("/writers/check")
-    public WriterCheckRes checkWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
-        authService.verifyAdminToken();
-        return writerService.checkWriter(writerCreateReq);
-    }
-
     @PostMapping("/writers")
     public void createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
@@ -71,12 +65,6 @@ public class AdminController {
     }
 
 //    Article API
-    @PostMapping("/article/check")
-    public ArticleCheckRes checkArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
-        authService.verifyAdminToken();
-        return articleService.checkArticle(articleCreateReq);
-    }
-
     @PostMapping("/article")
     public void createArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
         authService.verifyAdminToken();

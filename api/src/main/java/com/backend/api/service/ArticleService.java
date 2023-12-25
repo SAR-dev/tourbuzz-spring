@@ -6,8 +6,12 @@ import com.backend.api.request.ArticleCreateReq;
 import com.backend.api.request.WriterCreateReq;
 import com.backend.api.response.ArticleCheckRes;
 import com.backend.api.response.WriterCheckRes;
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,7 +22,18 @@ public class ArticleService {
         return articleRepository.checkArticle(articleCreateReq);
     }
 
-    public void createArticle(ArticleCreateReq articleCreateReq){
+    public void createArticle(ArticleCreateReq articleCreateReq) throws ValidationException {
+        ArticleCheckRes articleCheckRes = checkArticle(articleCreateReq);
+        List<String> messages = new ArrayList<>();
+        if(articleCheckRes.isSlug_exists()){
+            messages.add("Slug already exists.");
+        }
+        if(articleCheckRes.isTitle_exists()){
+            messages.add("Title already exists.");
+        }
+        if(!messages.isEmpty()){
+            throw new ValidationException(String.join("", messages));
+        }
         articleRepository.createArticle(articleCreateReq);
     }
 }
