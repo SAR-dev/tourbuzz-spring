@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
-@Builder
 public class TourEntity {
     private int id;
     private int tour_types_id;

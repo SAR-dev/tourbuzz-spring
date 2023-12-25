@@ -6,7 +6,6 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-@Builder
 public class PackageEntity {
     private int id;
     private int tours_id;

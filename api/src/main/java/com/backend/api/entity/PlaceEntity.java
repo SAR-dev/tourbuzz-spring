@@ -6,7 +6,6 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-@Builder
 public class PlaceEntity {
     private int id;
     private int images_id;

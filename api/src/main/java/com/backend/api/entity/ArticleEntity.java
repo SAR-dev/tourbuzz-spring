@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
-@Builder
 public class ArticleEntity {
     private int id;
     private int writers_id;

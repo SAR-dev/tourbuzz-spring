@@ -6,7 +6,6 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-@Builder
 public class WriterEntity {
     private int id;
     private int images_id;

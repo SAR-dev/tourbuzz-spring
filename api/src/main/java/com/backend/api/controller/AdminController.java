@@ -5,8 +5,11 @@ import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.ArticleCreateReq;
 import com.backend.api.request.WriterCreateReq;
 import com.backend.api.response.ArticleCheckRes;
+import com.backend.api.response.PaginatedRes;
 import com.backend.api.response.WriterCheckRes;
 import com.backend.api.service.*;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +24,7 @@ public class AdminController {
     private final WriterService writerService;
     private final ArticleService articleService;
     private final AuthService authService;
+    private final PaginationService paginationService;
 
 //    Images API
     @PostMapping("/image")
@@ -54,9 +58,16 @@ public class AdminController {
     }
 
     @GetMapping("/writers")
-    public List<WriterEntity> createWriter() throws Exception {
+    public PaginatedRes getWriters(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
         authService.verifyAdminToken();
-        return writerService.getWriters();
+
+        PageHelper.startPage(pageNo, pageSize);
+        List<WriterEntity> writerEntities = writerService.getWriters();
+        Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
 //    Article API

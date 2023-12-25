@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Data
-@Builder
 public class CommentEntity {
     private int id;
     private int tours_id;

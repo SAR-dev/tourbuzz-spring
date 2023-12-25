@@ -8,7 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Data
-@Builder
 public class TourLogEntity {
     private int id;
     private int tours_id;

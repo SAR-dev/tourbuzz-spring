@@ -6,7 +6,6 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-@Builder
 public class EnquiryEntity {
     private int id;
     private int users_id;
