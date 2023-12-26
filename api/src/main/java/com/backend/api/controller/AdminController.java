@@ -28,7 +28,7 @@ public class AdminController {
 
 //    Images API
     @Tag(name = "Upload Image")
-    @PostMapping(value = "/image",  consumes = {"multipart/form-data"})
+    @PostMapping(value = "/images",  consumes = {"multipart/form-data"})
     public ImageEntity uploadImage(@RequestParam("file") MultipartFile file) throws Exception {
         authService.verifyAdminToken();
         try {
