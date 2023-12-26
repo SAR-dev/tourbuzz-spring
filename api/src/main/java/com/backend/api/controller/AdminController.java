@@ -5,6 +5,7 @@ import com.backend.api.entity.ImageEntity;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.ArticleCreateReq;
 import com.backend.api.request.WriterCreateReq;
+import com.backend.api.response.DefaultResponse;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.*;
 import com.github.pagehelper.Page;
@@ -59,12 +60,20 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Delete Image")
+    @DeleteMapping("/images/{id}")
+    public void deleteImage(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        imageService.deleteImage(id);
+    }
+
 //    Writers API
     @Tag(name = "Create Writer")
     @PostMapping("/writers")
-    public void createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
+    public DefaultResponse createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
         writerService.createWriter(writerCreateReq);
+        return DefaultResponse.builder().completed(true).build();
     }
 
     @Tag(name = "Get Writers List")

@@ -14,4 +14,6 @@ public interface ImageRepository {
     ImageEntity createImage(ImageCreateReq createReq);
 
     List<ImageEntity> getImages();
+
+    int deleteImage(int id);
 }

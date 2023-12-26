@@ -3,6 +3,7 @@ package com.backend.api.service;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.WriterCreateReq;
+import com.backend.api.response.DefaultResponse;
 import com.backend.api.response.WriterCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +24,13 @@ public class WriterService {
     }
 
     @Transactional
-    public void createWriter(WriterCreateReq writerCreateReq) throws ValidationException {
+    public void createWriter(WriterCreateReq writerCreateReq) throws Exception {
         WriterCheckRes writerCheckRes = checkWriter(writerCreateReq);
-        List<String> messages = new ArrayList<>();
         if(writerCheckRes.isEmail_exists()){
-            messages.add("Email already exists.");
+            throw new Exception("Email already exists.");
         }
         if(writerCheckRes.isUsername_exists()){
-            messages.add("Username already exists.");
-        }
-        if(!messages.isEmpty()){
-            throw new ValidationException(String.join("", messages));
+            throw new Exception("Username already exists.");
         }
         writerRepository.createWriter(writerCreateReq);
     }

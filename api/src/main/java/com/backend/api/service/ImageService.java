@@ -67,4 +67,11 @@ public class ImageService {
     public List<ImageEntity> getImages(){
         return imageRepository.getImages();
     }
+
+    public void deleteImage(int id) throws Exception {
+        int count = imageRepository.deleteImage(id);
+        if(count != 1){
+            throw new Exception("Image could not be deleted");
+        }
+    }
 }
