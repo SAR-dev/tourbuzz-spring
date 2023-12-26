@@ -1,6 +1,5 @@
 package com.backend.api.service;
 
-import com.backend.api.entity.WriterEntity;
 import com.backend.api.response.PaginatedRes;
 import com.github.pagehelper.Page;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,7 @@ public class PaginationService {
         paginatedRes.setData(pageInfo);
         paginatedRes.setPageNo(pageNo);
         paginatedRes.setPageSize(pageSize);
-        paginatedRes.setResultSize(pageInfo.getTotal());
+        paginatedRes.setTotalResult(pageInfo.getTotal());
         return paginatedRes;
     }
 }

@@ -11,12 +11,16 @@ public class PaginatedRes {
     private int pageNo;
     @JsonProperty("page_size")
     private int pageSize;
-    @JsonProperty("result_size")
-    private long resultSize;
     @JsonProperty("has_prev")
     private boolean hasPrev;
     @JsonProperty("has_next")
     private boolean hasNext;
+
+    @JsonProperty("total_result")
+    private long totalResult;
+
+    @JsonProperty("total_pages")
+    private long totalPages;
 
     public boolean getHasPrev() {
         return pageNo > 1;
@@ -25,6 +29,18 @@ public class PaginatedRes {
     public boolean getHasNext() {
         int previousAmount = (pageNo - 1) * pageSize;
         int currentAmount = data.size();
-        return previousAmount + currentAmount < resultSize;
+        return previousAmount + currentAmount < totalResult;
+    }
+
+    public long getTotalPages() {
+        if (totalResult == 0 || pageSize == 0) {
+            return 0;
+        } else {
+            long totalPages = totalResult / pageSize;
+            if (totalResult % pageSize != 0) {
+                totalPages++;
+            }
+            return totalPages;
+        }
     }
 }
