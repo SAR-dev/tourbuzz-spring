@@ -26,8 +26,18 @@
         )
     </insert>
 
+    <update id="updateWriter">
+        UPDATE writers SET
+            images_id = #{imagesId},
+            name = #{name},
+            email = #{email},
+            username = #{username},
+            about = #{about}
+        WHERE id = #{writersId}
+    </update>
+
     <select id="getWriters" resultMap="writerResultMap">
-        SELECT * FROM writers
+        SELECT * FROM writers ORDER BY id
     </select>
 
     <select id="getWritersByWritersId" resultMap="writerResultMap">

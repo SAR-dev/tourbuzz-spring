@@ -5,6 +5,7 @@ import com.backend.api.entity.ImageEntity;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.ArticleCreateReq;
 import com.backend.api.request.WriterCreateReq;
+import com.backend.api.request.WriterUpdateReq;
 import com.backend.api.response.DefaultResponse;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.*;
@@ -88,6 +89,13 @@ public class AdminController {
         List<WriterEntity> writerEntities = writerService.getWriters();
         Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Update Writer")
+    @PutMapping("/writers")
+    public void updateWriter(@RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        writerService.updateWriter(writerUpdateReq);
     }
 
 //    Article API

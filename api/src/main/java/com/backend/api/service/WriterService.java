@@ -3,6 +3,7 @@ package com.backend.api.service;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.WriterCreateReq;
+import com.backend.api.request.WriterUpdateReq;
 import com.backend.api.response.DefaultResponse;
 import com.backend.api.response.WriterCheckRes;
 import jakarta.xml.bind.ValidationException;
@@ -37,5 +38,12 @@ public class WriterService {
 
     public List<WriterEntity> getWriters(){
         return writerRepository.getWriters();
+    }
+
+    public void updateWriter(WriterUpdateReq writerUpdateReq) throws Exception {
+        int count = writerRepository.updateWriter(writerUpdateReq);
+        if(count != 1){
+            throw new Exception("Writer could not be updated");
+        }
     }
 }

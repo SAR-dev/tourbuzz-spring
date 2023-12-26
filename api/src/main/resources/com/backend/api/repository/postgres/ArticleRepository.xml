@@ -31,7 +31,7 @@
     </insert>
 
     <select id="getArticles" resultMap="articleResultMap">
-        SELECT * FROM articles
+        SELECT * FROM articles ORDER BY id
     </select>
 
     <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">
