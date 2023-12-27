@@ -100,7 +100,7 @@ public class AdminController {
 
 //    Article API
     @Tag(name = "Create Article")
-    @PostMapping("/article")
+    @PostMapping("/articles")
     public void createArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
         authService.verifyAdminToken();
         articleService.createArticle(articleCreateReq);
