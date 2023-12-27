@@ -51,7 +51,12 @@ public class ImageService {
             JSONObject jsonResponse = new JSONObject(response.getBody());
             String sourceUrl = jsonResponse.getJSONObject("data").getJSONObject("image").getString("url");
             String thumbnailUrl = jsonResponse.getJSONObject("data").getJSONObject("thumb").getString("url");
-            String optimizedUrl = jsonResponse.getJSONObject("data").getJSONObject("medium").getString("url");
+            String optimizedUrl;
+            try{
+                optimizedUrl = jsonResponse.getJSONObject("data").getJSONObject("medium").getString("url");
+            } catch (Exception e){
+                optimizedUrl = thumbnailUrl;
+            }
             ImageCreateReq imageCreateReq = ImageCreateReq.builder()
                     .title(title)
                     .sourceUrl(sourceUrl)
