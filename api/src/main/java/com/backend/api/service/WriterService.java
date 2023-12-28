@@ -40,6 +40,10 @@ public class WriterService {
         return writerRepository.getWriters();
     }
 
+    public WriterEntity getWriterById(int id){
+        return writerRepository.getWriterById(id);
+    }
+
     public void updateWriter(WriterUpdateReq writerUpdateReq) throws Exception {
         int count = writerRepository.updateWriter(writerUpdateReq);
         if(count != 1){

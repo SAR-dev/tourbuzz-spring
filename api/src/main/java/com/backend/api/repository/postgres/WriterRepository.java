@@ -20,5 +20,7 @@ public interface WriterRepository {
 
     List<WriterEntity> getWriters();
 
+    WriterEntity getWriterById(int id);
+
     int updateWriter(WriterUpdateReq writerUpdateReq);
 }

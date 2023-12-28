@@ -16,13 +16,17 @@
             name,
             email,
             username,
-            about
+            about,
+            phone_no,
+            website
         ) VALUES (
             #{imagesId},
             #{name},
             #{email},
             #{username},
-            #{about}
+            #{about},
+            #{phoneNo},
+            #{website}
         )
     </insert>
 
@@ -32,9 +36,15 @@
             name = #{name},
             email = #{email},
             username = #{username},
-            about = #{about}
+            about = #{about},
+            phone_no = #{phoneNo},
+            website = #{website}
         WHERE id = #{writersId}
     </update>
+
+    <select id="getWriterById" resultMap="writerResultMap">
+        SELECT * FROM writers WHERE id = #{id}
+    </select>
 
     <select id="getWriters" resultMap="writerResultMap">
         SELECT * FROM writers ORDER BY id DESC

@@ -91,6 +91,14 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Get Writer By ID")
+    @GetMapping("/writers/{id}")
+    public WriterEntity getWriters(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+
+        return writerService.getWriterById(id);
+    }
+
     @Tag(name = "Update Writer")
     @PutMapping("/writers")
     public void updateWriter(@RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
