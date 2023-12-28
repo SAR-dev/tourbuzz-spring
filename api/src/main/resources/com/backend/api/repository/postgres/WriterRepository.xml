@@ -37,7 +37,7 @@
     </update>
 
     <select id="getWriters" resultMap="writerResultMap">
-        SELECT * FROM writers ORDER BY id
+        SELECT * FROM writers ORDER BY id DESC
     </select>
 
     <select id="getWritersByWritersId" resultMap="writerResultMap">

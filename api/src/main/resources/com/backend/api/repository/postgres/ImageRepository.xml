@@ -19,7 +19,7 @@
     </select>
 
     <select id="getImages" resultMap="imageResult">
-        SELECT * FROM images WHERE deleted IS FALSE ORDER BY id
+        SELECT * FROM images WHERE deleted IS FALSE ORDER BY id DESC
     </select>
 
     <select id="getImageByImagesId" resultType="com.backend.api.entity.ImageEntity">
