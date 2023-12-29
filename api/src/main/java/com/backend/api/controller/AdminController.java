@@ -93,10 +93,19 @@ public class AdminController {
 
     @Tag(name = "Get Writer By ID")
     @GetMapping("/writers/{id}")
-    public WriterEntity getWriters(@PathVariable int id) throws Exception {
+    public WriterEntity getWriterById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
 
         return writerService.getWriterById(id);
+    }
+
+    @Tag(name = "Delete Writer By ID")
+    @DeleteMapping("/writers/{id}")
+    public DefaultResponse deleteWriterById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+
+        writerService.deleteWriterById(id);
+        return DefaultResponse.builder().completed(true).build();
     }
 
     @Tag(name = "Update Writer")

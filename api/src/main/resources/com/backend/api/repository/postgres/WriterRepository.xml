@@ -46,6 +46,10 @@
         SELECT * FROM writers WHERE id = #{id}
     </select>
 
+    <delete id="deleteWriterById">
+        DELETE FROM writers WHERE id = #{id}
+    </delete>
+
     <select id="getWriters" resultMap="writerResultMap">
         SELECT * FROM writers ORDER BY id DESC
     </select>

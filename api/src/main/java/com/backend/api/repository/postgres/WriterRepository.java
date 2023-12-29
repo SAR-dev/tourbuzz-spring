@@ -22,5 +22,7 @@ public interface WriterRepository {
 
     WriterEntity getWriterById(int id);
 
+    int deleteWriterById(int id);
+
     int updateWriter(WriterUpdateReq writerUpdateReq);
 }

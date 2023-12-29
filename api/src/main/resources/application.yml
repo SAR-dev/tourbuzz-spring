@@ -13,6 +13,13 @@ spring:
         auto-commit: false
         minimum-idle: 10
         maximum-pool-size: 10
+    sqlite:
+      hikari:
+        jdbc-url: jdbc:sqlite:api/sqlite/sqlite.db
+        username:
+        password:
+        driver-class-name: org.sqlite.JDBC
+        initialization-mode: always
   mail:
     protocol: smtp
     test-connection: false

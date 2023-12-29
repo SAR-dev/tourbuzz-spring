@@ -44,6 +44,18 @@ public class WriterService {
         return writerRepository.getWriterById(id);
     }
 
+    public void deleteWriterById(int id) throws Exception {
+        int count;
+        try{
+            count = writerRepository.deleteWriterById(id);
+        } catch (Exception e){
+            throw new Exception("Writer could not be deleted");
+        }
+        if(count != 1){
+            throw new Exception("Writer was not be deleted");
+        }
+    }
+
     public void updateWriter(WriterUpdateReq writerUpdateReq) throws Exception {
         int count = writerRepository.updateWriter(writerUpdateReq);
         if(count != 1){
