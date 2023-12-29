@@ -43,12 +43,11 @@
     </update>
 
     <delete id="deleteArticleById">
-        UPDATE articles SET deleted = TRUE
-        WHERE id = #{id}
+        DELETE FROM articles WHERE id = #{id}
     </delete>
 
     <select id="getArticles" resultMap="articleResultMap">
-        SELECT * FROM articles WHERE deleted IS FALSE ORDER BY id DESC
+        SELECT * FROM articles ORDER BY id DESC
     </select>
 
     <select id="getArticleById" resultMap="articleResultMap">
@@ -58,15 +57,15 @@
     <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">
         <association
                 property="writer"
-                select="com.backend.api.repository.postgres.WriterRepository.getWritersByWritersId"
+                select="com.backend.api.repository.postgres.WriterRepository.getWriterById"
                 javaType="com.backend.api.entity.WriterEntity"
-                column="writers_id = writers_id"
+                column="id = writers_id"
         />
         <collection
                 property="images"
                 ofType="com.backend.api.entity.ImageEntity"
                 select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
-                column="image_ids = image_ids"
+                column="ids = image_ids"
         />
     </resultMap>
 

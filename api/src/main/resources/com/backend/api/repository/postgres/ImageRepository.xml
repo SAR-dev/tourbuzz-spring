@@ -27,12 +27,11 @@
     </select>
 
     <select id="getImageIdsFromList" resultMap="imageResult">
-        SELECT * FROM images WHERE id = ANY(number_list_to_array(#{image_ids}))
+        SELECT * FROM images WHERE id = ANY(number_list_to_array(#{ids}))
     </select>
 
     <update id="deleteImage">
-        UPDATE images SET deleted = TRUE
-        WHERE id = #{id}
+        UPDATE images SET deleted = TRUE WHERE id = #{id}
     </update>
 
     <resultMap id="imageResult" type="com.backend.api.entity.ImageEntity" />
