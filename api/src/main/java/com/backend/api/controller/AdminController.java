@@ -4,9 +4,9 @@ import com.backend.api.entity.ArticleEntity;
 import com.backend.api.entity.ImageEntity;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.ArticleCreateReq;
+import com.backend.api.request.ArticleUpdateReq;
 import com.backend.api.request.WriterCreateReq;
 import com.backend.api.request.WriterUpdateReq;
-import com.backend.api.response.DefaultResponse;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.*;
 import com.github.pagehelper.Page;
@@ -54,7 +54,6 @@ public class AdminController {
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
-
         PageHelper.startPage(pageNo, pageSize);
         List<ImageEntity> imageEntities = imageService.getImages();
         Page<ImageEntity> pageInfo = (Page<ImageEntity>) imageEntities;
@@ -71,10 +70,9 @@ public class AdminController {
 //    Writers API
     @Tag(name = "Create Writer")
     @PostMapping("/writers")
-    public DefaultResponse createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
+    public void createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
         writerService.createWriter(writerCreateReq);
-        return DefaultResponse.builder().completed(true).build();
     }
 
     @Tag(name = "Get Writers List")
@@ -84,7 +82,6 @@ public class AdminController {
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
-
         PageHelper.startPage(pageNo, pageSize);
         List<WriterEntity> writerEntities = writerService.getWriters();
         Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
@@ -95,17 +92,14 @@ public class AdminController {
     @GetMapping("/writers/{id}")
     public WriterEntity getWriterById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
-
         return writerService.getWriterById(id);
     }
 
     @Tag(name = "Delete Writer By ID")
     @DeleteMapping("/writers/{id}")
-    public DefaultResponse deleteWriterById(@PathVariable int id) throws Exception {
+    public void deleteWriterById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
-
         writerService.deleteWriterById(id);
-        return DefaultResponse.builder().completed(true).build();
     }
 
     @Tag(name = "Update Writer")
@@ -130,10 +124,30 @@ public class AdminController {
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
-
         PageHelper.startPage(pageNo, pageSize);
         List<ArticleEntity> articleEntities = articleService.getArticles();
         Page<ArticleEntity> pageInfo = (Page<ArticleEntity>) articleEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Get Article By ID")
+    @GetMapping("/articles/{id}")
+    public ArticleEntity getArticleById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        return articleService.getArticleById(id);
+    }
+
+    @Tag(name = "Delete Article By ID")
+    @DeleteMapping("/articles/{id}")
+    public void deleteArticleById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        articleService.deleteArticleById(id);
+    }
+
+    @Tag(name = "Update Article")
+    @PutMapping("/articles")
+    public void updateArticle(@RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        articleService.updateArticle(articleUpdateReq);
     }
 }

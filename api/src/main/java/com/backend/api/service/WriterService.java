@@ -4,16 +4,12 @@ import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.WriterCreateReq;
 import com.backend.api.request.WriterUpdateReq;
-import com.backend.api.response.DefaultResponse;
 import com.backend.api.response.WriterCheckRes;
-import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,12 +41,7 @@ public class WriterService {
     }
 
     public void deleteWriterById(int id) throws Exception {
-        int count;
-        try{
-            count = writerRepository.deleteWriterById(id);
-        } catch (Exception e){
-            throw new Exception("Writer could not be deleted");
-        }
+        int count = writerRepository.deleteWriterById(id);
         if(count != 1){
             throw new Exception("Writer was not be deleted");
         }

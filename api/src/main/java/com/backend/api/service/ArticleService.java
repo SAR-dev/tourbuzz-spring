@@ -1,10 +1,13 @@
 package com.backend.api.service;
 
 import com.backend.api.entity.ArticleEntity;
+import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.ArticleRepository;
 import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.ArticleCreateReq;
+import com.backend.api.request.ArticleUpdateReq;
 import com.backend.api.request.WriterCreateReq;
+import com.backend.api.request.WriterUpdateReq;
 import com.backend.api.response.ArticleCheckRes;
 import com.backend.api.response.WriterCheckRes;
 import jakarta.xml.bind.ValidationException;
@@ -42,5 +45,23 @@ public class ArticleService {
 
     public List<ArticleEntity> getArticles(){
         return articleRepository.getArticles();
+    }
+
+    public ArticleEntity getArticleById(int id){
+        return articleRepository.getArticleById(id);
+    }
+
+    public void deleteArticleById(int id) throws Exception {
+        int count = articleRepository.deleteArticleById(id);
+        if(count != 1){
+            throw new Exception("Article was not be deleted");
+        }
+    }
+
+    public void updateArticle(ArticleUpdateReq articleUpdateReq) throws Exception {
+        int count = articleRepository.updateArticle(articleUpdateReq);
+        if(count != 1){
+            throw new Exception("Article could not be updated");
+        }
     }
 }

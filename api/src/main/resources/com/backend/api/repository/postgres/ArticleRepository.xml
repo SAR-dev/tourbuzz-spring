@@ -30,8 +30,29 @@
         )
     </insert>
 
+    <update id="updateArticle">
+        UPDATE articles SET
+            writers_id = #{writersId},
+            title = #{title},
+            slug = #{slug},
+            subtitle = #{subtitle},
+            summary = #{summary},
+            md_desc = #{mdDesc},
+            image_ids = #{imageIdsStr}
+        WHERE id = #{articleId}
+    </update>
+
+    <delete id="deleteArticleById">
+        UPDATE articles SET deleted = TRUE
+        WHERE id = #{id}
+    </delete>
+
     <select id="getArticles" resultMap="articleResultMap">
-        SELECT * FROM articles ORDER BY id DESC
+        SELECT * FROM articles WHERE deleted IS FALSE ORDER BY id DESC
+    </select>
+
+    <select id="getArticleById" resultMap="articleResultMap">
+        SELECT * FROM articles WHERE id = #{id} AND deleted IS FALSE
     </select>
 
     <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">

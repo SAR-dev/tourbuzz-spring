@@ -42,20 +42,21 @@
         WHERE id = #{writersId}
     </update>
 
-    <select id="getWriterById" resultMap="writerResultMap">
-        SELECT * FROM writers WHERE id = #{id}
-    </select>
-
     <delete id="deleteWriterById">
-        DELETE FROM writers WHERE id = #{id}
+        UPDATE writers SET deleted = TRUE
+        WHERE id = #{id}
     </delete>
 
+    <select id="getWriterById" resultMap="writerResultMap">
+        SELECT * FROM writers WHERE id = #{id} AND deleted IS FALSE
+    </select>
+
     <select id="getWriters" resultMap="writerResultMap">
-        SELECT * FROM writers ORDER BY id DESC
+        SELECT * FROM writers WHERE deleted IS FALSE ORDER BY id DESC
     </select>
 
     <select id="getWritersByWritersId" resultMap="writerResultMap">
-        SELECT * FROM writers WHERE id = #{writers_id}
+        SELECT * FROM writers WHERE id = #{writers_id} AND deleted IS FALSE
     </select>
 
     <resultMap id="writerResultMap" type="com.backend.api.entity.WriterEntity">

@@ -23,11 +23,11 @@
     </select>
 
     <select id="getImageByImagesId" resultType="com.backend.api.entity.ImageEntity">
-        SELECT * FROM images WHERE id = #{images_id}
+        SELECT * FROM images WHERE id = #{images_id} AND deleted IS FALSE
     </select>
 
     <select id="getImageIdsFromList" resultMap="imageResult">
-        SELECT * FROM images WHERE id = ANY(number_list_to_array(#{image_ids}))
+        SELECT * FROM images WHERE id = ANY(number_list_to_array(#{image_ids})) AND deleted IS FALSE
     </select>
 
     <update id="deleteImage">
