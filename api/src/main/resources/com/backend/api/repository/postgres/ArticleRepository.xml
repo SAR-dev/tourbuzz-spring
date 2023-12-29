@@ -52,7 +52,7 @@
     </select>
 
     <select id="getArticleById" resultMap="articleResultMap">
-        SELECT * FROM articles WHERE id = #{id} AND deleted IS FALSE
+        SELECT * FROM articles WHERE id = #{id}
     </select>
 
     <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">

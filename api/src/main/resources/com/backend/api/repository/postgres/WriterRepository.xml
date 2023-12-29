@@ -48,7 +48,7 @@
     </delete>
 
     <select id="getWriterById" resultMap="writerResultMap">
-        SELECT * FROM writers WHERE id = #{id} AND deleted IS FALSE
+        SELECT * FROM writers WHERE id = #{id}
     </select>
 
     <select id="getWriters" resultMap="writerResultMap">
@@ -56,7 +56,7 @@
     </select>
 
     <select id="getWritersByWritersId" resultMap="writerResultMap">
-        SELECT * FROM writers WHERE id = #{writers_id} AND deleted IS FALSE
+        SELECT * FROM writers WHERE id = #{writers_id}
     </select>
 
     <resultMap id="writerResultMap" type="com.backend.api.entity.WriterEntity">
