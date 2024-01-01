@@ -1,12 +1,10 @@
 package com.backend.api.controller;
 
 import com.backend.api.entity.ArticleEntity;
+import com.backend.api.entity.EnquiryEntity;
 import com.backend.api.entity.ImageEntity;
 import com.backend.api.entity.WriterEntity;
-import com.backend.api.request.ArticleCreateReq;
-import com.backend.api.request.ArticleUpdateReq;
-import com.backend.api.request.WriterCreateReq;
-import com.backend.api.request.WriterUpdateReq;
+import com.backend.api.request.*;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.*;
 import com.github.pagehelper.Page;
@@ -25,6 +23,7 @@ public class AdminController {
     private final ImageService imageService;
     private final WriterService writerService;
     private final ArticleService articleService;
+    private final EnquiryService enquiryService;
     private final AuthService authService;
     private final PaginationService paginationService;
 
@@ -149,5 +148,26 @@ public class AdminController {
     public void updateArticle(@RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {
         authService.verifyAdminToken();
         articleService.updateArticle(articleUpdateReq);
+    }
+
+//    Enquiry API
+    @Tag(name = "Answer Enquiry")
+    @PutMapping("/enquiries")
+    public void answerQuestion(@RequestBody EnquiryAnswerReq enquiryAnswerReq) throws Exception {
+        authService.verifyAdminToken();
+        enquiryService.answerQuestion(enquiryAnswerReq);
+    }
+
+    @Tag(name = "Get Enquiry List")
+    @GetMapping("/enquiries")
+    public PaginatedRes getEnquiries(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+        PageHelper.startPage(pageNo, pageSize);
+        List<EnquiryEntity> enquiryEntities = enquiryService.getEnquiries();
+        Page<EnquiryEntity> pageInfo = (Page<EnquiryEntity>) enquiryEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 }

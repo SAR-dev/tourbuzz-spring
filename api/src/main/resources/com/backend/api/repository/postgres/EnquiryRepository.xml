@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.EnquiryRepository">
+
+    <select id="getEnquiries" resultMap="enquiryResultMap">
+        SELECT * FROM enquiries ORDER BY answer DESC NULLS FIRST, id DESC
+    </select>
+
+    <insert id="submitQuestion">
+        INSERT INTO enquiries (
+            users_id,
+            question,
+            contact_number
+        ) VALUES (
+            (SELECT id FROM users WHERE email = #{email}),
+            #{question},
+            #{contactNumber}
+        )
+    </insert>
+
+    <update id="answerQuestion">
+        UPDATE enquiries SET
+            answer = #{answer},
+            answered_at = CURRENT_TIMESTAMP
+        WHERE id = #{enquiriesId}
+    </update>
+
+    <resultMap id="enquiryResultMap" type="com.backend.api.entity.EnquiryEntity">
+        <association
+                property="user"
+                select="com.backend.api.repository.postgres.UserRepository.getUserById"
+                javaType="com.backend.api.entity.UserEntity"
+                column="id = users_id"
+        />
+    </resultMap>
+</mapper>

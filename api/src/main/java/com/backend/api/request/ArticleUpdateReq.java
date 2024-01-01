@@ -21,8 +21,8 @@ public class ArticleUpdateReq {
     private List<Integer> imageIds;
     @JsonProperty("writers_id")
     private int writersId;
-    @JsonProperty("article_id")
-    private int articleId;
+    @JsonProperty("articles_id")
+    private int articlesId;
 
     private String imageIdsStr;
     public String getImageIdsStr() {

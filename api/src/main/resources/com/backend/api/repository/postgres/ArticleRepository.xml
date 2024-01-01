@@ -39,7 +39,7 @@
             summary = #{summary},
             md_desc = #{mdDesc},
             image_ids = #{imageIdsStr}
-        WHERE id = #{articleId}
+        WHERE id = #{articlesId}
     </update>
 
     <delete id="deleteArticleById">

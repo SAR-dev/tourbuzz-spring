@@ -10,10 +10,11 @@ public class EnquiryEntity {
     private int id;
     private int users_id;
     private String contact_number;
-    private String message;
+    private String question;
     private String answer;
+    private Timestamp answered_at;
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    private UserEntity sender;
+    private UserEntity user;
 }
