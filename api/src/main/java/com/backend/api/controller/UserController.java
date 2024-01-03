@@ -3,6 +3,7 @@ package com.backend.api.controller;
 import com.backend.api.entity.UserEntity;
 import com.backend.api.request.MagicLinkReq;
 import com.backend.api.request.SignInReq;
+import com.backend.api.request.UserUpdateReq;
 import com.backend.api.response.AccessTokenRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.UserService;
@@ -23,5 +24,13 @@ public class UserController {
     public UserEntity getLoggedInUser() {
         String email = authService.getLoggedInEmail();
         return userService.getUserByEmail(email);
+    }
+
+    @Tag(name = "Update Self Data")
+    @PutMapping("/me")
+    public void getLoggedInUser(@RequestBody UserUpdateReq userUpdateReq) throws Exception {
+        String email = authService.getLoggedInEmail();
+        userUpdateReq.setEmail(email);
+        userService.updateUserByEmail(userUpdateReq);
     }
 }

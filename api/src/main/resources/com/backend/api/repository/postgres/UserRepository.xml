@@ -11,6 +11,19 @@
         last_logged_in = CURRENT_TIMESTAMP
     </insert>
 
+    <update id="updateUserByEmail">
+        UPDATE users
+        <set>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="imagesId != null and imagesId != 0 ">
+                images_id = #{imagesId}
+            </if>
+        </set>
+        WHERE email = #{email}
+    </update>
+
     <select id="getUserByEmail" resultType="com.backend.api.entity.UserEntity">
         SELECT * FROM users WHERE email = #{email}
     </select>
