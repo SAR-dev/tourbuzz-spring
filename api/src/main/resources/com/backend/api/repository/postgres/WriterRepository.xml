@@ -59,7 +59,7 @@
                 property="avatar"
                 select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
                 javaType="com.backend.api.entity.ImageEntity"
-                column="images_id = images_id"
+                column="id = images_id"
         />
     </resultMap>
 

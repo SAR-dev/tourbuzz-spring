@@ -23,7 +23,7 @@
     </select>
 
     <select id="getImageByImagesId" resultType="com.backend.api.entity.ImageEntity">
-        SELECT * FROM images WHERE id = #{images_id}
+        SELECT * FROM images WHERE id = #{id}
     </select>
 
     <select id="getImageIdsFromList" resultMap="imageResult">
