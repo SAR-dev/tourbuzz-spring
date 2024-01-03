@@ -4,14 +4,35 @@
 
 <mapper namespace="com.backend.api.repository.postgres.EnquiryRepository">
 
-    <select id="getEnquiries" resultMap="enquiryResultMap">
-        SELECT * FROM enquiries ORDER BY answer DESC NULLS FIRST, id DESC
+    <select id="getGroupedEnquiries" resultMap="groupEnquiryResultMap">
+        SELECT DISTINCT users_id
+        FROM (
+            SELECT users_id
+            FROM enquiries
+            ORDER BY
+            CASE WHEN answer IS NULL THEN 0 ELSE 1 END,
+            answer DESC NULLS FIRST,
+            id DESC
+        ) AS subquery
     </select>
 
+    <resultMap id="groupEnquiryResultMap" type="com.backend.api.response.GroupedEnquiryRes">
+        <association
+                property="user"
+                select="com.backend.api.repository.postgres.UserRepository.getUserById"
+                javaType="com.backend.api.entity.UserEntity"
+                column="id = users_id"
+        />
+        <collection
+                property="enquiries"
+                ofType="com.backend.api.entity.EnquiryEntity"
+                select="getEnquiriesByUser"
+                column="users_id=users_id"
+        />
+    </resultMap>
+
     <select id="getEnquiriesByUser" resultMap="enquiryResultMap">
-        SELECT * FROM enquiries
-        WHERE users_id = #{users_id}
-        ORDER BY id DESC
+        SELECT * FROM enquiries WHERE users_id = #{users_id} ORDER BY id DESC
     </select>
 
     <insert id="submitQuestion">
@@ -33,12 +54,5 @@
         WHERE id = #{enquiriesId}
     </update>
 
-    <resultMap id="enquiryResultMap" type="com.backend.api.entity.EnquiryEntity">
-        <association
-                property="user"
-                select="com.backend.api.repository.postgres.UserRepository.getUserById"
-                javaType="com.backend.api.entity.UserEntity"
-                column="id = users_id"
-        />
-    </resultMap>
+    <resultMap id="enquiryResultMap" type="com.backend.api.entity.EnquiryEntity" />
 </mapper>

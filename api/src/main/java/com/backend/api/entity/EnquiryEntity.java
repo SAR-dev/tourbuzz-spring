@@ -15,6 +15,4 @@ public class EnquiryEntity {
     private Timestamp answered_at;
     private Timestamp created_at;
     private Timestamp updated_at;
-
-    private UserEntity user;
 }

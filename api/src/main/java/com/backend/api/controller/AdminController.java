@@ -5,6 +5,7 @@ import com.backend.api.entity.EnquiryEntity;
 import com.backend.api.entity.ImageEntity;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.*;
+import com.backend.api.response.GroupedEnquiryRes;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.*;
 import com.github.pagehelper.Page;
@@ -166,15 +167,8 @@ public class AdminController {
     ) throws Exception {
         authService.verifyAdminToken();
         PageHelper.startPage(pageNo, pageSize);
-        List<EnquiryEntity> enquiryEntities = enquiryService.getEnquiries();
-        Page<EnquiryEntity> pageInfo = (Page<EnquiryEntity>) enquiryEntities;
+        List<GroupedEnquiryRes> groupedEnquiryRes = enquiryService.getGroupedEnquiries();
+        Page<GroupedEnquiryRes> pageInfo = (Page<GroupedEnquiryRes>) groupedEnquiryRes;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
-    }
-
-    @Tag(name = "Get Enquiry By User ID")
-    @GetMapping("/enquiries/users/{users_id}")
-    public List<EnquiryEntity> getEnquiriesByUser(@PathVariable int users_id) throws Exception {
-        authService.verifyAdminToken();
-        return enquiryService.getEnquiriesByUser(users_id);
     }
 }

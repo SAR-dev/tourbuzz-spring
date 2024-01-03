@@ -4,6 +4,7 @@ import com.backend.api.entity.EnquiryEntity;
 import com.backend.api.repository.postgres.EnquiryRepository;
 import com.backend.api.request.EnquiryAnswerReq;
 import com.backend.api.request.EnquiryQuestionReq;
+import com.backend.api.response.GroupedEnquiryRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +26,8 @@ public class EnquiryService {
         }
     }
 
-    public List<EnquiryEntity> getEnquiries(){
-        return enquiryRepository.getEnquiries();
+    public List<GroupedEnquiryRes> getGroupedEnquiries(){
+        return enquiryRepository.getGroupedEnquiries();
     }
 
     public List<EnquiryEntity> getEnquiriesByUser(int users_id){
