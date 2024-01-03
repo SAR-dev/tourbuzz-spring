@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Data
 public class UserEntity {
@@ -19,7 +20,7 @@ public class UserEntity {
     private ImageEntity avatar;
 
     public ImageEntity getAvatar() {
-        if(avatar == null){
+        if(Objects.isNull(avatar)){
             ImageEntity imageEntity = new ImageEntity();
             imageEntity.setId(0);
             imageEntity.setOptimized_url("https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=" + email);
