@@ -170,4 +170,11 @@ public class AdminController {
         Page<EnquiryEntity> pageInfo = (Page<EnquiryEntity>) enquiryEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
+
+    @Tag(name = "Get Enquiry By User ID")
+    @GetMapping("/enquiries/users/{users_id}")
+    public List<EnquiryEntity> getEnquiriesByUser(@PathVariable int users_id) throws Exception {
+        authService.verifyAdminToken();
+        return enquiryService.getEnquiriesByUser(users_id);
+    }
 }

@@ -28,4 +28,8 @@ public class EnquiryService {
     public List<EnquiryEntity> getEnquiries(){
         return enquiryRepository.getEnquiries();
     }
+
+    public List<EnquiryEntity> getEnquiriesByUser(int users_id){
+        return enquiryRepository.getEnquiriesByUser(users_id);
+    }
 }

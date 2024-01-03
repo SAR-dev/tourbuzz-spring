@@ -8,6 +8,12 @@
         SELECT * FROM enquiries ORDER BY answer DESC NULLS FIRST, id DESC
     </select>
 
+    <select id="getEnquiriesByUser" resultMap="enquiryResultMap">
+        SELECT * FROM enquiries
+        WHERE users_id = #{users_id}
+        ORDER BY id DESC
+    </select>
+
     <insert id="submitQuestion">
         INSERT INTO enquiries (
             users_id,

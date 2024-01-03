@@ -16,4 +16,6 @@ public interface EnquiryRepository {
     int answerQuestion(EnquiryAnswerReq enquiryAnswerReq);
 
     List<EnquiryEntity> getEnquiries();
+
+    List<EnquiryEntity> getEnquiriesByUser(int users_id);
 }
