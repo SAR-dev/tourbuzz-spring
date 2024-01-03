@@ -16,7 +16,7 @@ public class OrganizerEntity {
     private String images_id;
     private String verification;
     private String social_link;
-    private String contact_number;
+    private String contact_no;
     private Timestamp created_at;
     private Timestamp updated_at;
 

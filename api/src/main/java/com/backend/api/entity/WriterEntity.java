@@ -12,7 +12,7 @@ public class WriterEntity {
     private String email;
     private String name;
     private String username;
-    private String phone_no;
+    private String contact_no;
     private String website;
     private String about;
     private Timestamp created_at;

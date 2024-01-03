@@ -1,9 +1,6 @@
 package com.backend.api.controller;
 
-import com.backend.api.entity.ArticleEntity;
-import com.backend.api.entity.EnquiryEntity;
-import com.backend.api.entity.ImageEntity;
-import com.backend.api.entity.WriterEntity;
+import com.backend.api.entity.*;
 import com.backend.api.request.*;
 import com.backend.api.response.GroupedEnquiryRes;
 import com.backend.api.response.PaginatedRes;
@@ -27,6 +24,7 @@ public class AdminController {
     private final EnquiryService enquiryService;
     private final AuthService authService;
     private final PaginationService paginationService;
+    private final OrganizerService organizerService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -170,5 +168,33 @@ public class AdminController {
         List<GroupedEnquiryRes> groupedEnquiryRes = enquiryService.getGroupedEnquiries();
         Page<GroupedEnquiryRes> pageInfo = (Page<GroupedEnquiryRes>) groupedEnquiryRes;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+//    Organizer API
+    @Tag(name = "Create Organizer")
+    @PostMapping("/organizers")
+    public void createOrganizer(@RequestBody OrganizerCreateReq organizerCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        organizerService.createOrganizer(organizerCreateReq);
+    }
+
+    @Tag(name = "Get Organizer List")
+    @GetMapping("/organizers")
+    public PaginatedRes getOrganizers(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+        PageHelper.startPage(pageNo, pageSize);
+        List<OrganizerEntity> organizerEntities = organizerService.getOrganizers();
+        Page<OrganizerEntity> pageInfo = (Page<OrganizerEntity>) organizerEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Get Organizer By ID")
+    @GetMapping("/Organizers/{id}")
+    public OrganizerEntity getOrganizerById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        return organizerService.getOrganizerById(id);
     }
 }

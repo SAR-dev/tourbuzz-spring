@@ -15,7 +15,7 @@ public class WriterUpdateReq {
     private String name;
     private String username;
     private String about;
-    @JsonProperty("phone_no")
-    private String phoneNo;
+    @JsonProperty("contact_no")
+    private String contactNo;
     private String website;
 }
