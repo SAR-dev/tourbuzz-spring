@@ -17,4 +17,17 @@ public class UserEntity {
     private Timestamp updated_at;
 
     private ImageEntity avatar;
+
+    public ImageEntity getAvatar() {
+        if(avatar == null){
+            ImageEntity imageEntity = new ImageEntity();
+            imageEntity.setId(0);
+            imageEntity.setOptimized_url("https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=" + email);
+            imageEntity.setSource_url("https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=" + email);
+            imageEntity.setThumbnail_url("https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=" + email);
+            return imageEntity;
+        } else {
+            return avatar;
+        }
+    }
 }
