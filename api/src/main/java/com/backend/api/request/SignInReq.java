@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class SignInReq {
-    @NotBlank(message = "Tokens is required")
+    @NotBlank
     @Email
     @JsonProperty("token")
     private String token;
