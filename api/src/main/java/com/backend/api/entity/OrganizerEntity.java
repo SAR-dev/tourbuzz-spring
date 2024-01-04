@@ -13,7 +13,7 @@ public class OrganizerEntity {
     private String description;
     private String slogan;
     private String email;
-    private String images_id;
+    private int images_id;
     private String verification;
     private String social_link;
     private String contact_no;
