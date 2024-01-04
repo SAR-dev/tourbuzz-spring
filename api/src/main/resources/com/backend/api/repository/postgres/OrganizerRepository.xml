@@ -29,7 +29,7 @@
             #{description},
             #{contactNo},
             #{slogan},
-            #{verification},
+            CAST(#{verification} AS level_type),
             #{socialLink}
         )
     </insert>

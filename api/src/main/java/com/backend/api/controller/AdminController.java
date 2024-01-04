@@ -174,7 +174,7 @@ public class AdminController {
 //    Organizer API
     @Tag(name = "Create Organizer")
     @PostMapping("/organizers")
-    public void createOrganizer(@RequestBody OrganizerCreateReq organizerCreateReq) throws Exception {
+    public void createOrganizer(@Valid @RequestBody OrganizerCreateReq organizerCreateReq) throws Exception {
         authService.verifyAdminToken();
         organizerService.createOrganizer(organizerCreateReq);
     }

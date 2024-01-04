@@ -26,7 +26,7 @@ public class OrganizerCreateReq {
     @Size(min = 10, max = 500)
     private String description;
     @NotNull
-    @Size(min = 10, max = 50)
+    @Size(min = 10, max = 100)
     private String slogan;
 
     @NotNull
@@ -36,7 +36,7 @@ public class OrganizerCreateReq {
 
     @NotNull
     @Size(min = 4, max = 20)
-    private Levels verification;
+    private String verification;
 
     @JsonProperty("social_link")
     private String socialLink;

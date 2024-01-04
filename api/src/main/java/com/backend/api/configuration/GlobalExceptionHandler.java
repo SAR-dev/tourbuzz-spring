@@ -114,21 +114,25 @@ public class GlobalExceptionHandler {
             BindException.class
     })
     public ResponseEntity<?> handleRequestFieldValidationException(Exception ex) {
-        StringBuilder errorMessage= new StringBuilder();
+        StringBuilder errorMessage = new StringBuilder();
         if (ex instanceof BindingResult bindingResult) {
             if (bindingResult.hasFieldErrors()) {
                 for (FieldError error : bindingResult.getFieldErrors()) {
-                    errorMessage.append(Objects.requireNonNull(Objects.requireNonNull(error.getDefaultMessage()).endsWith(".")?
-                            error.getDefaultMessage().concat(" ")
-                            : error.getDefaultMessage().concat(". ")));
+                    errorMessage.append(error.getField())
+                            .append(": ")
+                            .append(Objects.requireNonNull(
+                                    Objects.requireNonNull(error.getDefaultMessage()).endsWith(".") ?
+                                            error.getDefaultMessage().concat(" ") :
+                                            error.getDefaultMessage().concat(". ")));
                 }
             }
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorInfo(ex, HttpStatus.BAD_REQUEST, errorMessage.toString()));
-        } if (ex instanceof ConstraintViolationException) {
+        } else if (ex instanceof ConstraintViolationException) {
             ((ConstraintViolationException) ex).getConstraintViolations().forEach(
-                    error -> errorMessage.append(error.getMessage()).append(" "));
+                    error -> errorMessage.append(error.getPropertyPath()).append(": ")
+                            .append(error.getMessage()).append(" "));
             return ResponseEntity
                     .status(HttpStatus.UNPROCESSABLE_ENTITY)
                     .body(new ErrorInfo(ex, HttpStatus.UNPROCESSABLE_ENTITY, errorMessage.toString()));
