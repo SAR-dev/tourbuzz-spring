@@ -198,4 +198,18 @@ public class AdminController {
         authService.verifyAdminToken();
         return organizerService.getOrganizerById(id);
     }
+
+    @Tag(name = "Delete Organizer By ID")
+    @DeleteMapping("/organizers/{id}")
+    public void deleteOrganizerById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        organizerService.deleteOrganizerById(id);
+    }
+
+    @Tag(name = "Update Article")
+    @PutMapping("/Organizers")
+    public void updateOrganizer(@Valid @RequestBody OrganizerUpdateReq organizerUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        organizerService.updateOrganizer(organizerUpdateReq);
+    }
 }

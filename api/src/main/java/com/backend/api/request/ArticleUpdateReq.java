@@ -13,6 +13,14 @@ import java.util.stream.Collectors;
 @Builder
 public class ArticleUpdateReq {
     @NotNull
+    @JsonProperty("writers_id")
+    private Integer writersId;
+
+    @NotNull
+    @JsonProperty("articles_id")
+    private Integer articlesId;
+
+    @NotNull
     @Size(min = 10, max = 100)
     private String title;
     @NotNull
@@ -32,12 +40,6 @@ public class ArticleUpdateReq {
 
     @JsonProperty("image_ids")
     private List<Integer> imageIds;
-
-    @JsonProperty("writers_id")
-    private int writersId;
-
-    @JsonProperty("articles_id")
-    private int articlesId;
 
     private String imageIdsStr;
     public String getImageIdsStr() {

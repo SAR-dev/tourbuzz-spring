@@ -15,5 +15,5 @@ public class UserUpdateReq {
     @Size(min = 2, max = 25)
     private String name;
     @JsonProperty("images_id")
-    private int imagesId;
+    private Integer imagesId;
 }

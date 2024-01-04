@@ -34,6 +34,24 @@
         )
     </insert>
 
+    <update id="updateOrganizer">
+        UPDATE organizers SET
+            images_id = #{imagesId},
+            name = #{name},
+            email = #{email},
+            username = #{username},
+            description = #{description},
+            contact_no = #{contactNo},
+            slogan = #{slogan},
+            verification = CAST(#{verification} AS level_type),
+            social_link = #{socialLink}
+        WHERE id = #{organizersId}
+    </update>
+
+    <delete id="deleteOrganizerById">
+        DELETE FROM organizers WHERE id = #{id}
+    </delete>
+
     <select id="getOrganizers" resultMap="organizerResultMap">
         SELECT * FROM organizers ORDER BY id DESC
     </select>

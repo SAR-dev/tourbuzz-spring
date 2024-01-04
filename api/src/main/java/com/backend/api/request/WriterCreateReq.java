@@ -12,7 +12,7 @@ import lombok.Data;
 @Builder
 public class WriterCreateReq {
     @JsonProperty("images_id")
-    private int imagesId;
+    private Integer imagesId;
     @NotNull
     @Email
     private String email;

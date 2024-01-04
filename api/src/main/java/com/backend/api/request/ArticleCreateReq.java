@@ -12,6 +12,10 @@ import java.util.stream.Collectors;
 @Builder
 public class ArticleCreateReq {
     @NotNull
+    @JsonProperty("writers_id")
+    private int writersId;
+
+    @NotNull
     @Size(min = 10, max = 100)
     private String title;
     @NotNull
@@ -31,9 +35,6 @@ public class ArticleCreateReq {
 
     @JsonProperty("image_ids")
     private List<Integer> imageIds;
-
-    @JsonProperty("writers_id")
-    private int writersId;
 
     private String imageIdsStr;
     public String getImageIdsStr() {

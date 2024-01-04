@@ -12,9 +12,9 @@ import lombok.Data;
 public class WriterUpdateReq {
     @NotNull
     @JsonProperty("writers_id")
-    private int writersId;
+    private Integer writersId;
     @JsonProperty("images_id")
-    private int imagesId;
+    private Integer imagesId;
     @NotNull
     @Email
     private String email;

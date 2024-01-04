@@ -13,6 +13,7 @@ public class EnquiryAnswerReq {
     @Size(min = 10, max = 5000)
     private String answer;
 
+    @NotNull
     @JsonProperty("enquiries_id")
-    private int enquiriesId;
+    private Integer enquiriesId;
 }

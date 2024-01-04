@@ -3,6 +3,7 @@ package com.backend.api.service;
 import com.backend.api.entity.OrganizerEntity;
 import com.backend.api.repository.postgres.OrganizerRepository;
 import com.backend.api.request.OrganizerCreateReq;
+import com.backend.api.request.OrganizerUpdateReq;
 import com.backend.api.response.OrganizerCheckRes;
 import com.backend.api.response.WriterCheckRes;
 import lombok.RequiredArgsConstructor;
@@ -38,5 +39,21 @@ public class OrganizerService {
 
     public OrganizerCheckRes checkOrganizer(OrganizerCreateReq organizerCreateReq){
         return organizerRepository.checkOrganizer(organizerCreateReq);
+    }
+
+    @Transactional
+    public void updateOrganizer(OrganizerUpdateReq organizerUpdateReq) throws Exception {
+        int count = organizerRepository.updateOrganizer(organizerUpdateReq);
+        if(count != 1){
+            throw new Exception("Organizer update failed");
+        }
+    }
+
+    @Transactional
+    public void deleteOrganizerById(int id) throws Exception {
+        int count = organizerRepository.deleteOrganizerById(id);
+        if(count != 1){
+            throw new Exception("Organizer delete failed");
+        }
     }
 }

@@ -11,7 +11,7 @@ import lombok.Data;
 @Builder
 public class OrganizerCreateReq {
     @JsonProperty("images_id")
-    private int imagesId;
+    private Integer imagesId;
 
     @NotNull
     @Size(min = 10, max = 50)
