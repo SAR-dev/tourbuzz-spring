@@ -8,8 +8,9 @@ import lombok.Data;
 @Builder
 public class EnquiryQuestionReq {
     private String question;
-    @JsonProperty("contact_number")
-    private String contactNumber;
+
+    @JsonProperty("contact_no")
+    private String contactNo;
 
     private String email;
 }

@@ -39,11 +39,11 @@
         INSERT INTO enquiries (
             users_id,
             question,
-            contact_number
+            contact_no
         ) VALUES (
             (SELECT id FROM users WHERE email = #{email}),
             #{question},
-            #{contactNumber}
+            #{contactNo}
         )
     </insert>
 

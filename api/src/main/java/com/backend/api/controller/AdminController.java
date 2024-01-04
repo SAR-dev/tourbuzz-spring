@@ -8,6 +8,7 @@ import com.backend.api.service.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -68,9 +69,9 @@ public class AdminController {
 //    Writers API
     @Tag(name = "Create Writer")
     @PostMapping("/writers")
-    public void createWriter(@RequestBody WriterCreateReq writerCreateReq) throws Exception {
+    public void createWriter(@Valid @RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
-        writerService.createWriter(writerCreateReq);
+//        writerService.createWriter(writerCreateReq);
     }
 
     @Tag(name = "Get Writers List")

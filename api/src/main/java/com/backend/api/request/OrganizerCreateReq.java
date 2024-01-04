@@ -18,6 +18,6 @@ public class OrganizerCreateReq {
     @JsonProperty("contact_no")
     private String contactNo;
     private Levels verification;
-    @JsonProperty("socialLink")
-    private String social_link;
+    @JsonProperty("social_link")
+    private String socialLink;
 }
