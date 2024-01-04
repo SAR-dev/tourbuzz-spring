@@ -7,6 +7,7 @@ import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.OrganizerCreateReq;
 import com.backend.api.request.WriterCreateReq;
 import com.backend.api.request.WriterUpdateReq;
+import com.backend.api.response.OrganizerCheckRes;
 import com.backend.api.response.WriterCheckRes;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,4 +20,6 @@ public interface OrganizerRepository {
     List<OrganizerEntity> getOrganizers();
 
     OrganizerEntity getOrganizerById(int id);
+
+    OrganizerCheckRes checkOrganizer(OrganizerCreateReq organizerCreateReq);
 }
