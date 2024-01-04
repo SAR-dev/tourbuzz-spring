@@ -51,7 +51,16 @@
     </select>
 
     <select id="getWriters" resultMap="writerResultMap">
-        SELECT * FROM writers ORDER BY id DESC
+        SELECT w.* FROM writers w
+        <where>
+            <if test="name != '' ">
+                AND LOWER(w.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+            <if test="email != '' ">
+                AND LOWER(w.email) LIKE  '%' || LOWER(#{email}) || '%'
+            </if>
+        </where>
+        ORDER BY id DESC
     </select>
 
     <resultMap id="writerResultMap" type="com.backend.api.entity.WriterEntity">

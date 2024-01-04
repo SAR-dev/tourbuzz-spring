@@ -18,7 +18,7 @@ public interface WriterRepository {
 
     void createWriter(WriterCreateReq writerCreateReq);
 
-    List<WriterEntity> getWriters();
+    List<WriterEntity> getWriters(String name, String email);
 
     WriterEntity getWriterById(int id);
 

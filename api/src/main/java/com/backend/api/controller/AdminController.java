@@ -77,12 +77,14 @@ public class AdminController {
     @Tag(name = "Get Writers List")
     @GetMapping("/writers")
     public PaginatedRes getWriters(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            @RequestParam(name = "email", defaultValue = "") String email,
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
         PageHelper.startPage(pageNo, pageSize);
-        List<WriterEntity> writerEntities = writerService.getWriters();
+        List<WriterEntity> writerEntities = writerService.getWriters(name, email);
         Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }

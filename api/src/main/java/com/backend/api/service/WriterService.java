@@ -32,8 +32,8 @@ public class WriterService {
         writerRepository.createWriter(writerCreateReq);
     }
 
-    public List<WriterEntity> getWriters(){
-        return writerRepository.getWriters();
+    public List<WriterEntity> getWriters(String name, String email){
+        return writerRepository.getWriters(name, email);
     }
 
     public WriterEntity getWriterById(int id){
