@@ -1,0 +1,1 @@
+ALTER TABLE public.writers ADD CONSTRAINT writers_name_key UNIQUE (name);

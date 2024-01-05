@@ -21,9 +21,9 @@
             website
         ) VALUES (
             #{imagesId},
-            #{name},
+            BTRIM(#{name}),
             #{email},
-            #{username},
+            BTRIM(#{username}),
             #{about},
             #{contactNo},
             #{website}
@@ -33,9 +33,9 @@
     <update id="updateWriter">
         UPDATE writers SET
             images_id = #{imagesId},
-            name = #{name},
+            name = BTRIM(#{name}),
             email = #{email},
-            username = #{username},
+            username = BTRIM(#{username}),
             about = #{about},
             contact_no = #{contactNo},
             website = #{website}

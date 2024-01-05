@@ -105,7 +105,7 @@ public class AdminController {
 
     @Tag(name = "Update Writer")
     @PutMapping("/writers")
-    public void updateWriter(@RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
+    public void updateWriter(@Valid @RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
         authService.verifyAdminToken();
         writerService.updateWriter(writerUpdateReq);
     }
@@ -113,7 +113,7 @@ public class AdminController {
 //    Article API
     @Tag(name = "Create Article")
     @PostMapping("/articles")
-    public void createArticle(@RequestBody ArticleCreateReq articleCreateReq) throws Exception {
+    public void createArticle(@Valid @RequestBody ArticleCreateReq articleCreateReq) throws Exception {
         authService.verifyAdminToken();
         articleService.createArticle(articleCreateReq);
     }
@@ -147,7 +147,7 @@ public class AdminController {
 
     @Tag(name = "Update Article")
     @PutMapping("/articles")
-    public void updateArticle(@RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {
+    public void updateArticle(@Valid @RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {
         authService.verifyAdminToken();
         articleService.updateArticle(articleUpdateReq);
     }
@@ -155,7 +155,7 @@ public class AdminController {
 //    Enquiry API
     @Tag(name = "Answer Enquiry")
     @PutMapping("/enquiries")
-    public void answerQuestion(@RequestBody EnquiryAnswerReq enquiryAnswerReq) throws Exception {
+    public void answerQuestion(@Valid @RequestBody EnquiryAnswerReq enquiryAnswerReq) throws Exception {
         authService.verifyAdminToken();
         enquiryService.answerQuestion(enquiryAnswerReq);
     }

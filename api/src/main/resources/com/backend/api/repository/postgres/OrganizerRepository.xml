@@ -23,9 +23,9 @@
             social_link
         ) VALUES (
             #{imagesId},
-            #{name},
+            BTRIM(#{name}),
             #{email},
-            #{username},
+            BTRIM(#{username}),
             #{description},
             #{contactNo},
             #{slogan},
@@ -37,9 +37,9 @@
     <update id="updateOrganizer">
         UPDATE organizers SET
             images_id = #{imagesId},
-            name = #{name},
+            name = BTRIM(#{name}),
             email = #{email},
-            username = #{username},
+            username = BTRIM(#{username}),
             description = #{description},
             contact_no = #{contactNo},
             slogan = #{slogan},
