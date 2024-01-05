@@ -209,7 +209,7 @@ public class AdminController {
     }
 
     @Tag(name = "Update Article")
-    @PutMapping("/Organizers")
+    @PutMapping("/organizers")
     public void updateOrganizer(@Valid @RequestBody OrganizerUpdateReq organizerUpdateReq) throws Exception {
         authService.verifyAdminToken();
         organizerService.updateOrganizer(organizerUpdateReq);
