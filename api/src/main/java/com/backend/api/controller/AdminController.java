@@ -195,7 +195,7 @@ public class AdminController {
     }
 
     @Tag(name = "Get Organizer By ID")
-    @GetMapping("/Organizers/{id}")
+    @GetMapping("/organizers/{id}")
     public OrganizerEntity getOrganizerById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
         return organizerService.getOrganizerById(id);
