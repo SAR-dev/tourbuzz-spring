@@ -26,6 +26,9 @@ public class OrganizerService {
         if(organizerCheckRes.isUsername_exists()){
             throw new Exception("Username already exists.");
         }
+        if(organizerCheckRes.isName_exists()){
+            throw new Exception("Name already exists.");
+        }
         organizerRepository.createOrganizer(organizerCreateReq);
     }
 

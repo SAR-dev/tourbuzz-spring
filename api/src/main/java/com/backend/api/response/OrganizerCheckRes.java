@@ -8,4 +8,5 @@ import lombok.Data;
 public class OrganizerCheckRes {
     private boolean email_exists;
     private boolean username_exists;
+    private boolean name_exists;
 }

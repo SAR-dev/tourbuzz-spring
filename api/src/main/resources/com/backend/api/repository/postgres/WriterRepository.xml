@@ -7,7 +7,8 @@
     <select id="checkWriter" resultType="com.backend.api.response.WriterCheckRes">
         SELECT
             EXISTS (SELECT 1 FROM writers WHERE email = #{email}) AS email_exists,
-            EXISTS (SELECT 1 FROM writers WHERE username = #{username}) AS username_exists
+            EXISTS (SELECT 1 FROM writers WHERE username = BTRIM(#{username})) AS username_exists,
+            EXISTS (SELECT 1 FROM writers WHERE name = BTRIM(#{name})) AS name_exists
     </select>
 
     <insert id="createWriter">

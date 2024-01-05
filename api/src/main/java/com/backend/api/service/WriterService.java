@@ -29,6 +29,9 @@ public class WriterService {
         if(writerCheckRes.isUsername_exists()){
             throw new Exception("Username already exists.");
         }
+        if(writerCheckRes.isName_exists()){
+            throw new Exception("Name already exists.");
+        }
         writerRepository.createWriter(writerCreateReq);
     }
 

@@ -7,7 +7,8 @@
     <select id="checkOrganizer" resultType="com.backend.api.response.OrganizerCheckRes">
         SELECT
             EXISTS (SELECT 1 FROM organizers WHERE email = #{email}) AS email_exists,
-            EXISTS (SELECT 1 FROM organizers WHERE username = #{username}) AS username_exists
+            EXISTS (SELECT 1 FROM organizers WHERE username = BTRIM(#{username})) AS username_exists,
+            EXISTS (SELECT 1 FROM organizers WHERE name = BTRIM(#{name})) AS name_exists
     </select>
 
     <insert id="createOrganizer">
