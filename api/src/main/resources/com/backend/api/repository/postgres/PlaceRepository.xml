@@ -4,6 +4,44 @@
 
 <mapper namespace="com.backend.api.repository.postgres.PlaceRepository">
 
+    <select id="checkPlace" resultType="com.backend.api.response.PlaceCheckRes">
+        SELECT
+            EXISTS (SELECT 1 FROM places WHERE name = #{name}) AS name_exists
+    </select>
+
+    <insert id="createPlace">
+        INSERT INTO places (
+            images_id,
+            districts_id,
+            name,
+            postal_code,
+            map_link,
+            description
+        ) VALUES (
+            #{imagesId},
+            #{districtsId},
+            BTRIM(#{name}),
+            #{postalCode},
+            #{mapLink},
+            #{description}
+        )
+    </insert>
+
+    <update id="updatePlace">
+        UPDATE places SET
+            images_id = #{imagesId},
+            districts_id = #{districtsId},
+            name = BTRIM(#{name}),
+            postal_code = #{postalCode},
+            map_link = #{mapLink},
+            description = #{description}
+        WHERE id = #{placesId}
+    </update>
+
+    <delete id="deletePlaceById">
+        DELETE FROM places WHERE id = #{id}
+    </delete>
+
     <select id="getPlaces" resultMap="placeResultMap">
         SELECT * FROM places
     </select>

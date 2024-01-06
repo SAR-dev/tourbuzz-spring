@@ -28,7 +28,7 @@ public class WriterUpdateReq {
     @NotNull
     @Size(min = 2, max = 25)
     private String username;
-    
+
     @NotNull
     @Size(min = 10, max = 500)
     private String about;

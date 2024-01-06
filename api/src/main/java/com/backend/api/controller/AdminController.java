@@ -221,6 +221,13 @@ public class AdminController {
 
 //    Places
 
+    @Tag(name = "Create Place")
+    @PostMapping("/places")
+    public void createPlace(@Valid @RequestBody PlaceCreateReq placeCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        placeService.createPlace(placeCreateReq);
+    }
+
     @Tag(name = "Get Place List")
     @GetMapping("/places")
     public PaginatedRes getPlaces(
@@ -234,11 +241,25 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Update Place")
+    @PutMapping("/places")
+    public void updatePlace(@Valid @RequestBody PlaceUpdateReq placeUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        placeService.updatePlace(placeUpdateReq);
+    }
+
     @Tag(name = "Get Place By ID")
     @GetMapping("/places/{id}")
     public PlaceEntity getPlaceById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
         return placeService.getPlaceById(id);
+    }
+
+    @Tag(name = "Delete Place By ID")
+    @DeleteMapping("/places/{id}")
+    public void deletePlaceById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        placeService.deletePlaceById(id);
     }
 
 //    Divisions
