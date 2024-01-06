@@ -12,15 +12,19 @@ public class HotelUpdateReq {
     @NotNull
     @JsonProperty("hotels_id")
     private Integer hotelsId;
+
     @NotNull
     @JsonProperty("districts_id")
     private Integer districtsId;
+
     @NotNull
     @Size(min = 3, max = 50)
     private String name;
+
     @NotNull
     @JsonProperty("map_link")
     private String mapLink;
+
     @NotNull
     @Size(min = 10, max = 500)
     private String review;

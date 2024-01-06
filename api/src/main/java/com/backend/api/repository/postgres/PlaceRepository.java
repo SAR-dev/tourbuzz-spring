@@ -11,7 +11,5 @@ import java.util.List;
 public interface PlaceRepository {
     List<PlaceEntity> getPlaces();
 
-    List<DivisionWithDistrictsRes> getDivisionsWithDistricts();
-
-    List<DistrictEntity> getDistricts();
+    PlaceEntity getPlaceById(int id);
 }

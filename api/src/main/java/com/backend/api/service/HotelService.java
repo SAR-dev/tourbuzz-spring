@@ -20,12 +20,11 @@ public class HotelService {
     private final HotelRepository hotelRepository;
 
     public List<HotelEntity> getHotels(){
-        try {
-            return hotelRepository.getHotels();
-        } catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
+        return hotelRepository.getHotels();
+    }
+
+    public HotelEntity getHotelById(int id){
+        return hotelRepository.getHotelById(id);
     }
 
     @Transactional

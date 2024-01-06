@@ -12,6 +12,8 @@ import java.util.List;
 public interface HotelRepository {
     List<HotelEntity> getHotels();
 
+    HotelEntity getHotelById(int id);
+
     HotelCheckRes checkHotel(HotelCreateReq hotelCreateReq);
 
     void createHotel(HotelCreateReq hotelCreateReq);

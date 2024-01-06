@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 @Data
 public class HotelEntity {
     private int id;
+    private int districts_id;
     private String name;
     private String map_link;
     private String website;

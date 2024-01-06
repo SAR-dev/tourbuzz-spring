@@ -13,17 +13,22 @@ public class WriterUpdateReq {
     @NotNull
     @JsonProperty("writers_id")
     private Integer writersId;
+
     @JsonProperty("images_id")
     private Integer imagesId;
+
     @NotNull
     @Email
     private String email;
+
     @NotNull
     @Size(min = 2, max = 25)
     private String name;
+
     @NotNull
     @Size(min = 2, max = 25)
     private String username;
+    
     @NotNull
     @Size(min = 10, max = 500)
     private String about;

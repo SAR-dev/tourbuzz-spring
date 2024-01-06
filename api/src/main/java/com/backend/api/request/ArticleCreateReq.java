@@ -18,12 +18,15 @@ public class ArticleCreateReq {
     @NotNull
     @Size(min = 10, max = 100)
     private String title;
+
     @NotNull
     @Size(min = 10, max = 100)
     private String slug;
+
     @NotNull
     @Size(min = 10, max = 200)
     private String subtitle;
+
     @NotNull
     @Size(min = 10, max = 400)
     private String summary;

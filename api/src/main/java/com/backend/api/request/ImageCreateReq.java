@@ -9,7 +9,10 @@ import java.sql.Timestamp;
 @Builder
 public class ImageCreateReq {
     private String title;
+
     private String sourceUrl;
+
     private String thumbnailUrl;
+
     private String optimizedUrl;
 }

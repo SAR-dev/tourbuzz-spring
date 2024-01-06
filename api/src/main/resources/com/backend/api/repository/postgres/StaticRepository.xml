@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.StaticRepository">
+    <select id="getDistricts" resultMap="districtResultMap">
+        SELECT * FROM districts ORDER BY name
+    </select>
+
+    <select id="getDistrictById" resultMap="districtResultMap">
+        SELECT * FROM districts WHERE id = #{id}
+    </select>
+
+    <resultMap id="districtResultMap" type="com.backend.api.entity.DistrictEntity">
+        <association
+                property="division"
+                select="getDivisionById"
+                javaType="com.backend.api.entity.DivisionEntity"
+                column="id = divisions_id"
+        />
+    </resultMap>
+
+    <select id="getDivisionById" resultType="com.backend.api.entity.DivisionEntity">
+        SELECT * FROM divisions WHERE id = #{id}
+    </select>
+
+    <select id="getDivisionsWithDistricts" resultMap="divisionWithDistrictsResultMap">
+        SELECT * FROM divisions
+    </select>
+
+    <resultMap id="divisionWithDistrictsResultMap" type="com.backend.api.response.DivisionWithDistrictsRes">
+        <association
+                property="division"
+                select="getDivisionById"
+                javaType="com.backend.api.entity.DivisionEntity"
+                column="id = id"
+        />
+        <collection
+                property="districts"
+                ofType="com.backend.api.entity.DistrictEntity"
+                select="getDistrictsByDivision"
+                column="divisions_id = id"
+        />
+    </resultMap>
+
+    <select id="getDistrictsByDivision" resultType="com.backend.api.entity.DistrictEntity">
+        SELECT * FROM districts WHERE divisions_id = #{divisions_id}
+    </select>
+
+</mapper>

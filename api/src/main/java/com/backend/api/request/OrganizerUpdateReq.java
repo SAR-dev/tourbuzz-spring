@@ -19,15 +19,19 @@ public class OrganizerUpdateReq {
     @NotNull
     @Size(min = 10, max = 50)
     private String email;
+
     @NotNull
     @Size(min = 2, max = 25)
     private String name;
+
     @NotNull
     @Size(min = 2, max = 25)
     private String username;
+
     @NotNull
     @Size(min = 10, max = 500)
     private String description;
+
     @NotNull
     @Size(min = 10, max = 100)
     private String slogan;

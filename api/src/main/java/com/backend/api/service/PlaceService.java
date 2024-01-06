@@ -18,11 +18,8 @@ public class PlaceService {
         return placeRepository.getPlaces();
     }
 
-    public List<DivisionWithDistrictsRes> getDivisionsWithDistricts(){
-        return placeRepository.getDivisionsWithDistricts();
+    public PlaceEntity getPlaceById(int id){
+        return placeRepository.getPlaceById(id);
     }
 
-    public List<DistrictEntity> getDistricts(){
-        return placeRepository.getDistricts();
-    }
 }

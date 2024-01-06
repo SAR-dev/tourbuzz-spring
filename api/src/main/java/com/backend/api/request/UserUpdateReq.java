@@ -11,9 +11,11 @@ public class UserUpdateReq {
     @NotNull
     @Email
     private String email;
+
     @NotNull
     @Size(min = 2, max = 25)
     private String name;
+
     @JsonProperty("images_id")
     private Integer imagesId;
 }

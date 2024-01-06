@@ -20,15 +20,16 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin")
 public class AdminController {
+    private final PaginationService paginationService;
+    private final AuthService authService;
     private final ImageService imageService;
     private final WriterService writerService;
     private final ArticleService articleService;
     private final EnquiryService enquiryService;
-    private final AuthService authService;
-    private final PaginationService paginationService;
     private final OrganizerService organizerService;
     private final HotelService hotelService;
     private final PlaceService placeService;
+    private final StaticService staticService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -233,18 +234,29 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Get Place By ID")
+    @GetMapping("/places/{id}")
+    public PlaceEntity getPlaceById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        return placeService.getPlaceById(id);
+    }
+
+//    Divisions
+
     @Tag(name = "Get Divisions")
     @GetMapping("/divisions")
     public List<DivisionWithDistrictsRes> getDivisionsWithDistricts() throws Exception {
         authService.verifyAdminToken();
-        return placeService.getDivisionsWithDistricts();
+        return staticService.getDivisionsWithDistricts();
     }
+
+//    Districts
 
     @Tag(name = "Get Districts")
     @GetMapping("/districts")
     public List<DistrictEntity> getDistricts() throws Exception {
         authService.verifyAdminToken();
-        return placeService.getDistricts();
+        return staticService.getDistricts();
     }
 
 //    Hotels
@@ -274,6 +286,13 @@ public class AdminController {
     public void updateHotel(@Valid @RequestBody HotelUpdateReq hotelUpdateReq) throws Exception {
         authService.verifyAdminToken();
         hotelService.updateHotel(hotelUpdateReq);
+    }
+
+    @Tag(name = "Get Hotel By ID")
+    @GetMapping("/hotels/{id}")
+    public HotelEntity getHotelById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        return hotelService.getHotelById(id);
     }
 
     @Tag(name = "Delete Hotel By ID")
