@@ -27,6 +27,10 @@
         />
     </resultMap>
 
+    <select id="getDistricts" resultMap="districtResultMap">
+        SELECT * FROM districts ORDER BY name
+    </select>
+
     <select id="getDistrictById" resultMap="districtResultMap">
         SELECT * FROM districts WHERE id = #{id}
     </select>

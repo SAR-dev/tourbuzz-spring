@@ -20,7 +20,12 @@ public class HotelService {
     private final HotelRepository hotelRepository;
 
     public List<HotelEntity> getHotels(){
-        return hotelRepository.getHotels();
+        try {
+            return hotelRepository.getHotels();
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Transactional

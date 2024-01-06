@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.entity.DistrictEntity;
 import com.backend.api.entity.PlaceEntity;
 import com.backend.api.repository.postgres.PlaceRepository;
 import com.backend.api.response.DivisionWithDistrictsRes;
@@ -19,5 +20,9 @@ public class PlaceService {
 
     public List<DivisionWithDistrictsRes> getDivisionsWithDistricts(){
         return placeRepository.getDivisionsWithDistricts();
+    }
+
+    public List<DistrictEntity> getDistricts(){
+        return placeRepository.getDistricts();
     }
 }

@@ -240,6 +240,13 @@ public class AdminController {
         return placeService.getDivisionsWithDistricts();
     }
 
+    @Tag(name = "Get Districts")
+    @GetMapping("/districts")
+    public List<DistrictEntity> getDistricts() throws Exception {
+        authService.verifyAdminToken();
+        return placeService.getDistricts();
+    }
+
 //    Hotels
 
     @Tag(name = "Create Hotel")

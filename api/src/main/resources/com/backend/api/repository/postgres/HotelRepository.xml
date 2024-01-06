@@ -50,7 +50,7 @@
     <resultMap id="hotelResultMap" type="com.backend.api.entity.HotelEntity">
         <association
                 property="district"
-                select="getDistrictById"
+                select="com.backend.api.repository.postgres.PlaceRepository.getDistrictById"
                 javaType="com.backend.api.entity.DistrictEntity"
                 column="id = districts_id"
         />
