@@ -1,6 +1,5 @@
 --ENUMS
 
-CREATE TYPE provider_type AS ENUM('OKTA', 'AUTH0', 'LINKEDIN', 'AMAZON', 'APPLE', 'MICROSOFT', 'GITHUB', 'TWITTER', 'FACEBOOK', 'GOOGLE');
 CREATE TYPE level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE payment_type AS ENUM('BKASH', 'NAGAD');
 
@@ -11,9 +10,9 @@ CREATE DOMAIN _username AS TEXT
 CREATE DOMAIN _email AS TEXT
     CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
 CREATE DOMAIN _link AS TEXT
-    CHECK (VALUE ~* '^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$');
+    CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
 CREATE DOMAIN number_list AS TEXT
-    CHECK ( VALUE ~* '^(\\d+,)*\\d*$');
+    CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
 CREATE DOMAIN _slug AS TEXT
     CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
@@ -93,10 +92,22 @@ CREATE TABLE images (
     source_url      text NOT NULL,
     thumbnail_url   text NOT NULL,
     optimized_url   text NOT NULL,
+    deleted         boolean NOT NULL DEFAULT FALSE,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_images BEFORE UPDATE ON "public".images FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE divisions (
+    id              serial PRIMARY KEY,
+    name            text UNIQUE
+);
+
+CREATE TABLE districts (
+    id              serial PRIMARY KEY,
+    name            text UNIQUE,
+    divisions_id    integer NOT NULL REFERENCES divisions(id)
+);
 
 CREATE TABLE users (
     id              serial PRIMARY KEY,
@@ -115,8 +126,10 @@ CREATE TABLE writers (
     images_id       integer REFERENCES images(id),
     email           _email NOT NULL UNIQUE,
     username        _username DEFAULT gen_random_uuid() NOT NULL UNIQUE,
-    name            text NOT NULL,
+    name            text NOT NULL UNIQUE,
     about           text,
+    contact_no      text,
+    website         _link,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -139,9 +152,10 @@ CREATE TRIGGER update_updated_at_articles BEFORE UPDATE ON "public".articles FOR
 CREATE TABLE enquiries (
     id              serial PRIMARY KEY,
     users_id        integer NOT NULL REFERENCES users(id),
-    contact_number  text NOT NULL,
-    message         text NOT NULL,
-    answer          text NOT NULL,
+    contact_no      text NOT NULL,
+    question        text NOT NULL,
+    answer          text,
+    answered_at     timestamp,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -167,7 +181,7 @@ CREATE TABLE organizers (
     images_id       integer REFERENCES images(id),
     verification    level_type,
     social_link     _link NOT NULL,
-    contact_number  text NOT NULL,
+    contact_no      text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
@@ -223,8 +237,10 @@ CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON "public".comments FOR
 
 CREATE TABLE hotels (
     id              serial PRIMARY KEY,
+    districts_id    integer NOT NULL REFERENCES districts(id),
     name            text NOT NULL UNIQUE,
     map_link        _link NOT NULL,
+    website         _link,
     review          text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
@@ -234,9 +250,9 @@ CREATE TRIGGER update_updated_at_hotels BEFORE UPDATE ON "public".hotels FOR EAC
 CREATE TABLE places (
     id              serial PRIMARY KEY,
     images_id       integer NOT NULL REFERENCES images(id),
+    districts_id    integer NOT NULL REFERENCES districts(id),
     name            text NOT NULL UNIQUE,
-    division        text NOT NULL,
-    district        text NOT NULL,
+    postal_code     text,
     map_link        _link NOT NULL,
     description     text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,

@@ -26,6 +26,8 @@ public class AdminController {
     private final AuthService authService;
     private final PaginationService paginationService;
     private final OrganizerService organizerService;
+    private final HotelService hotelService;
+    private final PlaceService placeService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -214,4 +216,35 @@ public class AdminController {
         authService.verifyAdminToken();
         organizerService.updateOrganizer(organizerUpdateReq);
     }
+
+//    Hotels
+
+    @Tag(name = "Get Hotel List")
+    @GetMapping("/hotels")
+    public PaginatedRes getHotels(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+        PageHelper.startPage(pageNo, pageSize);
+        List<HotelEntity> hotelEntities = hotelService.getHotels();
+        Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+//    Places
+
+    @Tag(name = "Get Place List")
+    @GetMapping("/places")
+    public PaginatedRes getPlaces(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+        PageHelper.startPage(pageNo, pageSize);
+        List<PlaceEntity> placeEntities = placeService.getPlaces();
+        Page<PlaceEntity> pageInfo = (Page<PlaceEntity>) placeEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
 }

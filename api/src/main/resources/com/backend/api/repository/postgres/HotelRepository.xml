@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.HotelRepository">
+
+    <select id="getHotels" resultMap="hotelResultMap">
+        SELECT
+            h.*,
+            dst.name AS district,
+            dvs.name AS division
+        FROM hotels h
+        JOIN districts dst ON dst.id = h.districts_id
+        JOIN divisions dvs ON dvs.id = dst.divisions_id
+        ORDER BY dvs.id DESC
+    </select>
+
+    <select id="getHotelById" resultType="com.backend.api.entity.HotelEntity">
+        SELECT
+            h.*,
+            dst.name AS district,
+            dvs.name AS division
+        FROM hotels h
+        JOIN districts dst ON dst.id = h.districts_id
+        JOIN divisions dvs ON dvs.id = dst.divisions_id
+        WHERE h.id = #{id}
+    </select>
+
+    <resultMap id="hotelResultMap" type="com.backend.api.entity.HotelEntity" />
+
+</mapper>
