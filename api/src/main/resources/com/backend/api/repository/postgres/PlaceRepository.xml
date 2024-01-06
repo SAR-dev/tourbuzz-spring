@@ -43,7 +43,7 @@
     </delete>
 
     <select id="getPlaces" resultMap="placeResultMap">
-        SELECT * FROM places
+        SELECT * FROM places ORDER BY id DESC
     </select>
 
     <select id="getPlaceById" resultMap="placeResultMap">
