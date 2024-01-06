@@ -2,8 +2,15 @@ package com.backend.api.service;
 
 import com.backend.api.entity.HotelEntity;
 import com.backend.api.repository.postgres.HotelRepository;
+import com.backend.api.request.HotelCreateReq;
+import com.backend.api.request.HotelUpdateReq;
+import com.backend.api.request.WriterCreateReq;
+import com.backend.api.request.WriterUpdateReq;
+import com.backend.api.response.HotelCheckRes;
+import com.backend.api.response.WriterCheckRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,5 +21,32 @@ public class HotelService {
 
     public List<HotelEntity> getHotels(){
         return hotelRepository.getHotels();
+    }
+
+    @Transactional
+    public void createHotel(HotelCreateReq hotelCreateReq) throws Exception {
+        HotelCheckRes hotelCheckRes = checkHotel(hotelCreateReq);
+        if(hotelCheckRes.isName_exists()){
+            throw new Exception("Name already exists.");
+        }
+        hotelRepository.createHotel(hotelCreateReq);
+    }
+
+    public void deleteHotelById(int id) throws Exception {
+        int count = hotelRepository.deleteHotelById(id);
+        if(count != 1){
+            throw new Exception("Hotel could not be deleted");
+        }
+    }
+
+    public void updateHotel(HotelUpdateReq hotelUpdateReq) throws Exception {
+        int count = hotelRepository.updateHotel(hotelUpdateReq);
+        if(count != 1){
+            throw new Exception("Hotel could not be updated");
+        }
+    }
+
+    public HotelCheckRes checkHotel(HotelCreateReq hotelCreateReq){
+        return hotelRepository.checkHotel(hotelCreateReq);
     }
 }

@@ -15,6 +15,5 @@ public class HotelEntity {
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    private String division;
-    private String district;
+    private DistrictEntity district;
 }

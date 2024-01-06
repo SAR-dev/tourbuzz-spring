@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 public class PlaceEntity {
     private int id;
     private int images_id;
+    private int districts_id;
     private String name;
     private String postal_code;
     private String map_link;
@@ -16,7 +17,6 @@ public class PlaceEntity {
     private Timestamp created_at;
     private Timestamp updated_at;
 
-    private String division;
-    private String district;
-    private ImageEntity thumbnail;
+    private DistrictEntity district;
+    private ImageEntity avatar;
 }

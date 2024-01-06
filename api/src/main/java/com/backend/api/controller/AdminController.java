@@ -2,6 +2,7 @@ package com.backend.api.controller;
 
 import com.backend.api.entity.*;
 import com.backend.api.request.*;
+import com.backend.api.response.DivisionWithDistrictsRes;
 import com.backend.api.response.GroupedEnquiryRes;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.*;
@@ -73,7 +74,7 @@ public class AdminController {
     @PostMapping("/writers")
     public void createWriter(@Valid @RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
-//        writerService.createWriter(writerCreateReq);
+        writerService.createWriter(writerCreateReq);
     }
 
     @Tag(name = "Get Writers List")
@@ -91,6 +92,13 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Update Writer")
+    @PutMapping("/writers")
+    public void updateWriter(@Valid @RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        writerService.updateWriter(writerUpdateReq);
+    }
+
     @Tag(name = "Get Writer By ID")
     @GetMapping("/writers/{id}")
     public WriterEntity getWriterById(@PathVariable int id) throws Exception {
@@ -103,13 +111,6 @@ public class AdminController {
     public void deleteWriterById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
         writerService.deleteWriterById(id);
-    }
-
-    @Tag(name = "Update Writer")
-    @PutMapping("/writers")
-    public void updateWriter(@Valid @RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
-        authService.verifyAdminToken();
-        writerService.updateWriter(writerUpdateReq);
     }
 
 //    Article API
@@ -133,6 +134,13 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Update Article")
+    @PutMapping("/articles")
+    public void updateArticle(@Valid @RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        articleService.updateArticle(articleUpdateReq);
+    }
+
     @Tag(name = "Get Article By ID")
     @GetMapping("/articles/{id}")
     public ArticleEntity getArticleById(@PathVariable int id) throws Exception {
@@ -145,13 +153,6 @@ public class AdminController {
     public void deleteArticleById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
         articleService.deleteArticleById(id);
-    }
-
-    @Tag(name = "Update Article")
-    @PutMapping("/articles")
-    public void updateArticle(@Valid @RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {
-        authService.verifyAdminToken();
-        articleService.updateArticle(articleUpdateReq);
     }
 
 //    Enquiry API
@@ -196,6 +197,13 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Update Organizer")
+    @PutMapping("/organizers")
+    public void updateOrganizer(@Valid @RequestBody OrganizerUpdateReq organizerUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        organizerService.updateOrganizer(organizerUpdateReq);
+    }
+
     @Tag(name = "Get Organizer By ID")
     @GetMapping("/organizers/{id}")
     public OrganizerEntity getOrganizerById(@PathVariable int id) throws Exception {
@@ -208,28 +216,6 @@ public class AdminController {
     public void deleteOrganizerById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
         organizerService.deleteOrganizerById(id);
-    }
-
-    @Tag(name = "Update Article")
-    @PutMapping("/organizers")
-    public void updateOrganizer(@Valid @RequestBody OrganizerUpdateReq organizerUpdateReq) throws Exception {
-        authService.verifyAdminToken();
-        organizerService.updateOrganizer(organizerUpdateReq);
-    }
-
-//    Hotels
-
-    @Tag(name = "Get Hotel List")
-    @GetMapping("/hotels")
-    public PaginatedRes getHotels(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
-        authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
-        List<HotelEntity> hotelEntities = hotelService.getHotels();
-        Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
 //    Places
@@ -247,4 +233,46 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Get Divisions")
+    @GetMapping("/divisions")
+    public List<DivisionWithDistrictsRes> getDivisionsWithDistricts() throws Exception {
+        authService.verifyAdminToken();
+        return placeService.getDivisionsWithDistricts();
+    }
+
+//    Hotels
+
+    @Tag(name = "Create Hotel")
+    @PostMapping("/hotels")
+    public void createHotel(@Valid @RequestBody HotelCreateReq hotelCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        hotelService.createHotel(hotelCreateReq);
+    }
+
+    @Tag(name = "Get Hotel List")
+    @GetMapping("/hotels")
+    public PaginatedRes getHotels(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+        PageHelper.startPage(pageNo, pageSize);
+        List<HotelEntity> hotelEntities = hotelService.getHotels();
+        Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Update Hotel")
+    @PutMapping("/hotels")
+    public void updateHotel(@Valid @RequestBody HotelUpdateReq hotelUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        hotelService.updateHotel(hotelUpdateReq);
+    }
+
+    @Tag(name = "Delete Hotel By ID")
+    @DeleteMapping("/hotels/{id}")
+    public void deleteHotelById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        hotelService.deleteHotelById(id);
+    }
 }
