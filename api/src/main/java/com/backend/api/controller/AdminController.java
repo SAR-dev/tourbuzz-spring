@@ -34,7 +34,7 @@ public class AdminController {
 //    Images API
     @Tag(name = "Upload Image")
     @PostMapping(value = "/images",  consumes = {"multipart/form-data"})
-    public ImageEntity uploadImage(@RequestParam("file") MultipartFile file) throws Exception {
+    public ImageEntity uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("title") String title) throws Exception {
         authService.verifyAdminToken();
         try {
             if (file.isEmpty()) {
@@ -42,9 +42,8 @@ public class AdminController {
             }
 
             byte[] imageData = file.getBytes();
-            String imageName = file.getOriginalFilename();
 
-            return imageService.uploadImage(imageData, imageName);
+            return imageService.uploadImage(imageData, title);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
         }

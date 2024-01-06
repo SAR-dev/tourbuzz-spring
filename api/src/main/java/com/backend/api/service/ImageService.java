@@ -28,15 +28,14 @@ public class ImageService {
     private final ImageRepository imageRepository;
     private final HelperService helperService;
 
-    public ImageEntity uploadImage(byte[] imageData, String imageName) throws Exception {
-        String title = helperService.getFileNameWithoutExtension(imageName);
+    public ImageEntity uploadImage(byte[] imageData, String title) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("key", imgBbApiKey);
         body.add("image", Base64.getEncoder().encodeToString(imageData));
-        body.add("name", imageName);
+        body.add("name", title);
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
 
