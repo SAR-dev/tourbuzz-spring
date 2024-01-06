@@ -5,6 +5,7 @@ import com.backend.api.request.*;
 import com.backend.api.response.DivisionWithDistrictsRes;
 import com.backend.api.response.GroupedEnquiryRes;
 import com.backend.api.response.PaginatedRes;
+import com.backend.api.response.PlaceTypeRes;
 import com.backend.api.service.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -238,6 +239,13 @@ public class AdminController {
         List<PlaceEntity> placeEntities = placeService.getPlaces();
         Page<PlaceEntity> pageInfo = (Page<PlaceEntity>) placeEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Get Place Types")
+    @GetMapping("/place-types")
+    public List<PlaceTypeRes> getPlaceTypes() throws Exception {
+        authService.verifyAdminToken();
+        return placeService.getPlaceTypes();
     }
 
     @Tag(name = "Update Place")

@@ -16,14 +16,16 @@
             name,
             postal_code,
             map_link,
-            description
+            description,
+            type
         ) VALUES (
             #{imagesId},
             #{districtsId},
             BTRIM(#{name}),
             #{postalCode},
             #{mapLink},
-            #{description}
+            #{description},
+            #{type}
         )
     </insert>
 
@@ -48,6 +50,13 @@
 
     <select id="getPlaceById" resultMap="placeResultMap">
         SELECT * FROM places WHERE id = #{id}
+    </select>
+
+    <select id="getPlaceTypes" resultType="com.backend.api.response.PlaceTypeRes">
+        SELECT type, COUNT(*) AS count
+        FROM places
+        GROUP BY type
+        ORDER BY count DESC
     </select>
 
     <resultMap id="placeResultMap" type="com.backend.api.entity.PlaceEntity">

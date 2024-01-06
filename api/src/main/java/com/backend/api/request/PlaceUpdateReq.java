@@ -35,4 +35,7 @@ public class PlaceUpdateReq {
     @NotNull
     @Size(min = 10, max = 1000)
     private String description;
+
+    @Size(max = 20)
+    private String type;
 }

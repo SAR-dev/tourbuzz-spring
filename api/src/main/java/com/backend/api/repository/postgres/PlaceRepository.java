@@ -6,6 +6,7 @@ import com.backend.api.request.PlaceCreateReq;
 import com.backend.api.request.PlaceUpdateReq;
 import com.backend.api.response.DivisionWithDistrictsRes;
 import com.backend.api.response.PlaceCheckRes;
+import com.backend.api.response.PlaceTypeRes;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface PlaceRepository {
     List<PlaceEntity> getPlaces();
 
     PlaceEntity getPlaceById(int id);
+
+    List<PlaceTypeRes> getPlaceTypes();
 }

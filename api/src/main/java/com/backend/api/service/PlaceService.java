@@ -10,6 +10,7 @@ import com.backend.api.request.PlaceUpdateReq;
 import com.backend.api.response.DivisionWithDistrictsRes;
 import com.backend.api.response.HotelCheckRes;
 import com.backend.api.response.PlaceCheckRes;
+import com.backend.api.response.PlaceTypeRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +55,10 @@ public class PlaceService {
 
     public PlaceCheckRes checkPlace(PlaceCreateReq placeCreateReq){
         return placeRepository.checkPlace(placeCreateReq);
+    }
+
+    public List<PlaceTypeRes> getPlaceTypes(){
+        return placeRepository.getPlaceTypes();
     }
 
 }

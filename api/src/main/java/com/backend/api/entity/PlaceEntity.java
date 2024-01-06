@@ -11,6 +11,7 @@ public class PlaceEntity {
     private int images_id;
     private int districts_id;
     private String name;
+    private String type;
     private String postal_code;
     private String map_link;
     private String description;
