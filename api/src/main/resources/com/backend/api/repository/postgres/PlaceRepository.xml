@@ -36,7 +36,8 @@
             name = BTRIM(#{name}),
             postal_code = #{postalCode},
             map_link = #{mapLink},
-            description = #{description}
+            description = #{description},
+            type = #{type}
         WHERE id = #{placesId}
     </update>
 

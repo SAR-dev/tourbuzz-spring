@@ -32,6 +32,7 @@ public class PlaceCreateReq {
     @Size(min = 10, max = 1000)
     private String description;
 
+    @NotNull
     @Size(max = 20)
     private String type;
 }
