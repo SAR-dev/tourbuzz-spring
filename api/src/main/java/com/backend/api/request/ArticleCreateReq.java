@@ -28,7 +28,7 @@ public class ArticleCreateReq {
     private String subtitle;
 
     @NotNull
-    @Size(min = 10, max = 400)
+    @Size(min = 10, max = 600)
     private String summary;
 
     @NotNull
