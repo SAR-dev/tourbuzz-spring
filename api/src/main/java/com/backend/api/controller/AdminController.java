@@ -31,6 +31,7 @@ public class AdminController {
     private final HotelService hotelService;
     private final PlaceService placeService;
     private final StaticService staticService;
+    private final TourTypeService tourTypeService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -328,5 +329,42 @@ public class AdminController {
     public void deleteHotelById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
         hotelService.deleteHotelById(id);
+    }
+
+//    Tour Types
+
+    @Tag(name = "Create Tour Type")
+    @PostMapping("/tour-types")
+    public void createTourType(@Valid @RequestBody TourTypeCreateReq tourTypeCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        tourTypeService.createTourType(tourTypeCreateReq);
+    }
+
+    @Tag(name = "Get Tour Type List")
+    @GetMapping("/tour-types")
+    public List<TourTypeEntity> getTourTypes() throws Exception {
+        authService.verifyAdminToken();
+        return tourTypeService.getTourTypes();
+    }
+
+    @Tag(name = "Update Tour Type")
+    @PutMapping("/tour-types")
+    public void updateTourType(@Valid @RequestBody TourTypeUpdateReq tourTypeUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        tourTypeService.updateTourType(tourTypeUpdateReq);
+    }
+
+    @Tag(name = "Get Tour Type By ID")
+    @GetMapping("/tour-types/{id}")
+    public TourTypeEntity getTourTypeByeId(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        return tourTypeService.getTourTypeByeId(id);
+    }
+
+    @Tag(name = "Delete Tour Type By ID")
+    @DeleteMapping("/tour-types/{id}")
+    public void deleteTourTypeById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        tourTypeService.deleteTourTypeById(id);
     }
 }

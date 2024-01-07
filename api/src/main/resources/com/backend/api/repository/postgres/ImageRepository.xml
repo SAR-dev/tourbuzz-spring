@@ -18,7 +18,7 @@
         ) RETURNING *;
     </select>
 
-    <select id="getImages" resultMap="imageResult">
+    <select id="getImages" resultType="com.backend.api.entity.ImageEntity">
         SELECT * FROM images WHERE deleted IS FALSE ORDER BY id DESC
     </select>
 
@@ -26,7 +26,7 @@
         SELECT * FROM images WHERE id = #{id}
     </select>
 
-    <select id="getImageIdsFromList" resultMap="imageResult">
+    <select id="getImageIdsFromList" resultType="com.backend.api.entity.ImageEntity">
         SELECT * FROM images WHERE id = ANY(number_list_to_array(#{ids}))
     </select>
 
@@ -34,5 +34,4 @@
         UPDATE images SET deleted = TRUE WHERE id = #{id}
     </update>
 
-    <resultMap id="imageResult" type="com.backend.api.entity.ImageEntity" />
 </mapper>

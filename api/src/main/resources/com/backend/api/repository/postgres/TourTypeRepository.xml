@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.TourTypeRepository">
+
+    <select id="checkTourType" resultType="com.backend.api.response.TourTypeCheckRes">
+        SELECT
+            EXISTS (SELECT 1 FROM tour_types WHERE slug = BTRIM(#{slug})) AS slug_exists,
+            EXISTS (SELECT 1 FROM tour_types WHERE name = BTRIM(#{name})) AS name_exists
+    </select>
+
+    <select id="createTourType" resultType="com.backend.api.entity.ImageEntity">
+        INSERT INTO tour_types (
+            name,
+            slug,
+            details
+        ) VALUES (
+            #{name},
+            #{slug},
+            #{details}
+        )
+    </select>
+
+    <update id="updateTourType">
+        UPDATE tour_types SET
+            name = #{name},
+            slug = #{slug},
+            details = #{details}
+        WHERE id = #{tourTypesId}
+    </update>
+
+    <select id="getTourTypes" resultType="com.backend.api.entity.TourTypeEntity">
+        SELECT * FROM tour_types ORDER BY id DESC
+    </select>
+
+    <select id="getTourTypeByeId" resultType="com.backend.api.entity.TourTypeEntity">
+        SELECT * FROM tour_types WHERE id = #{id}
+    </select>
+
+    <update id="deleteTourTypeById">
+        DELETE tour_types WHERE id = #{id}
+    </update>
+
+</mapper>

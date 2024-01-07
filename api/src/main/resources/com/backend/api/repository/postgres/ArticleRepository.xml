@@ -6,8 +6,8 @@
 
     <select id="checkArticle" resultType="com.backend.api.response.ArticleCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM articles WHERE title = #{title}) AS title_exists,
-            EXISTS (SELECT 1 FROM articles WHERE slug = #{slug}) AS slug_exists
+            EXISTS (SELECT 1 FROM articles WHERE title = BTRIM(#{title}))) AS title_exists,
+            EXISTS (SELECT 1 FROM articles WHERE slug = BTRIM(#{slug}))) AS slug_exists
     </select>
 
     <insert id="createArticle">
