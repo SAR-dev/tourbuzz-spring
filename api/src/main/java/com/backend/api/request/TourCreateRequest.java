@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class TourCreateRequest {
     @NotNull
-    private TourCreatePayload tour;
+    private @Valid TourCreatePayload tour;
 
     @NotNull
     @Size(min = 1, max = 10)

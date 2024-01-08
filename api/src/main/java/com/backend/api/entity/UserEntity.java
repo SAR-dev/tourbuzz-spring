@@ -1,5 +1,6 @@
 package com.backend.api.entity;
 
+import com.backend.api.GlobalConstants;
 import lombok.Builder;
 import lombok.Data;
 
@@ -23,9 +24,9 @@ public class UserEntity {
         if(Objects.isNull(avatar)){
             ImageEntity imageEntity = new ImageEntity();
             imageEntity.setId(0);
-            imageEntity.setOptimized_url("https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=" + email);
-            imageEntity.setSource_url("https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=" + email);
-            imageEntity.setThumbnail_url("https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=" + email);
+            imageEntity.setOptimized_url(GlobalConstants.AVATAR_GENERATOR_BASE_URL + email);
+            imageEntity.setSource_url(GlobalConstants.AVATAR_GENERATOR_BASE_URL + email);
+            imageEntity.setThumbnail_url(GlobalConstants.AVATAR_GENERATOR_BASE_URL + email);
             return imageEntity;
         } else {
             return avatar;
