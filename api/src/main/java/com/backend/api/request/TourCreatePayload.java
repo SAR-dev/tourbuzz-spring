@@ -92,6 +92,7 @@ public class TourCreatePayload {
     private String lastSellAt;
 
     @NotNull
+    @Size(min = 1, max = 10)
     @JsonProperty("image_ids")
     private List<Integer> imageIds;
 

@@ -36,6 +36,8 @@ public class ArticleCreateReq {
     @JsonProperty("md_desc")
     private String mdDesc;
 
+    @NotNull
+    @Size(min = 1, max = 10)
     @JsonProperty("image_ids")
     private List<Integer> imageIds;
 
