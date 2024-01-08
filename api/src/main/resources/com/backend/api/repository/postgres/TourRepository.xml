@@ -71,10 +71,24 @@
             #{item.imageIdsStr}
             )
         </foreach>
+<!--        insert into tour logs places too-->
     </insert>
 
     <insert id="createTourPackages">
-
+        INSERT INTO packages (
+            tours_id,
+            title,
+            description,
+            price
+        ) VALUES
+        <foreach collection="tourPackages" item="item" separator=",">
+            (
+            #{toursId},
+            #{item.title},
+            #{item.description},
+            #{item.price}
+            )
+        </foreach>
     </insert>
 
 </mapper>
