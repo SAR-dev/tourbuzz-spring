@@ -71,7 +71,20 @@
             #{item.imageIdsStr}
             )
         </foreach>
-<!--        insert into tour logs places too-->
+    </insert>
+
+    <insert id="createTourLogsPlaces">
+        INSERT INTO tour_logs_places (
+            tour_logs_id,
+            places_id
+        ) VALUES
+        <foreach collection="tourLogsPlaces" item="item" separator=",">
+            (
+            (SELECT id FROM tour_logs WHERE tours_id = #{item.toursId} AND date = TO_DATE(#{item.tourLogDate}, 'YYYY/MM/DD')),
+            #{item.placesId}
+            )
+        </foreach>
+
     </insert>
 
     <insert id="createTourPackages">

@@ -1,10 +1,7 @@
 package com.backend.api.service;
 
 import com.backend.api.repository.postgres.TourRepository;
-import com.backend.api.request.TourCreatePayload;
-import com.backend.api.request.TourCreateRequest;
-import com.backend.api.request.TourLogCreatePayload;
-import com.backend.api.request.TourPackageCreatePayload;
+import com.backend.api.request.*;
 import com.backend.api.response.TourCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +31,7 @@ public class TourService {
         int toursId = tourRepository.createTour(tourCreateRequest.getTour());
         createTourLogs(toursId, tourCreateRequest.getTourLogs());
         createTourPackages(toursId, tourCreateRequest.getPackages());
+        createTourLogsPlaces(toursId, tourCreateRequest.getTourLogs());
     }
 
     public void verifyCreateTour(TourCreateRequest tourCreateRequest) throws Exception {
@@ -52,7 +50,7 @@ public class TourService {
 
         LocalDate dateAfterTwoDays = LocalDate.now().plusDays(2);
         if(!tourStartsAt.isAfter(dateAfterTwoDays)){
-            messages.add("Tour start date must be after 2 days from current date");
+            messages.add("Tour start date must be after 3 days from current date");
         }
         if(!tourFinishAt.isAfter(tourStartsAt)){
             messages.add("Tour finish date must be after start date");
@@ -82,5 +80,21 @@ public class TourService {
 
     public void createTourPackages(int toursId, List<TourPackageCreatePayload> tourPackageCreatePayloads){
         tourRepository.createTourPackages(toursId, tourPackageCreatePayloads);
+    }
+
+    public void createTourLogsPlaces(int toursId, List<TourLogCreatePayload> tourLogCreatePayloads){
+        List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
+        for(TourLogCreatePayload tourLogCreatePayload : tourLogCreatePayloads) {
+            tourLogCreatePayload.getPlaceIds().forEach(placeId -> {
+                tourLogPlacePayloads.add(TourLogPlacePayload
+                        .builder()
+                        .toursId(toursId)
+                        .tourLogDate(tourLogCreatePayload.getDate())
+                        .placesId(placeId)
+                        .build()
+                );
+            });
+        }
+        tourRepository.createTourLogsPlaces(tourLogPlacePayloads);
     }
 }
