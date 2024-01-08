@@ -11,10 +11,12 @@ import com.backend.api.response.DivisionWithDistrictsRes;
 import com.backend.api.response.HotelCheckRes;
 import com.backend.api.response.PlaceCheckRes;
 import com.backend.api.response.PlaceTypeRes;
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,8 +27,12 @@ public class PlaceService {
     @Transactional
     public void createPlace(PlaceCreateReq placeCreateReq) throws Exception {
         PlaceCheckRes placeCheckRes = checkPlace(placeCreateReq);
+        List<String> messages = new ArrayList<>();
         if(placeCheckRes.isName_exists()){
-            throw new Exception("Name already exists.");
+            messages.add("Name already exists.");
+        }
+        if(!messages.isEmpty()){
+            throw new ValidationException(String.join("", messages));
         }
         placeRepository.createPlace(placeCreateReq);
     }

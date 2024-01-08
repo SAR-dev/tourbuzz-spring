@@ -8,10 +8,12 @@ import com.backend.api.request.WriterCreateReq;
 import com.backend.api.request.WriterUpdateReq;
 import com.backend.api.response.HotelCheckRes;
 import com.backend.api.response.WriterCheckRes;
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,8 +32,12 @@ public class HotelService {
     @Transactional
     public void createHotel(HotelCreateReq hotelCreateReq) throws Exception {
         HotelCheckRes hotelCheckRes = checkHotel(hotelCreateReq);
+        List<String> messages = new ArrayList<>();
         if(hotelCheckRes.isName_exists()){
-            throw new Exception("Name already exists.");
+            messages.add("Name already exists.");
+        }
+        if(!messages.isEmpty()){
+            throw new ValidationException(String.join("", messages));
         }
         hotelRepository.createHotel(hotelCreateReq);
     }

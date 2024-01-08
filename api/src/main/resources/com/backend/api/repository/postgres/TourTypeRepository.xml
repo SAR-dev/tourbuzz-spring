@@ -10,7 +10,7 @@
             EXISTS (SELECT 1 FROM tour_types WHERE name = BTRIM(#{name})) AS name_exists
     </select>
 
-    <select id="createTourType" resultType="com.backend.api.entity.ImageEntity">
+    <insert id="createTourType">
         INSERT INTO tour_types (
             name,
             slug,
@@ -20,7 +20,7 @@
             #{slug},
             #{details}
         )
-    </select>
+    </insert>
 
     <update id="updateTourType">
         UPDATE tour_types SET
@@ -38,8 +38,8 @@
         SELECT * FROM tour_types WHERE id = #{id}
     </select>
 
-    <update id="deleteTourTypeById">
+    <delete id="deleteTourTypeById">
         DELETE tour_types WHERE id = #{id}
-    </update>
+    </delete>
 
 </mapper>

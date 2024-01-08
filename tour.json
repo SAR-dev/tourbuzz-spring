@@ -1,0 +1,76 @@
+{
+  "tour": {
+    "tour_types_id": 1,
+    "organizers_id": 1,
+    "images_id": 3,
+    "title": "Sample Tour Title",
+    "slug": "sample-tour-title",
+    "md_desc": "Sample markdown description...",
+    "summary": "Sample summary...",
+    "group_size": "Small Group",
+    "group_info": "Sample group information...",
+    "services": "Sample services...",
+    "transports": "Sample transports...",
+    "cancel_ins": "Sample cancellation instructions...",
+    "start_ins": "Sample start instructions...",
+    "finish_ins": "Sample finish instructions...",
+    "start_at": "2024/01/08/12/00",
+    "finish_at": "2024/01/15/12/00",
+    "last_sell_at": "2024/01/01/12/00",
+    "image_ids": [1, 2, 3]
+  },
+  "tour_logs": [
+    {
+      "hotels_id": 4,
+      "title": "Tour Log 1",
+      "description": "Tour log 1 description...",
+      "date": "2024/01/08",
+      "place_ids": [5, 6],
+      "image_ids": [7, 8]
+    },
+    {
+      "hotels_id": 5,
+      "title": "Tour Log 2",
+      "description": "Tour log 2 description...",
+      "date": "2024/01/09",
+      "place_ids": [6, 7],
+      "image_ids": [8, 9]
+    },
+    {
+      "hotels_id": 6,
+      "title": "Tour Log 3",
+      "description": "Tour log 3 description...",
+      "date": "2024/01/10",
+      "place_ids": [7, 8],
+      "image_ids": [9, 10]
+    },
+    {
+      "hotels_id": 7,
+      "title": "Tour Log 4",
+      "description": "Tour log 4 description...",
+      "date": "2024/01/11",
+      "place_ids": [8, 9],
+      "image_ids": [10, 11]
+    },
+    {
+      "hotels_id": 8,
+      "title": "Tour Log 5",
+      "description": "Tour log 5 description...",
+      "date": "2024/01/12",
+      "place_ids": [9, 10],
+      "image_ids": [11, 12]
+    }
+  ],
+  "packages": [
+    {
+      "title": "Package 1",
+      "description": "Package 1 description...",
+      "price": 500
+    },
+    {
+      "title": "Package 2",
+      "description": "Package 2 description...",
+      "price": 750
+    }
+  ]
+}

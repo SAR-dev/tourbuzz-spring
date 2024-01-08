@@ -6,10 +6,12 @@ import com.backend.api.request.OrganizerCreateReq;
 import com.backend.api.request.OrganizerUpdateReq;
 import com.backend.api.response.OrganizerCheckRes;
 import com.backend.api.response.WriterCheckRes;
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,14 +22,18 @@ public class OrganizerService {
     @Transactional
     public void createOrganizer(OrganizerCreateReq organizerCreateReq) throws Exception {
         OrganizerCheckRes organizerCheckRes = checkOrganizer(organizerCreateReq);
+        List<String> messages = new ArrayList<>();
         if(organizerCheckRes.isEmail_exists()){
-            throw new Exception("Email already exists.");
+            messages.add("Email already exists.");
         }
         if(organizerCheckRes.isUsername_exists()){
-            throw new Exception("Username already exists.");
+            messages.add("Username already exists.");
         }
         if(organizerCheckRes.isName_exists()){
-            throw new Exception("Name already exists.");
+            messages.add("Name already exists.");
+        }
+        if(!messages.isEmpty()){
+            throw new ValidationException(String.join("", messages));
         }
         organizerRepository.createOrganizer(organizerCreateReq);
     }

@@ -5,10 +5,12 @@ import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.WriterCreateReq;
 import com.backend.api.request.WriterUpdateReq;
 import com.backend.api.response.WriterCheckRes;
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,14 +25,18 @@ public class WriterService {
     @Transactional
     public void createWriter(WriterCreateReq writerCreateReq) throws Exception {
         WriterCheckRes writerCheckRes = checkWriter(writerCreateReq);
+        List<String> messages = new ArrayList<>();
         if(writerCheckRes.isEmail_exists()){
-            throw new Exception("Email already exists.");
+            messages.add("Email already exists.");
         }
         if(writerCheckRes.isUsername_exists()){
-            throw new Exception("Username already exists.");
+            messages.add("Username already exists.");
         }
         if(writerCheckRes.isName_exists()){
-            throw new Exception("Name already exists.");
+            messages.add("Name already exists.");
+        }
+        if(!messages.isEmpty()){
+            throw new ValidationException(String.join("", messages));
         }
         writerRepository.createWriter(writerCreateReq);
     }

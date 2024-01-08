@@ -9,10 +9,12 @@ import com.backend.api.request.WriterCreateReq;
 import com.backend.api.request.WriterUpdateReq;
 import com.backend.api.response.TourTypeCheckRes;
 import com.backend.api.response.WriterCheckRes;
+import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,11 +29,15 @@ public class TourTypeService {
     @Transactional
     public void createTourType(TourTypeCreateReq tourTypeCreateReq) throws Exception {
         TourTypeCheckRes tourTypeCheckRes = checkTourType(tourTypeCreateReq);
+        List<String> messages = new ArrayList<>();
         if(tourTypeCheckRes.isSlug_exists()){
-            throw new Exception("Slug already exists.");
+            messages.add("Slug already exists.");
         }
         if(tourTypeCheckRes.isName_exists()){
-            throw new Exception("Name already exists.");
+            messages.add("Name already exists.");
+        }
+        if(!messages.isEmpty()){
+            throw new ValidationException(String.join("", messages));
         }
         tourTypeRepository.createTourType(tourTypeCreateReq);
     }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.TourRepository">
+
+    <select id="checkTour" resultType="com.backend.api.response.TourCheckRes">
+        SELECT
+            EXISTS (SELECT 1 FROM tours WHERE title = BTRIM(#{title})) AS slug_exists,
+            EXISTS (SELECT 1 FROM tours WHERE slug = BTRIM(#{slug})) AS name_exists
+    </select>
+
+    <select id="createTour" resultType="int">
+        INSERT INTO tours (
+            tour_types_id,
+            organizers_id,
+            images_id,
+            title,
+            slug,
+            md_desc,
+            summary,
+            group_size,
+            group_info,
+            services,
+            transports,
+            cancel_ins,
+            start_ins,
+            finish_ins,
+            start_at,
+            finish_at,
+            last_sell_at,
+            image_ids
+        ) VALUES (
+            #{tourTypesId},
+            #{organizersId},
+            #{imagesId},
+            BTRIM(#{title}),
+            BTRIM(#{slug}),
+            #{mdDesc},
+            #{summary},
+            #{groupSize},
+            #{groupInfo},
+            #{services},
+            #{transports},
+            #{cancelIns},
+            #{startIns},
+            #{finishIns},
+            TO_TIMESTAMP(#{startAt}, 'YYYY/MM/DD/HH/MI'),
+            TO_TIMESTAMP(#{finishAt}, 'YYYY/MM/DD/HH/MI'),
+            TO_TIMESTAMP(#{lastSellAt}, 'YYYY/MM/DD/HH/MI'),
+            #{imageIdsStr}
+        ) RETURNING id
+    </select>
+
+    <insert id="createTourLogs">
+        INSERT INTO tour_logs (
+            tours_id,
+            hotels_id,
+            title,
+            description,
+            date,
+            image_ids
+        ) VALUES
+        <foreach collection="tourLogs" item="item" separator=",">
+            (
+            #{toursId},
+            #{item.hotelsId},
+            #{item.title},
+            #{item.description},
+            TO_DATE(#{item.date}, 'YYYY/MM/DD'),
+            #{item.imageIdsStr}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="createTourPackages">
+
+    </insert>
+
+</mapper>

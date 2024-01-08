@@ -32,6 +32,7 @@ public class AdminController {
     private final PlaceService placeService;
     private final StaticService staticService;
     private final TourTypeService tourTypeService;
+    private final TourService tourService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -366,5 +367,13 @@ public class AdminController {
     public void deleteTourTypeById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
         tourTypeService.deleteTourTypeById(id);
+    }
+
+//    Tours
+    @Tag(name = "Create Tour")
+    @PostMapping("/tours")
+    public void createTourType(@Valid @RequestBody TourCreateRequest tourCreateRequest) throws Exception {
+        authService.verifyAdminToken();
+        tourService.createTour(tourCreateRequest);
     }
 }

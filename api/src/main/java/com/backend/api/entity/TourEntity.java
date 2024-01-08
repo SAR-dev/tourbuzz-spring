@@ -35,4 +35,5 @@ public class TourEntity {
     private ImageEntity thumbnail;
     private List<ImageEntity> images;
     private List<PackageEntity> packages;
+    private List<TourLogEntity> tour_logs;
 }
