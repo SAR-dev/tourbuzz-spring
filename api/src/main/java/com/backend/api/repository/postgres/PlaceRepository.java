@@ -21,7 +21,7 @@ public interface PlaceRepository {
 
     int deletePlaceById(int id);
 
-    List<PlaceEntity> getPlaces();
+    List<PlaceEntity> getPlaces(String name);
 
     PlaceEntity getPlaceById(int id);
 

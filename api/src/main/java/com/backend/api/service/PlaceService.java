@@ -51,8 +51,8 @@ public class PlaceService {
         }
     }
 
-    public List<PlaceEntity> getPlaces(){
-        return placeRepository.getPlaces();
+    public List<PlaceEntity> getPlaces(String name){
+        return placeRepository.getPlaces(name);
     }
 
     public PlaceEntity getPlaceById(int id){

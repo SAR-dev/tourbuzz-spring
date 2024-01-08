@@ -190,12 +190,14 @@ public class AdminController {
     @Tag(name = "Get Organizer List")
     @GetMapping("/organizers")
     public PaginatedRes getOrganizers(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            @RequestParam(name = "email", defaultValue = "") String email,
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
         PageHelper.startPage(pageNo, pageSize);
-        List<OrganizerEntity> organizerEntities = organizerService.getOrganizers();
+        List<OrganizerEntity> organizerEntities = organizerService.getOrganizers(name, email);
         Page<OrganizerEntity> pageInfo = (Page<OrganizerEntity>) organizerEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
@@ -233,12 +235,13 @@ public class AdminController {
     @Tag(name = "Get Place List")
     @GetMapping("/places")
     public PaginatedRes getPlaces(
+            @RequestParam(name = "name", defaultValue = "") String name,
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
         PageHelper.startPage(pageNo, pageSize);
-        List<PlaceEntity> placeEntities = placeService.getPlaces();
+        List<PlaceEntity> placeEntities = placeService.getPlaces(name);
         Page<PlaceEntity> pageInfo = (Page<PlaceEntity>) placeEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
@@ -301,12 +304,13 @@ public class AdminController {
     @Tag(name = "Get Hotel List")
     @GetMapping("/hotels")
     public PaginatedRes getHotels(
+            @RequestParam(name = "name", defaultValue = "") String name,
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
         PageHelper.startPage(pageNo, pageSize);
-        List<HotelEntity> hotelEntities = hotelService.getHotels();
+        List<HotelEntity> hotelEntities = hotelService.getHotels(name);
         Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }

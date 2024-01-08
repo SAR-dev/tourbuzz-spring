@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface HotelRepository {
-    List<HotelEntity> getHotels();
+    List<HotelEntity> getHotels(String name);
 
     HotelEntity getHotelById(int id);
 

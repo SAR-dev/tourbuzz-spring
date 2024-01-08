@@ -40,7 +40,13 @@
     </delete>
 
     <select id="getHotels" resultMap="hotelResultMap">
-        SELECT * FROM hotels
+        SELECT h.* FROM hotels h
+        <where>
+            <if test="name != '' ">
+                LOWER(h.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+        </where>
+        ORDER BY h.name DESC
     </select>
 
     <select id="getHotelById" resultMap="hotelResultMap">

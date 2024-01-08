@@ -61,7 +61,7 @@
                 AND LOWER(w.email) LIKE  '%' || LOWER(#{email}) || '%'
             </if>
         </where>
-        ORDER BY id DESC
+        ORDER BY w.id DESC
     </select>
 
     <resultMap id="writerResultMap" type="com.backend.api.entity.WriterEntity">

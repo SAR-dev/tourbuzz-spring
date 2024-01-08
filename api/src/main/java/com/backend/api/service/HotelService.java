@@ -21,8 +21,8 @@ import java.util.List;
 public class HotelService {
     private final HotelRepository hotelRepository;
 
-    public List<HotelEntity> getHotels(){
-        return hotelRepository.getHotels();
+    public List<HotelEntity> getHotels(String name){
+        return hotelRepository.getHotels(name);
     }
 
     public HotelEntity getHotelById(int id){

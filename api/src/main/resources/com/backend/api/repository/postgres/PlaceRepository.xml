@@ -46,7 +46,13 @@
     </delete>
 
     <select id="getPlaces" resultMap="placeResultMap">
-        SELECT * FROM places ORDER BY id DESC
+        SELECT p.* FROM places p
+        <where>
+            <if test="name != '' ">
+                LOWER(p.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+        </where>
+        ORDER BY p.id DESC
     </select>
 
     <select id="getPlaceById" resultMap="placeResultMap">

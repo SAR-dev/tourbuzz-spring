@@ -38,8 +38,8 @@ public class OrganizerService {
         organizerRepository.createOrganizer(organizerCreateReq);
     }
 
-    public List<OrganizerEntity> getOrganizers(){
-        return organizerRepository.getOrganizers();
+    public List<OrganizerEntity> getOrganizers(String name, String email){
+        return organizerRepository.getOrganizers(name, email);
     }
 
     public OrganizerEntity getOrganizerById(int id){

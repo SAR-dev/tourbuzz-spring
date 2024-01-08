@@ -18,7 +18,7 @@ import java.util.List;
 public interface OrganizerRepository {
     void createOrganizer(OrganizerCreateReq organizerCreateReq);
 
-    List<OrganizerEntity> getOrganizers();
+    List<OrganizerEntity> getOrganizers(String name, String email);
 
     OrganizerEntity getOrganizerById(int id);
 

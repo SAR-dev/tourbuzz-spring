@@ -54,7 +54,16 @@
     </delete>
 
     <select id="getOrganizers" resultMap="organizerResultMap">
-        SELECT * FROM organizers ORDER BY id DESC
+        SELECT o.* FROM organizers o
+        <where>
+            <if test="name != '' ">
+                AND LOWER(o.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+            <if test="email != '' ">
+                AND LOWER(o.email) LIKE  '%' || LOWER(#{email}) || '%'
+            </if>
+        </where>
+        ORDER BY o.id DESC
     </select>
 
     <select id="getOrganizerById" resultMap="organizerResultMap">
