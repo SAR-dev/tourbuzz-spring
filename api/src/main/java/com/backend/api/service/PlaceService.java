@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.entity.DistrictEntity;
 import com.backend.api.entity.PlaceEntity;
 import com.backend.api.repository.postgres.PlaceRepository;
@@ -29,7 +30,7 @@ public class PlaceService {
         PlaceCheckRes placeCheckRes = checkPlace(placeCreateReq);
         List<String> messages = new ArrayList<>();
         if(placeCheckRes.isName_exists()){
-            messages.add("Name already exists.");
+            messages.add(Constants.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -40,14 +41,14 @@ public class PlaceService {
     public void deletePlaceById(int id) throws Exception {
         int count = placeRepository.deletePlaceById(id);
         if(count != 1){
-            throw new Exception("Place could not be deleted");
+            throw new Exception(Constants.DELETE_FAILED);
         }
     }
 
     public void updatePlace(PlaceUpdateReq placeUpdateReq) throws Exception {
         int count = placeRepository.updatePlace(placeUpdateReq);
         if(count != 1){
-            throw new Exception("Place could not be updated");
+            throw new Exception(Constants.UPDATE_FAILED);
         }
     }
 

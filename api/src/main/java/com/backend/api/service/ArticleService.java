@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.entity.ArticleEntity;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.ArticleRepository;
@@ -32,10 +33,10 @@ public class ArticleService {
         ArticleCheckRes articleCheckRes = checkArticle(articleCreateReq);
         List<String> messages = new ArrayList<>();
         if(articleCheckRes.isSlug_exists()){
-            messages.add("Slug already exists.");
+            messages.add(Constants.SLUG_EXISTS);
         }
         if(articleCheckRes.isTitle_exists()){
-            messages.add("Title already exists.");
+            messages.add(Constants.TITLE_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -54,14 +55,14 @@ public class ArticleService {
     public void deleteArticleById(int id) throws Exception {
         int count = articleRepository.deleteArticleById(id);
         if(count != 1){
-            throw new Exception("Article was not be deleted");
+            throw new Exception(Constants.DELETE_FAILED);
         }
     }
 
     public void updateArticle(ArticleUpdateReq articleUpdateReq) throws Exception {
         int count = articleRepository.updateArticle(articleUpdateReq);
         if(count != 1){
-            throw new Exception("Article could not be updated");
+            throw new Exception(Constants.UPDATE_FAILED);
         }
     }
 }

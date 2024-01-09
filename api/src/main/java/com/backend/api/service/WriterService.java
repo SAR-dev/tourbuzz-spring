@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.WriterCreateReq;
@@ -27,13 +28,13 @@ public class WriterService {
         WriterCheckRes writerCheckRes = checkWriter(writerCreateReq);
         List<String> messages = new ArrayList<>();
         if(writerCheckRes.isEmail_exists()){
-            messages.add("Email already exists.");
+            messages.add(Constants.EMAIL_EXISTS);
         }
         if(writerCheckRes.isUsername_exists()){
-            messages.add("Username already exists.");
+            messages.add(Constants.USERNAME_EXISTS);
         }
         if(writerCheckRes.isName_exists()){
-            messages.add("Name already exists.");
+            messages.add(Constants.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -52,14 +53,14 @@ public class WriterService {
     public void deleteWriterById(int id) throws Exception {
         int count = writerRepository.deleteWriterById(id);
         if(count != 1){
-            throw new Exception("Writer was not be deleted");
+            throw new Exception(Constants.DELETE_FAILED);
         }
     }
 
     public void updateWriter(WriterUpdateReq writerUpdateReq) throws Exception {
         int count = writerRepository.updateWriter(writerUpdateReq);
         if(count != 1){
-            throw new Exception("Writer could not be updated");
+            throw new Exception(Constants.UPDATE_FAILED);
         }
     }
 }

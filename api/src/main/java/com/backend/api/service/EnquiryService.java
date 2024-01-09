@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.entity.EnquiryEntity;
 import com.backend.api.repository.postgres.EnquiryRepository;
 import com.backend.api.request.EnquiryAnswerReq;
@@ -22,7 +23,7 @@ public class EnquiryService {
     public void answerQuestion(EnquiryAnswerReq enquiryAnswerReq) throws Exception {
         int count = enquiryRepository.answerQuestion(enquiryAnswerReq);
         if(count != 1){
-            throw new Exception("Enquiry was not updated");
+            throw new Exception(Constants.UPDATE_FAILED);
         }
     }
 

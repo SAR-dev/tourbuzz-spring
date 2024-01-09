@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.entity.TourTypeEntity;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.TourTypeRepository;
@@ -31,10 +32,10 @@ public class TourTypeService {
         TourTypeCheckRes tourTypeCheckRes = checkTourType(tourTypeCreateReq);
         List<String> messages = new ArrayList<>();
         if(tourTypeCheckRes.isSlug_exists()){
-            messages.add("Slug already exists.");
+            messages.add(Constants.SLUG_EXISTS);
         }
         if(tourTypeCheckRes.isName_exists()){
-            messages.add("Name already exists.");
+            messages.add(Constants.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -53,14 +54,14 @@ public class TourTypeService {
     public void deleteTourTypeById(int id) throws Exception {
         int count = tourTypeRepository.deleteTourTypeById(id);
         if(count != 1){
-            throw new Exception("Tour Type was not be deleted");
+            throw new Exception(Constants.DELETE_FAILED);
         }
     }
 
     public void updateTourType(TourTypeUpdateReq tourTypeUpdateReq) throws Exception {
         int count = tourTypeRepository.updateTourType(tourTypeUpdateReq);
         if(count != 1){
-            throw new Exception("Tour Type could not be updated");
+            throw new Exception(Constants.UPDATE_FAILED);
         }
     }
 }

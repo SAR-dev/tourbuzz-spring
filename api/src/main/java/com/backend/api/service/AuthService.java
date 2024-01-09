@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.backend.api.Constants;
 import com.backend.api.entity.UserEntity;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
@@ -83,10 +84,10 @@ public class AuthService {
         try {
             decodedJWT = verifier.verify(token);
         } catch (Exception e){
-            throw new Exception("Invalid link");
+            throw new Exception(Constants.LOGIN_INVALID_LINK);
         }
         if(decodedJWT.getExpiresAt().before(new Date())){
-            throw new CredentialsExpiredException("Link expired.");
+            throw new CredentialsExpiredException(Constants.LOGIN_EXPIRED_LINK);
         }
         return decodedJWT.getSubject();
     }
@@ -106,10 +107,10 @@ public class AuthService {
         try {
             decodedJWT = verifier.verify(token);
         } catch (Exception e){
-            throw new Exception("Invalid token");
+            throw new Exception(Constants.LOGIN_INVALID_TOKEN);
         }
         if(decodedJWT.getExpiresAt().before(new Date())){
-            throw new CredentialsExpiredException("Token expired.");
+            throw new CredentialsExpiredException(Constants.LOGIN_EXPIRED_TOKEN);
         }
         return decodedJWT.getSubject();
     }
@@ -132,7 +133,7 @@ public class AuthService {
                 throw new Exception();
             }
         } catch (Exception e){
-            throw new Exception("Invalid token");
+            throw new Exception(Constants.LOGIN_INVALID_TOKEN);
         }
     }
 }

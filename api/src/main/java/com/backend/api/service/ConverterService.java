@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ public class ConverterService {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
             return LocalDate.parse(dateString, formatter);
         } catch (Exception e){
-            throw new Exception("Check the date format of input fields");
+            throw new Exception(Constants.DATE_FORMAT_ERROR);
         }
     }
 }

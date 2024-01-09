@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.entity.ImageEntity;
 import com.backend.api.repository.postgres.ImageRepository;
 import com.backend.api.request.ImageCreateReq;
@@ -75,7 +76,7 @@ public class ImageService {
     public void deleteImage(int id) throws Exception {
         int count = imageRepository.deleteImage(id);
         if(count != 1){
-            throw new Exception("Image could not be deleted");
+            throw new Exception(Constants.DELETE_FAILED);
         }
     }
 }

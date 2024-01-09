@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.entity.OrganizerEntity;
 import com.backend.api.repository.postgres.OrganizerRepository;
 import com.backend.api.request.OrganizerCreateReq;
@@ -24,13 +25,13 @@ public class OrganizerService {
         OrganizerCheckRes organizerCheckRes = checkOrganizer(organizerCreateReq);
         List<String> messages = new ArrayList<>();
         if(organizerCheckRes.isEmail_exists()){
-            messages.add("Email already exists.");
+            messages.add(Constants.EMAIL_EXISTS);
         }
         if(organizerCheckRes.isUsername_exists()){
-            messages.add("Username already exists.");
+            messages.add(Constants.USERNAME_EXISTS);
         }
         if(organizerCheckRes.isName_exists()){
-            messages.add("Name already exists.");
+            messages.add(Constants.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -54,7 +55,7 @@ public class OrganizerService {
     public void updateOrganizer(OrganizerUpdateReq organizerUpdateReq) throws Exception {
         int count = organizerRepository.updateOrganizer(organizerUpdateReq);
         if(count != 1){
-            throw new Exception("Organizer update failed");
+            throw new Exception(Constants.UPDATE_FAILED);
         }
     }
 
@@ -62,7 +63,7 @@ public class OrganizerService {
     public void deleteOrganizerById(int id) throws Exception {
         int count = organizerRepository.deleteOrganizerById(id);
         if(count != 1){
-            throw new Exception("Organizer delete failed");
+            throw new Exception(Constants.DELETE_FAILED);
         }
     }
 }
