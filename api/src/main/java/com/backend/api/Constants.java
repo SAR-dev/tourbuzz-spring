@@ -21,4 +21,10 @@ public class Constants {
     public static final String LOGIN_EXPIRED_LINK = "Expired link.";
     public static final String LOGIN_INVALID_TOKEN = "Invalid token.";
     public static final String LOGIN_EXPIRED_TOKEN = "Token expired.";
+
+    public static final String DD_MM_YYYY_REGEX = "^([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$";
+    public static final String DD_MM_YYYY_FORMAT = "dd/MM/yyyy";
+
+    public static final String DD_MM_YYYY_HH_MM_REGEX = "^([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4} ([01]\\d|2[0-3]):([0-5]\\d)$";
+    public static final String DD_MM_YYYY_HH_MM_FORMAT = "dd/MM/yyyy HH:mm";
 }

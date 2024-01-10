@@ -45,9 +45,9 @@
             #{cancelIns},
             #{startIns},
             #{finishIns},
-            TO_TIMESTAMP(#{startAt}, 'YYYY/MM/DD/HH/MI'),
-            TO_TIMESTAMP(#{finishAt}, 'YYYY/MM/DD/HH/MI'),
-            TO_TIMESTAMP(#{lastSellAt}, 'YYYY/MM/DD/HH/MI'),
+            TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH:MI'),
+            TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH:MI'),
+            TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH:MI'),
             #{imageIdsStr}
         ) RETURNING id
     </select>
@@ -67,7 +67,7 @@
             #{item.hotelsId},
             #{item.title},
             #{item.description},
-            TO_DATE(#{item.date}, 'YYYY/MM/DD'),
+            TO_DATE(#{item.date}, 'DD/MM/YYYY'),
             #{item.imageIdsStr}
             )
         </foreach>
@@ -80,7 +80,10 @@
         ) VALUES
         <foreach collection="tourLogsPlaces" item="item" separator=",">
             (
-            (SELECT id FROM tour_logs WHERE tours_id = #{item.toursId} AND date = TO_DATE(#{item.tourLogDate}, 'YYYY/MM/DD')),
+            (SELECT id FROM tour_logs
+                WHERE tours_id = #{item.toursId}
+                AND date = TO_DATE(#{item.tourLogDate}, 'DD/MM/YYYY')
+            ),
             #{item.placesId}
             )
         </foreach>

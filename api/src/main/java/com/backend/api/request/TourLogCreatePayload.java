@@ -1,5 +1,6 @@
 package com.backend.api.request;
 
+import com.backend.api.Constants;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -19,7 +20,7 @@ public class TourLogCreatePayload {
     private int hotelsId;
 
     @NotNull
-    @Size(min = 10, max = 100)
+    @Size(min = 5, max = 100)
     private String title;
 
     @NotNull
@@ -27,7 +28,7 @@ public class TourLogCreatePayload {
     private String description;
 
     @NotNull
-    @Pattern(regexp = "(^$|^\\d{4}/\\d{1,2}/\\d{1,2}$)", message = "Invalid date format. Use yyyy/MM/dd.")
+    @Pattern(regexp = Constants.DD_MM_YYYY_REGEX, message = "Invalid date format. Use dd/MM/yyyy.")
     private String date;
 
     @NotNull

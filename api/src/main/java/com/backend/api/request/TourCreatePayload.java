@@ -1,5 +1,6 @@
 package com.backend.api.request;
 
+import com.backend.api.Constants;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -77,17 +78,17 @@ public class TourCreatePayload {
     private String finishIns;
 
     @NotNull
-    @Pattern(regexp = "(^$|^\\d{4}/\\d{1,2}/\\d{1,2}/\\d{1,2}/\\d{1,2}$)", message = "Invalid date format. Use yyyy/MM/dd/hh/mm.")
+    @Pattern(regexp = Constants.DD_MM_YYYY_HH_MM_REGEX, message = "Invalid date format. Use dd/MM/yyyy hh:mm.")
     @JsonProperty("start_at")
     private String startAt;
 
     @NotNull
-    @Pattern(regexp = "(^$|^\\d{4}/\\d{1,2}/\\d{1,2}/\\d{1,2}/\\d{1,2}$)", message = "Invalid date format. Use yyyy/MM/dd/hh/mm.")
+    @Pattern(regexp = Constants.DD_MM_YYYY_HH_MM_REGEX, message = "Invalid date format. Use dd/MM/yyyy hh:mm.")
     @JsonProperty("finish_at")
     private String finishAt;
 
     @NotNull
-    @Pattern(regexp = "(^$|^\\d{4}/\\d{1,2}/\\d{1,2}/\\d{1,2}/\\d{1,2}$)", message = "Invalid date format. Use yyyy/MM/dd/hh/mm.")
+    @Pattern(regexp = Constants.DD_MM_YYYY_HH_MM_REGEX, message = "Invalid date format. Use dd/MM/yyyy hh:mm.")
     @JsonProperty("last_sell_at")
     private String lastSellAt;
 
