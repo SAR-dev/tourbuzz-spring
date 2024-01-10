@@ -49,8 +49,6 @@ jwt:
   access-token:
     secret-key: d7k*n2iz7!+lt58=n(2hz3*fh+ttrv9th(qw_5)*d_i67tzu
     expiration-time: 864000
-  admin:
-    api-secret-key: lv9!wd(l_4zjv43ve**m2#5au#1oysg^davtl&d7yzm9vw11e
 server:
   port: ${PORT:8080}
 flyway:

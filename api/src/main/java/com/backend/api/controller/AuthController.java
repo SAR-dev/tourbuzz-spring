@@ -3,6 +3,7 @@ package com.backend.api.controller;
 import com.backend.api.request.MagicLinkReq;
 import com.backend.api.request.SignInReq;
 import com.backend.api.response.AccessTokenRes;
+import com.backend.api.service.AdminService;
 import com.backend.api.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
@@ -14,6 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
+
+    @Tag(name = "Get Admin Token")
+    @GetMapping("/admin-login-token")
+    public String getAdminToken(
+            @RequestParam(defaultValue = "") String old
+    ) throws Exception {
+        return authService.generateAdminToken(old);
+    }
 
     @Tag(name = "Get Magic Link")
     @PostMapping("/magic-link")

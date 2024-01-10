@@ -12,6 +12,7 @@ import com.backend.api.response.AccessTokenRes;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -42,9 +43,6 @@ public class AuthService {
     @Value("${jwt.access-token.secret-key}")
     private String accessTokenSecret;
 
-    @Value("${jwt.admin.api-secret-key}")
-    private String adminApiSecret;
-
     @Autowired
     HttpServletRequest httpServletRequest;
 
@@ -53,6 +51,8 @@ public class AuthService {
     private final UserRepository userRepository;
 
     private final EmailSenderService emailSenderService;
+
+    private final AdminService adminService;
 
     public String generateMagicToken(String email){
         Instant now = Instant.now();
@@ -121,9 +121,9 @@ public class AuthService {
     }
 
     public void verifyAdminToken() throws Exception {
-        if(local) return;
         String token = httpServletRequest.getHeader(ADMIN_HEADER_NAME);
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(adminApiSecret)).build();
+        String secret = adminService.getSecret();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             long issuedAt = decodedJWT.getIssuedAt().getTime();
@@ -135,5 +135,12 @@ public class AuthService {
         } catch (Exception e){
             throw new Exception(Constants.LOGIN_INVALID_TOKEN);
         }
+    }
+
+    public String generateAdminToken(String oldSecret) throws Exception {
+        String secret = adminService.updateAndGetSecret(oldSecret);
+        return JWT.create()
+                .withIssuer(RandomStringUtils.randomAlphanumeric(16))
+                .sign(Algorithm.HMAC256(secret));
     }
 }
