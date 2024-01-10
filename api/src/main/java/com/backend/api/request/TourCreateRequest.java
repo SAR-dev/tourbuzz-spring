@@ -21,7 +21,7 @@ public class TourCreateRequest {
     private List<@Valid TourLogCreatePayload> tourLogs;
 
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 5)
     List<@Valid TourPackageCreatePayload> packages;
 
 }

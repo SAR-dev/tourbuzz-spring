@@ -1,5 +1,6 @@
 package com.backend.api.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -15,8 +16,13 @@ public class TourPackageCreatePayload {
     private String title;
 
     @NotNull
-    @Size(min = 5, max = 10000)
+    @Size(min = 5, max = 1000)
     private String description;
+
+    @NotNull
+    @Size(min = 5, max = 10000)
+    @JsonProperty("additional_info")
+    private String additionalInfo;
 
     @NotNull
     @Min(100)

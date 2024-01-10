@@ -92,6 +92,7 @@
             tours_id,
             title,
             description,
+            additional_info,
             price
         ) VALUES
         <foreach collection="tourPackages" item="item" separator=",">
@@ -99,6 +100,7 @@
             #{toursId},
             #{item.title},
             #{item.description},
+            #{item.additionalInfo},
             #{item.price}
             )
         </foreach>
