@@ -2,10 +2,7 @@ package com.backend.api.controller;
 
 import com.backend.api.entity.*;
 import com.backend.api.request.*;
-import com.backend.api.response.DivisionWithDistrictsRes;
-import com.backend.api.response.GroupedEnquiryRes;
-import com.backend.api.response.PaginatedRes;
-import com.backend.api.response.PlaceTypeRes;
+import com.backend.api.response.*;
 import com.backend.api.service.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -389,8 +386,8 @@ public class AdminController {
     ) throws Exception {
         authService.verifyAdminToken();
         PageHelper.startPage(pageNo, pageSize);
-        List<TourEntity> tourEntities = tourService.getTours();
-        Page<TourEntity> pageInfo = (Page<TourEntity>) tourEntities;
+        List<TourListRes> tourEntities = tourService.getTours();
+        Page<TourListRes> pageInfo = (Page<TourListRes>) tourEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 

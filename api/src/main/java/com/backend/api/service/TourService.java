@@ -5,6 +5,7 @@ import com.backend.api.entity.TourEntity;
 import com.backend.api.repository.postgres.TourRepository;
 import com.backend.api.request.*;
 import com.backend.api.response.TourCheckRes;
+import com.backend.api.response.TourListRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -92,7 +93,7 @@ public class TourService {
         tourLogService.createTourLogsPlaces(tourLogPlacePayloads);
     }
 
-    public List<TourEntity> getTours(){
+    public List<TourListRes> getTours(){
         return tourRepository.getTours();
     }
 

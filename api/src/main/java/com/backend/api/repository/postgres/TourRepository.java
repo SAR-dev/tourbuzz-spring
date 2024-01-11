@@ -6,6 +6,7 @@ import com.backend.api.request.TourLogCreatePayload;
 import com.backend.api.request.TourLogPlacePayload;
 import com.backend.api.request.TourPackageCreatePayload;
 import com.backend.api.response.TourCheckRes;
+import com.backend.api.response.TourListRes;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +18,7 @@ public interface TourRepository {
 
     int createTour(TourCreatePayload tourCreatePayload);
 
-    List<TourEntity> getTours();
+    List<TourListRes> getTours();
 
     TourEntity getTourById(int id);
 }

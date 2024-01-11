@@ -71,9 +71,41 @@
         </foreach>
     </insert>
 
-    <select id="getTours" resultMap="tourResultMap">
-        SELECT * FROM tours ORDER BY id DESC
+    <select id="getTours" resultMap="tourListResultMap">
+        SELECT DISTINCT
+            t.* ,
+            tt.name AS tour_type_name,
+            o.name AS organizer_name,
+            o.verification AS organizer_verification,
+            string_agg(DISTINCT p.name, ', ') AS place_names,
+            string_agg(distinct d.name, ', ') AS district_names ,
+            string_agg(distinct pkg.price::text , ', ') AS package_prices
+        FROM tours t
+        JOIN organizers o ON t.organizers_id = o.id
+        JOIN tour_types tt ON t.tour_types_id = tt.id
+        JOIN tour_logs tl ON tl.tours_id = t.id
+        JOIN tour_logs_places tlp ON tlp.tour_logs_id = tl.id
+        JOIN places p ON tlp.places_id = p.id
+        JOIN districts d ON p.districts_id = d.id
+        JOIN packages pkg ON pkg.tours_id = t.id
+        GROUP BY t.id, tt.id , o.id
+        ORDER BY t.id DESC
     </select>
+
+    <resultMap id="tourListResultMap" type="com.backend.api.response.TourListRes">
+        <association
+                property="avatar"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
+                javaType="com.backend.api.entity.ImageEntity"
+                column="id = images_id"
+        />
+        <collection
+                property="images"
+                ofType="com.backend.api.entity.ImageEntity"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
+                column="ids = image_ids"
+        />
+    </resultMap>
 
     <select id="getTourById" resultMap="tourResultMap">
         SELECT * FROM tours WHERE id = #{id}
