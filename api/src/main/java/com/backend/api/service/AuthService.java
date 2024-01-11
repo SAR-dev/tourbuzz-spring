@@ -121,15 +121,16 @@ public class AuthService {
     }
 
     public void verifyAdminToken() throws Exception {
+        if(local) return;
         String token = httpServletRequest.getHeader(ADMIN_HEADER_NAME);
         String secret = adminService.getSecret();
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
-            long issuedAt = decodedJWT.getIssuedAt().getTime();
-            long now = System.currentTimeMillis();
+            long issuedTimeMillis = decodedJWT.getIssuedAt().getTime();
+            long currentTimeMillis = System.currentTimeMillis();
             long oneHourInMillis = 60 * 60 * 1000;
-            if (now - issuedAt > oneHourInMillis) {
+            if (currentTimeMillis - issuedTimeMillis > oneHourInMillis) {
                 throw new Exception();
             }
         } catch (Exception e){
@@ -137,8 +138,8 @@ public class AuthService {
         }
     }
 
-    public String generateAdminToken(String oldSecret) throws Exception {
-        String secret = adminService.updateAndGetSecret(oldSecret);
+    public String generateAdminToken() throws Exception {
+        String secret = adminService.getSecret();
         return JWT.create()
                 .withIssuer(RandomStringUtils.randomAlphanumeric(16))
                 .sign(Algorithm.HMAC256(secret));

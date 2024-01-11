@@ -4,19 +4,11 @@
 
 <mapper namespace="com.backend.api.repository.postgres.AdminRepository">
 
-    <select id="updateAndGetSecret" resultType="string">
-        WITH prev AS (
-            SELECT secret FROM admin
-        ),
-        new AS (
-            INSERT INTO admin (secret) VALUES (gen_random_uuid())
-            ON CONFLICT (lock)
-            DO UPDATE SET secret = excluded.secret
-            RETURNING secret
-        )
-        SELECT secret FROM new
-        WHERE (SELECT secret FROM prev) = #{secret}
-    </select>
+    <insert id="updateSecret">
+        INSERT INTO admin (secret) VALUES (gen_random_uuid())
+        ON CONFLICT (lock)
+        DO UPDATE SET secret = excluded.secret
+    </insert>
 
     <select id="getSecret" resultType="string">
         SELECT secret FROM admin

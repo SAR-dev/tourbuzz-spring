@@ -4,7 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AdminRepository {
-    String updateAndGetSecret(String secret);
+    void updateSecret();
 
     String getSecret();
 }

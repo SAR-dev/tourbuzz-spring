@@ -11,12 +11,8 @@ import java.util.Objects;
 public class AdminService {
     private final AdminRepository adminRepository;
 
-    public String updateAndGetSecret(String secret) throws Exception {
-        String newSecret = adminRepository.updateAndGetSecret(secret);
-        if(Objects.isNull(newSecret)){
-            throw new Exception();
-        }
-        return newSecret;
+    public void updateSecret() throws Exception {
+        adminRepository.updateSecret();
     }
 
     public String getSecret(){

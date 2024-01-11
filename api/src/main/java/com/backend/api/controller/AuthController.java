@@ -18,10 +18,8 @@ public class AuthController {
 
     @Tag(name = "Get Admin Token")
     @GetMapping("/admin-login-token")
-    public String getAdminToken(
-            @RequestParam(defaultValue = "") String old
-    ) throws Exception {
-        return authService.generateAdminToken(old);
+    public String getAdminToken() throws Exception {
+        return authService.generateAdminToken();
     }
 
     @Tag(name = "Get Magic Link")
