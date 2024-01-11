@@ -5,10 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.backend.api.Constants;
-import com.backend.api.entity.UserEntity;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
-import com.backend.api.response.AccessTokenRes;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +43,6 @@ public class AuthService {
 
     @Autowired
     HttpServletRequest httpServletRequest;
-
-    private static final String ADMIN_HEADER_NAME = "x-api-key";
 
     private final UserRepository userRepository;
 
@@ -93,11 +89,10 @@ public class AuthService {
     }
 
     @Transactional
-    public AccessTokenRes getAccessToken(String token) throws Exception {
+    public String getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
         userRepository.createUserByEmail(email);
-        String accessToken = generateAccessToken(email);
-        return AccessTokenRes.builder().accessToken(accessToken).tokenType("Bearer").build();
+        return generateAccessToken(email);
     }
 
     @Transactional
@@ -119,11 +114,15 @@ public class AuthService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
     }
+    
+    public void verifyAdminHeaderToken() throws Exception {
+        String token = httpServletRequest.getHeader(Constants.ADMIN_HEADER_NAME);
+        verifyAdminToken(token);
+    }
 
-    public void verifyAdminToken() throws Exception {
-        if(local) return;
-        String token = httpServletRequest.getHeader(ADMIN_HEADER_NAME);
+    public void verifyAdminToken(String token) throws Exception {
         String secret = adminService.getSecret();
+        System.out.println(token);
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
@@ -134,14 +133,16 @@ public class AuthService {
                 throw new Exception();
             }
         } catch (Exception e){
+            e.printStackTrace();
             throw new Exception(Constants.LOGIN_INVALID_TOKEN);
         }
     }
 
-    public String generateAdminToken() throws Exception {
+    public String generateAdminToken() {
         String secret = adminService.getSecret();
         return JWT.create()
                 .withIssuer(RandomStringUtils.randomAlphanumeric(16))
+                .withIssuedAt(Instant.now())
                 .sign(Algorithm.HMAC256(secret));
     }
 }

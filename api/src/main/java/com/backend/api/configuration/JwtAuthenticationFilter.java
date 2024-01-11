@@ -1,5 +1,6 @@
 package com.backend.api.configuration;
 
+import com.backend.api.Constants;
 import com.backend.api.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,8 +28,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final AuthService authService;
-    private static final String BEARER_HEADER = "Bearer ";
-    private static final String HEADER_NAME = "Authorization";
     private static final String DEFAULT_PASSWORD = "";
     private static final List<GrantedAuthority> DEFAULT_AUTHORITIES = new ArrayList<>();
     @Override
@@ -37,10 +36,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String authHeader = request.getHeader(HEADER_NAME);
+        final String accessToken = request.getHeader(Constants.ACCESS_HEADER_NAME);
 
-        if (StringUtils.startsWith(authHeader, BEARER_HEADER)) {
-            String accessToken = authHeader.substring(BEARER_HEADER.length());
+        if (!Objects.isNull(accessToken)) {
             try {
                 String email = authService.getEmailFromAuthToken(accessToken);
                 if (StringUtils.isNotEmpty(email) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {

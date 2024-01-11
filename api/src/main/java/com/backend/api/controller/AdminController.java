@@ -38,7 +38,7 @@ public class AdminController {
     @Tag(name = "Upload Image")
     @PostMapping(value = "/images",  consumes = {"multipart/form-data"})
     public ImageEntity uploadImage(@RequestParam("file") MultipartFile file, @RequestParam("title") String title) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         try {
             if (file.isEmpty()) {
                 throw new Exception("Please select a file to upload");
@@ -58,7 +58,7 @@ public class AdminController {
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         PageHelper.startPage(pageNo, pageSize);
         List<ImageEntity> imageEntities = imageService.getImages();
         Page<ImageEntity> pageInfo = (Page<ImageEntity>) imageEntities;
@@ -68,7 +68,7 @@ public class AdminController {
     @Tag(name = "Delete Image")
     @DeleteMapping("/images/{id}")
     public void deleteImage(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         imageService.deleteImage(id);
     }
 
@@ -76,7 +76,7 @@ public class AdminController {
     @Tag(name = "Create Writer")
     @PostMapping("/writers")
     public void createWriter(@Valid @RequestBody WriterCreateReq writerCreateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         writerService.createWriter(writerCreateReq);
     }
 
@@ -88,7 +88,7 @@ public class AdminController {
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         PageHelper.startPage(pageNo, pageSize);
         List<WriterEntity> writerEntities = writerService.getWriters(name, email);
         Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
@@ -98,21 +98,21 @@ public class AdminController {
     @Tag(name = "Update Writer")
     @PutMapping("/writers")
     public void updateWriter(@Valid @RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         writerService.updateWriter(writerUpdateReq);
     }
 
     @Tag(name = "Get Writer By ID")
     @GetMapping("/writers/{id}")
     public WriterEntity getWriterById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return writerService.getWriterById(id);
     }
 
     @Tag(name = "Delete Writer By ID")
     @DeleteMapping("/writers/{id}")
     public void deleteWriterById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         writerService.deleteWriterById(id);
     }
 
@@ -120,7 +120,7 @@ public class AdminController {
     @Tag(name = "Create Article")
     @PostMapping("/articles")
     public void createArticle(@Valid @RequestBody ArticleCreateReq articleCreateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         articleService.createArticle(articleCreateReq);
     }
 
@@ -130,7 +130,7 @@ public class AdminController {
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         PageHelper.startPage(pageNo, pageSize);
         List<ArticleEntity> articleEntities = articleService.getArticles();
         Page<ArticleEntity> pageInfo = (Page<ArticleEntity>) articleEntities;
@@ -140,21 +140,21 @@ public class AdminController {
     @Tag(name = "Update Article")
     @PutMapping("/articles")
     public void updateArticle(@Valid @RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         articleService.updateArticle(articleUpdateReq);
     }
 
     @Tag(name = "Get Article By ID")
     @GetMapping("/articles/{id}")
     public ArticleEntity getArticleById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return articleService.getArticleById(id);
     }
 
     @Tag(name = "Delete Article By ID")
     @DeleteMapping("/articles/{id}")
     public void deleteArticleById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         articleService.deleteArticleById(id);
     }
 
@@ -162,7 +162,7 @@ public class AdminController {
     @Tag(name = "Answer Enquiry")
     @PutMapping("/enquiries")
     public void answerQuestion(@Valid @RequestBody EnquiryAnswerReq enquiryAnswerReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         enquiryService.answerQuestion(enquiryAnswerReq);
     }
 
@@ -172,7 +172,7 @@ public class AdminController {
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         PageHelper.startPage(pageNo, pageSize);
         List<GroupedEnquiryRes> groupedEnquiryRes = enquiryService.getGroupedEnquiries();
         Page<GroupedEnquiryRes> pageInfo = (Page<GroupedEnquiryRes>) groupedEnquiryRes;
@@ -183,7 +183,7 @@ public class AdminController {
     @Tag(name = "Create Organizer")
     @PostMapping("/organizers")
     public void createOrganizer(@Valid @RequestBody OrganizerCreateReq organizerCreateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         organizerService.createOrganizer(organizerCreateReq);
     }
 
@@ -195,7 +195,7 @@ public class AdminController {
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         PageHelper.startPage(pageNo, pageSize);
         List<OrganizerEntity> organizerEntities = organizerService.getOrganizers(name, email);
         Page<OrganizerEntity> pageInfo = (Page<OrganizerEntity>) organizerEntities;
@@ -205,21 +205,21 @@ public class AdminController {
     @Tag(name = "Update Organizer")
     @PutMapping("/organizers")
     public void updateOrganizer(@Valid @RequestBody OrganizerUpdateReq organizerUpdateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         organizerService.updateOrganizer(organizerUpdateReq);
     }
 
     @Tag(name = "Get Organizer By ID")
     @GetMapping("/organizers/{id}")
     public OrganizerEntity getOrganizerById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return organizerService.getOrganizerById(id);
     }
 
     @Tag(name = "Delete Organizer By ID")
     @DeleteMapping("/organizers/{id}")
     public void deleteOrganizerById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         organizerService.deleteOrganizerById(id);
     }
 
@@ -228,7 +228,7 @@ public class AdminController {
     @Tag(name = "Create Place")
     @PostMapping("/places")
     public void createPlace(@Valid @RequestBody PlaceCreateReq placeCreateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         placeService.createPlace(placeCreateReq);
     }
 
@@ -239,7 +239,7 @@ public class AdminController {
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         PageHelper.startPage(pageNo, pageSize);
         List<PlaceEntity> placeEntities = placeService.getPlaces(name);
         Page<PlaceEntity> pageInfo = (Page<PlaceEntity>) placeEntities;
@@ -249,28 +249,28 @@ public class AdminController {
     @Tag(name = "Get Place Types")
     @GetMapping("/place-types")
     public List<PlaceTypeRes> getPlaceTypes() throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return placeService.getPlaceTypes();
     }
 
     @Tag(name = "Update Place")
     @PutMapping("/places")
     public void updatePlace(@Valid @RequestBody PlaceUpdateReq placeUpdateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         placeService.updatePlace(placeUpdateReq);
     }
 
     @Tag(name = "Get Place By ID")
     @GetMapping("/places/{id}")
     public PlaceEntity getPlaceById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return placeService.getPlaceById(id);
     }
 
     @Tag(name = "Delete Place By ID")
     @DeleteMapping("/places/{id}")
     public void deletePlaceById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         placeService.deletePlaceById(id);
     }
 
@@ -279,7 +279,7 @@ public class AdminController {
     @Tag(name = "Get Divisions")
     @GetMapping("/divisions")
     public List<DivisionWithDistrictsRes> getDivisionsWithDistricts() throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return staticService.getDivisionsWithDistricts();
     }
 
@@ -288,7 +288,7 @@ public class AdminController {
     @Tag(name = "Get Districts")
     @GetMapping("/districts")
     public List<DistrictEntity> getDistricts() throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return staticService.getDistricts();
     }
 
@@ -297,7 +297,7 @@ public class AdminController {
     @Tag(name = "Create Hotel")
     @PostMapping("/hotels")
     public void createHotel(@Valid @RequestBody HotelCreateReq hotelCreateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         hotelService.createHotel(hotelCreateReq);
     }
 
@@ -308,7 +308,7 @@ public class AdminController {
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         PageHelper.startPage(pageNo, pageSize);
         List<HotelEntity> hotelEntities = hotelService.getHotels(name);
         Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
@@ -318,21 +318,21 @@ public class AdminController {
     @Tag(name = "Update Hotel")
     @PutMapping("/hotels")
     public void updateHotel(@Valid @RequestBody HotelUpdateReq hotelUpdateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         hotelService.updateHotel(hotelUpdateReq);
     }
 
     @Tag(name = "Get Hotel By ID")
     @GetMapping("/hotels/{id}")
     public HotelEntity getHotelById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return hotelService.getHotelById(id);
     }
 
     @Tag(name = "Delete Hotel By ID")
     @DeleteMapping("/hotels/{id}")
     public void deleteHotelById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         hotelService.deleteHotelById(id);
     }
 
@@ -341,35 +341,35 @@ public class AdminController {
     @Tag(name = "Create Tour Type")
     @PostMapping("/tour-types")
     public void createTourType(@Valid @RequestBody TourTypeCreateReq tourTypeCreateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         tourTypeService.createTourType(tourTypeCreateReq);
     }
 
     @Tag(name = "Get Tour Type List")
     @GetMapping("/tour-types")
     public List<TourTypeEntity> getTourTypes() throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return tourTypeService.getTourTypes();
     }
 
     @Tag(name = "Update Tour Type")
     @PutMapping("/tour-types")
     public void updateTourType(@Valid @RequestBody TourTypeUpdateReq tourTypeUpdateReq) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         tourTypeService.updateTourType(tourTypeUpdateReq);
     }
 
     @Tag(name = "Get Tour Type By ID")
     @GetMapping("/tour-types/{id}")
     public TourTypeEntity getTourTypeByeId(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         return tourTypeService.getTourTypeByeId(id);
     }
 
     @Tag(name = "Delete Tour Type By ID")
     @DeleteMapping("/tour-types/{id}")
     public void deleteTourTypeById(@PathVariable int id) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         tourTypeService.deleteTourTypeById(id);
     }
 
@@ -377,7 +377,7 @@ public class AdminController {
     @Tag(name = "Create Tour")
     @PostMapping("/tours")
     public void createTourType(@Valid @RequestBody TourCreateRequest tourCreateRequest) throws Exception {
-        authService.verifyAdminToken();
+        authService.verifyAdminHeaderToken();
         tourService.createTour(tourCreateRequest);
     }
 }
