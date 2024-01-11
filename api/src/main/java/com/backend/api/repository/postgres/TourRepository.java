@@ -1,5 +1,6 @@
 package com.backend.api.repository.postgres;
 
+import com.backend.api.entity.TourEntity;
 import com.backend.api.request.TourCreatePayload;
 import com.backend.api.request.TourLogCreatePayload;
 import com.backend.api.request.TourLogPlacePayload;
@@ -16,9 +17,7 @@ public interface TourRepository {
 
     int createTour(TourCreatePayload tourCreatePayload);
 
-    void createTourLogs(@Param("toursId") int toursId, @Param("tourLogs") List<TourLogCreatePayload> tourLogCreatePayloads);
+    List<TourEntity> getTours();
 
-    void createTourPackages(@Param("toursId") int toursId, @Param("tourPackages")List<TourPackageCreatePayload> tourPackageCreatePayloads);
-
-    void createTourLogsPlaces(@Param("tourLogsPlaces") List<TourLogPlacePayload> tourLogPlacePayloads);
+    TourEntity getTourById(int id);
 }

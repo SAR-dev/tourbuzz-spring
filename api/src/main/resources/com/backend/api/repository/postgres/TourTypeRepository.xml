@@ -34,7 +34,7 @@
         SELECT * FROM tour_types ORDER BY id DESC
     </select>
 
-    <select id="getTourTypeByeId" resultType="com.backend.api.entity.TourTypeEntity">
+    <select id="getTourTypeById" resultType="com.backend.api.entity.TourTypeEntity">
         SELECT * FROM tour_types WHERE id = #{id}
     </select>
 

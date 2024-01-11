@@ -47,8 +47,8 @@ public class TourTypeService {
         return tourTypeRepository.getTourTypes();
     }
 
-    public TourTypeEntity getTourTypeByeId(int id){
-        return tourTypeRepository.getTourTypeByeId(id);
+    public TourTypeEntity getTourTypeById(int id){
+        return tourTypeRepository.getTourTypeById(id);
     }
 
     public void deleteTourTypeById(int id) throws Exception {

@@ -1,17 +1,16 @@
 package com.backend.api.service;
 
 import com.backend.api.Constants;
+import com.backend.api.entity.TourEntity;
 import com.backend.api.repository.postgres.TourRepository;
 import com.backend.api.request.*;
 import com.backend.api.response.TourCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +20,8 @@ public class TourService {
     private final TourRepository tourRepository;
     private final ConverterService converterService;
     private final ValidationService validationService;
+    private final TourLogService tourLogService;
+    private final PackageService packageService;
 
     public TourCheckRes checkTour(TourCreatePayload tourCreatePayload){
         return tourRepository.checkTour(tourCreatePayload);
@@ -30,8 +31,8 @@ public class TourService {
     public void createTour(TourCreateRequest tourCreateRequest) throws Exception {
         verifyCreateTour(tourCreateRequest);
         int toursId = tourRepository.createTour(tourCreateRequest.getTour());
-        createTourLogs(toursId, tourCreateRequest.getTourLogs());
-        createTourPackages(toursId, tourCreateRequest.getPackages());
+        tourLogService.createTourLogs(toursId, tourCreateRequest.getTourLogs());
+        packageService.createPackages(toursId, tourCreateRequest.getPackages());
         createTourLogsPlaces(toursId, tourCreateRequest.getTourLogs());
     }
 
@@ -75,14 +76,6 @@ public class TourService {
         }
     }
 
-    public void createTourLogs(int toursId, List<TourLogCreatePayload> tourLogCreatePayloads){
-        tourRepository.createTourLogs(toursId, tourLogCreatePayloads);
-    }
-
-    public void createTourPackages(int toursId, List<TourPackageCreatePayload> tourPackageCreatePayloads){
-        tourRepository.createTourPackages(toursId, tourPackageCreatePayloads);
-    }
-
     public void createTourLogsPlaces(int toursId, List<TourLogCreatePayload> tourLogCreatePayloads){
         List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
         for(TourLogCreatePayload tourLogCreatePayload : tourLogCreatePayloads) {
@@ -96,6 +89,14 @@ public class TourService {
                 );
             });
         }
-        tourRepository.createTourLogsPlaces(tourLogPlacePayloads);
+        tourLogService.createTourLogsPlaces(tourLogPlacePayloads);
+    }
+
+    public List<TourEntity> getTours(){
+        return tourRepository.getTours();
+    }
+
+    public TourEntity getTourById(int id){
+        return tourRepository.getTourById(id);
     }
 }

@@ -52,44 +52,6 @@
         ) RETURNING id
     </select>
 
-    <insert id="createTourLogs">
-        INSERT INTO tour_logs (
-            tours_id,
-            hotels_id,
-            title,
-            description,
-            date,
-            image_ids
-        ) VALUES
-        <foreach collection="tourLogs" item="item" separator=",">
-            (
-            #{toursId},
-            #{item.hotelsId},
-            #{item.title},
-            #{item.description},
-            TO_DATE(#{item.date}, 'DD/MM/YYYY'),
-            #{item.imageIdsStr}
-            )
-        </foreach>
-    </insert>
-
-    <insert id="createTourLogsPlaces">
-        INSERT INTO tour_logs_places (
-            tour_logs_id,
-            places_id
-        ) VALUES
-        <foreach collection="tourLogsPlaces" item="item" separator=",">
-            (
-            (SELECT id FROM tour_logs
-                WHERE tours_id = #{item.toursId}
-                AND date = TO_DATE(#{item.tourLogDate}, 'DD/MM/YYYY')
-            ),
-            #{item.placesId}
-            )
-        </foreach>
-
-    </insert>
-
     <insert id="createTourPackages">
         INSERT INTO packages (
             tours_id,
@@ -108,5 +70,60 @@
             )
         </foreach>
     </insert>
+
+    <select id="getTours" resultMap="tourResultMap">
+        SELECT * FROM tours ORDER BY id DESC
+    </select>
+
+    <select id="getTourById" resultMap="tourResultMap">
+        SELECT * FROM tours WHERE id = #{id}
+    </select>
+
+    <resultMap id="tourResultMap" type="com.backend.api.entity.TourEntity">
+        <association
+                property="tour_type"
+                select="com.backend.api.repository.postgres.TourTypeRepository.getTourTypeById"
+                javaType="com.backend.api.entity.TourTypeEntity"
+                column="id = tour_types_id"
+        />
+        <association
+                property="organizer"
+                select="com.backend.api.repository.postgres.OrganizerRepository.getOrganizerById"
+                javaType="com.backend.api.entity.OrganizerEntity"
+                column="id = organizers_id"
+        />
+        <association
+                property="avatar"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
+                javaType="com.backend.api.entity.ImageEntity"
+                column="id = images_id"
+        />
+        <collection
+                property="images"
+                ofType="com.backend.api.entity.ImageEntity"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
+                column="ids = image_ids"
+        />
+        <collection
+                property="tour_logs"
+                ofType="com.backend.api.entity.TourLogEntity"
+                select="selectTourLogsByTourId"
+                column="id = id"
+        />
+        <collection
+                property="packages"
+                ofType="com.backend.api.entity.PackageEntity"
+                select="selectPackagesByTourId"
+                column="id = id"
+        />
+    </resultMap>
+
+    <select id="selectTourLogsByTourId" resultMap="com.backend.api.repository.postgres.TourLogRepository.tourLogResultMap">
+        SELECT * FROM tour_logs WHERE tours_id = #{id}
+    </select>
+
+    <select id="selectPackagesByTourId" resultType="com.backend.api.entity.PackageEntity">
+        SELECT * FROM packages WHERE tours_id = #{id}
+    </select>
 
 </mapper>

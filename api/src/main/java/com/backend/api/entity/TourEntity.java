@@ -32,7 +32,7 @@ public class TourEntity {
 
     private TourTypeEntity tour_type;
     private OrganizerEntity organizer;
-    private ImageEntity thumbnail;
+    private ImageEntity avatar;
     private List<ImageEntity> images;
     private List<PackageEntity> packages;
     private List<TourLogEntity> tour_logs;

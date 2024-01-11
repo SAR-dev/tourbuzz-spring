@@ -361,9 +361,9 @@ public class AdminController {
 
     @Tag(name = "Get Tour Type By ID")
     @GetMapping("/tour-types/{id}")
-    public TourTypeEntity getTourTypeByeId(@PathVariable int id) throws Exception {
+    public TourTypeEntity getTourTypeById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
-        return tourTypeService.getTourTypeByeId(id);
+        return tourTypeService.getTourTypeById(id);
     }
 
     @Tag(name = "Delete Tour Type By ID")
@@ -379,5 +379,25 @@ public class AdminController {
     public void createTourType(@Valid @RequestBody TourCreateRequest tourCreateRequest) throws Exception {
         authService.verifyAdminToken();
         tourService.createTour(tourCreateRequest);
+    }
+
+    @Tag(name = "Get Tour List")
+    @GetMapping("/tours")
+    public PaginatedRes getTours(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+        PageHelper.startPage(pageNo, pageSize);
+        List<TourEntity> tourEntities = tourService.getTours();
+        Page<TourEntity> pageInfo = (Page<TourEntity>) tourEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Get Tour By ID")
+    @GetMapping("/tours/{id}")
+    public TourEntity getTourById(@PathVariable int id) throws Exception {
+//        authService.verifyAdminToken();
+        return tourService.getTourById(id);
     }
 }
