@@ -1,7 +1,6 @@
 package com.backend.api.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -12,6 +11,6 @@ public class SignInReq {
     private String magicToken;
 
     @NotBlank
-    @JsonProperty("admin_token")
-    private String adminToken;
+    @JsonProperty("admin_key")
+    private String adminKey;
 }

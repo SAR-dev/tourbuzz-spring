@@ -1,6 +1,11 @@
 package com.backend.api;
 
 public class Constants {
+    public static final String QR_PROJECT_NAME = "TourBuzz";
+    public static final String QR_PROJECT_USER = "tourbuzz@admin.com";
+
+    public static final String AVATAR_GENERATOR_BASE_URL = "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
+
     public static final String TITLE_EXISTS = "Title already exists.";
     public static final String SLUG_EXISTS = "Slug already exists.";
     public static final String NAME_EXISTS = "Name already exists.";
@@ -19,8 +24,8 @@ public class Constants {
 
     public static final String LOGIN_INVALID_LINK = "Invalid link.";
     public static final String LOGIN_EXPIRED_LINK = "Expired link.";
-    public static final String LOGIN_INVALID_TOKEN = "Invalid token.";
-    public static final String LOGIN_EXPIRED_TOKEN = "Token expired.";
+    public static final String INVALID_TOKEN = "Invalid token.";
+    public static final String EXPIRED_TOKEN = "Token expired.";
 
     public static final String DD_MM_YYYY_REGEX = "^([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$";
     public static final String DD_MM_YYYY_FORMAT = "dd/MM/yyyy";

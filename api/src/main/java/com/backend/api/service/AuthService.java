@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.backend.api.Constants;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
+import com.backend.api.request.SignInReq;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -50,22 +51,14 @@ public class AuthService {
 
     private final AdminService adminService;
 
+//    Magic Link
     public String generateMagicToken(String email){
         Instant now = Instant.now();
         return JWT.create()
                 .withSubject(email)
-                .withIssuedAt(Instant.now())
+                .withIssuedAt(now)
                 .withExpiresAt(now.plus(magicTokenExpTime, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(magicTokenSecret));
-    }
-
-    public String generateAccessToken(String email){
-        Instant now = Instant.now();
-        return JWT.create()
-                .withSubject(email)
-                .withIssuedAt(Instant.now())
-                .withExpiresAt(now.plus(accessTokenExpTime, ChronoUnit.SECONDS))
-                .sign(Algorithm.HMAC256(accessTokenSecret));
     }
 
     public void emailMagicLink(String email) throws MessagingException {
@@ -88,6 +81,16 @@ public class AuthService {
         return decodedJWT.getSubject();
     }
 
+//    Access Token
+    public String generateAccessToken(String email){
+        Instant now = Instant.now();
+        return JWT.create()
+                .withSubject(email)
+                .withIssuedAt(now)
+                .withExpiresAt(now.plus(accessTokenExpTime, ChronoUnit.SECONDS))
+                .sign(Algorithm.HMAC256(accessTokenSecret));
+    }
+
     @Transactional
     public String getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
@@ -96,16 +99,16 @@ public class AuthService {
     }
 
     @Transactional
-    public String getEmailFromAuthToken(String token) throws Exception {
+    public String getEmailFromAccessToken(String token) throws Exception {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(accessTokenSecret)).build();
         DecodedJWT decodedJWT;
         try {
             decodedJWT = verifier.verify(token);
         } catch (Exception e){
-            throw new Exception(Constants.LOGIN_INVALID_TOKEN);
+            throw new Exception(Constants.INVALID_TOKEN);
         }
         if(decodedJWT.getExpiresAt().before(new Date())){
-            throw new CredentialsExpiredException(Constants.LOGIN_EXPIRED_TOKEN);
+            throw new CredentialsExpiredException(Constants.EXPIRED_TOKEN);
         }
         return decodedJWT.getSubject();
     }
@@ -114,15 +117,50 @@ public class AuthService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
     }
-    
-    public void verifyAdminHeaderToken() throws Exception {
-        String token = httpServletRequest.getHeader(Constants.ADMIN_HEADER_NAME);
-        verifyAdminToken(token);
+
+//    Admin Key
+    public String generateAdminKey(String email) {
+        String secret = adminService.getSecret();
+        Instant now = Instant.now();
+        return JWT.create()
+                .withSubject(email)
+                .withIssuedAt(now)
+                .withExpiresAt(now.plus(300, ChronoUnit.SECONDS))
+                .sign(Algorithm.HMAC256(secret));
     }
 
-    public void verifyAdminToken(String token) throws Exception {
+    @Transactional
+    public String getEmailFromAdminKey(String adminKey) {
         String secret = adminService.getSecret();
-        System.out.println(token);
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
+        DecodedJWT decodedJWT = verifier.verify(adminKey);
+        if(decodedJWT.getExpiresAt().before(new Date())){
+            throw new CredentialsExpiredException(Constants.EXPIRED_TOKEN);
+        }
+        return decodedJWT.getSubject();
+    }
+
+    public void verifySignInAdminRequest(SignInReq signInReq) throws Exception {
+        String magicEmail = getEmailFromMagicToken(signInReq.getMagicToken());
+        String adminEmail = getEmailFromAdminKey(signInReq.getAdminKey());
+        if(!adminEmail.equals(magicEmail)){
+            throw new RuntimeException();
+        }
+    }
+
+//    Admin Token
+    public String generateAdminToken() {
+        String secret = adminService.getSecret();
+        return JWT.create()
+                .withIssuer(RandomStringUtils.randomAlphanumeric(16))
+                .withIssuedAt(Instant.now())
+                .sign(Algorithm.HMAC256(secret));
+    }
+
+    @Transactional
+    public void verifyAdminToken() throws Exception {
+        String token = httpServletRequest.getHeader(Constants.ADMIN_HEADER_NAME);
+        String secret = adminService.getSecret();
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
@@ -133,16 +171,7 @@ public class AuthService {
                 throw new Exception();
             }
         } catch (Exception e){
-            e.printStackTrace();
-            throw new Exception(Constants.LOGIN_INVALID_TOKEN);
+            throw new Exception(Constants.INVALID_TOKEN);
         }
-    }
-
-    public String generateAdminToken() {
-        String secret = adminService.getSecret();
-        return JWT.create()
-                .withIssuer(RandomStringUtils.randomAlphanumeric(16))
-                .withIssuedAt(Instant.now())
-                .sign(Algorithm.HMAC256(secret));
     }
 }

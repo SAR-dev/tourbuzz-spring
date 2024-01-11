@@ -1,7 +1,6 @@
 package com.backend.api.entity;
 
-import com.backend.api.GlobalConstants;
-import lombok.Builder;
+import com.backend.api.Constants;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -24,9 +23,9 @@ public class UserEntity {
         if(Objects.isNull(avatar)){
             ImageEntity imageEntity = new ImageEntity();
             imageEntity.setId(0);
-            imageEntity.setOptimized_url(GlobalConstants.AVATAR_GENERATOR_BASE_URL + email);
-            imageEntity.setSource_url(GlobalConstants.AVATAR_GENERATOR_BASE_URL + email);
-            imageEntity.setThumbnail_url(GlobalConstants.AVATAR_GENERATOR_BASE_URL + email);
+            imageEntity.setOptimized_url(Constants.AVATAR_GENERATOR_BASE_URL + email);
+            imageEntity.setSource_url(Constants.AVATAR_GENERATOR_BASE_URL + email);
+            imageEntity.setThumbnail_url(Constants.AVATAR_GENERATOR_BASE_URL + email);
             return imageEntity;
         } else {
             return avatar;

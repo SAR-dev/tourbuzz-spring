@@ -16,24 +16,25 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @Tag(name = "Get Admin Token")
-    @GetMapping("/admin-login-token")
-    public String getAdminToken() throws Exception {
-        return authService.generateAdminToken();
-    }
-
     @Tag(name = "Get Magic Link")
     @PostMapping("/magic-link")
     public void reqMagicLink(@RequestBody MagicLinkReq request) throws MessagingException {
         authService.emailMagicLink(request.getEmail());
     }
 
+    @Tag(name = "Get Admin Key")
+    @GetMapping("/admin-login-key/{email}")
+    public String getAdminToken(@PathVariable String email) throws Exception {
+        return authService.generateAdminKey(email);
+    }
+
     @Tag(name = "Admin Sign In")
     @PostMapping("/admin-sign-in")
     public AdminAccessTokenRes signIn(@RequestBody SignInReq request) throws Exception {
-        authService.verifyAdminToken(request.getAdminToken());
+        authService.verifySignInAdminRequest(request);
+
         String accessToken = authService.getAccessToken(request.getMagicToken());
-        String adminToken = request.getAdminToken();
+        String adminToken = authService.generateAdminToken();
         return AdminAccessTokenRes
                 .builder()
                 .accessToken(accessToken)
