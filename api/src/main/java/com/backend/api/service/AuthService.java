@@ -125,7 +125,7 @@ public class AuthService {
         return JWT.create()
                 .withSubject(email)
                 .withIssuedAt(now)
-                .withExpiresAt(now.plus(300, ChronoUnit.SECONDS))
+                .withExpiresAt(now.plus(Constants.ADMIN_KEY_EXPIRE_AFTER_IN_SEC, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(secret));
     }
 
@@ -151,9 +151,11 @@ public class AuthService {
 //    Admin Token
     public String generateAdminToken() {
         String secret = adminService.getSecret();
+        Instant now = Instant.now();
         return JWT.create()
-                .withIssuer(RandomStringUtils.randomAlphanumeric(16))
-                .withIssuedAt(Instant.now())
+                .withIssuer(RandomStringUtils.randomAlphanumeric(6))
+                .withIssuedAt(now)
+                .withExpiresAt(now.plus(Constants.ADMIN_TOKEN_EXPIRE_AFTER_IN_SEC, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(secret));
     }
 
@@ -164,11 +166,8 @@ public class AuthService {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
-            long issuedTimeMillis = decodedJWT.getIssuedAt().getTime();
-            long currentTimeMillis = System.currentTimeMillis();
-            long oneHourInMillis = 60 * 60 * 1000;
-            if (currentTimeMillis - issuedTimeMillis > oneHourInMillis) {
-                throw new Exception();
+            if(decodedJWT.getExpiresAt().before(new Date())){
+                throw new CredentialsExpiredException(Constants.EXPIRED_TOKEN);
             }
         } catch (Exception e){
             throw new Exception(Constants.INVALID_TOKEN);

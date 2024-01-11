@@ -1,8 +1,8 @@
 package com.backend.api;
 
 public class Constants {
-    public static final String QR_PROJECT_NAME = "TourBuzz";
-    public static final String QR_PROJECT_USER = "tourbuzz@admin.com";
+    public static final Integer ADMIN_KEY_EXPIRE_AFTER_IN_SEC = 300;
+    public static final Integer ADMIN_TOKEN_EXPIRE_AFTER_IN_SEC = 60*60;
 
     public static final String AVATAR_GENERATOR_BASE_URL = "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
 
