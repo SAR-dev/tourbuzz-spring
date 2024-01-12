@@ -20,7 +20,19 @@ public class TourLogService {
     @Transactional
     public void createTourLogs(int toursId, List<TourLogCreatePayload> tourLogCreatePayloads){
         tourLogRepository.createTourLogs(toursId, tourLogCreatePayloads);
-        createTourLogsPlacesFromList(toursId, tourLogCreatePayloads);
+        List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
+        for(TourLogCreatePayload tourLogCreatePayload : tourLogCreatePayloads) {
+            tourLogCreatePayload.getPlaceIds().forEach(placeId -> {
+                tourLogPlacePayloads.add(TourLogPlacePayload
+                        .builder()
+                        .toursId(toursId)
+                        .tourLogDate(tourLogCreatePayload.getDate())
+                        .placesId(placeId)
+                        .build()
+                );
+            });
+        }
+        createTourLogsPlaces(tourLogPlacePayloads);
     }
 
     public void createTourLog(TourLogCreateRequest tourLogCreateRequest){
@@ -36,23 +48,6 @@ public class TourLogService {
                     .build()
             );
         });
-        createTourLogsPlaces(tourLogPlacePayloads);
-
-    }
-
-    public void createTourLogsPlacesFromList(int toursId, List<TourLogCreatePayload> tourLogCreatePayloads){
-        List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
-        for(TourLogCreatePayload tourLogCreatePayload : tourLogCreatePayloads) {
-            tourLogCreatePayload.getPlaceIds().forEach(placeId -> {
-                tourLogPlacePayloads.add(TourLogPlacePayload
-                        .builder()
-                        .toursId(toursId)
-                        .tourLogDate(tourLogCreatePayload.getDate())
-                        .placesId(placeId)
-                        .build()
-                );
-            });
-        }
         createTourLogsPlaces(tourLogPlacePayloads);
     }
 
