@@ -403,7 +403,7 @@ public class AdminController {
 //    Tour Logs
     @Tag(name = "Create Tour Log")
     @PostMapping("/tour-logs")
-    public void createTourLog(@PathVariable int tourId, @Valid @RequestBody TourLogCreateRequest tourLogCreateRequest) throws Exception {
+    public void createTourLog(@Valid @RequestBody TourLogCreateRequest tourLogCreateRequest) throws Exception {
         authService.verifyAdminToken();
         tourLogService.createTourLog(tourLogCreateRequest);
     }
