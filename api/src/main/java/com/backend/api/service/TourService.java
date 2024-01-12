@@ -34,7 +34,6 @@ public class TourService {
         int toursId = tourRepository.createTour(tourCreateRequest.getTour());
         tourLogService.createTourLogs(toursId, tourCreateRequest.getTourLogs());
         packageService.createPackages(toursId, tourCreateRequest.getPackages());
-        createTourLogsPlaces(toursId, tourCreateRequest.getTourLogs());
     }
 
     public void verifyCreateTour(TourCreateRequest tourCreateRequest) throws Exception {
@@ -75,22 +74,6 @@ public class TourService {
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
         }
-    }
-
-    public void createTourLogsPlaces(int toursId, List<TourLogCreatePayload> tourLogCreatePayloads){
-        List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
-        for(TourLogCreatePayload tourLogCreatePayload : tourLogCreatePayloads) {
-            tourLogCreatePayload.getPlaceIds().forEach(placeId -> {
-                tourLogPlacePayloads.add(TourLogPlacePayload
-                        .builder()
-                        .toursId(toursId)
-                        .tourLogDate(tourLogCreatePayload.getDate())
-                        .placesId(placeId)
-                        .build()
-                );
-            });
-        }
-        tourLogService.createTourLogsPlaces(tourLogPlacePayloads);
     }
 
     public List<TourListRes> getTours(){

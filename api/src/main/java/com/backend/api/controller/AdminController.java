@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.expression.Lists;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class AdminController {
     private final StaticService staticService;
     private final TourTypeService tourTypeService;
     private final TourService tourService;
+    private final TourLogService tourLogService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -373,7 +375,7 @@ public class AdminController {
 //    Tours
     @Tag(name = "Create Tour")
     @PostMapping("/tours")
-    public void createTourType(@Valid @RequestBody TourCreateRequest tourCreateRequest) throws Exception {
+    public void createTour(@Valid @RequestBody TourCreateRequest tourCreateRequest) throws Exception {
         authService.verifyAdminToken();
         tourService.createTour(tourCreateRequest);
     }
@@ -394,7 +396,23 @@ public class AdminController {
     @Tag(name = "Get Tour By ID")
     @GetMapping("/tours/{id}")
     public TourEntity getTourById(@PathVariable int id) throws Exception {
-//        authService.verifyAdminToken();
+        authService.verifyAdminToken();
         return tourService.getTourById(id);
     }
+
+//    Tour Logs
+    @Tag(name = "Create Tour Log")
+    @PostMapping("/tour-logs")
+    public void createTourLog(@PathVariable int tourId, @Valid @RequestBody TourLogCreateRequest tourLogCreateRequest) throws Exception {
+        authService.verifyAdminToken();
+        tourLogService.createTourLog(tourLogCreateRequest);
+    }
+
+    @Tag(name = "Delete Tour Log By ID")
+    @DeleteMapping("/tour-logs/{id}")
+    public void deleteTourLogById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        tourLogService.deleteTourLogsById(id);
+    }
+
 }

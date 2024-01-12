@@ -25,6 +25,24 @@
         </foreach>
     </insert>
 
+    <insert id="createTourLog">
+        INSERT INTO tour_logs (
+            tours_id,
+            hotels_id,
+            title,
+            description,
+            date,
+            image_ids
+        ) VALUES (
+            #{toursId},
+            #{hotelsId},
+            #{title},
+            #{description},
+            TO_DATE(#{date}, 'DD/MM/YYYY'),
+            #{imageIdsStr}
+        )
+    </insert>
+
     <insert id="createTourLogsPlaces">
         INSERT INTO tour_logs_places (
             tour_logs_id,
@@ -40,6 +58,13 @@
             )
         </foreach>
     </insert>
+
+    <delete id="deleteTourLogsById">
+        WITH res AS (
+            DELETE FROM tour_logs_places WHERE tour_logs_id = #{id}
+        )
+        DELETE FROM tour_logs WHERE id = #{id}
+    </delete>
 
     <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.PlaceRepository.placeResultMap">
         SELECT p.* FROM tour_logs_places tlp
