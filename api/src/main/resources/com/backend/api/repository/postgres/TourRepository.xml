@@ -151,7 +151,7 @@
     </resultMap>
 
     <select id="selectTourLogsByTourId" resultMap="com.backend.api.repository.postgres.TourLogRepository.tourLogResultMap">
-        SELECT * FROM tour_logs WHERE tours_id = #{id}
+        SELECT * FROM tour_logs WHERE tours_id = #{id} ORDER BY DATE ASC
     </select>
 
     <select id="selectPackagesByTourId" resultType="com.backend.api.entity.PackageEntity">

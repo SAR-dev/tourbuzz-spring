@@ -11,7 +11,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.expression.Lists;
 
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class AdminController {
     private final TourTypeService tourTypeService;
     private final TourService tourService;
     private final TourLogService tourLogService;
+    private final PackageService packageService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -375,9 +375,9 @@ public class AdminController {
 //    Tours
     @Tag(name = "Create Tour")
     @PostMapping("/tours")
-    public void createTour(@Valid @RequestBody TourCreateRequest tourCreateRequest) throws Exception {
+    public void createTour(@Valid @RequestBody TourCreateReq tourCreateReq) throws Exception {
         authService.verifyAdminToken();
-        tourService.createTour(tourCreateRequest);
+        tourService.createTour(tourCreateReq);
     }
 
     @Tag(name = "Get Tour List")
@@ -403,16 +403,18 @@ public class AdminController {
 //    Tour Logs
     @Tag(name = "Create Tour Log")
     @PostMapping("/tour-logs")
-    public void createTourLog(@Valid @RequestBody TourLogCreateRequest tourLogCreateRequest) throws Exception {
+    public TourLogEntity createTourLog(@Valid @RequestBody TourLogCreateReq tourLogCreateReq) throws Exception {
         authService.verifyAdminToken();
-        tourLogService.createTourLog(tourLogCreateRequest);
+        tourLogService.createTourLog(tourLogCreateReq);
+        return tourLogService.getTourLogByTourIdAndDate(tourLogCreateReq.getToursId(), tourLogCreateReq.getDate());
     }
 
-    @Tag(name = "Delete Tour Log By ID")
-    @DeleteMapping("/tour-logs/{id}")
-    public void deleteTourLogById(@PathVariable int id) throws Exception {
+//    Packages
+    @Tag(name = "Create Tour Package")
+    @PostMapping("/tour-packages")
+    public void createPackage(@Valid @RequestBody TourPackageCreateReq tourPackageCreateReq) throws Exception {
         authService.verifyAdminToken();
-        tourLogService.deleteTourLogsById(id);
+        packageService.createPackage(tourPackageCreateReq);
     }
 
 }

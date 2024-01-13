@@ -15,9 +15,8 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 public class TourLogCreatePayload {
-    @NotNull
     @JsonProperty("hotels_id")
-    private int hotelsId;
+    private Integer hotelsId;
 
     @NotNull
     @Size(min = 5, max = 100)

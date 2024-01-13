@@ -23,6 +23,12 @@
                 #{item.imageIdsStr}
             )
         </foreach>
+        ON CONFLICT (tours_id, date)
+        DO UPDATE SET
+            hotels_id = EXCLUDED.hotels_id,
+            title = EXCLUDED.title,
+            description = EXCLUDED.description,
+            image_ids = EXCLUDED.image_ids
     </insert>
 
     <insert id="createTourLog">
@@ -43,6 +49,10 @@
         )
     </insert>
 
+    <select id="getTourLogByTourIdAndDate" resultMap="tourLogResultMap">
+        SELECT * FROM tour_logs WHERE tours_id = #{toursId} AND date = TO_DATE(#{date}, 'DD/MM/YYYY')
+    </select>
+
     <insert id="createTourLogsPlaces">
         INSERT INTO tour_logs_places (
             tour_logs_id,
@@ -57,6 +67,8 @@
             #{item.placesId}
             )
         </foreach>
+        ON CONFLICT (tour_logs_id, places_id)
+        DO NOTHING
     </insert>
 
     <delete id="deleteTourLogsById">
@@ -67,7 +79,9 @@
     </delete>
 
     <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.PlaceRepository.placeResultMap">
-        SELECT p.* FROM tour_logs_places tlp
+        SELECT
+            p.*
+        FROM tour_logs_places tlp
         JOIN places p ON tlp.places_id = p.id
         WHERE tlp.tour_logs_id = #{id}
     </select>

@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class TourCreateRequest {
+public class TourCreateReq {
     @NotNull
     private @Valid TourCreatePayload tour;
 

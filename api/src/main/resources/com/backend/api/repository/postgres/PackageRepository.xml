@@ -23,4 +23,20 @@
         </foreach>
     </insert>
 
+    <insert id="createPackage">
+        INSERT INTO packages (
+            tours_id,
+            title,
+            description,
+            additional_info,
+            price
+        ) VALUES (
+            #{toursId},
+            #{title},
+            #{description},
+            #{additionalInfo},
+            #{price}
+        )
+    </insert>
+
 </mapper>

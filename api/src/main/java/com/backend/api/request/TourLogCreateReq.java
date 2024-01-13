@@ -13,14 +13,13 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class TourLogCreateRequest {
+public class TourLogCreateReq {
     @NotNull
     @JsonProperty("tours_id")
     private int toursId;
 
-    @NotNull
     @JsonProperty("hotels_id")
-    private int hotelsId;
+    private Integer hotelsId;
 
     @NotNull
     @Size(min = 5, max = 100)
