@@ -39,4 +39,8 @@
         )
     </insert>
 
+    <select id="getPackageByTourIdAndTitle" resultType="com.backend.api.entity.PackageEntity">
+        SELECT * FROM packages WHERE tours_id = #{toursId} AND title = #{title}
+    </select>
+
 </mapper>

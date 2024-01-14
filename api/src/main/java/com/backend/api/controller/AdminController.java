@@ -412,9 +412,10 @@ public class AdminController {
 //    Packages
     @Tag(name = "Create Tour Package")
     @PostMapping("/tour-packages")
-    public void createPackage(@Valid @RequestBody TourPackageCreateReq tourPackageCreateReq) throws Exception {
+    public PackageEntity createPackage(@Valid @RequestBody TourPackageCreateReq tourPackageCreateReq) throws Exception {
         authService.verifyAdminToken();
         packageService.createPackage(tourPackageCreateReq);
+        return packageService.getPackageByTourIdAndTitle(tourPackageCreateReq.getToursId(), tourPackageCreateReq.getTitle());
     }
 
 }

@@ -1,5 +1,8 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
+import com.backend.api.entity.PackageEntity;
+import com.backend.api.entity.TourLogEntity;
 import com.backend.api.repository.postgres.PackageRepository;
 import com.backend.api.request.TourPackageCreatePayload;
 import com.backend.api.request.TourPackageCreateReq;
@@ -7,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -17,7 +21,15 @@ public class PackageService {
         packageRepository.createPackages(toursId, tourPackageCreatePayloads);
     }
 
-    public void createPackage(TourPackageCreateReq tourPackageCreateReq){
+    public void createPackage(TourPackageCreateReq tourPackageCreateReq) throws Exception {
+        PackageEntity packageEntity = getPackageByTourIdAndTitle(tourPackageCreateReq.getToursId(), tourPackageCreateReq.getTitle());
+        if(!Objects.isNull(packageEntity)){
+            throw new Exception(Constants.NON_UNIQUE_TOUR_PACKAGE_TITLE);
+        }
         packageRepository.createPackage(tourPackageCreateReq);
+    }
+
+    public PackageEntity getPackageByTourIdAndTitle(int toursId, String title){
+        return packageRepository.getPackageByTourIdAndTitle(toursId, title);
     }
 }

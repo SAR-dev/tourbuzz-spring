@@ -14,21 +14,15 @@
             image_ids
         ) VALUES
         <foreach collection="tourLogs" item="item" separator=",">
-            (
-                #{toursId},
-                #{item.hotelsId},
-                #{item.title},
-                #{item.description},
-                TO_DATE(#{item.date}, 'DD/MM/YYYY'),
-                #{item.imageIdsStr}
-            )
+        (
+            #{toursId},
+            #{item.hotelsId},
+            #{item.title},
+            #{item.description},
+            TO_DATE(#{item.date}, 'DD/MM/YYYY'),
+            #{item.imageIdsStr}
+        )
         </foreach>
-        ON CONFLICT (tours_id, date)
-        DO UPDATE SET
-            hotels_id = EXCLUDED.hotels_id,
-            title = EXCLUDED.title,
-            description = EXCLUDED.description,
-            image_ids = EXCLUDED.image_ids
     </insert>
 
     <insert id="createTourLog">
@@ -59,13 +53,13 @@
             places_id
         ) VALUES
         <foreach collection="tourLogsPlaces" item="item" separator=",">
-            (
+        (
             (SELECT id FROM tour_logs
                 WHERE tours_id = #{item.toursId}
                 AND date = TO_DATE(#{item.tourLogDate}, 'DD/MM/YYYY')
             ),
             #{item.placesId}
-            )
+        )
         </foreach>
         ON CONFLICT (tour_logs_id, places_id)
         DO NOTHING

@@ -21,6 +21,7 @@ public class Constants {
     public static final String TOUR_LAST_SELL_SHOULD_BE_BEFORE_START = "Tour last sell date must be before start date";
     public static final String NON_UNIQUE_TOUR_LOG_DATE = "Tour logs dates are not unique";
     public static final String TOUR_LOG_SHOULD_BE_BETWEEN_START_END = "Tour logs date should be between tour start and finish date";
+    public static final String NON_UNIQUE_TOUR_PACKAGE_TITLE = "Tour packages titles are not unique";
 
     public static final String LOGIN_INVALID_LINK = "Invalid link.";
     public static final String LOGIN_EXPIRED_LINK = "Expired link.";
