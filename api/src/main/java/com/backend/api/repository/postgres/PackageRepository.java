@@ -15,4 +15,6 @@ public interface PackageRepository {
     void createPackage(TourPackageCreateReq tourPackageCreateReq);
 
     PackageEntity getPackageByTourIdAndTitle(int toursId, String title);
+
+    int deletePackageById(int id);
 }

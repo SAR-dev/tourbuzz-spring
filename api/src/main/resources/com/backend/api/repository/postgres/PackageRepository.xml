@@ -43,4 +43,8 @@
         SELECT * FROM packages WHERE tours_id = #{toursId} AND title = #{title}
     </select>
 
+    <delete id="deletePackageById">
+        DELETE FROM packages WHERE id = #{id}
+    </delete>
+
 </mapper>

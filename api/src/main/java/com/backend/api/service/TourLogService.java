@@ -39,6 +39,7 @@ public class TourLogService {
 
     @Transactional
     public void createTourLog(TourLogCreateReq tourLogCreateReq) throws Exception {
+//        Validate first
         TourLogEntity tourLogEntity = getTourLogByTourIdAndDate(tourLogCreateReq.getToursId(), tourLogCreateReq.getDate());
         if(!Objects.isNull(tourLogEntity)){
             throw new Exception(Constants.NON_UNIQUE_TOUR_LOG_DATE);

@@ -32,4 +32,11 @@ public class PackageService {
     public PackageEntity getPackageByTourIdAndTitle(int toursId, String title){
         return packageRepository.getPackageByTourIdAndTitle(toursId, title);
     }
+
+    public void deletePackageById(int id) throws Exception {
+        int count = packageRepository.deletePackageById(id);
+        if(count != 1){
+            throw new Exception(Constants.DELETE_FAILED);
+        }
+    }
 }

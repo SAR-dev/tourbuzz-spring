@@ -409,6 +409,13 @@ public class AdminController {
         return tourLogService.getTourLogByTourIdAndDate(tourLogCreateReq.getToursId(), tourLogCreateReq.getDate());
     }
 
+    @Tag(name = "Delete Tour Log By ID")
+    @DeleteMapping("/tour-logs/{id}")
+    public void deleteTourLogsById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        tourLogService.deleteTourLogsById(id);
+    }
+
 //    Packages
     @Tag(name = "Create Tour Package")
     @PostMapping("/tour-packages")
@@ -416,6 +423,13 @@ public class AdminController {
         authService.verifyAdminToken();
         packageService.createPackage(tourPackageCreateReq);
         return packageService.getPackageByTourIdAndTitle(tourPackageCreateReq.getToursId(), tourPackageCreateReq.getTitle());
+    }
+
+    @Tag(name = "Delete Tour Package By ID")
+    @DeleteMapping("/tour-packages/{id}")
+    public void deletePackageById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        packageService.deletePackageById(id);
     }
 
 }

@@ -54,6 +54,6 @@ public class TourListRes {
     }
 
     public List<Integer> getPackage_prices_list() {
-        return Arrays.stream(package_prices.split(",")).map(Integer::parseInt).toList();
+        return Arrays.stream(package_prices.split(",")).map(String::trim).map(Integer::parseInt).toList();
     }
 }
