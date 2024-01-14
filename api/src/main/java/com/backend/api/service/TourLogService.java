@@ -38,13 +38,12 @@ public class TourLogService {
     }
 
     @Transactional
-    public void createTourLog(TourLogCreateReq tourLogCreateReq) throws Exception {
-//        Validate first
+    public void createDraftTourLog(TourLogCreateReq tourLogCreateReq) throws Exception {
         TourLogEntity tourLogEntity = getTourLogByTourIdAndDate(tourLogCreateReq.getToursId(), tourLogCreateReq.getDate());
         if(!Objects.isNull(tourLogEntity)){
             throw new Exception(Constants.NON_UNIQUE_TOUR_LOG_DATE);
         }
-        tourLogRepository.createTourLog(tourLogCreateReq);
+        tourLogRepository.createDraftTourLog(tourLogCreateReq);
 
         List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
         tourLogCreateReq.getPlaceIds().forEach(placeId -> {

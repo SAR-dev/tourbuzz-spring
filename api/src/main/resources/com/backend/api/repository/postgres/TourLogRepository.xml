@@ -11,7 +11,8 @@
             title,
             description,
             date,
-            image_ids
+            image_ids,
+            status
         ) VALUES
         <foreach collection="tourLogs" item="item" separator=",">
         (
@@ -20,26 +21,29 @@
             #{item.title},
             #{item.description},
             TO_DATE(#{item.date}, 'DD/MM/YYYY'),
-            #{item.imageIdsStr}
+            #{item.imageIdsStr},
+            'PUBLISHED'
         )
         </foreach>
     </insert>
 
-    <insert id="createTourLog">
+    <insert id="createDraftTourLog">
         INSERT INTO tour_logs (
             tours_id,
             hotels_id,
             title,
             description,
             date,
-            image_ids
+            image_ids,
+            status
         ) VALUES (
             #{toursId},
             #{hotelsId},
             #{title},
             #{description},
             TO_DATE(#{date}, 'DD/MM/YYYY'),
-            #{imageIdsStr}
+            #{imageIdsStr},
+            'DRAFT'
         )
     </insert>
 

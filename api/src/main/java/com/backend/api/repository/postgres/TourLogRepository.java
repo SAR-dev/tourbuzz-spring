@@ -13,7 +13,7 @@ import java.util.List;
 public interface TourLogRepository {
     void createTourLogs(@Param("toursId") int toursId, @Param("tourLogs") List<TourLogCreatePayload> tourLogCreatePayloads);
 
-    void createTourLog(TourLogCreateReq tourLogCreateReq);
+    void createDraftTourLog(TourLogCreateReq tourLogCreateReq);
 
     TourLogEntity getTourLogByTourIdAndDate(int toursId, String date);
 

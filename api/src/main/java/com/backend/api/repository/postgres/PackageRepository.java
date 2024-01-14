@@ -12,7 +12,7 @@ import java.util.List;
 public interface PackageRepository {
     void createPackages(@Param("toursId") int toursId, @Param("tourPackages") List<TourPackageCreatePayload> tourPackageCreatePayloads);
 
-    void createPackage(TourPackageCreateReq tourPackageCreateReq);
+    void createDraftPackage(TourPackageCreateReq tourPackageCreateReq);
 
     PackageEntity getPackageByTourIdAndTitle(int toursId, String title);
 

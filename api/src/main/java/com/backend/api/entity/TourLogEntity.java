@@ -1,5 +1,6 @@
 package com.backend.api.entity;
 
+import com.backend.api.enums.Status;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,6 +17,7 @@ public class TourLogEntity {
     private String description;
     private LocalDate date;
     private String image_ids;
+    private Status status;
     private Timestamp created_at;
     private Timestamp updated_at;
 

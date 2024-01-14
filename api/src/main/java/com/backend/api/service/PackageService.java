@@ -21,12 +21,12 @@ public class PackageService {
         packageRepository.createPackages(toursId, tourPackageCreatePayloads);
     }
 
-    public void createPackage(TourPackageCreateReq tourPackageCreateReq) throws Exception {
+    public void createDraftPackage(TourPackageCreateReq tourPackageCreateReq) throws Exception {
         PackageEntity packageEntity = getPackageByTourIdAndTitle(tourPackageCreateReq.getToursId(), tourPackageCreateReq.getTitle());
         if(!Objects.isNull(packageEntity)){
             throw new Exception(Constants.NON_UNIQUE_TOUR_PACKAGE_TITLE);
         }
-        packageRepository.createPackage(tourPackageCreateReq);
+        packageRepository.createDraftPackage(tourPackageCreateReq);
     }
 
     public PackageEntity getPackageByTourIdAndTitle(int toursId, String title){

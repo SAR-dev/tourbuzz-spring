@@ -10,7 +10,8 @@
             title,
             description,
             additional_info,
-            price
+            price,
+            status
         ) VALUES
         <foreach collection="tourPackages" item="item" separator=",">
             (
@@ -18,24 +19,27 @@
             #{item.title},
             #{item.description},
             #{item.additionalInfo},
-            #{item.price}
+            #{item.price},
+            'PUBLISHED'
             )
         </foreach>
     </insert>
 
-    <insert id="createPackage">
+    <insert id="createDraftPackage">
         INSERT INTO packages (
             tours_id,
             title,
             description,
             additional_info,
-            price
+            price,
+            status
         ) VALUES (
             #{toursId},
             #{title},
             #{description},
             #{additionalInfo},
-            #{price}
+            #{price},
+            'DRAFT'
         )
     </insert>
 

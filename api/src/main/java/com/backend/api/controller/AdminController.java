@@ -412,7 +412,7 @@ public class AdminController {
     @PostMapping("/tour-logs")
     public TourLogEntity createTourLog(@Valid @RequestBody TourLogCreateReq tourLogCreateReq) throws Exception {
         authService.verifyAdminToken();
-        tourLogService.createTourLog(tourLogCreateReq);
+        tourLogService.createDraftTourLog(tourLogCreateReq);
         return tourLogService.getTourLogByTourIdAndDate(tourLogCreateReq.getToursId(), tourLogCreateReq.getDate());
     }
 
@@ -428,7 +428,7 @@ public class AdminController {
     @PostMapping("/tour-packages")
     public PackageEntity createPackage(@Valid @RequestBody TourPackageCreateReq tourPackageCreateReq) throws Exception {
         authService.verifyAdminToken();
-        packageService.createPackage(tourPackageCreateReq);
+        packageService.createDraftPackage(tourPackageCreateReq);
         return packageService.getPackageByTourIdAndTitle(tourPackageCreateReq.getToursId(), tourPackageCreateReq.getTitle());
     }
 
