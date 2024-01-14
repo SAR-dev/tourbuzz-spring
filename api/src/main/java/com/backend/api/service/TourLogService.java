@@ -66,12 +66,6 @@ public class TourLogService {
         return tourLogRepository.getTourLogByTourIdAndDate(toursId, date);
     }
 
-    public void updateTourLog(){
-//        get tour log dates
-//        get previously included dates and new dates and create/update them
-//        get dates that need to be deleted
-    }
-
     public void deleteTourLogsById(int id) throws Exception {
         int count = tourLogRepository.deleteTourLogsById(id);
         if(count != 1){
