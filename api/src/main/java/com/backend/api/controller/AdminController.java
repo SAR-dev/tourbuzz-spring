@@ -393,6 +393,13 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Update Tour")
+    @PutMapping("/tours")
+    public void updateTour(@Valid @RequestBody TourUpdateReq  tourUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+
+    }
+
     @Tag(name = "Get Tour By ID")
     @GetMapping("/tours/{id}")
     public TourEntity getTourById(@PathVariable int id) throws Exception {
