@@ -1,10 +1,7 @@
 package com.backend.api.repository.postgres;
 
 import com.backend.api.entity.TourEntity;
-import com.backend.api.request.TourCreatePayload;
-import com.backend.api.request.TourLogCreatePayload;
-import com.backend.api.request.TourLogPlacePayload;
-import com.backend.api.request.TourPackageCreatePayload;
+import com.backend.api.request.*;
 import com.backend.api.response.TourCheckRes;
 import com.backend.api.response.TourListRes;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,6 +14,8 @@ public interface TourRepository {
     TourCheckRes checkTour(TourCreatePayload tourCreatePayload);
 
     int createTour(TourCreatePayload tourCreatePayload);
+
+    int updateTour(TourUpdatePayload tourUpdatePayload);
 
     List<TourListRes> getTours();
 

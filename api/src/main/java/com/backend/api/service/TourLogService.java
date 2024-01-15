@@ -6,7 +6,9 @@ import com.backend.api.repository.postgres.TourLogRepository;
 import com.backend.api.request.TourLogCreatePayload;
 import com.backend.api.request.TourLogCreateReq;
 import com.backend.api.request.TourLogPlacePayload;
+import com.backend.api.request.TourLogUpdatePayload;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,5 +77,31 @@ public class TourLogService {
 
     public List<Integer> getTourLogIdsByTourId(int toursId){
         return tourLogRepository.getTourLogIdsByTourId(toursId);
+    }
+
+    @Transactional
+    public void updateTourLogs(int toursId, List<TourLogUpdatePayload> tourLogUpdatePayloads) throws Exception {
+        int lCount = tourLogRepository.updateTourLogs(toursId, tourLogUpdatePayloads);
+        if(lCount < 1){
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
+        }
+        List<Integer> tourLogIds = tourLogUpdatePayloads.stream().map(TourLogUpdatePayload::getId).toList();
+        int pCount = tourLogRepository.deleteTourLogPlaces(tourLogIds);
+        if(pCount < 1){
+            throw new Exception(ErrorMessages.DELETE_FAILED);
+        }
+        List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
+        for(TourLogUpdatePayload tourLogUpdatePayload : tourLogUpdatePayloads) {
+            tourLogUpdatePayload.getPlaceIds().forEach(placeId -> {
+                tourLogPlacePayloads.add(TourLogPlacePayload
+                        .builder()
+                        .toursId(toursId)
+                        .tourLogDate(tourLogUpdatePayload.getDate())
+                        .placesId(placeId)
+                        .build()
+                );
+            });
+        }
+        createTourLogsPlaces(tourLogPlacePayloads);
     }
 }

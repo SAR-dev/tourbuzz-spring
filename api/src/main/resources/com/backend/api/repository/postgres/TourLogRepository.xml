@@ -69,6 +69,50 @@
         DO NOTHING
     </insert>
 
+    <delete id="deleteTourLogPlaces">
+        DELETE FROM tour_logs_places WHERE tour_logs_id IN (
+        <foreach collection="tourLogIds" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="updateTourLogs">
+        UPDATE tour_logs
+        SET
+            tours_id = db.tours_id,
+            hotels_id = db.hotels_id,
+            title = db.title,
+            description = db.description,
+            date = db.date,
+            image_ids = db.image_ids,
+            status = db.status
+        FROM(
+        VALUES
+        <foreach collection="tourLogs" item="item" separator=",">
+            (
+            #{item.id},
+            #{toursId},
+            #{item.hotelsId},
+            #{item.title},
+            #{item.description},
+            TO_DATE(#{item.date}, 'DD/MM/YYYY'),
+            #{item.imageIdsStr},
+            'PUBLISHED'
+            )
+        </foreach>
+        ) AS db (
+            id,
+            tours_id,
+            hotels_id,
+            title,
+            description,
+            date,
+            image_ids,
+            status
+        ) WHERE tour_logs.id = db.id
+    </update>
+
     <delete id="deleteTourLogsById">
         WITH res AS (
             DELETE FROM tour_logs_places WHERE tour_logs_id = #{id}

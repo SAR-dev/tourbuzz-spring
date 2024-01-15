@@ -19,5 +19,6 @@ public class ErrorMessages {
     public static final String LOGIN_EXPIRED_LINK = "Expired link.";
     public static final String INVALID_TOKEN = "Invalid token.";
     public static final String EXPIRED_TOKEN = "Token expired.";
+    public static final String MISSING_DATA = "Data missing from payloads";
 }
 

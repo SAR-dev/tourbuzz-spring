@@ -41,19 +41,12 @@ public class TourService {
     @Transactional
     public void updateTour(TourUpdateReq tourUpdateReq) throws Exception {
         verifyUpdateTour(tourUpdateReq);
-
-        List<Integer> tourLogIds = tourLogService.getTourLogIdsByTourId(tourUpdateReq.getTour().getId());
-        List<Integer> reqTourLogIds = tourUpdateReq.getTourLogs().stream().map(TourLogUpdatePayload::getId).toList();
-        List<Integer> packageIds = packageService.getPackageIdsByTourId(tourUpdateReq.getTour().getId());
-        List<Integer> reqPackageIds = tourUpdateReq.getPackages().stream().map(TourPackageUpdatePayload::getId).toList();
-
-        boolean allTourLogIdsExist = new HashSet<>(tourLogIds).containsAll(reqTourLogIds);
-        boolean allPackageIdsExist = new HashSet<>(packageIds).containsAll(reqPackageIds);
-
-//        while updating tour log places remove old places then create again
-
+        updateTour(tourUpdateReq.getTour());
+        tourLogService.updateTourLogs(tourUpdateReq.getTour().getId(), tourUpdateReq.getTourLogs());
+        packageService.updatePackages(tourUpdateReq.getTour().getId(), tourUpdateReq.getPackages());
     }
 
+    @Transactional
     public void verifyCreateTour(TourCreateReq tourCreateReq) throws Exception {
         TourCheckRes tourCheckRes = checkTour(tourCreateReq.getTour());
         List<String> messages = new ArrayList<>();
@@ -94,7 +87,19 @@ public class TourService {
         }
     }
 
+    @Transactional
     public void verifyUpdateTour(TourUpdateReq tourUpdateReq) throws Exception {
+        List<Integer> tourLogIds = tourLogService.getTourLogIdsByTourId(tourUpdateReq.getTour().getId());
+        List<Integer> reqTourLogIds = tourUpdateReq.getTourLogs().stream().map(TourLogUpdatePayload::getId).toList();
+        List<Integer> packageIds = packageService.getPackageIdsByTourId(tourUpdateReq.getTour().getId());
+        List<Integer> reqPackageIds = tourUpdateReq.getPackages().stream().map(TourPackageUpdatePayload::getId).toList();
+
+        boolean allTourLogIdsExist = new HashSet<>(tourLogIds).containsAll(reqTourLogIds);
+        boolean allPackageIdsExist = new HashSet<>(packageIds).containsAll(reqPackageIds);
+        if(!allPackageIdsExist || !allTourLogIdsExist){
+            throw new Exception(ErrorMessages.MISSING_DATA);
+        }
+
         List<String> messages = new ArrayList<>();
 
         LocalDate tourStartsAt = converterService.parseStringToDate(tourUpdateReq.getTour().getStartAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
@@ -131,10 +136,19 @@ public class TourService {
         return tourRepository.getTourById(id);
     }
 
+    @Transactional
     public void deleteTourById(int id) throws Exception {
         int count = tourRepository.deleteTourById(id);
         if(count != 1){
             throw new Exception(ErrorMessages.DELETE_FAILED);
+        }
+    }
+
+    @Transactional
+    public void updateTour(TourUpdatePayload tourUpdatePayload) throws Exception {
+        int count = tourRepository.updateTour(tourUpdatePayload);
+        if(count != 1){
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
 }

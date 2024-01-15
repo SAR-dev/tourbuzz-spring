@@ -52,6 +52,31 @@
         ) RETURNING id
     </select>
 
+    <update id="updateTour">
+        UPDATE tours
+        SET
+            tour_types_id = #{tourTypesId},
+            organizers_id = #{organizersId},
+            images_id = #{imagesId},
+            title = BTRIM(#{title}),
+            slug = BTRIM(#{slug}),
+            md_desc = #{mdDesc},
+            summary = #{summary},
+            group_size = #{groupSize},
+            group_info = #{groupInfo},
+            services = #{services},
+            transports = #{transports},
+            cancel_ins = #{cancelIns},
+            start_ins = #{startIns},
+            finish_ins = #{finishIns},
+            start_at = TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH:MI'),
+            finish_at = TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH:MI'),
+            last_sell_at = TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH:MI'),
+            image_ids = #{imageIdsStr}
+        WHERE
+        id = #{id}
+    </update>
+
     <insert id="createTourPackages">
         INSERT INTO packages (
             tours_id,

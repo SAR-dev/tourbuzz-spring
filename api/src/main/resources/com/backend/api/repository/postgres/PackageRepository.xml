@@ -43,6 +43,39 @@
         )
     </insert>
 
+    <update id="updatePackages">
+        UPDATE packages
+        SET
+            tours_id = db.tours_id,
+            title = db.title,
+            description = db.description,
+            additional_info = db.additional_info,
+            price = db.price,
+            status = db.status
+        FROM(
+        VALUES
+        <foreach collection="tourPackages" item="item" separator=",">
+            (
+            #{item.id},
+            #{toursId},
+            #{item.title},
+            #{item.description},
+            #{item.additionalInfo},
+            #{item.price},
+            'PUBLISHED'
+            )
+        </foreach>
+        ) AS db (
+            id,
+            tours_id,
+            title,
+            description,
+            additional_info,
+            price,
+            status
+        ) WHERE packages.id = db.id
+    </update>
+
     <select id="getPackageByTourIdAndTitle" resultType="com.backend.api.entity.PackageEntity">
         SELECT * FROM packages WHERE tours_id = #{toursId} AND title = #{title}
     </select>
