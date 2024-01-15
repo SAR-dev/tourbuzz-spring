@@ -36,6 +36,11 @@ public class TourService {
         packageService.createPackages(toursId, tourCreateReq.getPackages());
     }
 
+    @Transactional
+    public void updateTour(TourUpdateReq tourUpdateReq) throws Exception {
+        verifyUpdateTour(tourUpdateReq);
+    }
+
     public void verifyCreateTour(TourCreateReq tourCreateReq) throws Exception {
         TourCheckRes tourCheckRes = checkTour(tourCreateReq.getTour());
         List<String> messages = new ArrayList<>();
@@ -62,6 +67,35 @@ public class TourService {
         }
         List<LocalDate> tourLogsDates = new ArrayList<>();
         for(String dateString : tourCreateReq.getTourLogs().stream().map(TourLogCreatePayload::getDate).toList()) {
+            tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DD_MM_YYYY_FORMAT));
+        }
+        if(!validationService.areDatesUnique(tourLogsDates)){
+            messages.add(Constants.NON_UNIQUE_TOUR_LOG_DATE);
+        }
+        if(!validationService.areDatesInRange(tourLogsDates, tourStartsAt, tourFinishAt)){
+            messages.add(Constants.TOUR_LOG_SHOULD_BE_BETWEEN_START_END);
+        }
+
+        if(!messages.isEmpty()){
+            throw new ValidationException(String.join("", messages));
+        }
+    }
+
+    public void verifyUpdateTour(TourUpdateReq tourUpdateReq) throws Exception {
+        List<String> messages = new ArrayList<>();
+
+        LocalDate tourStartsAt = converterService.parseStringToDate(tourUpdateReq.getTour().getStartAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourFinishAt = converterService.parseStringToDate(tourUpdateReq.getTour().getFinishAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourLastSellAt = converterService.parseStringToDate(tourUpdateReq.getTour().getLastSellAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
+
+        if(!tourFinishAt.isAfter(tourStartsAt)){
+            messages.add(Constants.TOUR_FINISH_SHOULD_BE_AFTER_START);
+        }
+        if(!tourLastSellAt.isBefore(tourStartsAt)){
+            messages.add(Constants.TOUR_LAST_SELL_SHOULD_BE_BEFORE_START);
+        }
+        List<LocalDate> tourLogsDates = new ArrayList<>();
+        for(String dateString : tourUpdateReq.getTourLogs().stream().map(TourLogUpdatePayload::getDate).toList()) {
             tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DD_MM_YYYY_FORMAT));
         }
         if(!validationService.areDatesUnique(tourLogsDates)){

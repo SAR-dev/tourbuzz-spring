@@ -397,7 +397,7 @@ public class AdminController {
     @PutMapping("/tours")
     public void updateTour(@Valid @RequestBody TourUpdateReq  tourUpdateReq) throws Exception {
         authService.verifyAdminToken();
-
+        tourService.updateTour(tourUpdateReq);
     }
 
     @Tag(name = "Get Tour By ID")
