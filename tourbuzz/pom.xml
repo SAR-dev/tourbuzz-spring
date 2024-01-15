@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.backend</groupId>
-	<artifactId>api</artifactId>
+	<artifactId>tourbuzz</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>server</name>
 	<description>Backend Application</description>
@@ -176,7 +176,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>api</finalName>
+		<finalName>tourbuzz</finalName>
 	</build>
 
 </project>

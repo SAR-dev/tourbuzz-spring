@@ -9,4 +9,4 @@ RUN chmod +x mvnw
 RUN ./mvnw install -DskipTests
 COPY . .
 EXPOSE ${PORT}
-ENTRYPOINT ["java", "-jar", "target/api.jar"]
+ENTRYPOINT ["java", "-jar", "target/tourbuzz.jar"]

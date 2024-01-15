@@ -19,7 +19,7 @@ public class Constants {
         public static final String ACCESS_TOKEN_SECRET_KEY = "d7k*n2iz7!+lt58=n(2hz3*fh+ttrv9th(qw_5)*d_i67tzu";
         public static final Integer ACCESS_TOKEN_EXPIRE_AFTER = 60*60*24;
         public static final Integer ADMIN_KEY_EXPIRE_AFTER_IN_SEC = 60*5;
-        public static final Integer ADMIN_TOKEN_EXPIRE_AFTER_IN_SEC = 60*60;
+        public static final Integer ADMIN_TOKEN_EXPIRE_AFTER_IN_SEC = 60*60*5;
     }
 
     public static class IMGBB {
