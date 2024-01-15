@@ -1,7 +1,6 @@
 package com.backend.api.configuration;
 
 import com.backend.api.Constants;
-import com.backend.api.ErrorMessages;
 import com.backend.api.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -37,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        final String accessToken = request.getHeader(Constants.ACCESS_HEADER_NAME);
+        final String accessToken = request.getHeader(Constants.HEADER.ACCESS_HEADER_NAME);
 
         if (!Objects.isNull(accessToken)) {
             try {

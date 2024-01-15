@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.ImageEntity;
 import com.backend.api.repository.postgres.ImageRepository;
@@ -19,29 +20,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ImageService {
-    @Value("${imgbb.api-key}")
-    private String imgBbApiKey;
-
-    @Value("${imgbb.baseurl}")
-    private String imgBbBaseUrl;
-
     private final RestTemplate restTemplate;
     private final ImageRepository imageRepository;
-    private final HelperService helperService;
 
     public ImageEntity uploadImage(byte[] imageData, String title) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
-        body.add("key", imgBbApiKey);
+        body.add("key", Constants.IMGBB.API_KEY);
         body.add("image", Base64.getEncoder().encodeToString(imageData));
         body.add("name", title);
 
         HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(body, headers);
 
         ResponseEntity<String> response = restTemplate.exchange(
-                imgBbBaseUrl,
+                Constants.IMGBB.BASE_URL,
                 HttpMethod.POST,
                 requestEntity,
                 String.class

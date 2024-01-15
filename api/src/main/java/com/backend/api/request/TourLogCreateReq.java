@@ -1,7 +1,6 @@
 package com.backend.api.request;
 
 import com.backend.api.Constants;
-import com.backend.api.ErrorMessages;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -31,7 +30,7 @@ public class TourLogCreateReq {
     private String description;
 
     @NotNull
-    @Pattern(regexp = Constants.DD_MM_YYYY_REGEX, message = "Invalid date format. Use dd/MM/yyyy.")
+    @Pattern(regexp = Constants.DATES.DD_MM_YYYY_REGEX, message = "Invalid date format. Use dd/MM/yyyy.")
     private String date;
 
     @NotNull

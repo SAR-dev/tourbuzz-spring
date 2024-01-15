@@ -57,9 +57,9 @@ public class TourService {
             messages.add(ErrorMessages.TITLE_EXISTS);
         }
 
-        LocalDate tourStartsAt = converterService.parseStringToDate(tourCreateReq.getTour().getStartAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourFinishAt = converterService.parseStringToDate(tourCreateReq.getTour().getFinishAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourLastSellAt = converterService.parseStringToDate(tourCreateReq.getTour().getLastSellAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourStartsAt = converterService.parseStringToDate(tourCreateReq.getTour().getStartAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourFinishAt = converterService.parseStringToDate(tourCreateReq.getTour().getFinishAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourLastSellAt = converterService.parseStringToDate(tourCreateReq.getTour().getLastSellAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
 
         LocalDate dateAfterTwoDays = LocalDate.now().plusDays(Constants.TOUR_DATE_AFTER_MIN);
         if(!tourStartsAt.isAfter(dateAfterTwoDays)){
@@ -73,7 +73,7 @@ public class TourService {
         }
         List<LocalDate> tourLogsDates = new ArrayList<>();
         for(String dateString : tourCreateReq.getTourLogs().stream().map(TourLogCreatePayload::getDate).toList()) {
-            tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DD_MM_YYYY_FORMAT));
+            tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DATES.DD_MM_YYYY_FORMAT));
         }
         if(!validationService.areDatesUnique(tourLogsDates)){
             messages.add(ErrorMessages.NON_UNIQUE_TOUR_LOG_DATE);
@@ -102,9 +102,9 @@ public class TourService {
 
         List<String> messages = new ArrayList<>();
 
-        LocalDate tourStartsAt = converterService.parseStringToDate(tourUpdateReq.getTour().getStartAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourFinishAt = converterService.parseStringToDate(tourUpdateReq.getTour().getFinishAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourLastSellAt = converterService.parseStringToDate(tourUpdateReq.getTour().getLastSellAt(), Constants.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourStartsAt = converterService.parseStringToDate(tourUpdateReq.getTour().getStartAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourFinishAt = converterService.parseStringToDate(tourUpdateReq.getTour().getFinishAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourLastSellAt = converterService.parseStringToDate(tourUpdateReq.getTour().getLastSellAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
 
         if(!tourFinishAt.isAfter(tourStartsAt)){
             messages.add(ErrorMessages.TOUR_FINISH_SHOULD_BE_AFTER_START);
@@ -114,7 +114,7 @@ public class TourService {
         }
         List<LocalDate> tourLogsDates = new ArrayList<>();
         for(String dateString : tourUpdateReq.getTourLogs().stream().map(TourLogUpdatePayload::getDate).toList()) {
-            tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DD_MM_YYYY_FORMAT));
+            tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DATES.DD_MM_YYYY_FORMAT));
         }
         if(!validationService.areDatesUnique(tourLogsDates)){
             messages.add(ErrorMessages.NON_UNIQUE_TOUR_LOG_DATE);

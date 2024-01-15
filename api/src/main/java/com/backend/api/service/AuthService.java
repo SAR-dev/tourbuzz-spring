@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,21 +27,6 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    @Value("${local}")
-    private boolean local;
-
-    @Value("${jwt.magic-token.expiration-time}")
-    private long magicTokenExpTime;
-
-    @Value("${jwt.magic-token.secret-key}")
-    private String magicTokenSecret;
-
-    @Value("${jwt.access-token.expiration-time}")
-    private long accessTokenExpTime;
-
-    @Value("${jwt.access-token.secret-key}")
-    private String accessTokenSecret;
-
     @Autowired
     HttpServletRequest httpServletRequest;
 
@@ -58,8 +42,8 @@ public class AuthService {
         return JWT.create()
                 .withSubject(email)
                 .withIssuedAt(now)
-                .withExpiresAt(now.plus(magicTokenExpTime, ChronoUnit.SECONDS))
-                .sign(Algorithm.HMAC256(magicTokenSecret));
+                .withExpiresAt(now.plus(Constants.JWT.MAGIC_TOKEN_EXPIRE_AFTER, ChronoUnit.SECONDS))
+                .sign(Algorithm.HMAC256(Constants.JWT.MAGIC_TOKEN_SECRET_KEY));
     }
 
     public void emailMagicLink(String email) throws MessagingException {
@@ -69,7 +53,7 @@ public class AuthService {
 
     @Transactional
     public String getEmailFromMagicToken(String token) throws Exception {
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(magicTokenSecret)).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Constants.JWT.MAGIC_TOKEN_SECRET_KEY)).build();
         DecodedJWT decodedJWT;
         try {
             decodedJWT = verifier.verify(token);
@@ -88,8 +72,8 @@ public class AuthService {
         return JWT.create()
                 .withSubject(email)
                 .withIssuedAt(now)
-                .withExpiresAt(now.plus(accessTokenExpTime, ChronoUnit.SECONDS))
-                .sign(Algorithm.HMAC256(accessTokenSecret));
+                .withExpiresAt(now.plus(Constants.JWT.ACCESS_TOKEN_EXPIRE_AFTER, ChronoUnit.SECONDS))
+                .sign(Algorithm.HMAC256(Constants.JWT.ACCESS_TOKEN_SECRET_KEY));
     }
 
     @Transactional
@@ -101,7 +85,7 @@ public class AuthService {
 
     @Transactional
     public String getEmailFromAccessToken(String token) throws Exception {
-        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(accessTokenSecret)).build();
+        JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Constants.JWT.ACCESS_TOKEN_SECRET_KEY)).build();
         DecodedJWT decodedJWT;
         try {
             decodedJWT = verifier.verify(token);
@@ -126,7 +110,7 @@ public class AuthService {
         return JWT.create()
                 .withSubject(email)
                 .withIssuedAt(now)
-                .withExpiresAt(now.plus(Constants.ADMIN_KEY_EXPIRE_AFTER_IN_SEC, ChronoUnit.SECONDS))
+                .withExpiresAt(now.plus(Constants.JWT.ADMIN_KEY_EXPIRE_AFTER_IN_SEC, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(secret));
     }
 
@@ -156,13 +140,13 @@ public class AuthService {
         return JWT.create()
                 .withIssuer(RandomStringUtils.randomAlphanumeric(6))
                 .withIssuedAt(now)
-                .withExpiresAt(now.plus(Constants.ADMIN_TOKEN_EXPIRE_AFTER_IN_SEC, ChronoUnit.SECONDS))
+                .withExpiresAt(now.plus(Constants.JWT.ADMIN_TOKEN_EXPIRE_AFTER_IN_SEC, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(secret));
     }
 
     @Transactional
     public void verifyAdminToken() throws Exception {
-        String token = httpServletRequest.getHeader(Constants.ADMIN_HEADER_NAME);
+        String token = httpServletRequest.getHeader(Constants.HEADER.ADMIN_HEADER_NAME);
         String secret = adminService.getSecret();
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
         try {

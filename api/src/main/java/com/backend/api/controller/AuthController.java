@@ -1,7 +1,6 @@
 package com.backend.api.controller;
 
 import com.backend.api.Constants;
-import com.backend.api.ErrorMessages;
 import com.backend.api.request.MagicLinkReq;
 import com.backend.api.request.SignInReq;
 import com.backend.api.response.AdminAccessTokenRes;
@@ -39,9 +38,9 @@ public class AuthController {
         return AdminAccessTokenRes
                 .builder()
                 .accessToken(accessToken)
-                .accessTokenHeader(Constants.ACCESS_HEADER_NAME)
+                .accessTokenHeader(Constants.HEADER.ACCESS_HEADER_NAME)
                 .adminToken(adminToken)
-                .adminTokenHeader(Constants.ADMIN_HEADER_NAME)
+                .adminTokenHeader(Constants.HEADER.ADMIN_HEADER_NAME)
                 .build();
     }
 }
