@@ -1,6 +1,6 @@
 FROM openjdk:21-slim
 ARG PORT
-WORKDIR /backend
+WORKDIR /
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .

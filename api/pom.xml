@@ -134,13 +134,6 @@
 			<version>2.1.0</version>
 		</dependency>
 
-		<!--Sqlite-->
-		<dependency>
-			<groupId>org.xerial</groupId>
-			<artifactId>sqlite-jdbc</artifactId>
-			<version>3.42.0.0</version>
-		</dependency>
-
 		<!--Google HEADER-->
 		<dependency>
 			<groupId>com.warrenstrange</groupId>
