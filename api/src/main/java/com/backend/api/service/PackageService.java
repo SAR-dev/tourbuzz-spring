@@ -1,8 +1,7 @@
 package com.backend.api.service;
 
-import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.entity.PackageEntity;
-import com.backend.api.entity.TourLogEntity;
 import com.backend.api.repository.postgres.PackageRepository;
 import com.backend.api.request.TourPackageCreatePayload;
 import com.backend.api.request.TourPackageCreateReq;
@@ -24,7 +23,7 @@ public class PackageService {
     public void createDraftPackage(TourPackageCreateReq tourPackageCreateReq) throws Exception {
         PackageEntity packageEntity = getPackageByTourIdAndTitle(tourPackageCreateReq.getToursId(), tourPackageCreateReq.getTitle());
         if(!Objects.isNull(packageEntity)){
-            throw new Exception(Constants.NON_UNIQUE_TOUR_PACKAGE_TITLE);
+            throw new Exception(ErrorMessages.NON_UNIQUE_TOUR_PACKAGE_TITLE);
         }
         packageRepository.createDraftPackage(tourPackageCreateReq);
     }
@@ -36,7 +35,11 @@ public class PackageService {
     public void deletePackageById(int id) throws Exception {
         int count = packageRepository.deletePackageById(id);
         if(count != 1){
-            throw new Exception(Constants.DELETE_FAILED);
+            throw new Exception(ErrorMessages.DELETE_FAILED);
         }
+    }
+
+    public List<Integer> getPackageIdsByTourId(int toursId){
+        return packageRepository.getPackageIdsByTourId(toursId);
     }
 }

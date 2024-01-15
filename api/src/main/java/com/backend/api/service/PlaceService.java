@@ -1,15 +1,10 @@
 package com.backend.api.service;
 
-import com.backend.api.Constants;
-import com.backend.api.entity.DistrictEntity;
+import com.backend.api.ErrorMessages;
 import com.backend.api.entity.PlaceEntity;
 import com.backend.api.repository.postgres.PlaceRepository;
-import com.backend.api.request.HotelCreateReq;
-import com.backend.api.request.HotelUpdateReq;
 import com.backend.api.request.PlaceCreateReq;
 import com.backend.api.request.PlaceUpdateReq;
-import com.backend.api.response.DivisionWithDistrictsRes;
-import com.backend.api.response.HotelCheckRes;
 import com.backend.api.response.PlaceCheckRes;
 import com.backend.api.response.PlaceTypeRes;
 import jakarta.xml.bind.ValidationException;
@@ -30,7 +25,7 @@ public class PlaceService {
         PlaceCheckRes placeCheckRes = checkPlace(placeCreateReq);
         List<String> messages = new ArrayList<>();
         if(placeCheckRes.isName_exists()){
-            messages.add(Constants.NAME_EXISTS);
+            messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -41,14 +36,14 @@ public class PlaceService {
     public void deletePlaceById(int id) throws Exception {
         int count = placeRepository.deletePlaceById(id);
         if(count != 1){
-            throw new Exception(Constants.DELETE_FAILED);
+            throw new Exception(ErrorMessages.DELETE_FAILED);
         }
     }
 
     public void updatePlace(PlaceUpdateReq placeUpdateReq) throws Exception {
         int count = placeRepository.updatePlace(placeUpdateReq);
         if(count != 1){
-            throw new Exception(Constants.UPDATE_FAILED);
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
 

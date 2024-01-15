@@ -76,6 +76,10 @@
         DELETE FROM tour_logs WHERE id = #{id}
     </delete>
 
+    <select id="getTourLogIdsByTourId" resultType="integer">
+        SELECT id FROM tour_logs WHERE toursId = #{toursId}
+    </select>
+
     <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.PlaceRepository.placeResultMap">
         SELECT
             p.*

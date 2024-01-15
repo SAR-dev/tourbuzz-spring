@@ -47,6 +47,10 @@
         SELECT * FROM packages WHERE tours_id = #{toursId} AND title = #{title}
     </select>
 
+    <select id="getPackageIdsByTourId" resultType="integer">
+        SELECT id FROM packages WHERE toursId = #{toursId}
+    </select>
+
     <delete id="deletePackageById">
         DELETE FROM packages WHERE id = #{id}
     </delete>

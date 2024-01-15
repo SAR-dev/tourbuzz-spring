@@ -1,6 +1,6 @@
 package com.backend.api.service;
 
-import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.entity.TourLogEntity;
 import com.backend.api.repository.postgres.TourLogRepository;
 import com.backend.api.request.TourLogCreatePayload;
@@ -41,7 +41,7 @@ public class TourLogService {
     public void createDraftTourLog(TourLogCreateReq tourLogCreateReq) throws Exception {
         TourLogEntity tourLogEntity = getTourLogByTourIdAndDate(tourLogCreateReq.getToursId(), tourLogCreateReq.getDate());
         if(!Objects.isNull(tourLogEntity)){
-            throw new Exception(Constants.NON_UNIQUE_TOUR_LOG_DATE);
+            throw new Exception(ErrorMessages.NON_UNIQUE_TOUR_LOG_DATE);
         }
         tourLogRepository.createDraftTourLog(tourLogCreateReq);
 
@@ -69,7 +69,11 @@ public class TourLogService {
     public void deleteTourLogsById(int id) throws Exception {
         int count = tourLogRepository.deleteTourLogsById(id);
         if(count != 1){
-            throw new Exception(Constants.DELETE_FAILED);
+            throw new Exception(ErrorMessages.DELETE_FAILED);
         }
+    }
+
+    public List<Integer> getTourLogIdsByTourId(int toursId){
+        return tourLogRepository.getTourLogIdsByTourId(toursId);
     }
 }

@@ -1,14 +1,11 @@
 package com.backend.api.service;
 
-import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.entity.HotelEntity;
 import com.backend.api.repository.postgres.HotelRepository;
 import com.backend.api.request.HotelCreateReq;
 import com.backend.api.request.HotelUpdateReq;
-import com.backend.api.request.WriterCreateReq;
-import com.backend.api.request.WriterUpdateReq;
 import com.backend.api.response.HotelCheckRes;
-import com.backend.api.response.WriterCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,7 +32,7 @@ public class HotelService {
         HotelCheckRes hotelCheckRes = checkHotel(hotelCreateReq);
         List<String> messages = new ArrayList<>();
         if(hotelCheckRes.isName_exists()){
-            messages.add(Constants.NAME_EXISTS);
+            messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -46,14 +43,14 @@ public class HotelService {
     public void deleteHotelById(int id) throws Exception {
         int count = hotelRepository.deleteHotelById(id);
         if(count != 1){
-            throw new Exception(Constants.DELETE_FAILED);
+            throw new Exception(ErrorMessages.DELETE_FAILED);
         }
     }
 
     public void updateHotel(HotelUpdateReq hotelUpdateReq) throws Exception {
         int count = hotelRepository.updateHotel(hotelUpdateReq);
         if(count != 1){
-            throw new Exception(Constants.UPDATE_FAILED);
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
 

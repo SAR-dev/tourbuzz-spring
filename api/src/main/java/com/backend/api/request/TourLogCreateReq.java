@@ -1,6 +1,7 @@
 package com.backend.api.request;
 
 import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

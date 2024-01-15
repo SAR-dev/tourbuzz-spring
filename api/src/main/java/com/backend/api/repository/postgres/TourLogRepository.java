@@ -20,4 +20,6 @@ public interface TourLogRepository {
     void createTourLogsPlaces(@Param("tourLogsPlaces") List<TourLogPlacePayload> tourLogPlacePayloads);
 
     int deleteTourLogsById(int id);
+
+    List<Integer> getTourLogIdsByTourId(int toursId);
 }

@@ -1,6 +1,6 @@
 package com.backend.api.service;
 
-import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.entity.WriterEntity;
 import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.WriterCreateReq;
@@ -28,13 +28,13 @@ public class WriterService {
         WriterCheckRes writerCheckRes = checkWriter(writerCreateReq);
         List<String> messages = new ArrayList<>();
         if(writerCheckRes.isEmail_exists()){
-            messages.add(Constants.EMAIL_EXISTS);
+            messages.add(ErrorMessages.EMAIL_EXISTS);
         }
         if(writerCheckRes.isUsername_exists()){
-            messages.add(Constants.USERNAME_EXISTS);
+            messages.add(ErrorMessages.USERNAME_EXISTS);
         }
         if(writerCheckRes.isName_exists()){
-            messages.add(Constants.NAME_EXISTS);
+            messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
             throw new ValidationException(String.join("", messages));
@@ -53,14 +53,14 @@ public class WriterService {
     public void deleteWriterById(int id) throws Exception {
         int count = writerRepository.deleteWriterById(id);
         if(count != 1){
-            throw new Exception(Constants.DELETE_FAILED);
+            throw new Exception(ErrorMessages.DELETE_FAILED);
         }
     }
 
     public void updateWriter(WriterUpdateReq writerUpdateReq) throws Exception {
         int count = writerRepository.updateWriter(writerUpdateReq);
         if(count != 1){
-            throw new Exception(Constants.UPDATE_FAILED);
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
 }

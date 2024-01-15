@@ -1,6 +1,7 @@
 package com.backend.api.configuration;
 
 import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.service.AuthService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

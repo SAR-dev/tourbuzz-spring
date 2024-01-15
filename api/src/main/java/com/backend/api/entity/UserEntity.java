@@ -1,6 +1,7 @@
 package com.backend.api.entity;
 
 import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import lombok.Data;
 
 import java.sql.Timestamp;

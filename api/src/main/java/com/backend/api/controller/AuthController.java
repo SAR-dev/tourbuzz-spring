@@ -1,6 +1,7 @@
 package com.backend.api.controller;
 
 import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.request.MagicLinkReq;
 import com.backend.api.request.SignInReq;
 import com.backend.api.response.AdminAccessTokenRes;

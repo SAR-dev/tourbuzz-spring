@@ -17,4 +17,6 @@ public interface PackageRepository {
     PackageEntity getPackageByTourIdAndTitle(int toursId, String title);
 
     int deletePackageById(int id);
+
+    List<Integer> getPackageIdsByTourId(int toursId);
 }

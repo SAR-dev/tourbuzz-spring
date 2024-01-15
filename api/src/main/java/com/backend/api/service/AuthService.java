@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.request.SignInReq;
@@ -73,10 +74,10 @@ public class AuthService {
         try {
             decodedJWT = verifier.verify(token);
         } catch (Exception e){
-            throw new Exception(Constants.LOGIN_INVALID_LINK);
+            throw new Exception(ErrorMessages.LOGIN_INVALID_LINK);
         }
         if(decodedJWT.getExpiresAt().before(new Date())){
-            throw new CredentialsExpiredException(Constants.LOGIN_EXPIRED_LINK);
+            throw new CredentialsExpiredException(ErrorMessages.LOGIN_EXPIRED_LINK);
         }
         return decodedJWT.getSubject();
     }
@@ -105,10 +106,10 @@ public class AuthService {
         try {
             decodedJWT = verifier.verify(token);
         } catch (Exception e){
-            throw new Exception(Constants.INVALID_TOKEN);
+            throw new Exception(ErrorMessages.INVALID_TOKEN);
         }
         if(decodedJWT.getExpiresAt().before(new Date())){
-            throw new CredentialsExpiredException(Constants.EXPIRED_TOKEN);
+            throw new CredentialsExpiredException(ErrorMessages.EXPIRED_TOKEN);
         }
         return decodedJWT.getSubject();
     }
@@ -135,7 +136,7 @@ public class AuthService {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret)).build();
         DecodedJWT decodedJWT = verifier.verify(adminKey);
         if(decodedJWT.getExpiresAt().before(new Date())){
-            throw new CredentialsExpiredException(Constants.EXPIRED_TOKEN);
+            throw new CredentialsExpiredException(ErrorMessages.EXPIRED_TOKEN);
         }
         return decodedJWT.getSubject();
     }
@@ -167,10 +168,10 @@ public class AuthService {
         try {
             DecodedJWT decodedJWT = verifier.verify(token);
             if(decodedJWT.getExpiresAt().before(new Date())){
-                throw new CredentialsExpiredException(Constants.EXPIRED_TOKEN);
+                throw new CredentialsExpiredException(ErrorMessages.EXPIRED_TOKEN);
             }
         } catch (Exception e){
-            throw new Exception(Constants.INVALID_TOKEN);
+            throw new Exception(ErrorMessages.INVALID_TOKEN);
         }
     }
 }
