@@ -1,12 +1,12 @@
-FROM openjdk:17-alpine
+FROM openjdk:21-slim
 ARG PORT
 WORKDIR /backend
-RUN apk update && apk add dos2unix
+RUN #apk update && apk add dos2unix
 COPY mvnw .
 COPY .mvn .mvn
 COPY pom.xml .
 COPY src src
-RUN dos2unix mvnw
+RUN #dos2unix mvnw
 RUN chmod +x mvnw
 RUN ./mvnw install -DskipTests
 COPY . .

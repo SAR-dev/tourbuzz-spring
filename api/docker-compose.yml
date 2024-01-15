@@ -1,9 +1,9 @@
 version: '3.6'
 
 services:
-  qrt-app:
-    container_name: qrt-app
-    image: qrt-app
+  api-app:
+    container_name: api-app
+    image: api-app
     build:
       context: ./
       args:
