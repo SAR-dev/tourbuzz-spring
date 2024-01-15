@@ -117,4 +117,11 @@ public class TourService {
     public TourEntity getTourById(int id){
         return tourRepository.getTourById(id);
     }
+
+    public void deleteTourById(int id) throws Exception {
+        int count = tourRepository.deleteTourById(id);
+        if(count != 1){
+            throw new Exception(Constants.DELETE_FAILED);
+        }
+    }
 }

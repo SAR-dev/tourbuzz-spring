@@ -407,6 +407,13 @@ public class AdminController {
         return tourService.getTourById(id);
     }
 
+    @Tag(name = "Delete Tour By ID")
+    @DeleteMapping("/tours/{id}")
+    public void deleteTourById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        tourService.deleteTourById(id);
+    }
+
 //    Tour Logs
     @Tag(name = "Create Tour Log")
     @PostMapping("/tour-logs")

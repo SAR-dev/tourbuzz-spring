@@ -111,6 +111,22 @@
         SELECT * FROM tours WHERE id = #{id}
     </select>
 
+    <delete id="deleteTourById">
+        WITH tlp AS (
+            DELETE FROM tour_logs_places
+            WHERE tour_logs_id IN (
+                SELECT id FROM tour_logs WHERE tours_id = #{id}
+            )
+        ),
+        tl AS (
+            DELETE FROM tour_logs WHERE tours_id = #{id}
+        ),
+        p AS (
+            DELETE FROM packages WHERE tours_id = #{id}
+        )
+        DELETE FROM tours WHERE id = #{id}
+    </delete>
+
     <resultMap id="tourResultMap" type="com.backend.api.entity.TourEntity">
         <association
                 property="tour_type"
