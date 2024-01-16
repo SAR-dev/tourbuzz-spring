@@ -20,8 +20,8 @@ public class TourEntity {
     private String group_info;
     private String transports;
     private String cancel_ins;
-    private String pickup_points;
-    private String dropoff_points;
+    private String start_ins;
+    private String finish_ins;
     private Timestamp start_at;
     private Timestamp finish_at;
     private Timestamp last_sell_at;
