@@ -176,7 +176,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>tourbuzz</finalName>
+		<finalName>app</finalName>
 	</build>
 
 </project>

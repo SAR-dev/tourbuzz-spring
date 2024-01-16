@@ -8,14 +8,5 @@ services:
       context: ./
       args:
         PORT: 8080
-    environment:
-      PORT: 8080
-      POSTGRES_USERNAME: SAR-dev
-      POSTGRES_PASSWORD: B8DbVmHir0PZ
-      POSTGRES_URL: jdbc:postgresql://ep-billowing-snowflake-94421442.us-east-2.aws.neon.tech:5432/tourbuzz
-      MAIL_HOST: smtp.gmail.com
-      MAIL_PORT: 587
-      MAIL_USERNAME: sayedarrafi142403@gmail.com
-      MAIL_PASSWORD: nzxbsooilavoalqt
     ports:
       - "8080:8080"
