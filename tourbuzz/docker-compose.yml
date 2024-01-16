@@ -1,9 +1,9 @@
 version: '3.6'
 
 services:
-  api-app:
-    container_name: api-app
-    image: api-app
+  tourbuzz-api:
+    container_name: tourbuzz-api
+    image: tourbuzz-api
     build:
       context: ./
       args:
