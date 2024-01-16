@@ -16,10 +16,10 @@ spring:
   mail:
     protocol: smtp
     test-connection: false
-    host: smtp.example.com
-    port: 587
-    username: no-reply@example.com
-    password: password
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:sayedarrafi142403@gmail.com}
+    password: ${MAIL_PASSWORD:nzxbsooilavoalqt}
     properties:
       mail:
         smtp:
