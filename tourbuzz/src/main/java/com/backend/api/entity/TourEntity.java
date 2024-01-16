@@ -12,6 +12,7 @@ public class TourEntity {
     private int organizers_id;
     private int images_id;
     private String title;
+    private String video_link;
     private String slug;
     private String md_desc;
     private String highlights;

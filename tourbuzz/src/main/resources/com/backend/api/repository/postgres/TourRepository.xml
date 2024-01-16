@@ -17,6 +17,7 @@
             images_id,
             title,
             slug,
+            video_link,
             md_desc,
             highlights,
             group_size,
@@ -36,6 +37,7 @@
             #{imagesId},
             BTRIM(#{title}),
             BTRIM(#{slug}),
+            #{videoLink},
             #{mdDesc},
             #{highlights},
             #{groupSize},
@@ -60,6 +62,7 @@
             images_id = #{imagesId},
             title = BTRIM(#{title}),
             slug = BTRIM(#{slug}),
+            video_link = #{videoLink},
             md_desc = #{mdDesc},
             highlights = #{highlights},
             group_size = #{groupSize},
@@ -83,9 +86,9 @@
             tt.name AS tour_type_name,
             o.name AS organizer_name,
             o.verification AS organizer_verification,
-            string_agg(DISTINCT p.name, ', ') AS place_names,
-            string_agg(distinct d.name, ', ') AS district_names ,
-            string_agg(distinct pkg.price::text , ', ') AS package_prices
+            string_agg(DISTINCT p.name, ',') AS place_names,
+            string_agg(distinct d.name, ',') AS district_names ,
+            string_agg(distinct pkg.price::text , ',') AS package_prices
         FROM tours t
         JOIN organizers o ON t.organizers_id = o.id
         JOIN tour_types tt ON t.tour_types_id = tt.id

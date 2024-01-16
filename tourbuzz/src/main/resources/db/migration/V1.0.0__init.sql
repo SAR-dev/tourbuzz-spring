@@ -193,6 +193,7 @@ CREATE TABLE tours (
     tour_types_id   integer NOT NULL REFERENCES tour_types(id),
     organizers_id   integer NOT NULL REFERENCES organizers(id),
     images_id       integer NOT NULL REFERENCES images(id),
+    video_link      _link,
     title           text NOT NULL UNIQUE,
     slug            _slug NOT NULL UNIQUE,
     highlights      text NOT NULL,

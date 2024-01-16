@@ -37,6 +37,9 @@ public class TourUpdatePayload {
     @Size(min = 10, max = 100)
     private String slug;
 
+    @JsonProperty("video_link")
+    private String videoLink;
+
     @NotNull
     @Size(min = 10, max = 50000)
     @JsonProperty("md_desc")
