@@ -8,8 +8,9 @@
         INSERT INTO packages (
             tours_id,
             title,
-            description,
-            additional_info,
+            included,
+            excluded,
+            conditions,
             price,
             status
         ) VALUES
@@ -17,8 +18,9 @@
             (
             #{toursId},
             #{item.title},
-            #{item.description},
-            #{item.additionalInfo},
+            #{item.included},
+            #{item.excluded},
+            #{item.conditions},
             #{item.price},
             'PUBLISHED'
             )
@@ -29,15 +31,17 @@
         INSERT INTO packages (
             tours_id,
             title,
-            description,
-            additional_info,
+            included,
+            excluded,
+            conditions,
             price,
             status
         ) VALUES (
             #{toursId},
             #{title},
-            #{description},
-            #{additionalInfo},
+            #{included},
+            #{excluded},
+            #{conditions},
             #{price},
             'DRAFT'
         )
@@ -48,8 +52,9 @@
         SET
             tours_id = db.tours_id,
             title = db.title,
-            description = db.description,
-            additional_info = db.additional_info,
+            included = db.included,
+            excluded = db.excluded,
+            conditions = db.conditions,
             price = db.price,
             status = db.status
         FROM(
@@ -59,8 +64,9 @@
             #{item.id},
             #{toursId},
             #{item.title},
-            #{item.description},
-            #{item.additionalInfo},
+            #{item.included},
+            #{item.excluded},
+            #{item.conditions},
             #{item.price},
             'PUBLISHED'
             )
@@ -69,8 +75,9 @@
             id,
             tours_id,
             title,
-            description,
-            additional_info,
+            included,
+            excluded,
+            conditions,
             price,
             status
         ) WHERE packages.id = db.id

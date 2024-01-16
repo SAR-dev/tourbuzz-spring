@@ -11,8 +11,9 @@ public class PackageEntity {
     private int id;
     private int tours_id;
     private String title;
-    private String description;
-    private String additional_info;
+    private String included;
+    private String excluded;
+    private String conditions;
     private int price;
     private Status status;
     private Timestamp created_at;

@@ -18,10 +18,10 @@
             title,
             slug,
             md_desc,
-            summary,
+            highlights,
             group_size,
             group_info,
-            services,
+            faq,
             transports,
             cancel_ins,
             start_ins,
@@ -37,10 +37,10 @@
             BTRIM(#{title}),
             BTRIM(#{slug}),
             #{mdDesc},
-            #{summary},
+            #{highlights},
             #{groupSize},
             #{groupInfo},
-            #{services},
+            #{faq},
             #{transports},
             #{cancelIns},
             #{startIns},
@@ -61,10 +61,10 @@
             title = BTRIM(#{title}),
             slug = BTRIM(#{slug}),
             md_desc = #{mdDesc},
-            summary = #{summary},
+            highlights = #{highlights},
             group_size = #{groupSize},
             group_info = #{groupInfo},
-            services = #{services},
+            faq = #{faq},
             transports = #{transports},
             cancel_ins = #{cancelIns},
             start_ins = #{startIns},
@@ -76,25 +76,6 @@
         WHERE
         id = #{id}
     </update>
-
-    <insert id="createTourPackages">
-        INSERT INTO packages (
-            tours_id,
-            title,
-            description,
-            additional_info,
-            price
-        ) VALUES
-        <foreach collection="tourPackages" item="item" separator=",">
-            (
-            #{toursId},
-            #{item.title},
-            #{item.description},
-            #{item.additionalInfo},
-            #{item.price}
-            )
-        </foreach>
-    </insert>
 
     <select id="getTours" resultMap="tourListResultMap">
         SELECT DISTINCT

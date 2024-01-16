@@ -2,6 +2,7 @@
 
 CREATE TYPE level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE payment_type AS ENUM('BKASH', 'NAGAD');
+CREATE TYPE status_type AS ENUM('DRAFT', 'PUBLISHED');
 
 --DOMAINS
 
@@ -194,15 +195,15 @@ CREATE TABLE tours (
     images_id       integer NOT NULL REFERENCES images(id),
     title           text NOT NULL UNIQUE,
     slug            _slug NOT NULL UNIQUE,
+    highlights      text NOT NULL,
     md_desc         text NOT NULL,
-    summary         text NOT NULL,
-    group_size      text NOT NULL,
-    group_info      text NOT NULL,
-    services        text NOT NULL,
-    transports      text NOT NULL,
     cancel_ins      text NOT NULL,
     start_ins       text NOT NULL,
     finish_ins      text NOT NULL,
+    faq             text NOT NULL,
+    group_size      text NOT NULL,
+    group_info      text NOT NULL,
+    transports      text NOT NULL,
     image_ids       number_list,
     start_at        timestamp NOT NULL,
     finish_at       timestamp NOT NULL,
@@ -216,10 +217,14 @@ CREATE TABLE packages (
     id              serial PRIMARY KEY,
     tours_id        integer NOT NULL REFERENCES tours(id),
     title           text NOT NULL,
-    description     text NOT NULL,
+    included        text NOT NULL,
+    excluded        text NOT NULL,
+    conditions      text NOT NULL,
     price           integer NOT NULL,
+    status          status_type NOT NULL DEFAULT 'PUBLISHED',
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_title_in_packages UNIQUE (tours_id, title)
 );
 CREATE TRIGGER update_updated_at_packages BEFORE UPDATE ON "public".packages FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
@@ -263,13 +268,15 @@ CREATE TRIGGER update_updated_at_places BEFORE UPDATE ON "public".places FOR EAC
 CREATE TABLE tour_logs (
     id              serial PRIMARY KEY,
     tours_id        integer NOT NULL REFERENCES tours(id),
-    hotels_id       integer NOT NULL REFERENCES hotels(id),
+    hotels_id       integer REFERENCES hotels(id),
     title           text NOT NULL,
     description     text NOT NULL,
     date            date NOT NULL,
     image_ids       number_list,
+    status          status_type NOT NULL DEFAULT 'PUBLISHED',
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unique_tour_date_in_tour_logs UNIQUE ( tours_id, date )
 );
 CREATE TRIGGER update_updated_at_tour_logs BEFORE UPDATE ON "public".tour_logs FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
@@ -293,3 +300,22 @@ CREATE TABLE tickets (
 );
 CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON "public".tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
+CREATE TABLE admin(
+    Lock char(1) not null DEFAULT 'X',
+    secret text not null,
+    constraint PK_T1 PRIMARY KEY (Lock),
+    constraint CK_T1_Locked CHECK (Lock='X')
+);
+INSERT INTO admin (secret) VALUES (gen_random_uuid());
+
+CREATE TABLE ads (
+    id              serial PRIMARY KEY,
+    title           text NOT NULL,
+    subtitle        text,
+    link            text NOT NULL,
+    image_url       text NOT NULL,
+    active          boolean NOT NULL DEFAULT FALSE,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_ads BEFORE UPDATE ON "public".ads FOR EACH ROW EXECUTE FUNCTION update_updated_at();

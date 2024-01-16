@@ -19,13 +19,16 @@ public class TourPackageUpdatePayload {
     private String title;
 
     @NotNull
-    @Size(min = 5, max = 1000)
-    private String description;
+    @Size(min = 5, max = 10000)
+    private String included;
 
     @NotNull
     @Size(min = 5, max = 10000)
-    @JsonProperty("additional_info")
-    private String additionalInfo;
+    private String excluded;
+
+    @NotNull
+    @Size(min = 5, max = 10000)
+    private String conditions;
 
     @NotNull
     @Min(100)

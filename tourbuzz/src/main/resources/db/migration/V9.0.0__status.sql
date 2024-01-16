@@ -1,7 +1,0 @@
-CREATE TYPE status_type AS ENUM('DRAFT', 'PUBLISHED');
-
-ALTER TABLE tour_logs
-ADD COLUMN status status_type NOT NULL DEFAULT 'PUBLISHED';
-
-ALTER TABLE packages
-ADD COLUMN status status_type NOT NULL DEFAULT 'PUBLISHED';

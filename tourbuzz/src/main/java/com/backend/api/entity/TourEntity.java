@@ -1,6 +1,5 @@
 package com.backend.api.entity;
 
-import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -15,14 +14,14 @@ public class TourEntity {
     private String title;
     private String slug;
     private String md_desc;
-    private String summary;
+    private String highlights;
+    private String faq;
     private String group_size;
     private String group_info;
-    private String services;
     private String transports;
     private String cancel_ins;
-    private String start_ins;
-    private String finish_ins;
+    private String pickup_points;
+    private String dropoff_points;
     private Timestamp start_at;
     private Timestamp finish_at;
     private Timestamp last_sell_at;

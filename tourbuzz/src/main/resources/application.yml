@@ -6,9 +6,9 @@ spring:
   datasource:
     postgres:
       hikari:
-        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://ep-billowing-snowflake-94421442.us-east-2.aws.neon.tech:5432/tourbuzz}
-        username: ${POSTGRES_USERNAME:SAR-dev}
-        password: ${POSTGRES_PASSWORD:B8DbVmHir0PZ}
+        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz}
+        username: ${POSTGRES_USERNAME:postgres}
+        password: ${POSTGRES_PASSWORD:admin}
         driver-class-name: org.postgresql.Driver
         auto-commit: false
         minimum-idle: 10
@@ -16,10 +16,10 @@ spring:
   mail:
     protocol: smtp
     test-connection: false
-    host: ${MAIL_HOST:smtp.gmail.com}
+    host: ${MAIL_HOST:smtp.example.com}
     port: ${MAIL_PORT:587}
-    username: ${MAIL_USERNAME:sayedarrafi142403@gmail.com}
-    password: ${MAIL_PASSWORD:nzxbsooilavoalqt}
+    username: ${MAIL_USERNAME:example@email.com}
+    password: ${MAIL_PASSWORD:password}
     properties:
       mail:
         smtp:
@@ -38,9 +38,9 @@ pagehelper:
 server:
   port: ${PORT:8080}
 flyway:
-  url: ${POSTGRES_URL:jdbc:postgresql://ep-billowing-snowflake-94421442.us-east-2.aws.neon.tech:5432/tourbuzz}
-  username: ${POSTGRES_USERNAME:SAR-dev}
-  password: ${POSTGRES_PASSWORD:B8DbVmHir0PZ}
+  url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz}
+  username: ${POSTGRES_USERNAME:postgres}
+  password: ${POSTGRES_PASSWORD:admin}
   driver-class-name: org.postgresql.Driver
   baselineOnMigrate: true
   locations: classpath:db/migration/{vendor}

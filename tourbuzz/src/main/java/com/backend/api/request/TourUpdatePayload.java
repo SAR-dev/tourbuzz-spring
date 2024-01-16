@@ -44,7 +44,7 @@ public class TourUpdatePayload {
 
     @NotNull
     @Size(min = 10, max = 5000)
-    private String summary;
+    private String highlights;
 
     @NotNull
     @Size(min = 1, max = 20)
@@ -57,8 +57,8 @@ public class TourUpdatePayload {
     private String groupInfo;
 
     @NotNull
-    @Size(min = 10, max = 2000)
-    private String services;
+    @Size(min = 10, max = 10000)
+    private String faq;
 
     @NotNull
     @Size(min = 5, max = 200)
