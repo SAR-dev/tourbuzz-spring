@@ -12,12 +12,14 @@
     <insert id="createHotel">
         INSERT INTO hotels (
             districts_id,
+            images_id,
             name,
             map_link,
             website,
             review
         ) VALUES (
             #{districtsId},
+            #{imagesId},
             BTRIM(#{name}),
             #{mapLink},
             #{website},
@@ -28,6 +30,7 @@
     <update id="updateHotel">
         UPDATE hotels SET
             districts_id = #{districtsId},
+            images_id = #{imagesId},
             name = BTRIM(#{name}),
             map_link = #{mapLink},
             website = #{website},
@@ -59,6 +62,12 @@
                 select="com.backend.api.repository.postgres.StaticRepository.getDistrictById"
                 javaType="com.backend.api.entity.DistrictEntity"
                 column="id = districts_id"
+        />
+        <association
+                property="avatar"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
+                javaType="com.backend.api.entity.ImageEntity"
+                column="id = images_id"
         />
     </resultMap>
 </mapper>

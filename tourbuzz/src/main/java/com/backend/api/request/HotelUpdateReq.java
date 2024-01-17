@@ -14,6 +14,10 @@ public class HotelUpdateReq {
     private Integer hotelsId;
 
     @NotNull
+    @JsonProperty("images_id")
+    private Integer imagesId;
+
+    @NotNull
     @JsonProperty("districts_id")
     private Integer districtsId;
 

@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 public class OrganizerCreateReq {
+    @NotNull
     @JsonProperty("images_id")
     private Integer imagesId;
 

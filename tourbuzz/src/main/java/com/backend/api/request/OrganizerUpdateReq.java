@@ -13,6 +13,7 @@ public class OrganizerUpdateReq {
     @JsonProperty("organizers_id")
     private Integer organizersId;
 
+    @NotNull
     @JsonProperty("images_id")
     private Integer imagesId;
 

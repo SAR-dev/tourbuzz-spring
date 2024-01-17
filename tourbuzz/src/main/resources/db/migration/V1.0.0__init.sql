@@ -243,6 +243,7 @@ CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON "public".comments FOR
 CREATE TABLE hotels (
     id              serial PRIMARY KEY,
     districts_id    integer NOT NULL REFERENCES districts(id),
+    images_id       integer NOT NULL REFERENCES images(id),
     name            text NOT NULL UNIQUE,
     map_link        _link NOT NULL,
     website         _link,

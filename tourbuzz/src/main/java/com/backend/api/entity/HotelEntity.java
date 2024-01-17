@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 public class HotelEntity {
     private int id;
     private int districts_id;
+    private int images_id;
     private String name;
     private String map_link;
     private String website;
@@ -17,4 +18,5 @@ public class HotelEntity {
     private Timestamp updated_at;
 
     private DistrictEntity district;
+    private ImageEntity avatar;
 }

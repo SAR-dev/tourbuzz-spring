@@ -15,6 +15,10 @@ public class HotelCreateReq {
     private Integer districtsId;
 
     @NotNull
+    @JsonProperty("images_id")
+    private Integer imagesId;
+
+    @NotNull
     @Size(min = 3, max = 50)
     private String name;
 
