@@ -16,7 +16,7 @@ public interface TourTypeRepository {
 
     int updateTourType(TourTypeUpdateReq tourTypeUpdateReq);
 
-    List<TourTypeEntity> getTourTypes();
+    List<TourTypeEntity> getTourTypes(String name);
 
     TourTypeEntity getTourTypeById(int id);
 

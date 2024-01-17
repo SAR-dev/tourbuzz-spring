@@ -39,8 +39,8 @@ public class TourTypeService {
         tourTypeRepository.createTourType(tourTypeCreateReq);
     }
 
-    public List<TourTypeEntity> getTourTypes(){
-        return tourTypeRepository.getTourTypes();
+    public List<TourTypeEntity> getTourTypes(String name){
+        return tourTypeRepository.getTourTypes(name);
     }
 
     public TourTypeEntity getTourTypeById(int id){

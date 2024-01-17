@@ -346,9 +346,16 @@ public class AdminController {
 
     @Tag(name = "Get Tour Type List")
     @GetMapping("/tour-types")
-    public List<TourTypeEntity> getTourTypes() throws Exception {
+    public PaginatedRes getTourTypes(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
         authService.verifyAdminToken();
-        return tourTypeService.getTourTypes();
+        PageHelper.startPage(pageNo, pageSize);
+        List<TourTypeEntity> tourTypeEntities = tourTypeService.getTourTypes(name);
+        Page<TourTypeEntity> pageInfo = (Page<TourTypeEntity>) tourTypeEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
     @Tag(name = "Update Tour Type")

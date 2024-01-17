@@ -31,7 +31,13 @@
     </update>
 
     <select id="getTourTypes" resultType="com.backend.api.entity.TourTypeEntity">
-        SELECT * FROM tour_types ORDER BY id DESC
+        SELECT tt.* FROM tour_types tt
+        <where>
+            <if test="name != '' ">
+                AND LOWER(tt.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+        </where>
+        ORDER BY id DESC
     </select>
 
     <select id="getTourTypeById" resultType="com.backend.api.entity.TourTypeEntity">
