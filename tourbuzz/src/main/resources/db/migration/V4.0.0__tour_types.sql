@@ -1,4 +1,4 @@
-INSERT INTO tour_types (name, slug, details) VALUES
+INSERT INTO public.tour_types (name, slug, details) VALUES
   ('Historical Heritage Tour', 'historical-heritage', 'Explore the rich history and heritage of the region with a guided tour to historical landmarks.'),
   ('Mountain Expedition Adventure', 'mountain-expedition', 'Embark on an adventurous journey through challenging mountain terrains and breathtaking landscapes.'),
   ('Tropical Paradise Getaway', 'tropical-getaway', 'Escape to a tropical paradise, with sun-kissed beaches, crystal-clear waters, and lush greenery.'),

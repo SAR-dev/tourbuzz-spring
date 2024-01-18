@@ -5,7 +5,7 @@
 <mapper namespace="com.backend.api.repository.postgres.admin.TourLogRepository">
 
     <insert id="createTourLogs">
-        INSERT INTO tour_logs (
+        INSERT INTO public.tour_logs (
             tours_id,
             hotels_id,
             title,
@@ -28,7 +28,7 @@
     </insert>
 
     <insert id="createDraftTourLog">
-        INSERT INTO tour_logs (
+        INSERT INTO public.tour_logs (
             tours_id,
             hotels_id,
             title,
@@ -48,17 +48,18 @@
     </insert>
 
     <select id="getTourLogByTourIdAndDate" resultMap="tourLogResultMap">
-        SELECT * FROM tour_logs WHERE tours_id = #{toursId} AND date = TO_DATE(#{date}, 'DD/MM/YYYY')
+        SELECT * FROM public.tour_logs WHERE tours_id = #{toursId} AND date = TO_DATE(#{date}, 'DD/MM/YYYY')
     </select>
 
     <insert id="createTourLogsPlaces">
-        INSERT INTO tour_logs_places (
+        INSERT INTO public.tour_logs_places (
             tour_logs_id,
             places_id
         ) VALUES
         <foreach collection="tourLogsPlaces" item="item" separator=",">
         (
-            (SELECT id FROM tour_logs
+            (
+                SELECT id FROM public.tour_logs
                 WHERE tours_id = #{item.toursId}
                 AND date = TO_DATE(#{item.tourLogDate}, 'DD/MM/YYYY')
             ),
@@ -70,7 +71,7 @@
     </insert>
 
     <delete id="deleteTourLogPlaces">
-        DELETE FROM tour_logs_places WHERE tour_logs_id IN (
+        DELETE FROM public.tour_logs_places WHERE tour_logs_id IN (
         <foreach collection="tourLogIds" item="id" separator=",">
             #{id}
         </foreach>
@@ -78,7 +79,7 @@
     </delete>
 
     <update id="updateTourLogs">
-        UPDATE tour_logs
+        UPDATE public.tour_logs 
         SET
             tours_id = db.tours_id,
             hotels_id = db.hotels_id,
@@ -115,20 +116,20 @@
 
     <delete id="deleteTourLogsById">
         WITH res AS (
-            DELETE FROM tour_logs_places WHERE tour_logs_id = #{id}
+            DELETE FROM public.tour_logs_places WHERE tour_logs_id = #{id}
         )
-        DELETE FROM tour_logs WHERE id = #{id}
+        DELETE FROM public.tour_logs WHERE id = #{id}
     </delete>
 
     <select id="getTourLogIdsByTourId" resultType="integer">
-        SELECT id FROM tour_logs WHERE toursId = #{toursId}
+        SELECT id FROM public.tour_logs WHERE toursId = #{toursId}
     </select>
 
     <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.admin.PlaceRepository.placeResultMap">
         SELECT
             p.*
-        FROM tour_logs_places tlp
-        JOIN places p ON tlp.places_id = p.id
+        FROM public.tour_logs_places tlp
+        JOIN public.places p ON tlp.places_id = p.id
         WHERE tlp.tour_logs_id = #{id}
     </select>
 

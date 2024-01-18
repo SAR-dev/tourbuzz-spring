@@ -5,7 +5,7 @@
 <mapper namespace="com.backend.api.repository.postgres.admin.PackageRepository">
 
     <insert id="createPackages">
-        INSERT INTO packages (
+        INSERT INTO public.packages (
             tours_id,
             title,
             included,
@@ -28,7 +28,7 @@
     </insert>
 
     <insert id="createDraftPackage">
-        INSERT INTO packages (
+        INSERT INTO public.packages (
             tours_id,
             title,
             included,
@@ -48,7 +48,7 @@
     </insert>
 
     <update id="updatePackages">
-        UPDATE packages
+        UPDATE public.packages 
         SET
             tours_id = db.tours_id,
             title = db.title,
@@ -84,15 +84,15 @@
     </update>
 
     <select id="getPackageByTourIdAndTitle" resultType="com.backend.api.entity.PackageEntity">
-        SELECT * FROM packages WHERE tours_id = #{toursId} AND title = #{title}
+        SELECT * FROM public.packages WHERE tours_id = #{toursId} AND title = #{title}
     </select>
 
     <select id="getPackageIdsByTourId" resultType="integer">
-        SELECT id FROM packages WHERE toursId = #{toursId}
+        SELECT id FROM public.packages WHERE toursId = #{toursId}
     </select>
 
     <delete id="deletePackageById">
-        DELETE FROM packages WHERE id = #{id}
+        DELETE FROM public.packages WHERE id = #{id}
     </delete>
 
 </mapper>

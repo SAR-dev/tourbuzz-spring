@@ -5,14 +5,14 @@
 <mapper namespace="com.backend.api.repository.postgres.UserRepository">
 
     <insert id="createUserByEmail">
-        INSERT INTO users (email) VALUES ( #{email} )
+        INSERT INTO auth.users (email) VALUES ( #{email} )
         ON CONFLICT (email)
         DO UPDATE SET
         last_logged_in = CURRENT_TIMESTAMP
     </insert>
 
     <update id="updateUserByEmail">
-        UPDATE users
+        UPDATE auth.users
         <set>
             <if test="name != null and name != '' ">
                 name = #{name},
@@ -25,11 +25,11 @@
     </update>
 
     <select id="getUserByEmail" resultType="com.backend.api.entity.UserEntity">
-        SELECT * FROM users WHERE email = #{email}
+        SELECT * FROM auth.users WHERE email = #{email}
     </select>
 
     <select id="getUserById" resultMap="userResultMap">
-        SELECT * FROM users WHERE id = #{id}
+        SELECT * FROM auth.users WHERE id = #{id}
     </select>
 
     <resultMap id="userResultMap" type="com.backend.api.entity.UserEntity">

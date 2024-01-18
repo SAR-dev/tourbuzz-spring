@@ -6,11 +6,11 @@
 
     <select id="checkPlace" resultType="com.backend.api.response.PlaceCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM places WHERE name = #{name}) AS name_exists
+            EXISTS (SELECT 1 FROM public.places WHERE name = #{name}) AS name_exists
     </select>
 
     <insert id="createPlace">
-        INSERT INTO places (
+        INSERT INTO public.places (
             images_id,
             districts_id,
             name,
@@ -30,7 +30,8 @@
     </insert>
 
     <update id="updatePlace">
-        UPDATE places SET
+        UPDATE public.places
+        SET
             images_id = #{imagesId},
             districts_id = #{districtsId},
             name = BTRIM(#{name}),
@@ -42,11 +43,11 @@
     </update>
 
     <delete id="deletePlaceById">
-        DELETE FROM places WHERE id = #{id}
+        DELETE FROM public.places WHERE id = #{id}
     </delete>
 
     <select id="getPlaces" resultMap="placeResultMap">
-        SELECT p.* FROM places p
+        SELECT p.* FROM public.places p
         <where>
             <if test="name != '' ">
                 LOWER(p.name) LIKE  '%' || LOWER(#{name}) || '%'
@@ -56,12 +57,12 @@
     </select>
 
     <select id="getPlaceById" resultMap="placeResultMap">
-        SELECT * FROM places WHERE id = #{id}
+        SELECT * FROM public.places WHERE id = #{id}
     </select>
 
     <select id="getPlaceTypes" resultType="com.backend.api.response.PlaceTypeRes">
         SELECT type, COUNT(*) AS count
-        FROM places
+        FROM public.places 
         GROUP BY type
         ORDER BY count DESC
     </select>

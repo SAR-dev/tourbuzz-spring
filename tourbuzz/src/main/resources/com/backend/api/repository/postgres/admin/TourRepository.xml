@@ -6,12 +6,12 @@
 
     <select id="checkTour" resultType="com.backend.api.response.TourCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM tours WHERE title = BTRIM(#{title})) AS slug_exists,
-            EXISTS (SELECT 1 FROM tours WHERE slug = BTRIM(#{slug})) AS name_exists
+            EXISTS (SELECT 1 FROM public.tours WHERE title = BTRIM(#{title})) AS slug_exists,
+            EXISTS (SELECT 1 FROM public.tours WHERE slug = BTRIM(#{slug})) AS name_exists
     </select>
 
     <select id="createTour" resultType="int">
-        INSERT INTO tours (
+        INSERT INTO public.tours (
             tour_types_id,
             organizers_id,
             images_id,
@@ -55,7 +55,7 @@
     </select>
 
     <update id="updateTour">
-        UPDATE tours
+        UPDATE public.tours 
         SET
             tour_types_id = #{tourTypesId},
             organizers_id = #{organizersId},
@@ -89,14 +89,14 @@
             string_agg(DISTINCT p.name, ',') AS place_names,
             string_agg(distinct d.name, ',') AS district_names ,
             string_agg(distinct pkg.price::text , ',') AS package_prices
-        FROM tours t
-        JOIN organizers o ON t.organizers_id = o.id
-        JOIN tour_types tt ON t.tour_types_id = tt.id
-        JOIN tour_logs tl ON tl.tours_id = t.id
-        JOIN tour_logs_places tlp ON tlp.tour_logs_id = tl.id
-        JOIN places p ON tlp.places_id = p.id
-        JOIN districts d ON p.districts_id = d.id
-        JOIN packages pkg ON pkg.tours_id = t.id
+        FROM public.tours t
+        JOIN public.organizers o ON t.organizers_id = o.id
+        JOIN public.tour_types tt ON t.tour_types_id = tt.id
+        JOIN public.tour_logs tl ON tl.tours_id = t.id
+        JOIN public.tour_logs_places tlp ON tlp.tour_logs_id = tl.id
+        JOIN public.places p ON tlp.places_id = p.id
+        JOIN public.districts d ON p.districts_id = d.id
+        JOIN public.packages pkg ON pkg.tours_id = t.id
         GROUP BY t.id, tt.id , o.id
         ORDER BY t.id DESC
     </select>
@@ -117,23 +117,23 @@
     </resultMap>
 
     <select id="getTourById" resultMap="tourResultMap">
-        SELECT * FROM tours WHERE id = #{id}
+        SELECT * FROM public.tours WHERE id = #{id}
     </select>
 
     <delete id="deleteTourById">
         WITH tlp AS (
-            DELETE FROM tour_logs_places
+            DELETE FROM public.tour_logs_places
             WHERE tour_logs_id IN (
-                SELECT id FROM tour_logs WHERE tours_id = #{id}
+                SELECT id FROM public.tour_logs WHERE tours_id = #{id}
             )
         ),
         tl AS (
-            DELETE FROM tour_logs WHERE tours_id = #{id}
+            DELETE FROM public.tour_logs WHERE tours_id = #{id}
         ),
         p AS (
-            DELETE FROM packages WHERE tours_id = #{id}
+            DELETE FROM public.packages WHERE tours_id = #{id}
         )
-        DELETE FROM tours WHERE id = #{id}
+        DELETE FROM public.tours WHERE id = #{id}
     </delete>
 
     <resultMap id="tourResultMap" type="com.backend.api.entity.TourEntity">
@@ -176,11 +176,11 @@
     </resultMap>
 
     <select id="selectTourLogsByTourId" resultMap="com.backend.api.repository.postgres.admin.TourLogRepository.tourLogResultMap">
-        SELECT * FROM tour_logs WHERE tours_id = #{id} ORDER BY DATE ASC
+        SELECT * FROM public.tour_logs WHERE tours_id = #{id} ORDER BY DATE ASC
     </select>
 
     <select id="selectPackagesByTourId" resultType="com.backend.api.entity.PackageEntity">
-        SELECT * FROM packages WHERE tours_id = #{id}
+        SELECT * FROM public.packages WHERE tours_id = #{id}
     </select>
 
 </mapper>

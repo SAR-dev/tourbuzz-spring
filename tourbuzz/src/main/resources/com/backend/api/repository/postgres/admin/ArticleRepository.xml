@@ -6,12 +6,12 @@
 
     <select id="checkArticle" resultType="com.backend.api.response.ArticleCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM articles WHERE title = BTRIM(#{title}))) AS title_exists,
-            EXISTS (SELECT 1 FROM articles WHERE slug = BTRIM(#{slug}))) AS slug_exists
+            EXISTS (SELECT 1 FROM public.articles WHERE title = BTRIM(#{title}))) AS title_exists,
+            EXISTS (SELECT 1 FROM public.articles WHERE slug = BTRIM(#{slug}))) AS slug_exists
     </select>
 
     <insert id="createArticle">
-        INSERT INTO articles (
+        INSERT INTO public.articles (
             writers_id,
             title,
             slug,
@@ -31,7 +31,8 @@
     </insert>
 
     <update id="updateArticle">
-        UPDATE articles SET
+        UPDATE public.articles
+        SET
             writers_id = #{writersId},
             title = BTRIM(#{title}),
             slug = BTRIM(#{slug}),
@@ -43,15 +44,15 @@
     </update>
 
     <delete id="deleteArticleById">
-        DELETE FROM articles WHERE id = #{id}
+        DELETE FROM public.articles WHERE id = #{id}
     </delete>
 
     <select id="getArticles" resultMap="articleResultMap">
-        SELECT * FROM articles ORDER BY id DESC
+        SELECT * FROM public.articles ORDER BY id DESC
     </select>
 
     <select id="getArticleById" resultMap="articleResultMap">
-        SELECT * FROM articles WHERE id = #{id}
+        SELECT * FROM public.articles WHERE id = #{id}
     </select>
 
     <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">

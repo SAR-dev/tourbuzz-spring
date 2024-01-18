@@ -5,13 +5,13 @@
 <mapper namespace="com.backend.api.repository.postgres.admin.AdminRepository">
 
     <insert id="updateSecret">
-        INSERT INTO admin (secret) VALUES (gen_random_uuid())
+        INSERT INTO auth.admin (secret) VALUES (gen_random_uuid())
         ON CONFLICT (lock)
         DO UPDATE SET secret = excluded.secret
     </insert>
 
     <select id="getSecret" resultType="string">
-        SELECT secret FROM admin
+        SELECT secret FROM auth.admin
     </select>
 
 </mapper>

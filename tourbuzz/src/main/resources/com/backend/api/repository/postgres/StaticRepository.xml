@@ -4,11 +4,11 @@
 
 <mapper namespace="com.backend.api.repository.postgres.StaticRepository">
     <select id="getDistricts" resultMap="districtResultMap">
-        SELECT * FROM districts ORDER BY name
+        SELECT * FROM public.districts ORDER BY name
     </select>
 
     <select id="getDistrictById" resultMap="districtResultMap">
-        SELECT * FROM districts WHERE id = #{id}
+        SELECT * FROM public.districts WHERE id = #{id}
     </select>
 
     <resultMap id="districtResultMap" type="com.backend.api.entity.DistrictEntity">
@@ -21,11 +21,11 @@
     </resultMap>
 
     <select id="getDivisionById" resultType="com.backend.api.entity.DivisionEntity">
-        SELECT * FROM divisions WHERE id = #{id}
+        SELECT * FROM public.divisions WHERE id = #{id}
     </select>
 
     <select id="getDivisionsWithDistricts" resultMap="divisionWithDistrictsResultMap">
-        SELECT * FROM divisions
+        SELECT * FROM public.divisions
     </select>
 
     <resultMap id="divisionWithDistrictsResultMap" type="com.backend.api.response.DivisionWithDistrictsRes">
@@ -44,7 +44,7 @@
     </resultMap>
 
     <select id="getDistrictsByDivision" resultType="com.backend.api.entity.DistrictEntity">
-        SELECT * FROM districts WHERE divisions_id = #{divisions_id}
+        SELECT * FROM public.districts WHERE divisions_id = #{divisions_id}
     </select>
 
 </mapper>

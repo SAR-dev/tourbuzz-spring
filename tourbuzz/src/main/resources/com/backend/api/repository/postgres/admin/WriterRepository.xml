@@ -6,13 +6,13 @@
 
     <select id="checkWriter" resultType="com.backend.api.response.WriterCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM writers WHERE email = #{email}) AS email_exists,
-            EXISTS (SELECT 1 FROM writers WHERE username = BTRIM(#{username})) AS username_exists,
-            EXISTS (SELECT 1 FROM writers WHERE name = BTRIM(#{name})) AS name_exists
+            EXISTS (SELECT 1 FROM public.writers WHERE email = #{email}) AS email_exists,
+            EXISTS (SELECT 1 FROM public.writers WHERE username = BTRIM(#{username})) AS username_exists,
+            EXISTS (SELECT 1 FROM public.writers WHERE name = BTRIM(#{name})) AS name_exists
     </select>
 
     <insert id="createWriter">
-        INSERT INTO writers (
+        INSERT INTO public.writers (
             images_id,
             name,
             email,
@@ -32,7 +32,8 @@
     </insert>
 
     <update id="updateWriter">
-        UPDATE writers SET
+        UPDATE public.writers
+        SET
             images_id = #{imagesId},
             name = BTRIM(#{name}),
             email = #{email},
@@ -44,15 +45,15 @@
     </update>
 
     <delete id="deleteWriterById">
-        DELETE FROM writers WHERE id = #{id}
+        DELETE FROM public.writers WHERE id = #{id}
     </delete>
 
     <select id="getWriterById" resultMap="writerResultMap">
-        SELECT * FROM writers WHERE id = #{id}
+        SELECT * FROM public.writers WHERE id = #{id}
     </select>
 
     <select id="getWriters" resultMap="writerResultMap">
-        SELECT w.* FROM writers w
+        SELECT w.* FROM public.writers w
         <where>
             <if test="name != '' ">
                 AND LOWER(w.name) LIKE  '%' || LOWER(#{name}) || '%'

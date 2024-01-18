@@ -5,7 +5,7 @@
 <mapper namespace="com.backend.api.repository.postgres.admin.AdRepository">
 
     <insert id="createAd">
-        INSERT INTO ads (
+        INSERT INTO public.ads (
             title,
             subtitle,
             link,
@@ -21,7 +21,8 @@
     </insert>
 
     <update id="updateAd">
-        UPDATE ads SET
+        UPDATE public.ads
+        SET
             title = BTRIM(#{title}),
             subtitle = #{subtitle},
             link = #{link},
@@ -31,15 +32,15 @@
     </update>
 
     <delete id="deleteAdById">
-        DELETE FROM ads WHERE id = #{id}
+        DELETE FROM public.ads WHERE id = #{id}
     </delete>
 
     <select id="getAds" resultType="com.backend.api.entity.AdEntity">
-        SELECT * FROM ads ORDER BY id DESC
+        SELECT * FROM public.ads ORDER BY id DESC
     </select>
 
     <select id="getAdById" resultType="com.backend.api.entity.AdEntity">
-        SELECT * FROM ads WHERE id = #{id}
+        SELECT * FROM public.ads WHERE id = #{id}
     </select>
 
 </mapper>

@@ -8,7 +8,7 @@
         SELECT DISTINCT users_id
         FROM (
             SELECT users_id
-            FROM enquiries
+            FROM public.enquiries
             ORDER BY
             CASE WHEN answer IS NULL THEN 0 ELSE 1 END,
             answer DESC NULLS FIRST,
@@ -32,11 +32,11 @@
     </resultMap>
 
     <select id="getEnquiriesByUser" resultMap="enquiryResultMap">
-        SELECT * FROM enquiries WHERE users_id = #{users_id} ORDER BY id DESC
+        SELECT * FROM public.enquiries WHERE users_id = #{users_id} ORDER BY id DESC
     </select>
 
     <insert id="submitQuestion">
-        INSERT INTO enquiries (
+        INSERT INTO public.enquiries (
             users_id,
             question,
             contact_no
@@ -48,7 +48,8 @@
     </insert>
 
     <update id="answerQuestion">
-        UPDATE enquiries SET
+        UPDATE public.enquiries
+        SET
             answer = #{answer},
             answered_at = CURRENT_TIMESTAMP
         WHERE id = #{enquiriesId}

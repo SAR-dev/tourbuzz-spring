@@ -65,6 +65,6 @@ WITH res (division, district) AS (
         ('Sylhet', 'Sunamganj'), 
         ('Sylhet', 'Sylhet')
 )
-INSERT INTO districts (name, divisions_id)
+INSERT INTO public.districts (name, divisions_id)
 SELECT district, divisions.id FROM res
 JOIN divisions ON res.division = divisions.name

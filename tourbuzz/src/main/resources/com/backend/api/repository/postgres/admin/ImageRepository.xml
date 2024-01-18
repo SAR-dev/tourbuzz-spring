@@ -5,7 +5,7 @@
 <mapper namespace="com.backend.api.repository.postgres.admin.ImageRepository">
 
     <select id="createImage" resultType="com.backend.api.entity.ImageEntity">
-        INSERT INTO images (
+        INSERT INTO public.images (
             title,
             source_url,
             thumbnail_url,
@@ -19,19 +19,19 @@
     </select>
 
     <select id="getImages" resultType="com.backend.api.entity.ImageEntity">
-        SELECT * FROM images WHERE deleted IS FALSE ORDER BY id DESC
+        SELECT * FROM public.images WHERE deleted IS FALSE ORDER BY id DESC
     </select>
 
     <select id="getImageByImagesId" resultType="com.backend.api.entity.ImageEntity">
-        SELECT * FROM images WHERE id = #{id}
+        SELECT * FROM public.images WHERE id = #{id}
     </select>
 
     <select id="getImageIdsFromList" resultType="com.backend.api.entity.ImageEntity">
-        SELECT * FROM images WHERE id = ANY(number_list_to_array(#{ids}))
+        SELECT * FROM public.images WHERE id = ANY(number_list_to_array(#{ids}))
     </select>
 
     <update id="deleteImage">
-        UPDATE images SET deleted = TRUE WHERE id = #{id}
+        UPDATE public.images SET deleted = TRUE WHERE id = #{id}
     </update>
 
 </mapper>

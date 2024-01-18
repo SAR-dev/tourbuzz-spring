@@ -1,4 +1,4 @@
-INSERT INTO divisions (name) VALUES
+INSERT INTO public.divisions (name) VALUES
 ('Barisal'),
 ('Chittagong'),
 ('Dhaka'),

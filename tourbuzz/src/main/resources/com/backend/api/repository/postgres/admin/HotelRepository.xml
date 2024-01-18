@@ -6,11 +6,11 @@
 
     <select id="checkHotel" resultType="com.backend.api.response.HotelCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM hotels WHERE name = #{name}) AS name_exists
+            EXISTS (SELECT 1 FROM public.hotels WHERE name = #{name}) AS name_exists
     </select>
 
     <insert id="createHotel">
-        INSERT INTO hotels (
+        INSERT INTO public.hotels (
             districts_id,
             images_id,
             name,
@@ -28,7 +28,8 @@
     </insert>
 
     <update id="updateHotel">
-        UPDATE hotels SET
+        UPDATE public.hotels
+        SET
             districts_id = #{districtsId},
             images_id = #{imagesId},
             name = BTRIM(#{name}),
@@ -39,11 +40,11 @@
     </update>
 
     <delete id="deleteHotelById">
-        DELETE FROM hotels WHERE id = #{id}
+        DELETE FROM public.hotels WHERE id = #{id}
     </delete>
 
     <select id="getHotels" resultMap="hotelResultMap">
-        SELECT h.* FROM hotels h
+        SELECT h.* FROM public.hotels h
         <where>
             <if test="name != '' ">
                 LOWER(h.name) LIKE  '%' || LOWER(#{name}) || '%'
@@ -53,7 +54,7 @@
     </select>
 
     <select id="getHotelById" resultMap="hotelResultMap">
-        SELECT * FROM hotels WHERE id = #{id}
+        SELECT * FROM public.hotels WHERE id = #{id}
     </select>
 
     <resultMap id="hotelResultMap" type="com.backend.api.entity.HotelEntity">
