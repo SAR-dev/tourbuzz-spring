@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.admin.ArticleRepository">
+
+    <select id="checkArticle" resultType="com.backend.api.response.ArticleCheckRes">
+        SELECT
+            EXISTS (SELECT 1 FROM articles WHERE title = BTRIM(#{title}))) AS title_exists,
+            EXISTS (SELECT 1 FROM articles WHERE slug = BTRIM(#{slug}))) AS slug_exists
+    </select>
+
+    <insert id="createArticle">
+        INSERT INTO articles (
+            writers_id,
+            title,
+            slug,
+            subtitle,
+            summary,
+            md_desc,
+            image_ids
+        ) VALUES (
+            #{writersId},
+            BTRIM(#{title}),
+            BTRIM(#{slug}),
+            #{subtitle},
+            #{summary},
+            #{mdDesc},
+            #{imageIdsStr}
+        )
+    </insert>
+
+    <update id="updateArticle">
+        UPDATE articles SET
+            writers_id = #{writersId},
+            title = BTRIM(#{title}),
+            slug = BTRIM(#{slug}),
+            subtitle = #{subtitle},
+            summary = #{summary},
+            md_desc = #{mdDesc},
+            image_ids = #{imageIdsStr}
+        WHERE id = #{articlesId}
+    </update>
+
+    <delete id="deleteArticleById">
+        DELETE FROM articles WHERE id = #{id}
+    </delete>
+
+    <select id="getArticles" resultMap="articleResultMap">
+        SELECT * FROM articles ORDER BY id DESC
+    </select>
+
+    <select id="getArticleById" resultMap="articleResultMap">
+        SELECT * FROM articles WHERE id = #{id}
+    </select>
+
+    <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">
+        <association
+                property="writer"
+                select="com.backend.api.repository.postgres.admin.WriterRepository.getWriterById"
+                javaType="com.backend.api.entity.WriterEntity"
+                column="id = writers_id"
+        />
+        <collection
+                property="images"
+                ofType="com.backend.api.entity.ImageEntity"
+                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageIdsFromList"
+                column="ids = image_ids"
+        />
+    </resultMap>
+
+</mapper>

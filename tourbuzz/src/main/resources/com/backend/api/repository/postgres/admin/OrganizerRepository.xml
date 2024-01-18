@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.admin.OrganizerRepository">
+
+    <select id="checkOrganizer" resultType="com.backend.api.response.OrganizerCheckRes">
+        SELECT
+            EXISTS (SELECT 1 FROM organizers WHERE email = #{email}) AS email_exists,
+            EXISTS (SELECT 1 FROM organizers WHERE username = BTRIM(#{username})) AS username_exists,
+            EXISTS (SELECT 1 FROM organizers WHERE name = BTRIM(#{name})) AS name_exists
+    </select>
+
+    <insert id="createOrganizer">
+        INSERT INTO organizers (
+            images_id,
+            name,
+            email,
+            username,
+            description,
+            contact_no,
+            slogan,
+            verification,
+            social_link
+        ) VALUES (
+            #{imagesId},
+            BTRIM(#{name}),
+            #{email},
+            BTRIM(#{username}),
+            #{description},
+            #{contactNo},
+            #{slogan},
+            CAST(#{verification} AS level_type),
+            #{socialLink}
+        )
+    </insert>
+
+    <update id="updateOrganizer">
+        UPDATE organizers SET
+            images_id = #{imagesId},
+            name = BTRIM(#{name}),
+            email = #{email},
+            username = BTRIM(#{username}),
+            description = #{description},
+            contact_no = #{contactNo},
+            slogan = #{slogan},
+            verification = CAST(#{verification} AS level_type),
+            social_link = #{socialLink}
+        WHERE id = #{organizersId}
+    </update>
+
+    <delete id="deleteOrganizerById">
+        DELETE FROM organizers WHERE id = #{id}
+    </delete>
+
+    <select id="getOrganizers" resultMap="organizerResultMap">
+        SELECT o.* FROM organizers o
+        <where>
+            <if test="name != '' ">
+                AND LOWER(o.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+            <if test="email != '' ">
+                AND LOWER(o.email) LIKE  '%' || LOWER(#{email}) || '%'
+            </if>
+        </where>
+        ORDER BY o.id DESC
+    </select>
+
+    <select id="getOrganizerById" resultMap="organizerResultMap">
+        SELECT * FROM organizers WHERE id = #{id}
+    </select>
+
+    <resultMap id="organizerResultMap" type="com.backend.api.entity.OrganizerEntity">
+        <association
+                property="avatar"
+                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageByImagesId"
+                javaType="com.backend.api.entity.ImageEntity"
+                column="id = images_id"
+        />
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.admin.TourLogRepository">
+
+    <insert id="createTourLogs">
+        INSERT INTO tour_logs (
+            tours_id,
+            hotels_id,
+            title,
+            description,
+            date,
+            image_ids,
+            status
+        ) VALUES
+        <foreach collection="tourLogs" item="item" separator=",">
+        (
+            #{toursId},
+            #{item.hotelsId},
+            #{item.title},
+            #{item.description},
+            TO_DATE(#{item.date}, 'DD/MM/YYYY'),
+            #{item.imageIdsStr},
+            'PUBLISHED'
+        )
+        </foreach>
+    </insert>
+
+    <insert id="createDraftTourLog">
+        INSERT INTO tour_logs (
+            tours_id,
+            hotels_id,
+            title,
+            description,
+            date,
+            image_ids,
+            status
+        ) VALUES (
+            #{toursId},
+            #{hotelsId},
+            #{title},
+            #{description},
+            TO_DATE(#{date}, 'DD/MM/YYYY'),
+            #{imageIdsStr},
+            'DRAFT'
+        )
+    </insert>
+
+    <select id="getTourLogByTourIdAndDate" resultMap="tourLogResultMap">
+        SELECT * FROM tour_logs WHERE tours_id = #{toursId} AND date = TO_DATE(#{date}, 'DD/MM/YYYY')
+    </select>
+
+    <insert id="createTourLogsPlaces">
+        INSERT INTO tour_logs_places (
+            tour_logs_id,
+            places_id
+        ) VALUES
+        <foreach collection="tourLogsPlaces" item="item" separator=",">
+        (
+            (SELECT id FROM tour_logs
+                WHERE tours_id = #{item.toursId}
+                AND date = TO_DATE(#{item.tourLogDate}, 'DD/MM/YYYY')
+            ),
+            #{item.placesId}
+        )
+        </foreach>
+        ON CONFLICT (tour_logs_id, places_id)
+        DO NOTHING
+    </insert>
+
+    <delete id="deleteTourLogPlaces">
+        DELETE FROM tour_logs_places WHERE tour_logs_id IN (
+        <foreach collection="tourLogIds" item="id" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <update id="updateTourLogs">
+        UPDATE tour_logs
+        SET
+            tours_id = db.tours_id,
+            hotels_id = db.hotels_id,
+            title = db.title,
+            description = db.description,
+            date = db.date,
+            image_ids = db.image_ids,
+            status = db.status
+        FROM(
+        VALUES
+        <foreach collection="tourLogs" item="item" separator=",">
+            (
+            #{item.id},
+            #{toursId},
+            #{item.hotelsId},
+            #{item.title},
+            #{item.description},
+            TO_DATE(#{item.date}, 'DD/MM/YYYY'),
+            #{item.imageIdsStr},
+            'PUBLISHED'
+            )
+        </foreach>
+        ) AS db (
+            id,
+            tours_id,
+            hotels_id,
+            title,
+            description,
+            date,
+            image_ids,
+            status
+        ) WHERE tour_logs.id = db.id
+    </update>
+
+    <delete id="deleteTourLogsById">
+        WITH res AS (
+            DELETE FROM tour_logs_places WHERE tour_logs_id = #{id}
+        )
+        DELETE FROM tour_logs WHERE id = #{id}
+    </delete>
+
+    <select id="getTourLogIdsByTourId" resultType="integer">
+        SELECT id FROM tour_logs WHERE toursId = #{toursId}
+    </select>
+
+    <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.admin.PlaceRepository.placeResultMap">
+        SELECT
+            p.*
+        FROM tour_logs_places tlp
+        JOIN places p ON tlp.places_id = p.id
+        WHERE tlp.tour_logs_id = #{id}
+    </select>
+
+    <resultMap id="tourLogResultMap" type="com.backend.api.entity.TourLogEntity">
+        <association
+                property="hotel"
+                select="com.backend.api.repository.postgres.admin.HotelRepository.getHotelById"
+                javaType="com.backend.api.entity.HotelEntity"
+                column="id = hotels_id"
+        />
+        <collection
+                property="images"
+                ofType="com.backend.api.entity.ImageEntity"
+                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageIdsFromList"
+                column="ids = image_ids"
+        />
+        <collection
+                property="places"
+                ofType="com.backend.api.entity.PlaceEntity"
+                select="selectPlacesByTourLogId"
+                column="id = id"
+        />
+    </resultMap>
+
+</mapper>

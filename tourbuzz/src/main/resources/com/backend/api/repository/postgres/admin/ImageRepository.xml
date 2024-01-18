@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.admin.ImageRepository">
+
+    <select id="createImage" resultType="com.backend.api.entity.ImageEntity">
+        INSERT INTO images (
+            title,
+            source_url,
+            thumbnail_url,
+            optimized_url
+        ) VALUES (
+            #{title},
+            #{sourceUrl},
+            #{thumbnailUrl},
+            #{optimizedUrl}
+        ) RETURNING *;
+    </select>
+
+    <select id="getImages" resultType="com.backend.api.entity.ImageEntity">
+        SELECT * FROM images WHERE deleted IS FALSE ORDER BY id DESC
+    </select>
+
+    <select id="getImageByImagesId" resultType="com.backend.api.entity.ImageEntity">
+        SELECT * FROM images WHERE id = #{id}
+    </select>
+
+    <select id="getImageIdsFromList" resultType="com.backend.api.entity.ImageEntity">
+        SELECT * FROM images WHERE id = ANY(number_list_to_array(#{ids}))
+    </select>
+
+    <update id="deleteImage">
+        UPDATE images SET deleted = TRUE WHERE id = #{id}
+    </update>
+
+</mapper>

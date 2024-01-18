@@ -8,7 +8,8 @@ import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
-import com.backend.api.request.SignInReq;
+import com.backend.api.request.admin.AdminSignInReq;
+import com.backend.api.service.admin.AdminService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -125,7 +126,7 @@ public class AuthService {
         return decodedJWT.getSubject();
     }
 
-    public void verifySignInAdminRequest(SignInReq signInReq) throws Exception {
+    public void verifySignInAdminRequest(AdminSignInReq signInReq) throws Exception {
         String magicEmail = getEmailFromMagicToken(signInReq.getMagicToken());
         String adminEmail = getEmailFromAdminKey(signInReq.getAdminKey());
         if(!adminEmail.equals(magicEmail)){

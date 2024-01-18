@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.admin.TourTypeRepository">
+
+    <select id="checkTourType" resultType="com.backend.api.response.TourTypeCheckRes">
+        SELECT
+            EXISTS (SELECT 1 FROM tour_types WHERE slug = BTRIM(#{slug})) AS slug_exists,
+            EXISTS (SELECT 1 FROM tour_types WHERE name = BTRIM(#{name})) AS name_exists
+    </select>
+
+    <insert id="createTourType">
+        INSERT INTO tour_types (
+            name,
+            slug,
+            details
+        ) VALUES (
+            #{name},
+            #{slug},
+            #{details}
+        )
+    </insert>
+
+    <update id="updateTourType">
+        UPDATE tour_types SET
+            name = #{name},
+            slug = #{slug},
+            details = #{details}
+        WHERE id = #{tourTypesId}
+    </update>
+
+    <select id="getTourTypes" resultType="com.backend.api.entity.TourTypeEntity">
+        SELECT tt.* FROM tour_types tt
+        <where>
+            <if test="name != '' ">
+                AND LOWER(tt.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+        </where>
+        ORDER BY id DESC
+    </select>
+
+    <select id="getTourTypeById" resultType="com.backend.api.entity.TourTypeEntity">
+        SELECT * FROM tour_types WHERE id = #{id}
+    </select>
+
+    <delete id="deleteTourTypeById">
+        DELETE tour_types WHERE id = #{id}
+    </delete>
+
+</mapper>

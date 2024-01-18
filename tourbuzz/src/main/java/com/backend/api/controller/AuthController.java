@@ -2,7 +2,7 @@ package com.backend.api.controller;
 
 import com.backend.api.Constants;
 import com.backend.api.request.MagicLinkReq;
-import com.backend.api.request.SignInReq;
+import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.response.AdminAccessTokenRes;
 import com.backend.api.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,7 +30,7 @@ public class AuthController {
 
     @Tag(name = "Admin Sign In")
     @PostMapping("/admin-sign-in")
-    public AdminAccessTokenRes signIn(@RequestBody SignInReq request) throws Exception {
+    public AdminAccessTokenRes signIn(@RequestBody AdminSignInReq request) throws Exception {
         authService.verifySignInAdminRequest(request);
 
         String accessToken = authService.getAccessToken(request.getMagicToken());

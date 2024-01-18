@@ -1,7 +1,7 @@
 package com.backend.api.repository.postgres;
 
 import com.backend.api.entity.UserEntity;
-import com.backend.api.request.UserUpdateReq;
+import com.backend.api.request.admin.UserUpdateReq;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

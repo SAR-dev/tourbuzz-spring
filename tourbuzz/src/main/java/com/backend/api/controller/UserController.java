@@ -1,7 +1,7 @@
 package com.backend.api.controller;
 
 import com.backend.api.entity.UserEntity;
-import com.backend.api.request.UserUpdateReq;
+import com.backend.api.request.admin.UserUpdateReq;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;

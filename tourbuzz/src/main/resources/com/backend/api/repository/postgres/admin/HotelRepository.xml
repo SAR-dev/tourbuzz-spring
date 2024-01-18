@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.admin.HotelRepository">
+
+    <select id="checkHotel" resultType="com.backend.api.response.HotelCheckRes">
+        SELECT
+            EXISTS (SELECT 1 FROM hotels WHERE name = #{name}) AS name_exists
+    </select>
+
+    <insert id="createHotel">
+        INSERT INTO hotels (
+            districts_id,
+            images_id,
+            name,
+            map_link,
+            website,
+            review
+        ) VALUES (
+            #{districtsId},
+            #{imagesId},
+            BTRIM(#{name}),
+            #{mapLink},
+            #{website},
+            #{review}
+        )
+    </insert>
+
+    <update id="updateHotel">
+        UPDATE hotels SET
+            districts_id = #{districtsId},
+            images_id = #{imagesId},
+            name = BTRIM(#{name}),
+            map_link = #{mapLink},
+            website = #{website},
+            review = #{review}
+        WHERE id = #{hotelsId}
+    </update>
+
+    <delete id="deleteHotelById">
+        DELETE FROM hotels WHERE id = #{id}
+    </delete>
+
+    <select id="getHotels" resultMap="hotelResultMap">
+        SELECT h.* FROM hotels h
+        <where>
+            <if test="name != '' ">
+                LOWER(h.name) LIKE  '%' || LOWER(#{name}) || '%'
+            </if>
+        </where>
+        ORDER BY h.name DESC
+    </select>
+
+    <select id="getHotelById" resultMap="hotelResultMap">
+        SELECT * FROM hotels WHERE id = #{id}
+    </select>
+
+    <resultMap id="hotelResultMap" type="com.backend.api.entity.HotelEntity">
+        <association
+                property="district"
+                select="com.backend.api.repository.postgres.StaticRepository.getDistrictById"
+                javaType="com.backend.api.entity.DistrictEntity"
+                column="id = districts_id"
+        />
+        <association
+                property="avatar"
+                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageByImagesId"
+                javaType="com.backend.api.entity.ImageEntity"
+                column="id = images_id"
+        />
+    </resultMap>
+</mapper>
