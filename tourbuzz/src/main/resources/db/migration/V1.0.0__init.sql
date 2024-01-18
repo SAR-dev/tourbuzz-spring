@@ -18,14 +18,27 @@ BEGIN
     CREATE SCHEMA public;
   END IF;
 END $$;
+
 --ENUMS
 
+--public
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE public.payment_type AS ENUM('BKASH', 'NAGAD');
 CREATE TYPE public.status_type AS ENUM('DRAFT', 'PUBLISHED');
 
+--auth
+CREATE TYPE auth.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
+CREATE TYPE auth.payment_type AS ENUM('BKASH', 'NAGAD');
+CREATE TYPE auth.status_type AS ENUM('DRAFT', 'PUBLISHED');
+
+--tour
+CREATE TYPE tour.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
+CREATE TYPE tour.payment_type AS ENUM('BKASH', 'NAGAD');
+CREATE TYPE tour.status_type AS ENUM('DRAFT', 'PUBLISHED');
+
 --DOMAINS
 
+--public
 CREATE DOMAIN public._username AS TEXT
     CHECK (VALUE ~* '^(?=.{4,50}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]+(?<![_.-])$');
 CREATE DOMAIN public._email AS TEXT
@@ -37,10 +50,34 @@ CREATE DOMAIN public.number_list AS TEXT
 CREATE DOMAIN public._slug AS TEXT
     CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
+--auth
+CREATE DOMAIN auth._username AS TEXT
+    CHECK (VALUE ~* '^(?=.{4,50}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]+(?<![_.-])$');
+CREATE DOMAIN auth._email AS TEXT
+    CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
+CREATE DOMAIN auth._link AS TEXT
+    CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
+CREATE DOMAIN auth.number_list AS TEXT
+    CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
+CREATE DOMAIN auth._slug AS TEXT
+    CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
---FUNCTIONS
+--tour
+CREATE DOMAIN tour._username AS TEXT
+    CHECK (VALUE ~* '^(?=.{4,50}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]+(?<![_.-])$');
+CREATE DOMAIN tour._email AS TEXT
+    CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
+CREATE DOMAIN tour._link AS TEXT
+    CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
+CREATE DOMAIN tour.number_list AS TEXT
+    CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
+CREATE DOMAIN tour._slug AS TEXT
+    CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
+
 
 --Update Function
+
+--public
 CREATE OR REPLACE FUNCTION public.update_updated_at()
 RETURNS trigger
 LANGUAGE plpgsql
@@ -52,44 +89,68 @@ END;
 $function$
 ;
 
---Slugify Function
-CREATE EXTENSION IF NOT EXISTS "unaccent" SCHEMA public;
-CREATE OR REPLACE FUNCTION slugify("value" TEXT)
-RETURNS TEXT AS $$
-  WITH "unaccented" AS (
-    SELECT unaccent("value") AS "value"
-  ),
-  "lowercase" AS (
-    SELECT lower("value") AS "value"
-    FROM "unaccented"
-  ),
-  "removed_quotes" AS (
-    SELECT regexp_replace("value", '[''"]+', '', 'gi') AS "value"
-    FROM "lowercase"
-  ),
-  "hyphenated" AS (
-    SELECT regexp_replace("value", '[^a-z0-9\\-_]+', '-', 'gi') AS "value"
-    FROM "removed_quotes"
-  ),
-  "trimmed" AS (
-    SELECT regexp_replace(regexp_replace("value", '\-+$', ''), '^\-', '') AS "value"
-    FROM "hyphenated"
-  )
-  SELECT "value" FROM "trimmed";
-$$ LANGUAGE SQL STRICT IMMUTABLE;
-
---Title to Slug Function
-CREATE FUNCTION public.set_slug_from_title() RETURNS trigger
-    LANGUAGE plpgsql
-    AS $$
+--auth
+CREATE OR REPLACE FUNCTION auth.update_updated_at()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $function$
 BEGIN
-  NEW.slug := slugify(NEW.title);
-  RETURN NEW;
-END
-$$;
+   NEW.updated_at = now();
+   RETURN NEW;
+END;
+$function$
+;
+
+--tour
+CREATE OR REPLACE FUNCTION tour.update_updated_at()
+RETURNS trigger
+LANGUAGE plpgsql
+AS $function$
+BEGIN
+   NEW.updated_at = now();
+   RETURN NEW;
+END;
+$function$
+;
 
 --number_list to array Function
+
+--public
 CREATE OR REPLACE FUNCTION public.number_list_to_array(input_text TEXT)
+RETURNS INTEGER[] AS $$
+DECLARE
+    num_array INTEGER[];
+    num_list TEXT[];
+    i INTEGER := 1;
+BEGIN
+    num_list := string_to_array(input_text, ',');
+    WHILE i <= array_length(num_list, 1) LOOP
+        num_array := num_array || ARRAY[CAST(num_list[i] AS INTEGER)];
+        i := i + 1;
+    END LOOP;
+    RETURN num_array;
+END;
+$$ LANGUAGE plpgsql;
+
+--auth
+CREATE OR REPLACE FUNCTION auth.number_list_to_array(input_text TEXT)
+RETURNS INTEGER[] AS $$
+DECLARE
+    num_array INTEGER[];
+    num_list TEXT[];
+    i INTEGER := 1;
+BEGIN
+    num_list := string_to_array(input_text, ',');
+    WHILE i <= array_length(num_list, 1) LOOP
+        num_array := num_array || ARRAY[CAST(num_list[i] AS INTEGER)];
+        i := i + 1;
+    END LOOP;
+    RETURN num_array;
+END;
+$$ LANGUAGE plpgsql;
+
+--tour
+CREATE OR REPLACE FUNCTION tour.number_list_to_array(input_text TEXT)
 RETURNS INTEGER[] AS $$
 DECLARE
     num_array INTEGER[];
