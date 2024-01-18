@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.AdRepository">
+
+    <insert id="createAd">
+        INSERT INTO ads (
+            title,
+            subtitle,
+            link,
+            image_url,
+            active
+        ) VALUES (
+            BTRIM(#{title}),
+            #{subtitle},
+            #{link},
+            #{imageUrl},
+            #{active}
+        )
+    </insert>
+
+    <update id="updateAd">
+        UPDATE ads SET
+            title = BTRIM(#{title}),
+            subtitle = #{subtitle},
+            link = #{link},
+            image_url = #{imageUrl},
+            active = #{active}
+        WHERE id = #{adsId}
+    </update>
+
+    <delete id="deleteAdById">
+        DELETE FROM ads WHERE id = #{id}
+    </delete>
+
+    <select id="getAds" resultType="com.backend.api.entity.AdEntity">
+        SELECT * FROM ads ORDER BY id DESC
+    </select>
+
+    <select id="getAdById" resultType="com.backend.api.entity.AdEntity">
+        SELECT * FROM ads WHERE id = #{id}
+    </select>
+
+</mapper>

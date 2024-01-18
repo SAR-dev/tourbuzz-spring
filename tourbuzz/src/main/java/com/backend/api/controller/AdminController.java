@@ -32,6 +32,7 @@ public class AdminController {
     private final TourService tourService;
     private final TourLogService tourLogService;
     private final PackageService packageService;
+    private final AdService adService;
 
 //    Images API
     @Tag(name = "Upload Image")
@@ -453,4 +454,45 @@ public class AdminController {
         packageService.deletePackageById(id);
     }
 
+    //    Ad API
+    @Tag(name = "Create Ad")
+    @PostMapping("/ads")
+    public void createAd(@Valid @RequestBody AdCreateReq adCreateReq) throws Exception {
+        authService.verifyAdminToken();
+        adService.createAd(adCreateReq);
+    }
+
+    @Tag(name = "Get Ad List")
+    @GetMapping("/ads")
+    public PaginatedRes getAds(
+            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
+            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
+    ) throws Exception {
+        authService.verifyAdminToken();
+        PageHelper.startPage(pageNo, pageSize);
+        List<AdEntity> adEntities = adService.getAds();
+        Page<AdEntity> pageInfo = (Page<AdEntity>) adEntities;
+        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Update Ad")
+    @PutMapping("/ads")
+    public void updateAd(@Valid @RequestBody AdUpdateReq adUpdateReq) throws Exception {
+        authService.verifyAdminToken();
+        adService.updateAd(adUpdateReq);
+    }
+
+    @Tag(name = "Get Ad By ID")
+    @GetMapping("/ads/{id}")
+    public AdEntity getAdById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        return adService.getAdById(id);
+    }
+
+    @Tag(name = "Delete Ad By ID")
+    @DeleteMapping("/ads/{id}")
+    public void deleteAdById(@PathVariable int id) throws Exception {
+        authService.verifyAdminToken();
+        adService.deleteAdById(id);
+    }
 }
