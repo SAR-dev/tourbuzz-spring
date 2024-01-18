@@ -6,12 +6,12 @@
 
     <select id="checkTourType" resultType="com.backend.api.response.TourTypeCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM public.tour_types WHERE slug = BTRIM(#{slug})) AS slug_exists,
-            EXISTS (SELECT 1 FROM public.tour_types WHERE name = BTRIM(#{name})) AS name_exists
+            EXISTS (SELECT 1 FROM tour.tour_types WHERE slug = BTRIM(#{slug})) AS slug_exists,
+            EXISTS (SELECT 1 FROM tour.tour_types WHERE name = BTRIM(#{name})) AS name_exists
     </select>
 
     <insert id="createTourType">
-        INSERT INTO public.tour_types (
+        INSERT INTO tour.tour_types (
             name,
             slug,
             details
@@ -23,7 +23,7 @@
     </insert>
 
     <update id="updateTourType">
-        UPDATE public.tour_types
+        UPDATE tour.tour_types
         SET
             name = #{name},
             slug = #{slug},
@@ -32,7 +32,7 @@
     </update>
 
     <select id="getTourTypes" resultType="com.backend.api.entity.TourTypeEntity">
-        SELECT tt.* FROM public.tour_types tt
+        SELECT tt.* FROM tour.tour_types tt
         <where>
             <if test="name != '' ">
                 AND LOWER(tt.name) LIKE  '%' || LOWER(#{name}) || '%'
@@ -42,11 +42,11 @@
     </select>
 
     <select id="getTourTypeById" resultType="com.backend.api.entity.TourTypeEntity">
-        SELECT * FROM public.tour_types WHERE id = #{id}
+        SELECT * FROM tour.tour_types WHERE id = #{id}
     </select>
 
     <delete id="deleteTourTypeById">
-        DELETE public.tour_types WHERE id = #{id}
+        DELETE tour.tour_types WHERE id = #{id}
     </delete>
 
 </mapper>

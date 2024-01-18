@@ -6,13 +6,13 @@
 
     <select id="checkOrganizer" resultType="com.backend.api.response.OrganizerCheckRes">
         SELECT
-            EXISTS (SELECT 1 FROM public.organizers WHERE email = #{email}) AS email_exists,
-            EXISTS (SELECT 1 FROM public.organizers WHERE username = BTRIM(#{username})) AS username_exists,
-            EXISTS (SELECT 1 FROM public.organizers WHERE name = BTRIM(#{name})) AS name_exists
+            EXISTS (SELECT 1 FROM tour.organizers WHERE email = #{email}) AS email_exists,
+            EXISTS (SELECT 1 FROM tour.organizers WHERE username = BTRIM(#{username})) AS username_exists,
+            EXISTS (SELECT 1 FROM tour.organizers WHERE name = BTRIM(#{name})) AS name_exists
     </select>
 
     <insert id="createOrganizer">
-        INSERT INTO public.organizers (
+        INSERT INTO tour.organizers (
             images_id,
             name,
             email,
@@ -36,7 +36,7 @@
     </insert>
 
     <update id="updateOrganizer">
-        UPDATE public.organizers
+        UPDATE tour.organizers
         SET
             images_id = #{imagesId},
             name = BTRIM(#{name}),
@@ -51,11 +51,11 @@
     </update>
 
     <delete id="deleteOrganizerById">
-        DELETE FROM public.organizers WHERE id = #{id}
+        DELETE FROM tour.organizers WHERE id = #{id}
     </delete>
 
     <select id="getOrganizers" resultMap="organizerResultMap">
-        SELECT o.* FROM public.organizers o
+        SELECT o.* FROM tour.organizers o
         <where>
             <if test="name != '' ">
                 AND LOWER(o.name) LIKE  '%' || LOWER(#{name}) || '%'
@@ -68,7 +68,7 @@
     </select>
 
     <select id="getOrganizerById" resultMap="organizerResultMap">
-        SELECT * FROM public.organizers WHERE id = #{id}
+        SELECT * FROM tour.organizers WHERE id = #{id}
     </select>
 
     <resultMap id="organizerResultMap" type="com.backend.api.entity.OrganizerEntity">

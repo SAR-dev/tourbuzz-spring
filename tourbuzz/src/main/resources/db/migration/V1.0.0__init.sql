@@ -7,6 +7,13 @@ END $$;
 
 DO $$
 BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'tour') THEN
+    CREATE SCHEMA tour;
+  END IF;
+END $$;
+
+DO $$
+BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'public') THEN
     CREATE SCHEMA public;
   END IF;
@@ -175,7 +182,7 @@ CREATE TABLE public.enquiries (
 );
 CREATE TRIGGER update_updated_at_enquiries BEFORE UPDATE ON public.enquiries FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.tour_types (
+CREATE TABLE tour.tour_types (
     id              serial PRIMARY KEY,
     name            text NOT NULL UNIQUE,
     slug            _slug NOT NULL UNIQUE,
@@ -183,9 +190,9 @@ CREATE TABLE public.tour_types (
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TRIGGER update_updated_at_tour_types BEFORE UPDATE ON public.tour_types FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_tour_types BEFORE UPDATE ON tour.tour_types FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.organizers (
+CREATE TABLE tour.organizers (
     id              serial PRIMARY KEY,
     name            text NOT NULL UNIQUE,
     username        _username NOT NULL UNIQUE,
@@ -199,12 +206,12 @@ CREATE TABLE public.organizers (
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TRIGGER update_updated_at_organizers BEFORE UPDATE ON public.organizers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_organizers BEFORE UPDATE ON tour.organizers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.tours (
+CREATE TABLE tour.tours (
     id              serial PRIMARY KEY,
-    tour_types_id   integer NOT NULL REFERENCES public.tour_types(id),
-    organizers_id   integer NOT NULL REFERENCES public.organizers(id),
+    tour_types_id   integer NOT NULL REFERENCES tour.tour_types(id),
+    organizers_id   integer NOT NULL REFERENCES tour.organizers(id),
     images_id       integer NOT NULL REFERENCES public.images(id),
     video_link      _link,
     title           text NOT NULL UNIQUE,
@@ -225,11 +232,11 @@ CREATE TABLE public.tours (
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TRIGGER update_updated_at_tours BEFORE UPDATE ON public.tours FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_tours BEFORE UPDATE ON tour.tours FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.packages (
+CREATE TABLE tour.packages (
     id              serial PRIMARY KEY,
-    tours_id        integer NOT NULL REFERENCES public.tours(id),
+    tours_id        integer NOT NULL REFERENCES tour.tours(id),
     title           text NOT NULL,
     included        text NOT NULL,
     excluded        text NOT NULL,
@@ -240,18 +247,18 @@ CREATE TABLE public.packages (
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_title_in_packages UNIQUE (tours_id, title)
 );
-CREATE TRIGGER update_updated_at_packages BEFORE UPDATE ON public.packages FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_packages BEFORE UPDATE ON tour.packages FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.comments (
+CREATE TABLE tour.comments (
     id              serial PRIMARY KEY,
-    tours_id        integer NOT NULL REFERENCES public.tours(id),
+    tours_id        integer NOT NULL REFERENCES tour.tours(id),
     users_id        integer NOT NULL REFERENCES auth.users(id),
     title           text NOT NULL,
     description     text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON public.comments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON tour.comments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE public.hotels (
     id              serial PRIMARY KEY,
@@ -280,9 +287,9 @@ CREATE TABLE public.places (
 );
 CREATE TRIGGER update_updated_at_places BEFORE UPDATE ON public.places FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.tour_logs (
+CREATE TABLE tour.tour_logs (
     id              serial PRIMARY KEY,
-    tours_id        integer NOT NULL REFERENCES public.tours(id),
+    tours_id        integer NOT NULL REFERENCES tour.tours(id),
     hotels_id       integer REFERENCES public.hotels(id),
     title           text NOT NULL,
     description     text NOT NULL,
@@ -293,18 +300,18 @@ CREATE TABLE public.tour_logs (
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_tour_date_in_tour_logs UNIQUE ( tours_id, date )
 );
-CREATE TRIGGER update_updated_at_tour_logs BEFORE UPDATE ON public.tour_logs FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_tour_logs BEFORE UPDATE ON tour.tour_logs FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.tour_logs_places (
+CREATE TABLE tour.tour_logs_places (
     id              serial PRIMARY KEY,
     places_id       integer NOT NULL REFERENCES public.places(id),
-    tour_logs_id    integer NOT NULL REFERENCES public.tour_logs(id),
+    tour_logs_id    integer NOT NULL REFERENCES tour.tour_logs(id),
     CONSTRAINT unq_tour_logs_places UNIQUE ( tour_logs_id, places_id )
 );
 
-CREATE TABLE public.tickets (
+CREATE TABLE tour.tickets (
     id              serial PRIMARY KEY,
-    packages_id     integer NOT NULL REFERENCES public.tours(id),
+    packages_id     integer NOT NULL REFERENCES tour.tours(id),
     users_id        integer NOT NULL REFERENCES auth.users(id),
     paid_amount     integer NOT NULL,
     payment_by      payment_type,
@@ -313,7 +320,7 @@ CREATE TABLE public.tickets (
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unq_tickets_payments UNIQUE ( payment_by, payment_id )
 );
-CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON public.tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON tour.tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE public.ads (
     id              serial PRIMARY KEY,
