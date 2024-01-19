@@ -134,13 +134,6 @@
 			<version>2.1.0</version>
 		</dependency>
 
-		<!--Google HEADER-->
-		<dependency>
-			<groupId>com.warrenstrange</groupId>
-			<artifactId>googleauth</artifactId>
-			<version>1.5.0</version>
-		</dependency>
-
 	</dependencies>
 
 	<build>
