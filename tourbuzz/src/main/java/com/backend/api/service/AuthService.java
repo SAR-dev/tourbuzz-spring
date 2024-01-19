@@ -8,6 +8,7 @@ import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
+import com.backend.api.request.UserSignInReq;
 import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.service.admin.AdminService;
 import jakarta.mail.MessagingException;
@@ -132,6 +133,10 @@ public class AuthService {
         if(!adminEmail.equals(magicEmail)){
             throw new RuntimeException();
         }
+    }
+
+    public void verifySignInUserRequest(UserSignInReq signInReq) throws Exception {
+        getEmailFromMagicToken(signInReq.getMagicToken());
     }
 
 //    Admin Token

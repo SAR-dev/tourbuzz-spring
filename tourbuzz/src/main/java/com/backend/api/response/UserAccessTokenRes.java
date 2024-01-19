@@ -5,10 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AdminAccessTokenRes {
+public class UserAccessTokenRes {
     private String accessToken;
     private String accessTokenHeader;
-
-    private String adminToken;
-    private String adminTokenHeader;
 }
