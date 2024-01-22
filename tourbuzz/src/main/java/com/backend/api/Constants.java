@@ -29,5 +29,5 @@ public class Constants {
 
     public static final String AVATAR_GENERATOR_BASE_URL = "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
     public static final Integer TOUR_DATE_AFTER_MIN = 2;
-    public static final String FRONTEND_URL = "http://localhost:300";
+    public static final String FRONTEND_URL = "http://localhost:3000";
 }
