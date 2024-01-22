@@ -1,6 +1,11 @@
 package com.backend.api;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Constants {
+    @Value("${frontend.url}")
+    public static String FRONTEND_URL;
+
     public static class HEADER {
         public static final String ADMIN_HEADER_NAME = "x-api-key";
         public static final String ACCESS_HEADER_NAME = "Authorization";
@@ -29,5 +34,4 @@ public class Constants {
 
     public static final String AVATAR_GENERATOR_BASE_URL = "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
     public static final Integer TOUR_DATE_AFTER_MIN = 2;
-    public static final String FRONTEND_URL = "http://localhost:3000";
 }

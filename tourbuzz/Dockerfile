@@ -29,6 +29,7 @@ ENV MAIL_HOST=smtp.gmail.com
 ENV MAIL_PORT=587
 ENV MAIL_USERNAME=sayedarrafi142403@gmail.com
 ENV MAIL_PASSWORD=nzxbsooilavoalqt
+ENV FRONTEND_URL=https://tourbuzz-admin.onrender.com
 
 # Expose the specified port
 EXPOSE ${PORT}
