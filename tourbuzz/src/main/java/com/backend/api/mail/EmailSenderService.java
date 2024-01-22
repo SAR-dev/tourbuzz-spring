@@ -1,5 +1,6 @@
 package com.backend.api.mail;
 
+import com.backend.api.Constants;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,8 @@ public class EmailSenderService {
     public void sendMagicLink(String recipient, String token) throws MessagingException {
         EmailModel emailModel = EmailModel.builder().to(recipient).subject("HEADER: Magic Link").template("magic-link.html").build();
         Map<String, Object> properties = new HashMap<>();
-        properties.put("token", token);
+        String magicLink = Constants.FRONTEND_URL + "/sign-in?magic=" + token;
+        properties.put("magicLink", magicLink);
         emailModel.setProperties(properties);
         sendHtmlMessage(emailModel);
     }
