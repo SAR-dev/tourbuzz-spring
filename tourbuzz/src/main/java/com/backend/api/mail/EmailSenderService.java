@@ -5,6 +5,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class EmailSenderService {
+    @Value("${frontend.url}")
+    private String FRONTEND_URL;
 
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
@@ -40,9 +43,8 @@ public class EmailSenderService {
     public void sendMagicLink(String recipient, String token) throws MessagingException {
         EmailModel emailModel = EmailModel.builder().to(recipient).subject("HEADER: Magic Link").template("magic-link.html").build();
         Map<String, Object> properties = new HashMap<>();
-        String magicLink = Constants.FRONTEND_URL + "/sign-in?magic=" + token;
+        String magicLink = FRONTEND_URL + "/sign-in?magic=" + token;
         properties.put("magicLink", magicLink);
-        System.out.println(magicLink);
         emailModel.setProperties(properties);
         sendHtmlMessage(emailModel);
     }

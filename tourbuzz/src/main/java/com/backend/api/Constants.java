@@ -3,9 +3,6 @@ package com.backend.api;
 import org.springframework.beans.factory.annotation.Value;
 
 public class Constants {
-    @Value("${frontend.url}")
-    public static String FRONTEND_URL;
-
     public static class HEADER {
         public static final String ADMIN_HEADER_NAME = "x-api-key";
         public static final String ACCESS_HEADER_NAME = "Authorization";
