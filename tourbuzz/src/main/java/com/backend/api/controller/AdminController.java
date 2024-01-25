@@ -138,6 +138,13 @@ public class AdminController {
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
+    @Tag(name = "Get Article Categories")
+    @GetMapping("/article-categories")
+    public List<ArticleCategoryRes> getArticleCategories() throws Exception {
+        authService.verifyAdminToken();
+        return articleService.getArticleCategories();
+    }
+
     @Tag(name = "Update Article")
     @PutMapping("/articles")
     public void updateArticle(@Valid @RequestBody ArticleUpdateReq articleUpdateReq) throws Exception {

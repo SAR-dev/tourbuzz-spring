@@ -13,6 +13,7 @@ public class ArticleEntity {
     private String title;
     private String slug;
     private String subtitle;
+    private String category;
     private String summary;
     private String md_desc;
     private String image_ids;

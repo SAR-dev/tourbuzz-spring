@@ -5,6 +5,7 @@ import com.backend.api.entity.ArticleEntity;
 import com.backend.api.repository.postgres.admin.ArticleRepository;
 import com.backend.api.request.admin.ArticleCreateReq;
 import com.backend.api.request.admin.ArticleUpdateReq;
+import com.backend.api.response.ArticleCategoryRes;
 import com.backend.api.response.ArticleCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -59,5 +60,9 @@ public class ArticleService {
         if(count != 1){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
+    }
+
+    public List<ArticleCategoryRes> getArticleCategories(){
+        return articleRepository.getArticleCategories();
     }
 }

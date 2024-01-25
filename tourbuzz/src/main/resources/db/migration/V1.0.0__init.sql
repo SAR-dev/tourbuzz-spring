@@ -222,6 +222,7 @@ CREATE TABLE public.articles (
     writers_id      integer NOT NULL REFERENCES public.writers(id),
     title           text NOT NULL UNIQUE,
     slug            _slug NOT NULL UNIQUE,
+    category        text NOT NULL,
     summary         text NOT NULL,
     subtitle        text NOT NULL,
     md_desc         text NOT NULL,

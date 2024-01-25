@@ -16,6 +16,7 @@
             title,
             slug,
             subtitle,
+            category,
             summary,
             md_desc,
             image_ids
@@ -24,6 +25,7 @@
             BTRIM(#{title}),
             BTRIM(#{slug}),
             #{subtitle},
+            #{category},
             #{summary},
             #{mdDesc},
             #{imageIdsStr}
@@ -37,6 +39,7 @@
             title = BTRIM(#{title}),
             slug = BTRIM(#{slug}),
             subtitle = #{subtitle},
+            category = #{category},
             summary = #{summary},
             md_desc = #{mdDesc},
             image_ids = #{imageIdsStr}
@@ -53,6 +56,14 @@
 
     <select id="getArticleById" resultMap="articleResultMap">
         SELECT * FROM public.articles WHERE id = #{id}
+    </select>
+
+    <select id="getArticleCategories" resultType="com.backend.api.response.ArticleCategoryRes">
+        SELECT
+            category, COUNT(*) AS count
+        FROM public.articles
+        GROUP BY category
+        ORDER BY count DESC
     </select>
 
     <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">

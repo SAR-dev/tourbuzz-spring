@@ -25,6 +25,10 @@ public class ArticleUpdateReq {
     private String title;
 
     @NotNull
+    @Size(min = 3, max = 50)
+    private String category;
+
+    @NotNull
     @Size(min = 10, max = 100)
     private String slug;
 

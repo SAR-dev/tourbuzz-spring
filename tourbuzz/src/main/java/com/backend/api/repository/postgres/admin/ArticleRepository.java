@@ -8,6 +8,7 @@ import com.backend.api.request.admin.ArticleCreateReq;
 import com.backend.api.request.admin.ArticleUpdateReq;
 import com.backend.api.request.admin.WriterCreateReq;
 import com.backend.api.request.admin.WriterUpdateReq;
+import com.backend.api.response.ArticleCategoryRes;
 import com.backend.api.response.ArticleCheckRes;
 import com.backend.api.response.WriterCheckRes;
 import org.apache.ibatis.annotations.Mapper;
@@ -27,4 +28,6 @@ public interface ArticleRepository {
     int updateArticle(ArticleUpdateReq articleUpdateReq);
 
     int deleteArticleById(int id);
+
+    List<ArticleCategoryRes> getArticleCategories();
 }
