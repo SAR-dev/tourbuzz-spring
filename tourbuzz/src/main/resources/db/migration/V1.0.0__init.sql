@@ -311,16 +311,17 @@ CREATE TABLE tour.packages (
 );
 CREATE TRIGGER update_updated_at_packages BEFORE UPDATE ON tour.packages FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE tour.comments (
+CREATE TABLE tour.tour_comments (
     id              serial PRIMARY KEY,
     tours_id        integer NOT NULL REFERENCES tour.tours(id),
     users_id        integer NOT NULL REFERENCES auth.users(id),
     title           text NOT NULL,
     description     text NOT NULL,
+    rating          integer CHECK (rating > 0 AND rating <= 5),
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON tour.comments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON tour.tour_comments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE public.hotels (
     id              serial PRIMARY KEY,
