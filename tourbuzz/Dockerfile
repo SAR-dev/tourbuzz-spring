@@ -22,9 +22,9 @@ COPY . .
 # Set environment variables
 ARG PORT
 ENV PORT=${PORT}
-ENV POSTGRES_USERNAME=SAR-dev
-ENV POSTGRES_PASSWORD=B8DbVmHir0PZ
-ENV POSTGRES_URL=jdbc:postgresql://ep-billowing-snowflake-94421442.us-east-2.aws.neon.tech:5432/tourbuzz
+ENV POSTGRES_USERNAME=gupdibrt
+ENV POSTGRES_PASSWORD=tVMM6ZNIw7g5AGL4UHECASIbZqVpGbah
+ENV POSTGRES_URL=jdbc:postgresql://arjuna.db.elephantsql.com/gupdibrt
 ENV MAIL_HOST=smtp.gmail.com
 ENV MAIL_PORT=587
 ENV MAIL_USERNAME=sayedarrafi142403@gmail.com
