@@ -45,6 +45,7 @@ public class EmailSenderService {
         Map<String, Object> properties = new HashMap<>();
         String magicLink = FRONTEND_URL + "/sign-in?magic=" + token;
         properties.put("magicLink", magicLink);
+        properties.put("magicToken", token);
         emailModel.setProperties(properties);
         sendHtmlMessage(emailModel);
     }
