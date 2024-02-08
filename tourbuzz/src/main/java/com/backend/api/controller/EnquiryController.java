@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/enquiry")
+@RequestMapping("/enquiries")
 public class EnquiryController {
     private final AuthService authService;
     private final EnquiryService enquiryService;
