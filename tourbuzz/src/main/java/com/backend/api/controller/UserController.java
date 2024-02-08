@@ -24,9 +24,8 @@ public class UserController {
 
     @Tag(name = "Update Self Data")
     @PutMapping("/me")
-    public void getLoggedInUser(@RequestBody UserUpdateReq userUpdateReq) throws Exception {
+    public void updateLoggedInUser(@RequestBody UserUpdateReq userUpdateReq) throws Exception {
         String email = authService.getLoggedInEmail();
-        userUpdateReq.setEmail(email);
-        userService.updateUserByEmail(userUpdateReq);
+        userService.updateUserByEmail(userUpdateReq, email);
     }
 }

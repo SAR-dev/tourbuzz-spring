@@ -16,8 +16,8 @@ public class UserService {
         return userRepository.getUserByEmail(email);
     }
 
-    public void updateUserByEmail(UserUpdateReq userUpdateReq) throws Exception {
-        int count = userRepository.updateUserByEmail(userUpdateReq);
+    public void updateUserByEmail(UserUpdateReq userUpdateReq, String email) throws Exception {
+        int count = userRepository.updateUserByEmail(userUpdateReq, email);
         if(count != 1){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }

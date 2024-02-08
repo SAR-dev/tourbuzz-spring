@@ -14,11 +14,29 @@
     <update id="updateUserByEmail">
         UPDATE auth.users
         <set>
-            <if test="name != null and name != '' ">
-                name = #{name},
+            <if test="data.name != null and data.name != '' ">
+                name = #{data.name},
             </if>
-            <if test="imagesId != null and imagesId != 0 ">
-                images_id = #{imagesId}
+            <if test="data.imagesId != null and data.imagesId != 0 ">
+                images_id = #{data.imagesId}
+            </if>
+            <if test="data.contactNo != null and data.contactNo != '' ">
+                contact_no = #{data.contactNo}
+            </if>
+            <if test="data.contactEmail != null and data.contactEmail != '' ">
+                contact_email = #{data.contactEmail}
+            </if>
+            <if test="data.residence != null and data.residence != '' ">
+                residence = #{data.residence}
+            </if>
+            <if test="data.facebookId != null and data.facebookId != '' ">
+                facebook_id = #{data.facebookId}
+            </if>
+            <if test="data.youtubeId != null and data.youtubeId != '' ">
+                youtube_id = #{data.youtubeId}
+            </if>
+            <if test="data.twitterId != null and data.twitterId != '' ">
+                twitter_id = #{data.twitterId}
             </if>
         </set>
         WHERE email = #{email}

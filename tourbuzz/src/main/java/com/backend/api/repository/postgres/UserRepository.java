@@ -3,6 +3,7 @@ package com.backend.api.repository.postgres;
 import com.backend.api.entity.UserEntity;
 import com.backend.api.request.admin.UserUpdateReq;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserRepository {
@@ -10,5 +11,5 @@ public interface UserRepository {
 
     UserEntity getUserByEmail(String email);
 
-    int updateUserByEmail(UserUpdateReq userUpdateReq);
+    int updateUserByEmail(@Param("data") UserUpdateReq userUpdateReq, String email);
 }

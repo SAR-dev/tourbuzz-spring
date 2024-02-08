@@ -13,6 +13,12 @@ public class UserEntity {
     private String email;
     private String username;
     private String name;
+    private String contact_no;
+    private String contact_email;
+    private String residence;
+    private String facebook_id;
+    private String youtube_id;
+    private String twitter_id;
     private int images_id;
     private Timestamp last_logged_in;
     private Timestamp created_at;
