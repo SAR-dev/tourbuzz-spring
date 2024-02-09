@@ -4,12 +4,13 @@
 
 <mapper namespace="com.backend.api.repository.postgres.UserRepository">
 
-    <insert id="createUserByEmail">
+    <select id="createUserByEmail" resultType="string">
         INSERT INTO auth.users (email) VALUES ( #{email} )
         ON CONFLICT (email)
         DO UPDATE SET
         last_logged_in = CURRENT_TIMESTAMP
-    </insert>
+        RETURNING username
+    </select>
 
     <update id="updateUserByEmail">
         UPDATE auth.users

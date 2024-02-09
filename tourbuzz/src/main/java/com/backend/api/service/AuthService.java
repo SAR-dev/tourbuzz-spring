@@ -69,10 +69,10 @@ public class AuthService {
     }
 
 //    Access Token
-    public String generateAccessToken(String email){
+    public String generateAccessToken(String username){
         Instant now = Instant.now();
         return JWT.create()
-                .withSubject(email)
+                .withSubject(username)
                 .withIssuedAt(now)
                 .withExpiresAt(now.plus(Constants.JWT.ACCESS_TOKEN_EXPIRE_AFTER, ChronoUnit.SECONDS))
                 .sign(Algorithm.HMAC256(Constants.JWT.ACCESS_TOKEN_SECRET_KEY));
@@ -81,8 +81,8 @@ public class AuthService {
     @Transactional
     public String getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
-        userRepository.createUserByEmail(email);
-        return generateAccessToken(email);
+        String username = userRepository.createUserByEmail(email);
+        return generateAccessToken(username);
     }
 
     @Transactional

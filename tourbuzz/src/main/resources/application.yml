@@ -6,9 +6,9 @@ spring:
   datasource:
     postgres:
       hikari:
-        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://arjuna.db.elephantsql.com/gupdibrt}
-        username: ${POSTGRES_USERNAME:gupdibrt}
-        password: ${POSTGRES_PASSWORD:tVMM6ZNIw7g5AGL4UHECASIbZqVpGbah}
+        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz}
+        username: ${POSTGRES_USERNAME:postgres}
+        password: ${POSTGRES_PASSWORD:admin}
         driver-class-name: org.postgresql.Driver
         auto-commit: false
         minimum-idle: 10
@@ -40,9 +40,9 @@ server:
 frontend:
   url: ${FRONTEND_URL:http://localhost:3000}
 flyway:
-  url: ${POSTGRES_URL:jdbc:postgresql://arjuna.db.elephantsql.com/gupdibrt}
-  username: ${POSTGRES_USERNAME:gupdibrt}
-  password: ${POSTGRES_PASSWORD:tVMM6ZNIw7g5AGL4UHECASIbZqVpGbah}
+  url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz}
+  username: ${POSTGRES_USERNAME:postgres}
+  password: ${POSTGRES_PASSWORD:admin}
   driver-class-name: org.postgresql.Driver
   baselineOnMigrate: true
   locations: classpath:db/migration/{vendor}
