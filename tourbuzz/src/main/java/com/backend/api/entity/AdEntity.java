@@ -12,6 +12,7 @@ public class AdEntity {
     private String link;
     private String image_url;
     private boolean active;
+    private int view_count;
     private Timestamp created_at;
     private Timestamp updated_at;
 }
