@@ -1,6 +1,7 @@
 package com.backend.api.request.admin;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -11,13 +12,13 @@ import java.util.List;
 
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TourUpdateReq {
     @NotNull
     private @Valid TourUpdatePayload tour;
 
     @NotNull
     @Size(min = 1, max = 10)
-    @JsonProperty("tour_logs")
     private List<@Valid TourLogUpdatePayload> tourLogs;
 
     @NotNull

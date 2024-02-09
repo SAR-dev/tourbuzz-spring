@@ -1,7 +1,7 @@
 package com.backend.api.request.admin;
 
-import com.backend.api.enums.Levels;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.Data;
 
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OrganizerCreateReq {
     @NotNull
-    @JsonProperty("images_id")
     private Integer imagesId;
 
     @NotNull
@@ -36,13 +36,11 @@ public class OrganizerCreateReq {
 
     @NotNull
     @Size(min = 7, max = 20)
-    @JsonProperty("contact_no")
     private String contactNo;
 
     @NotNull
     @Size(min = 4, max = 20)
     private String verification;
 
-    @JsonProperty("social_link")
     private String socialLink;
 }

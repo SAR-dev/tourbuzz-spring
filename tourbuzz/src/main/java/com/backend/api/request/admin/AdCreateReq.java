@@ -1,11 +1,15 @@
 package com.backend.api.request.admin;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AdCreateReq {
     @NotNull
     @Size(min = 1, max = 100)
@@ -19,7 +23,6 @@ public class AdCreateReq {
     private String link;
 
     @NotNull
-    @JsonProperty("image_url")
     private String imageUrl;
 
     @NotNull

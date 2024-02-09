@@ -1,6 +1,7 @@
 package com.backend.api.request.admin;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -11,13 +12,12 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ArticleUpdateReq {
     @NotNull
-    @JsonProperty("writers_id")
     private Integer writersId;
 
     @NotNull
-    @JsonProperty("articles_id")
     private Integer articlesId;
 
     @NotNull
@@ -42,12 +42,10 @@ public class ArticleUpdateReq {
 
     @NotNull
     @Size(min = 10, max = 20000)
-    @JsonProperty("md_desc")
     private String mdDesc;
 
     @NotNull
     @Size(min = 1, max = 10)
-    @JsonProperty("image_ids")
     private List<Integer> imageIds;
 
     private String imageIdsStr;

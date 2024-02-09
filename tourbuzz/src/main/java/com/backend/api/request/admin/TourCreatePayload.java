@@ -1,7 +1,8 @@
 package com.backend.api.request.admin;
 
 import com.backend.api.Constants;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -13,17 +14,15 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TourCreatePayload {
     @NotNull
-    @JsonProperty("tour_types_id")
     private int tourTypesId;
 
     @NotNull
-    @JsonProperty("organizers_id")
     private int organizersId;
 
     @NotNull
-    @JsonProperty("images_id")
     private int imagesId;
 
     @NotNull
@@ -34,12 +33,10 @@ public class TourCreatePayload {
     @Size(min = 10, max = 100)
     private String slug;
 
-    @JsonProperty("video_link")
     private String videoLink;
 
     @NotNull
     @Size(min = 10, max = 50000)
-    @JsonProperty("md_desc")
     private String mdDesc;
 
     @NotNull
@@ -48,12 +45,10 @@ public class TourCreatePayload {
 
     @NotNull
     @Size(min = 1, max = 20)
-    @JsonProperty("group_size")
     private String groupSize;
 
     @NotNull
     @Size(min = 1, max = 100)
-    @JsonProperty("group_info")
     private String groupInfo;
 
     @NotNull
@@ -66,37 +61,30 @@ public class TourCreatePayload {
 
     @NotNull
     @Size(min = 10, max = 5000)
-    @JsonProperty("cancel_ins")
     private String cancelIns;
 
     @NotNull
     @Size(min = 10, max = 5000)
-    @JsonProperty("start_ins")
     private String startIns;
 
     @NotNull
     @Size(min = 10, max = 5000)
-    @JsonProperty("finish_ins")
     private String finishIns;
 
     @NotNull
     @Pattern(regexp = Constants.DATES.DD_MM_YYYY_HH_MM_REGEX, message = "Invalid date format. Use dd/MM/yyyy hh:mm.")
-    @JsonProperty("start_at")
     private String startAt;
 
     @NotNull
     @Pattern(regexp = Constants.DATES.DD_MM_YYYY_HH_MM_REGEX, message = "Invalid date format. Use dd/MM/yyyy hh:mm.")
-    @JsonProperty("finish_at")
     private String finishAt;
 
     @NotNull
     @Pattern(regexp = Constants.DATES.DD_MM_YYYY_HH_MM_REGEX, message = "Invalid date format. Use dd/MM/yyyy hh:mm.")
-    @JsonProperty("last_sell_at")
     private String lastSellAt;
 
     @NotNull
     @Size(min = 1, max = 10)
-    @JsonProperty("image_ids")
     private List<Integer> imageIds;
 
     private String imageIdsStr;

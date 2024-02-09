@@ -1,7 +1,8 @@
 package com.backend.api.request.admin;
 
 import com.backend.api.Constants;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -13,11 +14,11 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TourLogUpdatePayload {
     @NotNull
     private int id;
 
-    @JsonProperty("hotels_id")
     private Integer hotelsId;
 
     @NotNull
@@ -33,11 +34,9 @@ public class TourLogUpdatePayload {
     private String date;
 
     @NotNull
-    @JsonProperty("place_ids")
     private List<Integer> placeIds;
 
     @NotNull
-    @JsonProperty("image_ids")
     private List<Integer> imageIds;
 
     private String imageIdsStr;

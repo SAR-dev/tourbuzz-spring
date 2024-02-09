@@ -1,7 +1,7 @@
 package com.backend.api.request.admin;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Email;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -9,13 +9,12 @@ import lombok.Data;
 
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class HotelCreateReq {
     @NotNull
-    @JsonProperty("districts_id")
     private Integer districtsId;
 
     @NotNull
-    @JsonProperty("images_id")
     private Integer imagesId;
 
     @NotNull
@@ -23,7 +22,6 @@ public class HotelCreateReq {
     private String name;
 
     @NotNull
-    @JsonProperty("map_link")
     private String mapLink;
 
     @NotNull
