@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/images")
-public class ImageController {
+public class AdminImageController {
     private final AuthService authService;
     private final PaginationService paginationService;
     private final ImageService imageService;

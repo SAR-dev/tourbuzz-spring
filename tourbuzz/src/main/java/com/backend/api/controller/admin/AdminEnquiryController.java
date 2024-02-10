@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/enquiries")
-public class EnquiryController {
+public class AdminEnquiryController {
     private final AuthService authService;
     private final PaginationService paginationService;
     private final EnquiryService enquiryService;

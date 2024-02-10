@@ -1,16 +1,12 @@
 package com.backend.api.controller.admin;
 
-import com.backend.api.entity.OrganizerEntity;
 import com.backend.api.entity.PlaceEntity;
-import com.backend.api.request.admin.OrganizerCreateReq;
-import com.backend.api.request.admin.OrganizerUpdateReq;
 import com.backend.api.request.admin.PlaceCreateReq;
 import com.backend.api.request.admin.PlaceUpdateReq;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.response.PlaceTypeRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.PaginationService;
-import com.backend.api.service.admin.OrganizerService;
 import com.backend.api.service.admin.PlaceService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -24,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/places")
-public class PlaceController {
+public class AdminPlaceController {
     private final AuthService authService;
     private final PaginationService paginationService;
     private final PlaceService placeService;

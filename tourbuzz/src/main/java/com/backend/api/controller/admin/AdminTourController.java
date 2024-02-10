@@ -1,17 +1,13 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.TourEntity;
-import com.backend.api.entity.WriterEntity;
 import com.backend.api.request.admin.TourCreateReq;
 import com.backend.api.request.admin.TourUpdateReq;
-import com.backend.api.request.admin.WriterCreateReq;
-import com.backend.api.request.admin.WriterUpdateReq;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.response.TourListRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.PaginationService;
 import com.backend.api.service.admin.TourService;
-import com.backend.api.service.admin.WriterService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +20,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/tours")
-public class TourController {
+public class AdminTourController {
     private final AuthService authService;
     private final PaginationService paginationService;
     private final TourService tourService;

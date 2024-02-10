@@ -1,15 +1,11 @@
 package com.backend.api.controller.admin;
 
-import com.backend.api.entity.HotelEntity;
 import com.backend.api.entity.WriterEntity;
-import com.backend.api.request.admin.HotelCreateReq;
-import com.backend.api.request.admin.HotelUpdateReq;
 import com.backend.api.request.admin.WriterCreateReq;
 import com.backend.api.request.admin.WriterUpdateReq;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.PaginationService;
-import com.backend.api.service.admin.HotelService;
 import com.backend.api.service.admin.WriterService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -22,51 +18,52 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin/hotels")
-public class HotelController {
+@RequestMapping("/admin/writers")
+public class AdminWriterController {
     private final AuthService authService;
     private final PaginationService paginationService;
-    private final HotelService hotelService;
+    private final WriterService writerService;
 
-    @Tag(name = "Create Hotel")
+    @Tag(name = "Create Writer")
     @PostMapping("")
-    public void createHotel(@Valid @RequestBody HotelCreateReq hotelCreateReq) throws Exception {
+    public void createWriter(@Valid @RequestBody WriterCreateReq writerCreateReq) throws Exception {
         authService.verifyAdminToken();
-        hotelService.createHotel(hotelCreateReq);
+        writerService.createWriter(writerCreateReq);
     }
 
-    @Tag(name = "Get Hotel List")
+    @Tag(name = "Get Writers List")
     @GetMapping("")
-    public PaginatedRes getHotels(
+    public PaginatedRes getWriters(
             @RequestParam(name = "name", defaultValue = "") String name,
+            @RequestParam(name = "email", defaultValue = "") String email,
             @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
             @RequestParam(name = "page_size", defaultValue = "20") int pageSize
     ) throws Exception {
         authService.verifyAdminToken();
         PageHelper.startPage(pageNo, pageSize);
-        List<HotelEntity> hotelEntities = hotelService.getHotels(name);
-        Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
+        List<WriterEntity> writerEntities = writerService.getWriters(name, email);
+        Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
     }
 
-    @Tag(name = "Update Hotel")
+    @Tag(name = "Update Writer")
     @PutMapping("")
-    public void updateHotel(@Valid @RequestBody HotelUpdateReq hotelUpdateReq) throws Exception {
+    public void updateWriter(@Valid @RequestBody WriterUpdateReq writerUpdateReq) throws Exception {
         authService.verifyAdminToken();
-        hotelService.updateHotel(hotelUpdateReq);
+        writerService.updateWriter(writerUpdateReq);
     }
 
-    @Tag(name = "Get Hotel By ID")
+    @Tag(name = "Get Writer By ID")
     @GetMapping("/{id}")
-    public HotelEntity getHotelById(@PathVariable int id) throws Exception {
+    public WriterEntity getWriterById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
-        return hotelService.getHotelById(id);
+        return writerService.getWriterById(id);
     }
 
-    @Tag(name = "Delete Hotel By ID")
+    @Tag(name = "Delete Writer By ID")
     @DeleteMapping("/{id}")
-    public void deleteHotelById(@PathVariable int id) throws Exception {
+    public void deleteWriterById(@PathVariable int id) throws Exception {
         authService.verifyAdminToken();
-        hotelService.deleteHotelById(id);
+        writerService.deleteWriterById(id);
     }
 }

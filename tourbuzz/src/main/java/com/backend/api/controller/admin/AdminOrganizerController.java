@@ -1,14 +1,11 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.OrganizerEntity;
-import com.backend.api.request.admin.EnquiryAnswerReq;
 import com.backend.api.request.admin.OrganizerCreateReq;
 import com.backend.api.request.admin.OrganizerUpdateReq;
-import com.backend.api.response.GroupedEnquiryRes;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.PaginationService;
-import com.backend.api.service.admin.EnquiryService;
 import com.backend.api.service.admin.OrganizerService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -22,7 +19,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/organizers")
-public class OrganizerController {
+public class AdminOrganizerController {
     private final AuthService authService;
     private final PaginationService paginationService;
     private final OrganizerService organizerService;

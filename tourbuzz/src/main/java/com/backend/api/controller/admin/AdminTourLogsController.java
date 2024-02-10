@@ -1,12 +1,8 @@
 package com.backend.api.controller.admin;
 
-import com.backend.api.entity.PackageEntity;
 import com.backend.api.entity.TourLogEntity;
 import com.backend.api.request.admin.TourLogCreateReq;
-import com.backend.api.request.admin.TourPackageCreateReq;
 import com.backend.api.service.AuthService;
-import com.backend.api.service.PaginationService;
-import com.backend.api.service.admin.PackageService;
 import com.backend.api.service.admin.TourLogService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -16,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/tour-logs")
-public class TourLogsController {
+public class AdminTourLogsController {
     private final AuthService authService;
     private final TourLogService tourLogService;
 
