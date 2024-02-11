@@ -26,7 +26,7 @@ public class TourLogUpdatePayload {
     private String title;
 
     @NotNull
-    @Size(min = 10, max = 2000)
+    @Size(min = 10, max = 20000)
     private String description;
 
     @NotNull
