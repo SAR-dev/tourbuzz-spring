@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.admin.TourLogRepository">
+<mapper namespace="com.backend.api.repository.postgres.TourLogRepository">
 
     <insert id="createTourLogs">
         INSERT INTO tour.tour_logs (
@@ -125,7 +125,7 @@
         SELECT id FROM tour.tour_logs WHERE toursId = #{toursId}
     </select>
 
-    <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.admin.PlaceRepository.placeResultMap">
+    <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.PlaceRepository.placeResultMap">
         SELECT
             p.*
         FROM tour.tour_logs_places tlp
@@ -136,14 +136,14 @@
     <resultMap id="tourLogResultMap" type="com.backend.api.entity.TourLogEntity">
         <association
                 property="hotel"
-                select="com.backend.api.repository.postgres.admin.HotelRepository.getHotelById"
+                select="com.backend.api.repository.postgres.HotelRepository.getHotelById"
                 javaType="com.backend.api.entity.HotelEntity"
                 column="id = hotels_id"
         />
         <collection
                 property="images"
                 ofType="com.backend.api.entity.ImageEntity"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageIdsFromList"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
                 column="ids = image_ids"
         />
         <collection

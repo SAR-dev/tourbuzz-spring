@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.PlaceEntity;
-import com.backend.api.repository.postgres.admin.PlaceRepository;
+import com.backend.api.repository.postgres.PlaceRepository;
 import com.backend.api.request.admin.PlaceCreateReq;
 import com.backend.api.request.admin.PlaceUpdateReq;
 import com.backend.api.response.PlaceCheckRes;

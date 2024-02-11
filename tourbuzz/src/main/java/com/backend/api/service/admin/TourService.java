@@ -3,7 +3,7 @@ package com.backend.api.service.admin;
 import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.TourEntity;
-import com.backend.api.repository.postgres.admin.TourRepository;
+import com.backend.api.repository.postgres.TourRepository;
 import com.backend.api.request.admin.*;
 import com.backend.api.response.TourCheckRes;
 import com.backend.api.response.TourListRes;
@@ -132,6 +132,10 @@ public class TourService {
 
     public List<TourListRes> getTours(){
         return tourRepository.getTours();
+    }
+
+    public List<TourListRes> getUpcomingTours(){
+        return tourRepository.getUpcomingTours();
     }
 
     public TourEntity getTourById(int id){

@@ -1,6 +1,6 @@
 package com.backend.api.service.admin;
 
-import com.backend.api.repository.postgres.admin.AdminRepository;
+import com.backend.api.repository.postgres.AdminRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

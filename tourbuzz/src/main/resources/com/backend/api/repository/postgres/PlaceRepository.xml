@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.admin.PlaceRepository">
+<mapper namespace="com.backend.api.repository.postgres.PlaceRepository">
 
     <select id="checkPlace" resultType="com.backend.api.response.PlaceCheckRes">
         SELECT
@@ -77,7 +77,7 @@
         />
         <association
                 property="avatar"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageByImagesId"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
                 javaType="com.backend.api.entity.ImageEntity"
                 column="id = images_id"
         />

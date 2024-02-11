@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.admin.ArticleRepository">
+<mapper namespace="com.backend.api.repository.postgres.ArticleRepository">
 
     <select id="checkArticle" resultType="com.backend.api.response.ArticleCheckRes">
         SELECT
@@ -69,14 +69,14 @@
     <resultMap id="articleResultMap" type="com.backend.api.entity.ArticleEntity">
         <association
                 property="writer"
-                select="com.backend.api.repository.postgres.admin.WriterRepository.getWriterById"
+                select="com.backend.api.repository.postgres.WriterRepository.getWriterById"
                 javaType="com.backend.api.entity.WriterEntity"
                 column="id = writers_id"
         />
         <collection
                 property="images"
                 ofType="com.backend.api.entity.ImageEntity"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageIdsFromList"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
                 column="ids = image_ids"
         />
     </resultMap>

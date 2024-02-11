@@ -1,4 +1,4 @@
-package com.backend.api.repository.postgres.admin;
+package com.backend.api.repository.postgres;
 
 import com.backend.api.entity.TourEntity;
 import com.backend.api.request.admin.*;
@@ -18,6 +18,8 @@ public interface TourRepository {
     int updateTour(TourUpdatePayload tourUpdatePayload);
 
     List<TourListRes> getTours();
+
+    List<TourListRes> getUpcomingTours();
 
     TourEntity getTourById(int id);
 

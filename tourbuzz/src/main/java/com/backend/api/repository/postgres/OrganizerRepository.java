@@ -1,6 +1,6 @@
 
 
-package com.backend.api.repository.postgres.admin;
+package com.backend.api.repository.postgres;
 
 import com.backend.api.entity.OrganizerEntity;
 import com.backend.api.entity.WriterEntity;

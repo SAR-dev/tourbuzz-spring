@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.ArticleEntity;
-import com.backend.api.repository.postgres.admin.ArticleRepository;
+import com.backend.api.repository.postgres.ArticleRepository;
 import com.backend.api.request.admin.ArticleCreateReq;
 import com.backend.api.request.admin.ArticleUpdateReq;
 import com.backend.api.response.ArticleCategoryRes;

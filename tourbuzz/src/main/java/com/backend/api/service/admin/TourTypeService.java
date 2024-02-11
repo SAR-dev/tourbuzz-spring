@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.TourTypeEntity;
-import com.backend.api.repository.postgres.admin.TourTypeRepository;
+import com.backend.api.repository.postgres.TourTypeRepository;
 import com.backend.api.request.admin.TourTypeCreateReq;
 import com.backend.api.request.admin.TourTypeUpdateReq;
 import com.backend.api.response.TourTypeCheckRes;

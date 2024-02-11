@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.OrganizerEntity;
-import com.backend.api.repository.postgres.admin.OrganizerRepository;
+import com.backend.api.repository.postgres.OrganizerRepository;
 import com.backend.api.request.admin.OrganizerCreateReq;
 import com.backend.api.request.admin.OrganizerUpdateReq;
 import com.backend.api.response.OrganizerCheckRes;

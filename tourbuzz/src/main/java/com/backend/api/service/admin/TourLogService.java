@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.TourLogEntity;
-import com.backend.api.repository.postgres.admin.TourLogRepository;
+import com.backend.api.repository.postgres.TourLogRepository;
 import com.backend.api.request.admin.TourLogCreatePayload;
 import com.backend.api.request.admin.TourLogCreateReq;
 import com.backend.api.request.admin.TourLogPlacePayload;

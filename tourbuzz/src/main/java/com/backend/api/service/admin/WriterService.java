@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.WriterEntity;
-import com.backend.api.repository.postgres.admin.WriterRepository;
+import com.backend.api.repository.postgres.WriterRepository;
 import com.backend.api.request.admin.WriterCreateReq;
 import com.backend.api.request.admin.WriterUpdateReq;
 import com.backend.api.response.WriterCheckRes;

@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.AdEntity;
-import com.backend.api.repository.postgres.admin.AdRepository;
+import com.backend.api.repository.postgres.AdRepository;
 import com.backend.api.request.admin.AdCreateReq;
 import com.backend.api.request.admin.AdUpdateReq;
 import lombok.RequiredArgsConstructor;

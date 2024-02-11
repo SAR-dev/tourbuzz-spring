@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.admin.ImageRepository">
+<mapper namespace="com.backend.api.repository.postgres.ImageRepository">
 
     <select id="createImage" resultType="com.backend.api.entity.ImageEntity">
         INSERT INTO public.images (

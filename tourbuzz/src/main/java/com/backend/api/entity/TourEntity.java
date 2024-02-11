@@ -3,6 +3,7 @@ package com.backend.api.entity;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -36,4 +37,10 @@ public class TourEntity {
     private List<ImageEntity> images;
     private List<PackageEntity> packages;
     private List<TourLogEntity> tour_logs;
+
+    private boolean expired;
+
+    public boolean isExpired() {
+        return getLast_sell_at().before(new Date());
+    }
 }

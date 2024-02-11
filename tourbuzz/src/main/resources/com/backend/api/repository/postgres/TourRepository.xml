@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.admin.TourRepository">
+<mapper namespace="com.backend.api.repository.postgres.TourRepository">
 
     <select id="checkTour" resultType="com.backend.api.response.TourCheckRes">
         SELECT
@@ -101,17 +101,39 @@
         ORDER BY t.id DESC
     </select>
 
+    <select id="getUpcomingTours" resultMap="tourListResultMap">
+        SELECT DISTINCT
+            t.* ,
+            tt.name AS tour_type_name,
+            o.name AS organizer_name,
+            o.verification AS organizer_verification,
+            string_agg(DISTINCT p.name, ',') AS place_names,
+            string_agg(distinct d.name, ',') AS district_names ,
+            string_agg(distinct pkg.price::text , ',') AS package_prices
+        FROM tour.tours t
+        JOIN tour.organizers o ON t.organizers_id = o.id
+        JOIN tour.tour_types tt ON t.tour_types_id = tt.id
+        JOIN tour.tour_logs tl ON tl.tours_id = t.id
+        JOIN tour.tour_logs_places tlp ON tlp.tour_logs_id = tl.id
+        JOIN public.places p ON tlp.places_id = p.id
+        JOIN public.districts d ON p.districts_id = d.id
+        JOIN tour.packages pkg ON pkg.tours_id = t.id
+        WHERE t.start_at > current_date
+        GROUP BY t.id, tt.id , o.id
+        ORDER BY t.id DESC
+    </select>
+
     <resultMap id="tourListResultMap" type="com.backend.api.response.TourListRes">
         <association
                 property="avatar"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageByImagesId"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
                 javaType="com.backend.api.entity.ImageEntity"
                 column="id = images_id"
         />
         <collection
                 property="images"
                 ofType="com.backend.api.entity.ImageEntity"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageIdsFromList"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
                 column="ids = image_ids"
         />
     </resultMap>
@@ -139,26 +161,26 @@
     <resultMap id="tourResultMap" type="com.backend.api.entity.TourEntity">
         <association
                 property="tour_type"
-                select="com.backend.api.repository.postgres.admin.TourTypeRepository.getTourTypeById"
+                select="com.backend.api.repository.postgres.TourTypeRepository.getTourTypeById"
                 javaType="com.backend.api.entity.TourTypeEntity"
                 column="id = tour_types_id"
         />
         <association
                 property="organizer"
-                select="com.backend.api.repository.postgres.admin.OrganizerRepository.getOrganizerById"
+                select="com.backend.api.repository.postgres.OrganizerRepository.getOrganizerById"
                 javaType="com.backend.api.entity.OrganizerEntity"
                 column="id = organizers_id"
         />
         <association
                 property="avatar"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageByImagesId"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
                 javaType="com.backend.api.entity.ImageEntity"
                 column="id = images_id"
         />
         <collection
                 property="images"
                 ofType="com.backend.api.entity.ImageEntity"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageIdsFromList"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
                 column="ids = image_ids"
         />
         <collection
@@ -175,7 +197,7 @@
         />
     </resultMap>
 
-    <select id="selectTourLogsByTourId" resultMap="com.backend.api.repository.postgres.admin.TourLogRepository.tourLogResultMap">
+    <select id="selectTourLogsByTourId" resultMap="com.backend.api.repository.postgres.TourLogRepository.tourLogResultMap">
         SELECT * FROM tour.tour_logs WHERE tours_id = #{id} ORDER BY DATE ASC
     </select>
 

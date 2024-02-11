@@ -3,7 +3,7 @@ package com.backend.api.service.admin;
 import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.ImageEntity;
-import com.backend.api.repository.postgres.admin.ImageRepository;
+import com.backend.api.repository.postgres.ImageRepository;
 import com.backend.api.request.admin.ImageCreateReq;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONObject;

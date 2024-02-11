@@ -54,7 +54,7 @@
     <resultMap id="userResultMap" type="com.backend.api.entity.UserEntity">
         <association
                 property="avatar"
-                select="com.backend.api.repository.postgres.admin.ImageRepository.getImageByImagesId"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
                 javaType="com.backend.api.entity.ImageEntity"
                 column="id = images_id"
         />

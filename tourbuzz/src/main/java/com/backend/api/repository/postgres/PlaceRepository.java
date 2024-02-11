@@ -1,4 +1,4 @@
-package com.backend.api.repository.postgres.admin;
+package com.backend.api.repository.postgres;
 
 import com.backend.api.entity.DistrictEntity;
 import com.backend.api.entity.PlaceEntity;

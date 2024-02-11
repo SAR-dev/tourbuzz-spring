@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.admin.EnquiryRepository">
+<mapper namespace="com.backend.api.repository.postgres.EnquiryRepository">
 
     <select id="getGroupedEnquiries" resultMap="groupEnquiryResultMap">
         SELECT DISTINCT users_id

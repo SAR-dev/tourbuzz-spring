@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.EnquiryEntity;
-import com.backend.api.repository.postgres.admin.EnquiryRepository;
+import com.backend.api.repository.postgres.EnquiryRepository;
 import com.backend.api.request.admin.EnquiryAnswerReq;
 import com.backend.api.request.admin.EnquiryQuestionReq;
 import com.backend.api.response.GroupedEnquiryRes;

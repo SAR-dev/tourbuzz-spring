@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.HotelEntity;
-import com.backend.api.repository.postgres.admin.HotelRepository;
+import com.backend.api.repository.postgres.HotelRepository;
 import com.backend.api.request.admin.HotelCreateReq;
 import com.backend.api.request.admin.HotelUpdateReq;
 import com.backend.api.response.HotelCheckRes;

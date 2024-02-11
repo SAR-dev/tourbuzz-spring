@@ -2,7 +2,7 @@ package com.backend.api.service.admin;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.PackageEntity;
-import com.backend.api.repository.postgres.admin.PackageRepository;
+import com.backend.api.repository.postgres.PackageRepository;
 import com.backend.api.request.admin.TourPackageCreatePayload;
 import com.backend.api.request.admin.TourPackageCreateReq;
 import com.backend.api.request.admin.TourPackageUpdatePayload;

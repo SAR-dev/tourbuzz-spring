@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -44,6 +45,13 @@ public class TourListRes {
 
     private List<ImageEntity> images;
     private ImageEntity avatar;
+
+    private boolean expired;
+
+    public boolean isExpired() {
+        return getLast_sell_at().before(new Date());
+    }
+
 
     public List<String> getPlace_names_list() {
         return Arrays.stream(place_names.split(",")).toList();
