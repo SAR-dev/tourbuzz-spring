@@ -1,5 +1,6 @@
 package com.backend.api.response;
 
+import com.backend.api.entity.EmojiReactionEntity;
 import com.backend.api.entity.ImageEntity;
 import lombok.Data;
 
@@ -44,6 +45,7 @@ public class TourListRes {
     private List<Integer> package_prices_list;
 
     private List<ImageEntity> images;
+    private List<EmojiReactionEntity> emoji_reactions;
     private ImageEntity avatar;
 
     private boolean expired;

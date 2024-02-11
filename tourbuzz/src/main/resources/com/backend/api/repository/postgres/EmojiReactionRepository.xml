@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.EmojiReactionRepository">
+    <select id="getEmojiReactionsByTourId" resultType="com.backend.api.entity.EmojiReactionEntity">
+        SELECT
+            er.* ,
+            u.email AS users_email,
+            u.username AS users_username
+        FROM emoji_reactions er
+        JOIN auth.users u ON er.users_id = u.id
+        WHERE er.reference_type = 'TOUR'
+        AND er.reference_id = #{id}
+    </select>
+</mapper>
