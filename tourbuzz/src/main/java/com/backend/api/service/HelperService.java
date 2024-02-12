@@ -1,4 +1,4 @@
-package com.backend.api.service.admin;
+package com.backend.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,1 @@
+ALTER TABLE public.emoji_reactions DROP CONSTRAINT emoji_reactions_emoji_check;

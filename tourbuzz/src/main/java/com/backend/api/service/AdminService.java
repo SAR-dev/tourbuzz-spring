@@ -1,4 +1,4 @@
-package com.backend.api.service.admin;
+package com.backend.api.service;
 
 import com.backend.api.repository.postgres.AdminRepository;
 import lombok.RequiredArgsConstructor;

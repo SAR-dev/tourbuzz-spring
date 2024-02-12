@@ -136,12 +136,6 @@
                 select="com.backend.api.repository.postgres.ImageRepository.getImageIdsFromList"
                 column="ids = image_ids"
         />
-        <collection
-                property="emoji_reactions"
-                ofType="com.backend.api.entity.EmojiReactionEntity"
-                select="com.backend.api.repository.postgres.EmojiReactionRepository.getEmojiReactionsByTourId"
-                column="id = id"
-        />
     </resultMap>
 
     <select id="getTourById" resultMap="tourResultMap">
@@ -199,12 +193,6 @@
                 property="packages"
                 ofType="com.backend.api.entity.PackageEntity"
                 select="selectPackagesByTourId"
-                column="id = id"
-        />
-        <collection
-                property="emoji_reactions"
-                ofType="com.backend.api.entity.EmojiReactionEntity"
-                select="com.backend.api.repository.postgres.EmojiReactionRepository.getEmojiReactionsByTourId"
                 column="id = id"
         />
     </resultMap>

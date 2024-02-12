@@ -13,7 +13,4 @@ public class EmojiReactionEntity {
     private String emoji;
     private Timestamp created_at;
     private Timestamp updated_at;
-
-    private String users_username;
-    private String users_email;
 }

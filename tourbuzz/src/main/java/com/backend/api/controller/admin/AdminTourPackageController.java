@@ -3,7 +3,7 @@ package com.backend.api.controller.admin;
 import com.backend.api.entity.PackageEntity;
 import com.backend.api.request.admin.TourPackageCreateReq;
 import com.backend.api.service.AuthService;
-import com.backend.api.service.admin.PackageService;
+import com.backend.api.service.PackageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

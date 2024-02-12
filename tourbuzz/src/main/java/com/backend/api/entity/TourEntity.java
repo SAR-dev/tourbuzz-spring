@@ -37,7 +37,6 @@ public class TourEntity {
     private List<ImageEntity> images;
     private List<PackageEntity> packages;
     private List<TourLogEntity> tour_logs;
-    private List<EmojiReactionEntity> emoji_reactions;
 
     private boolean expired;
 

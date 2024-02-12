@@ -3,14 +3,50 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.EmojiReactionRepository">
-    <select id="getEmojiReactionsByTourId" resultType="com.backend.api.entity.EmojiReactionEntity">
+    <select id="getEmojiReactionsByTourId" resultType="com.backend.api.response.EmojiReactionRes">
         SELECT
-            er.* ,
-            u.email AS users_email,
-            u.username AS users_username
+            er.emoji ,
+            count(er.*) AS count,
+            u.email = #{email} AS reacted
         FROM emoji_reactions er
         JOIN auth.users u ON er.users_id = u.id
-        WHERE er.reference_type = 'TOUR'
+        WHERE er.reference_type = CAST('TOUR' AS emoji_reference_type)
         AND er.reference_id = #{id}
+        GROUP BY er.emoji, u.email
     </select>
+
+    <select id="checkIfEmojiReactionExists" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM emoji_reactions er
+            JOIN auth.users u ON er.users_id = u.id
+            WHERE er.reference_type = CAST(#{data.referenceType} AS emoji_reference_type)
+            AND er.reference_id = #{data.referenceId}
+            AND er.emoji = #{data.emoji}
+            AND u.email = #{email}
+        )
+    </select>
+
+    <delete id="deleteEmojiReaction">
+        DELETE FROM emoji_reactions
+        WHERE reference_type = CAST(#{data.referenceType} AS emoji_reference_type)
+        AND reference_id = #{data.referenceId}
+        AND emoji = #{data.emoji}
+        AND users_id IN (SELECT id FROM auth.users WHERE email = #{email});
+    </delete>
+
+    <insert id="createEmojiReaction">
+        INSERT INTO emoji_reactions (
+            users_id,
+            reference_type,
+            reference_id,
+            emoji
+        )
+        SELECT
+            u.id,
+            CAST(#{data.referenceType} AS emoji_reference_type),
+            #{data.referenceId},
+            #{data.emoji}
+        FROM auth.users u
+        WHERE u.email = #{email};
+    </insert>
 </mapper>

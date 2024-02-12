@@ -10,7 +10,6 @@ import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.request.UserSignInReq;
 import com.backend.api.request.admin.AdminSignInReq;
-import com.backend.api.service.admin.AdminService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

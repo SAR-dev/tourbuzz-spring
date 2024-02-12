@@ -1,4 +1,4 @@
-package com.backend.api.service.admin;
+package com.backend.api.service;
 
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.HotelEntity;

@@ -2,7 +2,7 @@ package com.backend.api.controller;
 
 import com.backend.api.request.admin.EnquiryQuestionReq;
 import com.backend.api.service.AuthService;
-import com.backend.api.service.admin.EnquiryService;
+import com.backend.api.service.EnquiryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

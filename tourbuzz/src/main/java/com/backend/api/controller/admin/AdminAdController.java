@@ -6,7 +6,7 @@ import com.backend.api.request.admin.AdUpdateReq;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.PaginationService;
-import com.backend.api.service.admin.AdService;
+import com.backend.api.service.AdService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
