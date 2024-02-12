@@ -1,4 +1,4 @@
-package com.backend.api.controller.member;
+package com.backend.api.controller.guest;
 
 import com.backend.api.enums.EmojiReferenceType;
 import com.backend.api.request.EmojiReactionReq;
@@ -12,8 +12,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/member/reactions")
-public class UserEmojiController {
+@RequestMapping("/guest/reactions")
+public class GuestEmojiController {
     private final EmojiReactionService emojiReactionService;
 
     @Tag(name = "Get Tour Emoji Reaction")
@@ -26,6 +26,7 @@ public class UserEmojiController {
     @Tag(name = "Add Tour Emoji Reaction")
     @PostMapping("/tours/{id}/{emoji}")
     public List<EmojiReactionRes> reactEmojiToTour(@PathVariable int id, @PathVariable String emoji) throws Exception {
+
         EmojiReactionReq emojiReactionReq = EmojiReactionReq.builder()
                 .referenceType(EmojiReferenceType.TOUR.name())
                 .referenceId(id)

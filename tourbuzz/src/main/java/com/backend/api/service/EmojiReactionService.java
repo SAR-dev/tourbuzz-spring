@@ -6,9 +6,11 @@ import com.backend.api.repository.postgres.EmojiReactionRepository;
 import com.backend.api.request.EmojiReactionReq;
 import com.backend.api.response.EmojiReactionRes;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +26,11 @@ public class EmojiReactionService {
         return emojiReactionRepository.getEmojiReactionsByTourId(id, email);
     }
 
-    public boolean checkIfEmojiReactionExists(EmojiReactionReq emojiReactionReq){
+    public boolean checkIfEmojiReactionExists(EmojiReactionReq emojiReactionReq) throws Exception {
         String email = authService.getLoggedInEmail();
+        if(Objects.isNull(email)){
+            throw new Exception(ErrorMessages.SIGNIN_REQUIRED);
+        }
         return emojiReactionRepository.checkIfEmojiReactionExists(emojiReactionReq, email);
     }
 
