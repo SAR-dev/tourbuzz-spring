@@ -1,4 +1,4 @@
-package com.backend.api.controller.user;
+package com.backend.api.controller.member;
 
 import com.backend.api.enums.EmojiReferenceType;
 import com.backend.api.request.EmojiReactionReq;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user/reactions")
+@RequestMapping("/member/reactions")
 public class UserEmojiController {
     private final EmojiReactionService emojiReactionService;
 
