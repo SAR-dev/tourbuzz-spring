@@ -28,10 +28,7 @@ public class GuestEmojiController {
     @PostMapping("/tours/{id}/{emoji}")
     public EmojiAddResponse reactEmojiToTour(@PathVariable int id, @PathVariable String emoji) throws Exception {
         EmojiReactionReq emojiReactionReq = EmojiReactionReq.builder()
-                .referenceType(EmojiReferenceType.TOUR.name())
-                .referenceId(id)
-                .emoji(emoji)
-                .build();
+                .referenceType(EmojiReferenceType.TOUR.name()).referenceId(id).emoji(emoji).build();
         boolean exists = emojiReactionService.checkIfEmojiReactionExists(emojiReactionReq);
         if(exists){
             emojiReactionService.deleteEmojiReaction(emojiReactionReq);
