@@ -2,6 +2,7 @@ package com.backend.api.controller.guest;
 
 import com.backend.api.enums.EmojiReferenceType;
 import com.backend.api.request.EmojiReactionReq;
+import com.backend.api.response.EmojiAddResponse;
 import com.backend.api.response.EmojiReactionRes;
 import com.backend.api.service.EmojiReactionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,8 +26,7 @@ public class GuestEmojiController {
 
     @Tag(name = "Add Tour Emoji Reaction")
     @PostMapping("/tours/{id}/{emoji}")
-    public List<EmojiReactionRes> reactEmojiToTour(@PathVariable int id, @PathVariable String emoji) throws Exception {
-
+    public EmojiAddResponse reactEmojiToTour(@PathVariable int id, @PathVariable String emoji) throws Exception {
         EmojiReactionReq emojiReactionReq = EmojiReactionReq.builder()
                 .referenceType(EmojiReferenceType.TOUR.name())
                 .referenceId(id)
@@ -35,9 +35,10 @@ public class GuestEmojiController {
         boolean exists = emojiReactionService.checkIfEmojiReactionExists(emojiReactionReq);
         if(exists){
             emojiReactionService.deleteEmojiReaction(emojiReactionReq);
+            return EmojiAddResponse.builder().removed(true).added(false).build();
         } else {
             emojiReactionService.createEmojiReaction(emojiReactionReq);
+            return EmojiAddResponse.builder().removed(false).added(true).build();
         }
-        return emojiReactionService.getEmojiReactionsByTourId(id);
     }
 }
