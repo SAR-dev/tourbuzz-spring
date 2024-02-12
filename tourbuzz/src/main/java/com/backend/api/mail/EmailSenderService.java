@@ -20,9 +20,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class EmailSenderService {
-    @Value("${frontend.url}")
-    private String FRONTEND_URL;
-
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
 
@@ -43,8 +40,6 @@ public class EmailSenderService {
     public void sendMagicLink(String recipient, String token) throws MessagingException {
         EmailModel emailModel = EmailModel.builder().to(recipient).subject("HEADER: Magic Link").template("magic-link.html").build();
         Map<String, Object> properties = new HashMap<>();
-        String magicLink = FRONTEND_URL + "/sign-in?magic=" + token;
-        properties.put("magicLink", magicLink);
         properties.put("magicToken", token);
         emailModel.setProperties(properties);
         sendHtmlMessage(emailModel);
