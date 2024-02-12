@@ -1,6 +1,5 @@
-package com.backend.api.controller.secured;
+package com.backend.api.controller.user;
 
-import com.backend.api.entity.EmojiReactionEntity;
 import com.backend.api.enums.EmojiReferenceType;
 import com.backend.api.request.EmojiReactionReq;
 import com.backend.api.response.EmojiReactionRes;
@@ -13,8 +12,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/secured/reactions")
-public class SecuredEmojiController {
+@RequestMapping("/user/reactions")
+public class UserEmojiController {
     private final EmojiReactionService emojiReactionService;
 
     @Tag(name = "Get Tour Emoji Reaction")

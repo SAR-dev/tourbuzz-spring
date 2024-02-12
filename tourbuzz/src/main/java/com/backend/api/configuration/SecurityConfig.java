@@ -24,10 +24,10 @@ public class SecurityConfig {
         .authorizeHttpRequests(request ->
                 request.requestMatchers(
                         "/auth/**",
+                                "/guest/**",
                                 "/api-docs/**",
                                 "/api-docs.yaml/**",
-                                "/swagger-ui/**",
-                                "/common/**"
+                                "/swagger-ui/**"
                         )
                         .permitAll()
                         .anyRequest()

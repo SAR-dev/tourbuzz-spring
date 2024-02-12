@@ -1,4 +1,4 @@
-package com.backend.api.controller.common;
+package com.backend.api.controller.guest;
 
 import com.backend.api.response.TourListRes;
 import com.backend.api.service.TourService;
@@ -10,8 +10,8 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/common/tours")
-public class CommonTourController {
+@RequestMapping("/guest/tours")
+public class GuestTourController {
     private final TourService tourService;
 
     @Tag(name = "Upcoming Tours")
