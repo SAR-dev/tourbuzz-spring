@@ -140,6 +140,10 @@ public class TourService {
         return tourRepository.getTourById(id);
     }
 
+    public TourEntity getTourBySlug(String slug){
+        return tourRepository.getTourBySlug(slug);
+    }
+
     @Transactional
     public void deleteTourById(int id) throws Exception {
         int count = tourRepository.deleteTourById(id);

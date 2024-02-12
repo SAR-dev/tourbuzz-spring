@@ -142,6 +142,10 @@
         SELECT * FROM tour.tours WHERE id = #{id}
     </select>
 
+    <select id="getTourBySlug" resultMap="tourResultMap">
+        SELECT * FROM tour.tours WHERE slug = #{slug}
+    </select>
+
     <delete id="deleteTourById">
         WITH tlp AS (
             DELETE FROM tour.tour_logs_places
@@ -195,6 +199,12 @@
                 select="selectPackagesByTourId"
                 column="id = id"
         />
+        <collection
+                property="places"
+                ofType="com.backend.api.entity.PlaceEntity"
+                select="selectPlacesByTourId"
+                column="id = id"
+        />
     </resultMap>
 
     <select id="selectTourLogsByTourId" resultMap="com.backend.api.repository.postgres.TourLogRepository.tourLogResultMap">
@@ -203,6 +213,15 @@
 
     <select id="selectPackagesByTourId" resultType="com.backend.api.entity.PackageEntity">
         SELECT * FROM tour.packages WHERE tours_id = #{id}
+    </select>
+
+    <select id="selectPlacesByTourId" resultType="com.backend.api.entity.PlaceEntity">
+        SELECT DISTINCT
+            p.*
+        FROM tour.tour_logs tl
+        JOIN tour.tour_logs_places tlp ON tl.id = tlp.tour_logs_id
+        JOIN public.places p ON p.id = tlp.places_id
+        WHERE tl.tours_id = #{id}
     </select>
 
 </mapper>

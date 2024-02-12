@@ -1,5 +1,6 @@
 package com.backend.api.controller.guest;
 
+import com.backend.api.entity.TourEntity;
 import com.backend.api.response.TourListRes;
 import com.backend.api.service.TourService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,5 +19,11 @@ public class GuestTourController {
     @GetMapping("/upcoming")
     public List<TourListRes> submitQuestion() {
         return tourService.getUpcomingTours();
+    }
+
+    @Tag(name = "Get Tour By Slug")
+    @GetMapping("/{slug}")
+    public TourEntity getTourById(@PathVariable String slug) {
+        return tourService.getTourBySlug(slug);
     }
 }
