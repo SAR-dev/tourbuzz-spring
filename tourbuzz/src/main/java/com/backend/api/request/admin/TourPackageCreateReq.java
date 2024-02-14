@@ -36,7 +36,4 @@ public class TourPackageCreateReq {
     @Min(100)
     @Max(100000)
     private int price;
-
-    private String bkashLink;
-    private String nagadLink;
 }

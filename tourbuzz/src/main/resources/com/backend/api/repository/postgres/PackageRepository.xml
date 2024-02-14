@@ -12,9 +12,7 @@
             excluded,
             conditions,
             price,
-            status,
-            bkash_link,
-            nagad_link
+            status
         ) VALUES
         <foreach collection="tourPackages" item="item" separator=",">
             (
@@ -24,9 +22,7 @@
             #{item.excluded},
             #{item.conditions},
             #{item.price},
-            CAST('PUBLISHED' AS status_type),
-            #{item.bkashLink},
-            #{item.nagadLink}
+            CAST('PUBLISHED' AS status_type)
             )
         </foreach>
     </insert>
@@ -39,9 +35,7 @@
             excluded,
             conditions,
             price,
-            status,
-            bkash_link,
-            nagad_link
+            status
         ) VALUES (
             #{toursId},
             #{title},
@@ -49,9 +43,7 @@
             #{excluded},
             #{conditions},
             #{price},
-            CAST('DRAFT' AS status_type),
-            #{bkashLink},
-            #{nagadLink}
+            CAST('DRAFT' AS status_type)
         )
     </insert>
 
@@ -64,9 +56,7 @@
             excluded = db.excluded,
             conditions = db.conditions,
             price = db.price,
-            status = db.status,
-            bkash_link = db.bkash_link,
-            nagad_link = db.nagad_link
+            status = db.status
         FROM(
         VALUES
         <foreach collection="tourPackages" item="item" separator=",">
@@ -78,9 +68,7 @@
             #{item.excluded},
             #{item.conditions},
             #{item.price},
-            CAST('PUBLISHED' AS status_type),
-            #{item.bkashLink},
-            #{item.nagadLink}
+            CAST('PUBLISHED' AS status_type)
             )
         </foreach>
         ) AS db (
@@ -91,9 +79,7 @@
             excluded,
             conditions,
             price,
-            status,
-            bkash_link,
-            nagad_link
+            status
         ) WHERE packages.id = db.id
     </update>
 

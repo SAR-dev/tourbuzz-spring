@@ -310,8 +310,6 @@ CREATE TABLE tour.packages (
     conditions      text NOT NULL,
     price           integer NOT NULL,
     status          status_type NOT NULL DEFAULT 'PUBLISHED',
-    bkash_link      text,
-    nagad_link      text,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_title_in_packages UNIQUE (tours_id, title)

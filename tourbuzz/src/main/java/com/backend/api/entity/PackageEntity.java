@@ -16,8 +16,6 @@ public class PackageEntity {
     private String conditions;
     private int price;
     private Status status;
-    private String bkash_link;
-    private String nagad_link;
     private Timestamp created_at;
     private Timestamp updated_at;
 }

@@ -36,7 +36,4 @@ public class TourPackageUpdatePayload {
     @Min(100)
     @Max(100000)
     private int price;
-
-    private String bkashLink;
-    private String nagadLink;
 }
