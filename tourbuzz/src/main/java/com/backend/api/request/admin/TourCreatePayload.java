@@ -3,9 +3,7 @@ package com.backend.api.request.admin;
 import com.backend.api.Constants;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
 
@@ -86,6 +84,11 @@ public class TourCreatePayload {
     @NotNull
     @Size(min = 1, max = 10)
     private List<Integer> imageIds;
+
+    @NotNull
+    @Min(1)
+    @Max(9999)
+    private Integer maxTicketAmount;
 
     private String imageIdsStr;
     public String getImageIdsStr() {

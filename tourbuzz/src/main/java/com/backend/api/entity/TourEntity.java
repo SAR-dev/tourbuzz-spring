@@ -28,6 +28,7 @@ public class TourEntity {
     private Timestamp finish_at;
     private Timestamp last_sell_at;
     private String image_ids;
+    private int max_ticket_amount;
     private Timestamp created_at;
     private Timestamp updated_at;
 
