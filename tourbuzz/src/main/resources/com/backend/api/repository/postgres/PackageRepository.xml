@@ -22,7 +22,7 @@
             #{item.excluded},
             #{item.conditions},
             #{item.price},
-            'PUBLISHED'
+            CAST('PUBLISHED' AS status_type)
             )
         </foreach>
     </insert>
@@ -43,7 +43,7 @@
             #{excluded},
             #{conditions},
             #{price},
-            'DRAFT'
+            CAST('DRAFT' AS status_type)
         )
     </insert>
 
@@ -68,7 +68,7 @@
             #{item.excluded},
             #{item.conditions},
             #{item.price},
-            'PUBLISHED'
+            CAST('PUBLISHED' AS status_type)
             )
         </foreach>
         ) AS db (
@@ -88,7 +88,7 @@
     </select>
 
     <select id="getPackageIdsByTourId" resultType="integer">
-        SELECT id FROM tour.packages WHERE toursId = #{toursId}
+        SELECT id FROM tour.packages WHERE tours_id = #{toursId}
     </select>
 
     <delete id="deletePackageById">

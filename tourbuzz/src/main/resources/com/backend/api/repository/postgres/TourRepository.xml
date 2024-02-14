@@ -47,9 +47,9 @@
             #{cancelIns},
             #{startIns},
             #{finishIns},
-            TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH:MI'),
-            TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH:MI'),
-            TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH:MI'),
+            TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH24:MI'),
+            TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH24:MI'),
+            TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH24:MI'),
             #{imageIdsStr}
         ) RETURNING id
     </select>
@@ -72,9 +72,9 @@
             cancel_ins = #{cancelIns},
             start_ins = #{startIns},
             finish_ins = #{finishIns},
-            start_at = TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH:MI'),
-            finish_at = TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH:MI'),
-            last_sell_at = TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH:MI'),
+            start_at = TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH24:MI'),
+            finish_at = TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH24:MI'),
+            last_sell_at = TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH24:MI'),
             image_ids = #{imageIdsStr}
         WHERE
         id = #{id}

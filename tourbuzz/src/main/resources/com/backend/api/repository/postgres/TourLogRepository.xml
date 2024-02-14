@@ -22,7 +22,7 @@
             #{item.description},
             TO_DATE(#{item.date}, 'DD/MM/YYYY'),
             #{item.imageIdsStr},
-            'PUBLISHED'
+            CAST('PUBLISHED' AS status_type)
         )
         </foreach>
     </insert>
@@ -43,7 +43,7 @@
             #{description},
             TO_DATE(#{date}, 'DD/MM/YYYY'),
             #{imageIdsStr},
-            'DRAFT'
+            CAST('DRAFT' AS status_type)
         )
     </insert>
 
@@ -99,7 +99,7 @@
             #{item.description},
             TO_DATE(#{item.date}, 'DD/MM/YYYY'),
             #{item.imageIdsStr},
-            'PUBLISHED'
+            CAST('PUBLISHED' AS status_type)
             )
         </foreach>
         ) AS db (
@@ -122,7 +122,7 @@
     </delete>
 
     <select id="getTourLogIdsByTourId" resultType="integer">
-        SELECT id FROM tour.tour_logs WHERE toursId = #{toursId}
+        SELECT id FROM tour.tour_logs WHERE tours_id = #{toursId} ORDER BY DATE ASC
     </select>
 
     <select id="selectPlacesByTourLogId" resultMap="com.backend.api.repository.postgres.PlaceRepository.placeResultMap">
