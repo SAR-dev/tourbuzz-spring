@@ -53,6 +53,10 @@
         ORDER BY h.name DESC
     </select>
 
+    <select id="getRandomHotels" resultMap="hotelResultMap">
+        SELECT * FROM public.hotels ORDER BY RANDOM() LIMIT #{count}
+    </select>
+
     <select id="getHotelById" resultMap="hotelResultMap">
         SELECT * FROM public.hotels WHERE id = #{id}
     </select>

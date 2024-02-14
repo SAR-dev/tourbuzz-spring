@@ -1,0 +1,1 @@
+ALTER TABLE tour.tickets ADD note text;

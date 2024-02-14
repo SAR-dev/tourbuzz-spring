@@ -44,8 +44,16 @@ public class ArticleService {
         return articleRepository.getArticles();
     }
 
+    public List<ArticleEntity> getLatestArticles(int count){
+        return articleRepository.getLatestArticles(count);
+    }
+
     public ArticleEntity getArticleById(int id){
         return articleRepository.getArticleById(id);
+    }
+
+    public ArticleEntity getArticleBySlug(String slug){
+        return articleRepository.getArticleBySlug(slug);
     }
 
     public void deleteArticleById(int id) throws Exception {

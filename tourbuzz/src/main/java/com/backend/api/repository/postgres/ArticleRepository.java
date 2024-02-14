@@ -23,7 +23,11 @@ public interface ArticleRepository {
 
     List<ArticleEntity> getArticles();
 
+    List<ArticleEntity> getLatestArticles(int count);
+
     ArticleEntity getArticleById(int id);
+
+    ArticleEntity getArticleBySlug(String slug);
 
     int updateArticle(ArticleUpdateReq articleUpdateReq);
 

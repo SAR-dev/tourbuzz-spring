@@ -14,6 +14,7 @@ public class TicketEntity {
     private int ticket_amount;
     private String payment_method;
     private String payment_invoice;
+    private String note;
     private Timestamp created_at;
     private Timestamp updated_at;
 }

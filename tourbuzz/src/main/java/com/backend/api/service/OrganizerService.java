@@ -42,6 +42,10 @@ public class OrganizerService {
         return organizerRepository.getOrganizers(name, email);
     }
 
+    public List<OrganizerEntity> getRandomOrganizers(int count){
+        return organizerRepository.getRandomOrganizers(count);
+    }
+
     public OrganizerEntity getOrganizerById(int id){
         return organizerRepository.getOrganizerById(id);
     }

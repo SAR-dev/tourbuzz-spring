@@ -23,6 +23,10 @@ public class HotelService {
         return hotelRepository.getHotels(name);
     }
 
+    public List<HotelEntity> getRandomHotels(int count){
+        return hotelRepository.getRandomHotels(count);
+    }
+
     public HotelEntity getHotelById(int id){
         return hotelRepository.getHotelById(id);
     }

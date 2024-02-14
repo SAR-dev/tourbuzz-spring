@@ -12,6 +12,8 @@ import java.util.List;
 public interface HotelRepository {
     List<HotelEntity> getHotels(String name);
 
+    List<HotelEntity> getRandomHotels(int count);
+
     HotelEntity getHotelById(int id);
 
     HotelCheckRes checkHotel(HotelCreateReq hotelCreateReq);

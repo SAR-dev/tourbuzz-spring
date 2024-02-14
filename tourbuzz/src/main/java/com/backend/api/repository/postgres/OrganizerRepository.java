@@ -20,6 +20,8 @@ public interface OrganizerRepository {
 
     List<OrganizerEntity> getOrganizers(String name, String email);
 
+    List<OrganizerEntity> getRandomOrganizers(int count);
+
     OrganizerEntity getOrganizerById(int id);
 
     OrganizerCheckRes checkOrganizer(OrganizerCreateReq organizerCreateReq);

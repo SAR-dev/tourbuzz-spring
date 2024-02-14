@@ -23,6 +23,8 @@ public interface PlaceRepository {
 
     List<PlaceEntity> getPlaces(String name);
 
+    List<PlaceEntity> getPopularPlaces(int count);
+
     PlaceEntity getPlaceById(int id);
 
     List<PlaceTypeRes> getPlaceTypes();

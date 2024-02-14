@@ -56,6 +56,18 @@
         ORDER BY p.id DESC
     </select>
 
+    <select id="getPopularPlaces" resultMap="placeResultMap">
+        WITH res AS (
+            SELECT p.id, COUNT(*)
+            FROM tour.tour_logs_places tlp
+            JOIN public.places p ON tlp.places_id = p.id
+            GROUP BY p.id
+            ORDER BY COUNT(*) DESC
+            LIMIT #{count}
+        )
+        SELECT * FROM public.places WHERE id IN (SELECT id FROM res)
+    </select>
+
     <select id="getPlaceById" resultMap="placeResultMap">
         SELECT * FROM public.places WHERE id = #{id}
     </select>

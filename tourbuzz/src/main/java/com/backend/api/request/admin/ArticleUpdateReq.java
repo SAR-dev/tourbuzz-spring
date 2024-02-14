@@ -33,7 +33,7 @@ public class ArticleUpdateReq {
     private String slug;
 
     @NotNull
-    @Size(min = 10, max = 200)
+    @Size(min = 5, max = 80)
     private String subtitle;
 
     @NotNull

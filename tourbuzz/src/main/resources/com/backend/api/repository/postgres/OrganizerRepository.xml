@@ -67,6 +67,10 @@
         ORDER BY o.id DESC
     </select>
 
+    <select id="getRandomOrganizers" resultMap="organizerResultMap">
+        SELECT * FROM tour.organizers ORDER BY RANDOM() LIMIT #{count}
+    </select>
+
     <select id="getOrganizerById" resultMap="organizerResultMap">
         SELECT * FROM tour.organizers WHERE id = #{id}
     </select>

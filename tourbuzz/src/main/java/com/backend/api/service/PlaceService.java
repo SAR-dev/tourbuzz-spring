@@ -51,6 +51,10 @@ public class PlaceService {
         return placeRepository.getPlaces(name);
     }
 
+    public List<PlaceEntity> getPopularPlaces(int count){
+        return placeRepository.getPopularPlaces(count);
+    }
+
     public PlaceEntity getPlaceById(int id){
         return placeRepository.getPlaceById(id);
     }
