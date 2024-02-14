@@ -25,17 +25,14 @@ END $$;
 CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE', 'TOUR_COMMENT');
 
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE public.payment_method AS ENUM('BKASH', 'NAGAD');
 CREATE TYPE public.status_type AS ENUM('DRAFT', 'PUBLISHED');
 
 --auth
 CREATE TYPE auth.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE auth.payment_method AS ENUM('BKASH', 'NAGAD');
 CREATE TYPE auth.status_type AS ENUM('DRAFT', 'PUBLISHED');
 
 --tour
 CREATE TYPE tour.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE tour.payment_method AS ENUM('BKASH', 'NAGAD');
 CREATE TYPE tour.status_type AS ENUM('DRAFT', 'PUBLISHED');
 
 --DOMAINS
@@ -313,6 +310,8 @@ CREATE TABLE tour.packages (
     conditions      text NOT NULL,
     price           integer NOT NULL,
     status          status_type NOT NULL DEFAULT 'PUBLISHED',
+    bkash_link      text,
+    nagad_link      text,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_title_in_packages UNIQUE (tours_id, title)
@@ -386,12 +385,11 @@ CREATE TABLE tour.tickets (
     users_id        integer NOT NULL REFERENCES auth.users(id),
     paid_amount     integer DEFAULT 0,
     ticket_amount   integer NOT NULL,
-    completed       boolean DEFAULT false,
-    payment_method  payment_method,
-    payment_id      text NOT NULL,
+    payment_method  text,
+    payment_invoice text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT unq_tickets_payments UNIQUE ( payment_id )
+    CONSTRAINT unq_tickets UNIQUE ( payment_method, payment_invoice )
 );
 CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON tour.tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
