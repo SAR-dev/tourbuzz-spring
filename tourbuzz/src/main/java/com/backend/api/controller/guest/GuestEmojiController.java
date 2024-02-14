@@ -20,22 +20,25 @@ public class GuestEmojiController {
     @Tag(name = "Get Tour Emoji Reaction")
     @GetMapping("/tours/{id}")
     public List<EmojiReactionRes> getEmojiToTour(@PathVariable int id) {
-        return emojiReactionService.getEmojiReactionsByTourId(id);
+        return emojiReactionService.getEmojiReactionsByReferenceId(id, EmojiReferenceType.TOUR);
+    }
+
+    @Tag(name = "Get Article Emoji Reaction")
+    @GetMapping("/articles/{id}")
+    public List<EmojiReactionRes> getEmojiToArticle(@PathVariable int id) {
+        return emojiReactionService.getEmojiReactionsByReferenceId(id, EmojiReferenceType.ARTICLE);
     }
 
 
     @Tag(name = "Add Tour Emoji Reaction")
     @PostMapping("/tours/{id}/{emoji}")
     public EmojiAddResponse reactEmojiToTour(@PathVariable int id, @PathVariable String emoji) throws Exception {
-        EmojiReactionReq emojiReactionReq = EmojiReactionReq.builder()
-                .referenceType(EmojiReferenceType.TOUR.name()).referenceId(id).emoji(emoji).build();
-        boolean exists = emojiReactionService.checkIfEmojiReactionExists(emojiReactionReq);
-        if(exists){
-            emojiReactionService.deleteEmojiReaction(emojiReactionReq);
-            return EmojiAddResponse.builder().removed(true).added(false).build();
-        } else {
-            emojiReactionService.createEmojiReaction(emojiReactionReq);
-            return EmojiAddResponse.builder().removed(false).added(true).build();
-        }
+        return emojiReactionService.addReactionEmoji(id, EmojiReferenceType.TOUR, emoji);
+    }
+
+    @Tag(name = "Add Article Emoji Reaction")
+    @PostMapping("/articles/{id}/{emoji}")
+    public EmojiAddResponse reactEmojiToArticle(@PathVariable int id, @PathVariable String emoji) throws Exception {
+        return emojiReactionService.addReactionEmoji(id, EmojiReferenceType.ARTICLE, emoji);
     }
 }

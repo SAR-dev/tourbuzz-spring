@@ -218,7 +218,7 @@
         SELECT * FROM tour.packages WHERE tours_id = #{id}
     </select>
 
-    <select id="selectPlacesByTourId" resultType="com.backend.api.entity.PlaceEntity">
+    <select id="selectPlacesByTourId" resultMap="com.backend.api.repository.postgres.PlaceRepository.placeResultMap">
         SELECT DISTINCT
             p.*
         FROM tour.tour_logs tl

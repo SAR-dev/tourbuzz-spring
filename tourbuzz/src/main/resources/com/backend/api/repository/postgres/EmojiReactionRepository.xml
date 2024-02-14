@@ -10,7 +10,7 @@
         #{email} = ANY(ARRAY_AGG(u.email)) AS reacted
         FROM emoji_reactions er
         JOIN auth.users u ON er.users_id = u.id
-        WHERE er.reference_type = CAST('TOUR' AS emoji_reference_type)
+        WHERE er.reference_type = CAST(#{referenceType} AS emoji_reference_type)
         AND er.reference_id = #{id}
         GROUP BY er.emoji
     </select>

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper
 public interface EmojiReactionRepository {
-    List<EmojiReactionRes> getEmojiReactionsByTourId(int id, String email);
+    List<EmojiReactionRes> getEmojiReactionsByTourId(int id, String referenceType, String email);
 
     boolean checkIfEmojiReactionExists(@Param("data")EmojiReactionReq emojiReactionReq, String email);
 
