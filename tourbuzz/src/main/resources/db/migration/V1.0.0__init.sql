@@ -22,18 +22,20 @@ END $$;
 --ENUMS
 
 --public
+CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE', 'TOUR_COMMENT');
+
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE public.payment_type AS ENUM('BKASH', 'NAGAD');
+CREATE TYPE public.payment_method AS ENUM('BKASH', 'NAGAD');
 CREATE TYPE public.status_type AS ENUM('DRAFT', 'PUBLISHED');
 
 --auth
 CREATE TYPE auth.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE auth.payment_type AS ENUM('BKASH', 'NAGAD');
+CREATE TYPE auth.payment_method AS ENUM('BKASH', 'NAGAD');
 CREATE TYPE auth.status_type AS ENUM('DRAFT', 'PUBLISHED');
 
 --tour
 CREATE TYPE tour.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE tour.payment_type AS ENUM('BKASH', 'NAGAD');
+CREATE TYPE tour.payment_method AS ENUM('BKASH', 'NAGAD');
 CREATE TYPE tour.status_type AS ENUM('DRAFT', 'PUBLISHED');
 
 --DOMAINS
@@ -197,6 +199,12 @@ CREATE TABLE auth.users (
     username        _username DEFAULT gen_random_uuid() NOT NULL UNIQUE,
     images_id       integer REFERENCES public.images(id),
     name            text,
+    contact_no      text,
+    contact_email   text,
+    residence       text,
+    facebook_id     text,
+    youtube_id      text,
+    twitter_id      text,
     last_logged_in  timestamp DEFAULT CURRENT_TIMESTAMP,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
@@ -376,12 +384,14 @@ CREATE TABLE tour.tickets (
     id              serial PRIMARY KEY,
     packages_id     integer NOT NULL REFERENCES tour.tours(id),
     users_id        integer NOT NULL REFERENCES auth.users(id),
-    paid_amount     integer NOT NULL,
-    payment_by      payment_type,
+    paid_amount     integer DEFAULT 0,
+    ticket_amount   integer NOT NULL,
+    completed       boolean DEFAULT false,
+    payment_method  payment_method,
     payment_id      text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT unq_tickets_payments UNIQUE ( payment_by, payment_id )
+    CONSTRAINT unq_tickets_payments UNIQUE ( payment_id )
 );
 CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON tour.tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
@@ -392,10 +402,23 @@ CREATE TABLE public.ads (
     link            text NOT NULL,
     image_url       text NOT NULL,
     active          boolean NOT NULL DEFAULT FALSE,
+    view_count      integer DEFAULT 0,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_ads BEFORE UPDATE ON public.ads FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE public.emoji_reactions (
+    id              serial PRIMARY KEY,
+    reference_type  emoji_reference_type NOT NULL,
+    reference_id    integer NOT NULL,
+    users_id        integer NOT NULL REFERENCES auth.users(id),
+    emoji           text NOT NULL,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unq_emoji_reactions UNIQUE ( reference_type, reference_id, users_id, emoji )
+);
+CREATE TRIGGER update_updated_at_emoji_reactions BEFORE UPDATE ON public.emoji_reactions FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE auth.admin(
     Lock char(1) not null DEFAULT 'X',

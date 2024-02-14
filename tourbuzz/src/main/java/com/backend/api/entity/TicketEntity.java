@@ -11,7 +11,9 @@ public class TicketEntity {
     private int packages_id;
     private int users_id;
     private int paid_amount;
-    private String payment_by;
+    private int ticket_amount;
+    private boolean completed;
+    private String payment_method;
     private String payment_id;
     private Timestamp created_at;
     private Timestamp updated_at;
