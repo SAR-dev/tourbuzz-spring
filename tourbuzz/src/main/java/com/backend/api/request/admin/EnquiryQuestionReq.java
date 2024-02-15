@@ -18,6 +18,4 @@ public class EnquiryQuestionReq {
     @NotNull
     @Size(min = 7, max = 20)
     private String contactNo;
-
-    private String email;
 }

@@ -15,9 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EnquiryService {
     private final EnquiryRepository enquiryRepository;
+    private final AuthService authService;
 
     public void submitQuestion(EnquiryQuestionReq enquiryQuestionReq){
-        enquiryRepository.submitQuestion(enquiryQuestionReq);
+        String email = authService.getLoggedInEmail();
+        enquiryRepository.submitQuestion(enquiryQuestionReq, email);
     }
 
     public void answerQuestion(EnquiryAnswerReq enquiryAnswerReq) throws Exception {

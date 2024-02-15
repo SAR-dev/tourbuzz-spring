@@ -42,8 +42,8 @@
             contact_no
         ) VALUES (
             (SELECT id FROM users WHERE email = #{email}),
-            #{question},
-            #{contactNo}
+            #{data.question},
+            #{data.contactNo}
         )
     </insert>
 

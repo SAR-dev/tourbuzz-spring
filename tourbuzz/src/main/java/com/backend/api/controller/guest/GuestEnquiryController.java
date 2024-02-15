@@ -1,4 +1,4 @@
-package com.backend.api.controller;
+package com.backend.api.controller.guest;
 
 import com.backend.api.request.admin.EnquiryQuestionReq;
 import com.backend.api.service.AuthService;
@@ -9,16 +9,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/enquiries")
-public class EnquiryController {
+@RequestMapping("/guest/enquiries")
+public class GuestEnquiryController {
     private final AuthService authService;
     private final EnquiryService enquiryService;
 
     @Tag(name = "Submit Question")
     @PostMapping("/")
     public void submitQuestion(@RequestBody EnquiryQuestionReq enquiryQuestionReq) {
-        String email = authService.getLoggedInEmail();
-        enquiryQuestionReq.setEmail(email);
         enquiryService.submitQuestion(enquiryQuestionReq);
     }
 }

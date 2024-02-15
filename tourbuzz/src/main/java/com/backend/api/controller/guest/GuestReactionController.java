@@ -1,7 +1,6 @@
 package com.backend.api.controller.guest;
 
 import com.backend.api.enums.EmojiReferenceType;
-import com.backend.api.request.EmojiReactionReq;
 import com.backend.api.response.EmojiAddResponse;
 import com.backend.api.response.EmojiReactionRes;
 import com.backend.api.service.EmojiReactionService;
@@ -14,7 +13,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/guest/reactions")
-public class GuestEmojiController {
+public class GuestReactionController {
     private final EmojiReactionService emojiReactionService;
 
     @Tag(name = "Get Tour Emoji Reaction")
