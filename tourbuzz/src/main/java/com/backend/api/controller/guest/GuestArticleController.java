@@ -5,6 +5,7 @@ import com.backend.api.entity.TourEntity;
 import com.backend.api.service.ArticleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class GuestArticleController {
 
     @Tag(name = "Get Article By Slug")
     @GetMapping("/{slug}")
-    public ArticleEntity getArticleBySlug(@PathVariable String slug) {
+    public ArticleEntity getArticleBySlug(@PathVariable String slug) throws NotFoundException {
         return articleService.getArticleBySlug(slug);
     }
 

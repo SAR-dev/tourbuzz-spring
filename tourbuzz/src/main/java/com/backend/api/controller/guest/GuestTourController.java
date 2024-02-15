@@ -5,6 +5,7 @@ import com.backend.api.response.TourListRes;
 import com.backend.api.service.TourService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class GuestTourController {
 
     @Tag(name = "Get Tour By Slug")
     @GetMapping("/{slug}")
-    public TourEntity getTourById(@PathVariable String slug) {
+    public TourEntity getTourBySlug(@PathVariable String slug) throws Exception {
         return tourService.getTourBySlug(slug);
     }
 }

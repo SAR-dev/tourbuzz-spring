@@ -9,11 +9,13 @@ import com.backend.api.response.ArticleCategoryRes;
 import com.backend.api.response.ArticleCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -52,8 +54,12 @@ public class ArticleService {
         return articleRepository.getArticleById(id);
     }
 
-    public ArticleEntity getArticleBySlug(String slug){
-        return articleRepository.getArticleBySlug(slug);
+    public ArticleEntity getArticleBySlug(String slug) throws NotFoundException {
+        ArticleEntity article = articleRepository.getArticleBySlug(slug);
+        if (Objects.isNull(article)) {
+            throw new NotFoundException(ErrorMessages.NOT_FOUND);
+        }
+        return article;
     }
 
     public void deleteArticleById(int id) throws Exception {

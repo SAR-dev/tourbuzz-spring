@@ -9,6 +9,7 @@ import com.backend.api.response.TourCheckRes;
 import com.backend.api.response.TourListRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -140,8 +142,12 @@ public class TourService {
         return tourRepository.getTourById(id);
     }
 
-    public TourEntity getTourBySlug(String slug){
-        return tourRepository.getTourBySlug(slug);
+    public TourEntity getTourBySlug(String slug) throws NotFoundException {
+        TourEntity tour = tourRepository.getTourBySlug(slug);
+        if (Objects.isNull(tour)) {
+            throw new NotFoundException(ErrorMessages.NOT_FOUND);
+        }
+        return tour;
     }
 
     @Transactional

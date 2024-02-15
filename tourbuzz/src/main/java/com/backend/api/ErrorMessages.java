@@ -8,6 +8,7 @@ public class ErrorMessages {
     public static final String EMAIL_EXISTS = "Email already exists.";
     public static final String UPDATE_FAILED = "Update failed";
     public static final String DELETE_FAILED = "Delete failed";
+    public static final String NOT_FOUND = "Not Found";
     public static final String DATE_FORMAT_ERROR = "Check the date format of input fields";
     public static final String TOUR_DATE_LESS_THAN_MIN_DATE = "Tour start date must be after " + (Constants.TOUR_DATE_AFTER_MIN + 1 )+" days from current date";
     public static final String TOUR_FINISH_SHOULD_BE_AFTER_START = "Tour finish date must be after start date";
