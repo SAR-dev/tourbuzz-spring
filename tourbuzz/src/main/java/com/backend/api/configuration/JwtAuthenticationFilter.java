@@ -37,7 +37,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         final String accessToken = request.getHeader(Constants.HEADER.ACCESS_HEADER_NAME);
-
         if (StringUtils.isNotEmpty(accessToken)) {
             try {
                 String email = authService.getEmailFromAccessToken(accessToken);

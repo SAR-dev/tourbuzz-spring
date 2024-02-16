@@ -32,18 +32,25 @@
     </resultMap>
 
     <select id="getEnquiriesByUser" resultMap="enquiryResultMap">
-        SELECT * FROM public.enquiries WHERE users_id = #{users_id} ORDER BY id DESC
+        SELECT * FROM public.enquiries WHERE users_id = (SELECT id FROM auth.users WHERE email = #{email}) ORDER BY id ASC
     </select>
+
+    <resultMap id="enquiryResultMap" type="com.backend.api.entity.EnquiryEntity">
+        <association
+                property="user"
+                select="com.backend.api.repository.postgres.UserRepository.getUserById"
+                javaType="com.backend.api.entity.UserEntity"
+                column="id = users_id"
+        />
+    </resultMap>
 
     <insert id="submitQuestion">
         INSERT INTO public.enquiries (
             users_id,
-            question,
-            contact_no
+            question
         ) VALUES (
-            (SELECT id FROM users WHERE email = #{email}),
-            #{data.question},
-            #{data.contactNo}
+            (SELECT id FROM auth.users WHERE email = #{email}),
+            #{data.question}
         )
     </insert>
 
@@ -54,6 +61,4 @@
             answered_at = CURRENT_TIMESTAMP
         WHERE id = #{enquiriesId}
     </update>
-
-    <resultMap id="enquiryResultMap" type="com.backend.api.entity.EnquiryEntity" />
 </mapper>

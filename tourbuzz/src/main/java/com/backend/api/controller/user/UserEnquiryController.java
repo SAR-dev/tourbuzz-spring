@@ -1,23 +1,29 @@
-package com.backend.api.controller.guest;
+package com.backend.api.controller.user;
 
+import com.backend.api.entity.EnquiryEntity;
 import com.backend.api.request.admin.EnquiryQuestionReq;
 import com.backend.api.service.EnquiryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/guest/enquiries")
-public class GuestEnquiryController {
+@RequestMapping("/user/enquiries")
+public class UserEnquiryController {
     private final EnquiryService enquiryService;
 
     @Tag(name = "Submit Question")
-    @PostMapping("/")
+    @PostMapping("")
     public void submitQuestion(@RequestBody EnquiryQuestionReq enquiryQuestionReq) {
         enquiryService.submitQuestion(enquiryQuestionReq);
+    }
+
+    @Tag(name = "Get Enquiries")
+    @GetMapping("")
+    public List<EnquiryEntity> getEnquiriesByUser(){
+        return enquiryService.getEnquiriesByUser();
     }
 }

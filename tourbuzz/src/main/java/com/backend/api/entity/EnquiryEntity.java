@@ -9,10 +9,11 @@ import java.sql.Timestamp;
 public class EnquiryEntity {
     private int id;
     private int users_id;
-    private String contact_no;
     private String question;
     private String answer;
     private Timestamp answered_at;
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    private UserEntity user;
 }

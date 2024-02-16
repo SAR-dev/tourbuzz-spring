@@ -19,5 +19,5 @@ public interface EnquiryRepository {
 
     List<GroupedEnquiryRes> getGroupedEnquiries();
 
-    List<EnquiryEntity> getEnquiriesByUser(int users_id);
+    List<EnquiryEntity> getEnquiriesByUser(String email);
 }

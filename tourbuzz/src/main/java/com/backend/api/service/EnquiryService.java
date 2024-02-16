@@ -33,7 +33,8 @@ public class EnquiryService {
         return enquiryRepository.getGroupedEnquiries();
     }
 
-    public List<EnquiryEntity> getEnquiriesByUser(int users_id){
-        return enquiryRepository.getEnquiriesByUser(users_id);
+    public List<EnquiryEntity> getEnquiriesByUser(){
+        String email = authService.getLoggedInEmail();
+        return enquiryRepository.getEnquiriesByUser(email);
     }
 }
