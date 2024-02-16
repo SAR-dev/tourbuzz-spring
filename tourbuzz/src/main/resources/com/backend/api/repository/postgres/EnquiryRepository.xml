@@ -25,9 +25,9 @@
         />
         <collection
                 property="enquiries"
-                ofType="com.backend.api.entity.EnquiryEntity"
                 select="getEnquiriesByUserId"
-                column="id=users_id"
+                ofType="com.backend.api.entity.EnquiryEntity"
+                column="id = users_id"
         />
     </resultMap>
 
