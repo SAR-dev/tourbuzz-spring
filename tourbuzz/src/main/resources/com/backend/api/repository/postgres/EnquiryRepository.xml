@@ -26,10 +26,14 @@
         <collection
                 property="enquiries"
                 ofType="com.backend.api.entity.EnquiryEntity"
-                select="getEnquiriesByUser"
-                column="users_id=users_id"
+                select="getEnquiriesByUserId"
+                column="id=users_id"
         />
     </resultMap>
+
+    <select id="getEnquiriesByUserId" resultType="com.backend.api.entity.EnquiryEntity">
+        SELECT * FROM public.enquiries WHERE users_id = #{id} ORDER BY id DESC
+    </select>
 
     <select id="getEnquiriesByUser" resultMap="enquiryResultMap">
         SELECT * FROM public.enquiries WHERE users_id = (SELECT id FROM auth.users WHERE email = #{email}) ORDER BY id ASC
