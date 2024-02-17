@@ -9,11 +9,13 @@ import com.backend.api.response.PlaceCheckRes;
 import com.backend.api.response.PlaceTypeRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -55,8 +57,12 @@ public class PlaceService {
         return placeRepository.getPopularPlaces(count);
     }
 
-    public PlaceEntity getPlaceById(int id){
-        return placeRepository.getPlaceById(id);
+    public PlaceEntity getPlaceById(int id) throws NotFoundException {
+        PlaceEntity place = placeRepository.getPlaceById(id);
+        if (Objects.isNull(place)) {
+            throw new NotFoundException(ErrorMessages.NOT_FOUND);
+        }
+        return place;
     }
 
     public PlaceCheckRes checkPlace(PlaceCreateReq placeCreateReq){

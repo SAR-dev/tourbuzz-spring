@@ -58,11 +58,11 @@
 
     <select id="getPopularPlaces" resultMap="placeResultMap">
         WITH res AS (
-            SELECT p.id, COUNT(*)
-            FROM tour.tour_logs_places tlp
-            JOIN public.places p ON tlp.places_id = p.id
+            SELECT p.id, COALESCE(COUNT(tlp.places_id), 0)
+            FROM public.places p
+            LEFT JOIN tour.tour_logs_places tlp ON tlp.places_id = p.id
             GROUP BY p.id
-            ORDER BY COUNT(*) DESC
+            ORDER BY COALESCE(COUNT(tlp.places_id), 0) DESC
             LIMIT #{count}
         )
         SELECT * FROM public.places WHERE id IN (SELECT id FROM res)

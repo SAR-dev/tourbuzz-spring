@@ -138,6 +138,10 @@ public class TourService {
         return tourRepository.getUpcomingTours();
     }
 
+    public List<TourListRes> getToursByPlaceId(int placesId){
+        return tourRepository.getToursByPlaceId(placesId);
+    }
+
     public TourEntity getTourById(int id){
         return tourRepository.getTourById(id);
     }

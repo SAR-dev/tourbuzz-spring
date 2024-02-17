@@ -22,6 +22,12 @@ public class GuestTourController {
         return tourService.getUpcomingTours();
     }
 
+    @Tag(name = "Get Tour By Place")
+    @GetMapping("/place/{placesId}")
+    public List<TourListRes> getToursByPlaceId(@PathVariable int placesId) throws Exception {
+        return tourService.getToursByPlaceId(placesId);
+    }
+
     @Tag(name = "Get Tour By Slug")
     @GetMapping("/{slug}")
     public TourEntity getTourBySlug(@PathVariable String slug) throws Exception {

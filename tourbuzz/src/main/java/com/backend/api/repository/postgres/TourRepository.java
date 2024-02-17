@@ -21,6 +21,8 @@ public interface TourRepository {
 
     List<TourListRes> getUpcomingTours();
 
+    List<TourListRes> getToursByPlaceId(int placesId);
+
     TourEntity getTourById(int id);
 
     TourEntity getTourBySlug(String slug);

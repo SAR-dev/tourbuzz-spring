@@ -83,7 +83,7 @@
         id = #{id}
     </update>
 
-    <select id="getTours" resultMap="tourListResultMap">
+    <sql id="tourSummaryQuery">
         SELECT DISTINCT
             t.* ,
             tt.name AS tour_type_name,
@@ -100,28 +100,34 @@
         JOIN public.places p ON tlp.places_id = p.id
         JOIN public.districts d ON p.districts_id = d.id
         JOIN tour.packages pkg ON pkg.tours_id = t.id
+    </sql>
+
+    <select id="getTours" resultMap="tourListResultMap">
+        <include refid="tourSummaryQuery" />
         GROUP BY t.id, tt.id , o.id
         ORDER BY t.id DESC
     </select>
 
     <select id="getUpcomingTours" resultMap="tourListResultMap">
-        SELECT DISTINCT
-            t.* ,
-            tt.name AS tour_type_name,
-            o.name AS organizer_name,
-            o.verification AS organizer_verification,
-            string_agg(DISTINCT p.name, ',') AS place_names,
-            string_agg(distinct d.name, ',') AS district_names ,
-            string_agg(distinct pkg.price::text , ',') AS package_prices
-        FROM tour.tours t
-        JOIN tour.organizers o ON t.organizers_id = o.id
-        JOIN tour.tour_types tt ON t.tour_types_id = tt.id
-        JOIN tour.tour_logs tl ON tl.tours_id = t.id
-        JOIN tour.tour_logs_places tlp ON tlp.tour_logs_id = tl.id
-        JOIN public.places p ON tlp.places_id = p.id
-        JOIN public.districts d ON p.districts_id = d.id
-        JOIN tour.packages pkg ON pkg.tours_id = t.id
+        <include refid="tourSummaryQuery" />
         WHERE t.start_at > current_date
+        GROUP BY t.id, tt.id , o.id
+        ORDER BY t.id DESC
+    </select>
+
+    <select id="getToursByPlaceId" resultMap="tourListResultMap">
+        WITH res AS (
+            SELECT
+                DISTINCT t.id
+            FROM tour.tour_logs_places tlp
+            JOIN tour.tour_logs tl ON tlp.tour_logs_id = tl.id
+            JOIN tour.tours t ON tl.tours_id = t.id
+            WHERE tlp.places_id = #{placesId}
+        )
+        <include refid="tourSummaryQuery" />
+        WHERE t.id IN (
+            SELECT id FROM res
+        )
         GROUP BY t.id, tt.id , o.id
         ORDER BY t.id DESC
     </select>
