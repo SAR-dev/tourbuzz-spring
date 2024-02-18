@@ -1,5 +1,6 @@
 package com.backend.api.entity;
 
+import com.backend.api.enums.CommentRef;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +10,9 @@ import java.util.List;
 @Data
 public class CommentEntity {
     private int id;
-    private int tours_id;
+    private CommentRef reference_type;
+    private int reference_id;
+    private int parent_id;
     private int users_id;
     private String title;
     private String description;

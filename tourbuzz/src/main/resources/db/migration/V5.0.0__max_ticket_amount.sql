@@ -1,1 +1,0 @@
-ALTER TABLE tour.tours ADD max_ticket_amount integer NOT NULL;

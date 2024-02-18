@@ -1,6 +1,6 @@
 package com.backend.api.enums;
 
-public enum EmojiReferenceType {
+public enum ReactionRef {
     TOUR,
     ARTICLE,
     TOUR_COMMENT

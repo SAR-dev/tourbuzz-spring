@@ -1,13 +1,14 @@
 package com.backend.api.entity;
 
+import com.backend.api.enums.ReactionRef;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
-public class EmojiReactionEntity {
+public class ReactionEntity {
     private int id;
-    private int reference_type;
+    private ReactionRef reference_type;
     private int reference_id;
     private int users_id;
     private String emoji;

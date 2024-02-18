@@ -293,6 +293,7 @@ CREATE TABLE tour.tours (
     group_info      text NOT NULL,
     transports      text NOT NULL,
     image_ids       number_list,
+    max_ticket_amount   integer NOT NULL,
     start_at        timestamp NOT NULL,
     finish_at       timestamp NOT NULL,
     last_sell_at    timestamp NOT NULL,

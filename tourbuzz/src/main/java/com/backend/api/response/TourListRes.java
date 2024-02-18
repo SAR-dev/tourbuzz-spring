@@ -1,6 +1,5 @@
 package com.backend.api.response;
 
-import com.backend.api.entity.EmojiReactionEntity;
 import com.backend.api.entity.ImageEntity;
 import lombok.AccessLevel;
 import lombok.Data;

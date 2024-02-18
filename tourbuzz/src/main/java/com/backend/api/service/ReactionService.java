@@ -1,7 +1,7 @@
 package com.backend.api.service;
 
 import com.backend.api.ErrorMessages;
-import com.backend.api.enums.EmojiReferenceType;
+import com.backend.api.enums.ReactionRef;
 import com.backend.api.repository.postgres.ReactionRepository;
 import com.backend.api.request.ReactionReq;
 import com.backend.api.response.ReactionAddRes;
@@ -18,7 +18,7 @@ public class ReactionService {
     private final ReactionRepository reactionRepository;
     private final AuthService authService;
 
-    public ReactionAddRes addReactionEmoji(int id, EmojiReferenceType referenceType, String emoji) throws Exception {
+    public ReactionAddRes addReactionEmoji(int id, ReactionRef referenceType, String emoji) throws Exception {
         ReactionReq emojiReactionReq = ReactionReq.builder()
                 .referenceType(referenceType.name())
                 .referenceId(id)
@@ -34,7 +34,7 @@ public class ReactionService {
         }
     }
 
-    public List<ReactionRes> getReactionsByReferenceId(int id, EmojiReferenceType referenceType){
+    public List<ReactionRes> getReactionsByReferenceId(int id, ReactionRef referenceType){
         String email = "";
         try{
             email = authService.getLoggedInEmail();
