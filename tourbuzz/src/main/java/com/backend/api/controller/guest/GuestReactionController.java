@@ -1,9 +1,9 @@
 package com.backend.api.controller.guest;
 
 import com.backend.api.enums.EmojiReferenceType;
-import com.backend.api.response.EmojiAddResponse;
-import com.backend.api.response.EmojiReactionRes;
-import com.backend.api.service.EmojiReactionService;
+import com.backend.api.response.ReactionAddRes;
+import com.backend.api.response.ReactionRes;
+import com.backend.api.service.ReactionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,30 +14,30 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/guest/reactions")
 public class GuestReactionController {
-    private final EmojiReactionService emojiReactionService;
+    private final ReactionService reactionService;
 
     @Tag(name = "Get Tour Emoji Reaction")
     @GetMapping("/tours/{id}")
-    public List<EmojiReactionRes> getEmojiToTour(@PathVariable int id) {
-        return emojiReactionService.getEmojiReactionsByReferenceId(id, EmojiReferenceType.TOUR);
+    public List<ReactionRes> getEmojiToTour(@PathVariable int id) {
+        return reactionService.getReactionsByReferenceId(id, EmojiReferenceType.TOUR);
     }
 
     @Tag(name = "Get Article Emoji Reaction")
     @GetMapping("/articles/{id}")
-    public List<EmojiReactionRes> getEmojiToArticle(@PathVariable int id) {
-        return emojiReactionService.getEmojiReactionsByReferenceId(id, EmojiReferenceType.ARTICLE);
+    public List<ReactionRes> getEmojiToArticle(@PathVariable int id) {
+        return reactionService.getReactionsByReferenceId(id, EmojiReferenceType.ARTICLE);
     }
 
 
     @Tag(name = "Add Tour Emoji Reaction")
     @PostMapping("/tours/{id}/{emoji}")
-    public EmojiAddResponse reactEmojiToTour(@PathVariable int id, @PathVariable String emoji) throws Exception {
-        return emojiReactionService.addReactionEmoji(id, EmojiReferenceType.TOUR, emoji);
+    public ReactionAddRes reactEmojiToTour(@PathVariable int id, @PathVariable String emoji) throws Exception {
+        return reactionService.addReactionEmoji(id, EmojiReferenceType.TOUR, emoji);
     }
 
     @Tag(name = "Add Article Emoji Reaction")
     @PostMapping("/articles/{id}/{emoji}")
-    public EmojiAddResponse reactEmojiToArticle(@PathVariable int id, @PathVariable String emoji) throws Exception {
-        return emojiReactionService.addReactionEmoji(id, EmojiReferenceType.ARTICLE, emoji);
+    public ReactionAddRes reactEmojiToArticle(@PathVariable int id, @PathVariable String emoji) throws Exception {
+        return reactionService.addReactionEmoji(id, EmojiReferenceType.ARTICLE, emoji);
     }
 }

@@ -142,6 +142,10 @@ public class TourService {
         return tourRepository.getToursByPlaceId(placesId);
     }
 
+    public List<TourListRes> getToursByOrganizerId(int organizersId){
+        return tourRepository.getToursByOrganizerId(organizersId);
+    }
+
     public TourEntity getTourById(int id){
         return tourRepository.getTourById(id);
     }

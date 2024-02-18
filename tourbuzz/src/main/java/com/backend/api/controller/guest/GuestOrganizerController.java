@@ -24,4 +24,10 @@ public class GuestOrganizerController {
     public List<OrganizerEntity> getRandomOrganizers(@PathVariable int count) {
         return organizerService.getRandomOrganizers(count);
     }
+
+    @Tag(name = "Get Organizer By Username")
+    @GetMapping("/{username}")
+    public OrganizerEntity getOrganizerById(@PathVariable String username){
+        return organizerService.getOrganizerByUsername(username);
+    }
 }

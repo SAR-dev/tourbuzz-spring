@@ -132,6 +132,13 @@
         ORDER BY t.id DESC
     </select>
 
+    <select id="getToursByOrganizerId" resultMap="tourListResultMap">
+        <include refid="tourSummaryQuery" />
+        WHERE t.organizers_id = #{organizersId}
+        GROUP BY t.id, tt.id , o.id
+        ORDER BY t.id DESC
+    </select>
+
     <resultMap id="tourListResultMap" type="com.backend.api.response.TourListRes">
         <association
                 property="avatar"

@@ -24,6 +24,8 @@ public interface OrganizerRepository {
 
     OrganizerEntity getOrganizerById(int id);
 
+    OrganizerEntity getOrganizerByUsername(String username);
+
     OrganizerCheckRes checkOrganizer(OrganizerCreateReq organizerCreateReq);
 
     int updateOrganizer(OrganizerUpdateReq organizerUpdateReq);

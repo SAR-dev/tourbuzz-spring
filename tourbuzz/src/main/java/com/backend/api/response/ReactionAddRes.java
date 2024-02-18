@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class EmojiAddResponse {
+public class ReactionAddRes {
     private boolean added;
     private boolean removed;
 }

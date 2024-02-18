@@ -23,6 +23,7 @@ END $$;
 
 --public
 CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE', 'TOUR_COMMENT');
+CREATE TYPE public.comment_reference_type AS ENUM('TOUR', 'ARTICLE');
 
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE public.status_type AS ENUM('DRAFT', 'PUBLISHED');
@@ -240,7 +241,6 @@ CREATE TRIGGER update_updated_at_articles BEFORE UPDATE ON public.articles FOR E
 CREATE TABLE public.enquiries (
     id              serial PRIMARY KEY,
     users_id        integer NOT NULL REFERENCES auth.users(id),
-    contact_no      text NOT NULL,
     question        text NOT NULL,
     answer          text,
     answered_at     timestamp,
@@ -316,18 +316,6 @@ CREATE TABLE tour.packages (
 );
 CREATE TRIGGER update_updated_at_packages BEFORE UPDATE ON tour.packages FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE tour.tour_comments (
-    id              serial PRIMARY KEY,
-    tours_id        integer NOT NULL REFERENCES tour.tours(id),
-    users_id        integer NOT NULL REFERENCES auth.users(id),
-    title           text NOT NULL,
-    description     text NOT NULL,
-    rating          integer CHECK (rating > 0 AND rating <= 5),
-    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
-);
-CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON tour.tour_comments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
-
 CREATE TABLE public.hotels (
     id              serial PRIMARY KEY,
     districts_id    integer NOT NULL REFERENCES public.districts(id),
@@ -384,6 +372,7 @@ CREATE TABLE tour.tickets (
     paid_amount     integer DEFAULT 0,
     ticket_amount   integer NOT NULL,
     payment_method  text,
+    note            text,
     payment_invoice text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -404,7 +393,7 @@ CREATE TABLE public.ads (
 );
 CREATE TRIGGER update_updated_at_ads BEFORE UPDATE ON public.ads FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE public.emoji_reactions (
+CREATE TABLE public.reactions (
     id              serial PRIMARY KEY,
     reference_type  emoji_reference_type NOT NULL,
     reference_id    integer NOT NULL,
@@ -412,9 +401,22 @@ CREATE TABLE public.emoji_reactions (
     emoji           text NOT NULL,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT unq_emoji_reactions UNIQUE ( reference_type, reference_id, users_id, emoji )
+    CONSTRAINT unq_reactions UNIQUE ( reference_type, reference_id, users_id, emoji )
 );
-CREATE TRIGGER update_updated_at_emoji_reactions BEFORE UPDATE ON public.emoji_reactions FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_reactions BEFORE UPDATE ON public.reactions FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE public.comments (
+    id              serial PRIMARY KEY,
+    reference_type  comment_reference_type NOT NULL,
+    reference_id    integer NOT NULL,
+    parent_id       integer REFERENCES public.comments(id),
+    users_id        integer NOT NULL REFERENCES auth.users(id),
+    title           text NOT NULL,
+    description     text NOT NULL,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_comments BEFORE UPDATE ON public.comments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE auth.admin(
     Lock char(1) not null DEFAULT 'X',

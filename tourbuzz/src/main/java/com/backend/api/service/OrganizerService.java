@@ -50,6 +50,10 @@ public class OrganizerService {
         return organizerRepository.getOrganizerById(id);
     }
 
+    public OrganizerEntity getOrganizerByUsername(String username){
+        return organizerRepository.getOrganizerByUsername(username);
+    }
+
     public OrganizerCheckRes checkOrganizer(OrganizerCreateReq organizerCreateReq){
         return organizerRepository.checkOrganizer(organizerCreateReq);
     }

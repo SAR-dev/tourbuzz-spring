@@ -2,40 +2,40 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.backend.api.repository.postgres.EmojiReactionRepository">
-    <select id="getEmojiReactionsByTourId" resultType="com.backend.api.response.EmojiReactionRes">
+<mapper namespace="com.backend.api.repository.postgres.ReactionRepository">
+    <select id="getReactionsByTourId" resultType="com.backend.api.response.ReactionRes">
         SELECT
-            er.emoji ,
+            r.emoji ,
             count(er.*) AS count,
         #{email} = ANY(ARRAY_AGG(u.email)) AS reacted
-        FROM emoji_reactions er
-        JOIN auth.users u ON er.users_id = u.id
-        WHERE er.reference_type = CAST(#{referenceType} AS emoji_reference_type)
-        AND er.reference_id = #{id}
-        GROUP BY er.emoji
+        FROM reactions r
+        JOIN auth.users u ON r.users_id = u.id
+        WHERE r.reference_type = CAST(#{referenceType} AS emoji_reference_type)
+        AND r.reference_id = #{id}
+        GROUP BY r.emoji
     </select>
 
-    <select id="checkIfEmojiReactionExists" resultType="boolean">
+    <select id="checkIfReactionExists" resultType="boolean">
         SELECT EXISTS (
-            SELECT 1 FROM emoji_reactions er
-            JOIN auth.users u ON er.users_id = u.id
-            WHERE er.reference_type = CAST(#{data.referenceType} AS emoji_reference_type)
-            AND er.reference_id = #{data.referenceId}
-            AND er.emoji = #{data.emoji}
+            SELECT 1 FROM reactions r
+            JOIN auth.users u ON r.users_id = u.id
+            WHERE r.reference_type = CAST(#{data.referenceType} AS emoji_reference_type)
+            AND r.reference_id = #{data.referenceId}
+            AND r.emoji = #{data.emoji}
             AND u.email = #{email}
         )
     </select>
 
-    <delete id="deleteEmojiReaction">
-        DELETE FROM emoji_reactions
+    <delete id="deleteReaction">
+        DELETE FROM reactions
         WHERE reference_type = CAST(#{data.referenceType} AS emoji_reference_type)
         AND reference_id = #{data.referenceId}
         AND emoji = #{data.emoji}
         AND users_id IN (SELECT id FROM auth.users WHERE email = #{email});
     </delete>
 
-    <insert id="createEmojiReaction">
-        INSERT INTO emoji_reactions (
+    <insert id="createReaction">
+        INSERT INTO reactions (
             users_id,
             reference_type,
             reference_id,

@@ -58,11 +58,15 @@
 
     <select id="getPopularPlaces" resultMap="placeResultMap">
         WITH res AS (
-            SELECT p.id, COALESCE(COUNT(tlp.places_id), 0)
+            SELECT p.id, COALESCE(COUNT(tlp.tour_logs_id), 0)
             FROM public.places p
             LEFT JOIN tour.tour_logs_places tlp ON tlp.places_id = p.id
             GROUP BY p.id
-            ORDER BY COALESCE(COUNT(tlp.places_id), 0) DESC
+            ORDER BY
+                CASE
+                    WHEN COALESCE(COUNT(tlp.tour_logs_id), 0) = 0 THEN RANDOM()
+                ELSE COALESCE(COUNT(tlp.tour_logs_id), 0)
+                END DESC
             LIMIT #{count}
         )
         SELECT * FROM public.places WHERE id IN (SELECT id FROM res)

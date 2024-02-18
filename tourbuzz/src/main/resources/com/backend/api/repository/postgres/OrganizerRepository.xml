@@ -68,11 +68,27 @@
     </select>
 
     <select id="getRandomOrganizers" resultMap="organizerResultMap">
-        SELECT * FROM tour.organizers ORDER BY RANDOM() LIMIT #{count}
+        WITH res AS (
+            SELECT o.id, COALESCE(COUNT(t.id), 0)
+            FROM tour.organizers o
+            LEFT JOIN tour.tours t ON t.organizers_id = o.id
+            GROUP BY o.id
+            ORDER BY
+                CASE
+                    WHEN COALESCE(COUNT(t.id), 0) = 0 THEN RANDOM()
+                ELSE COALESCE(COUNT(t.id), 0)
+                END DESC
+            LIMIT #{count}
+        )
+        SELECT * FROM tour.organizers WHERE id IN (SELECT id FROM res)
     </select>
 
     <select id="getOrganizerById" resultMap="organizerResultMap">
         SELECT * FROM tour.organizers WHERE id = #{id}
+    </select>
+
+    <select id="getOrganizerByUsername" resultMap="organizerResultMap">
+        SELECT * FROM tour.organizers WHERE username = #{username}
     </select>
 
     <resultMap id="organizerResultMap" type="com.backend.api.entity.OrganizerEntity">
