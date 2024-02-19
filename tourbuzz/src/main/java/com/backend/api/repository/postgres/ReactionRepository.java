@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface ReactionRepository {
-    List<ReactionRes> getReactionsByTourId(int id, String referenceType, String email);
+    List<ReactionRes> getReactionsByReferenceId(int id, String referenceType, String email);
 
     boolean checkIfReactionExists(@Param("data")ReactionReq emojiReactionReq, String email);
 

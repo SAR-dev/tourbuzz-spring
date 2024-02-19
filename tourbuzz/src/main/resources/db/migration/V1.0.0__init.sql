@@ -412,8 +412,9 @@ CREATE TABLE public.comments (
     reference_id    integer NOT NULL,
     parent_id       integer REFERENCES public.comments(id),
     users_id        integer NOT NULL REFERENCES auth.users(id),
-    title           text NOT NULL,
-    description     text NOT NULL,
+    title           text,
+    details         text NOT NULL,
+    deleted         boolean DEFAULT FALSE,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );

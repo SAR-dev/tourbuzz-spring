@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.ReactionRepository">
-    <select id="getReactionsByTourId" resultType="com.backend.api.response.ReactionRes">
+    <select id="getReactionsByReferenceId" resultType="com.backend.api.response.ReactionRes">
         SELECT
             r.emoji ,
             count(er.*) AS count,

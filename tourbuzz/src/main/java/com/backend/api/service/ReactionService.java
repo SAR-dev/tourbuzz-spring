@@ -39,7 +39,7 @@ public class ReactionService {
         try{
             email = authService.getLoggedInEmail();
         } catch (Exception ignored){}
-        return reactionRepository.getReactionsByTourId(id, referenceType.name(), email);
+        return reactionRepository.getReactionsByReferenceId(id, referenceType.name(), email);
     }
 
     public boolean checkIfReactionExists(ReactionReq emojiReactionReq) throws Exception {
@@ -58,7 +58,7 @@ public class ReactionService {
         }
     }
 
-    public void createReaction(ReactionReq emojiReactionReq) throws Exception {
+    public void createReaction(ReactionReq emojiReactionReq) {
         String email = authService.getLoggedInEmail();
         reactionRepository.createReaction(emojiReactionReq, email);
     }
