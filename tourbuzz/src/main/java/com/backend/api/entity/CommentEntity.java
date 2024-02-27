@@ -14,7 +14,6 @@ public class CommentEntity {
     private int reference_id;
     private int parent_id;
     private int users_id;
-    private String title;
     private String details;
     private boolean deleted;
     private Timestamp created_at;

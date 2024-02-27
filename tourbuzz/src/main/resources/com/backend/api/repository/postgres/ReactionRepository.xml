@@ -6,8 +6,8 @@
     <select id="getReactionsByReferenceId" resultType="com.backend.api.response.ReactionRes">
         SELECT
             r.emoji ,
-            count(er.*) AS count,
-        #{email} = ANY(ARRAY_AGG(u.email)) AS reacted
+            count(r.*) AS count,
+            #{email} = ANY(ARRAY_AGG(u.email)) AS reacted
         FROM reactions r
         JOIN auth.users u ON r.users_id = u.id
         WHERE r.reference_type = CAST(#{referenceType} AS emoji_reference_type)

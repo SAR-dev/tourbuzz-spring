@@ -3,13 +3,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.CommentRepository">
+    <insert id="createComment">
+        INSERT INTO public.comments (
+            users_id,
+            reference_type,
+            reference_id,
+            <if test="parentId != 0">
+            parent_id,
+            </if>
+            details
+        )
+        SELECT
+            u.id,
+            CAST(#{data.referenceType} AS emoji_reference_type),
+            #{data.referenceId},
+            <if test="parentId != 0">
+            #{data.parentId},
+            </if>
+            #{data.details}
+        FROM auth.users u
+        WHERE u.email = #{email}
+    </insert>
+
     <select id="getCommentsByReferenceId" resultMap="commentResultMap">
         SELECT
             c.*,
-            CASE
-                WHEN c.deleted THEN NULL
-                ELSE c.title
-            END AS title,
             CASE
                 WHEN c.deleted THEN NULL
                 ELSE c.details
@@ -28,10 +46,6 @@
     <select id="getChildCommentsByParentId" resultMap="commentResultMap">
         SELECT
             c.*,
-            CASE
-                WHEN c.deleted THEN NULL
-                ELSE c.title
-            END AS title,
             CASE
                 WHEN c.deleted THEN NULL
                 ELSE c.details
