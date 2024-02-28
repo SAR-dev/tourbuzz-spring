@@ -16,8 +16,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final AuthService authService;
 
-    public List<CommentEntity> getCommentsByReferenceId(int id, CommentRef referenceType){
-        return commentRepository.getCommentsByReferenceId(id, referenceType.name());
+    public List<CommentEntity> getParentCommentsByReferenceId(int id, CommentRef referenceType, int limit){
+        return commentRepository.getParentCommentsByReferenceId(id, referenceType.name(), limit);
     }
 
     public List<CommentEntity> getChildCommentsByParentId(int id, CommentRef referenceType){

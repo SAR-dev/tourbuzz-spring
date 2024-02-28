@@ -5,10 +5,7 @@ import com.backend.api.enums.CommentRef;
 import com.backend.api.service.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,8 +17,11 @@ public class GuestCommentController {
 
     @Tag(name = "Get Article Parent Comment")
     @GetMapping("/article/{id}/parents")
-    public List<CommentEntity> getParentComments(@PathVariable int id){
-        return commentService.getCommentsByReferenceId(id, CommentRef.ARTICLE);
+    public List<CommentEntity> getParentComments(
+            @PathVariable int id,
+            @RequestParam(name = "limit", defaultValue = "0") int limit
+    ){
+        return commentService.getParentCommentsByReferenceId(id, CommentRef.ARTICLE, limit);
     }
 
     @Tag(name = "Get Article Child Comment")

@@ -11,7 +11,7 @@ import java.util.List;
 public interface CommentRepository {
     void createComment(@Param("data")CommentCreateReq commentCreateReq, String email);
 
-    List<CommentEntity> getCommentsByReferenceId(int id, String referenceType);
+    List<CommentEntity> getParentCommentsByReferenceId(int id, String referenceType, int limit);
 
     List<CommentEntity> getChildCommentsByParentId(int id, String referenceType);
 
