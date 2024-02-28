@@ -8,16 +8,16 @@
             users_id,
             reference_type,
             reference_id,
-            <if test="parentId != 0">
+            <if test="data.parentId != 0">
             parent_id,
             </if>
             details
         )
         SELECT
             u.id,
-            CAST(#{data.referenceType} AS emoji_reference_type),
+            CAST(#{referenceType} AS comment_reference_type),
             #{data.referenceId},
-            <if test="parentId != 0">
+            <if test="data.parentId != 0">
             #{data.parentId},
             </if>
             #{data.details}
@@ -25,29 +25,33 @@
         WHERE u.email = #{email}
     </insert>
 
-    <select id="getParentCommentsByReferenceId" resultMap="commentResultMap">
-        SELECT
-            c.*,
-            CASE
-                WHEN c.deleted THEN NULL
-                ELSE c.details
-            END AS details,
-            (
-                SELECT COUNT(*)
-                FROM comments
-                WHERE parent_id = c.id
-            ) AS child_count
-        FROM public.comments c
-        WHERE c.reference_type = CAST(#{referenceType} AS comment_reference_type)
-        AND c.reference_id = #{id}
-        AND c.parent_id IS NULL
-        ORDER BY c.created_at ASC
-        <if test="limit != 0">
-        LIMIT #{limit}
-        </if>
+    <select id="getParentCommentsByReferenceId" resultMap="parentCommentResultMap">
+        WITH res AS (
+            SELECT
+                c.*,
+                CASE
+                    WHEN c.deleted THEN NULL
+                    ELSE c.details
+                END AS details,
+                (
+                    SELECT COUNT(*)
+                    FROM comments
+                    WHERE parent_id = c.id
+                ) AS child_count
+            FROM public.comments c
+            WHERE c.reference_type = CAST(#{referenceType} AS comment_reference_type)
+            AND c.reference_id = #{id}
+            AND c.parent_id IS NULL
+            ORDER BY c.created_at DESC
+            <if test="limit != 0">
+                LIMIT #{limit}
+            </if>
+        )
+        SELECT * FROM res
+        ORDER BY created_at ASC
     </select>
 
-    <select id="getChildCommentsByParentId" resultMap="commentResultMap">
+    <select id="getChildCommentsByParentId" resultMap="childCommentResultMap">
         SELECT
             c.*,
             CASE
@@ -57,6 +61,7 @@
         FROM public.comments c
         WHERE c.reference_type = CAST(#{referenceType} AS comment_reference_type)
         AND c.parent_id = #{id}
+        ORDER BY c.created_at DESC
     </select>
 
     <select id="checkCommentAuthor" resultType="boolean">
@@ -72,7 +77,22 @@
 <!--    update comment, if deleted false-->
 <!--    delete comment, make deleted true-->
 
-    <resultMap id="commentResultMap" type="com.backend.api.entity.CommentEntity">
+    <resultMap id="parentCommentResultMap" type="com.backend.api.entity.ParentCommentEntity">
+        <association
+                property="author"
+                select="com.backend.api.repository.postgres.UserRepository.getUserById"
+                javaType="com.backend.api.entity.UserEntity"
+                column="id = users_id"
+        />
+        <collection
+                property="children"
+                ofType="com.backend.api.entity.ChildCommentEntity"
+                select="getChildCommentsByParentId"
+                column="{id = id, referenceType = reference_type}"
+        />
+    </resultMap>
+
+    <resultMap id="childCommentResultMap" type="com.backend.api.entity.ChildCommentEntity">
         <association
                 property="author"
                 select="com.backend.api.repository.postgres.UserRepository.getUserById"

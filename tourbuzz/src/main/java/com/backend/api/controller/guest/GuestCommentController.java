@@ -1,6 +1,7 @@
 package com.backend.api.controller.guest;
 
-import com.backend.api.entity.CommentEntity;
+import com.backend.api.entity.ChildCommentEntity;
+import com.backend.api.entity.ParentCommentEntity;
 import com.backend.api.enums.CommentRef;
 import com.backend.api.service.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,7 +18,7 @@ public class GuestCommentController {
 
     @Tag(name = "Get Article Parent Comment")
     @GetMapping("/article/{id}/parents")
-    public List<CommentEntity> getParentComments(
+    public List<ParentCommentEntity> getParentComments(
             @PathVariable int id,
             @RequestParam(name = "limit", defaultValue = "0") int limit
     ){
@@ -26,7 +27,7 @@ public class GuestCommentController {
 
     @Tag(name = "Get Article Child Comment")
     @GetMapping("/article/{id}/children")
-    public List<CommentEntity> getChildComments(@PathVariable int id){
+    public List<ChildCommentEntity> getChildComments(@PathVariable int id){
         return commentService.getChildCommentsByParentId(id, CommentRef.ARTICLE);
     }
 }

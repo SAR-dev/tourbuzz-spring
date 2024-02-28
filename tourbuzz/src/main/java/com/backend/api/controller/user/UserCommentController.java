@@ -1,5 +1,6 @@
 package com.backend.api.controller.user;
 
+import com.backend.api.enums.CommentRef;
 import com.backend.api.request.CommentCreateReq;
 import com.backend.api.service.CommentService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,8 +18,8 @@ public class UserCommentController {
 
     @Tag(name = "Post Article Comment")
     @PostMapping("/article")
-    public void createArticleComment(@RequestBody CommentCreateReq commentCreateReq) {
+    public void createArticleComment(@RequestBody CommentCreateReq commentCreateReq) throws Exception {
 //        validate for frequent comments because of spamming
-        commentService.createComment(commentCreateReq);
+        commentService.createComment(commentCreateReq, CommentRef.ARTICLE);
     }
 }

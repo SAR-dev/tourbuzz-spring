@@ -1,14 +1,12 @@
 package com.backend.api.entity;
 
 import com.backend.api.enums.CommentRef;
-import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 @Data
-public class CommentEntity {
+public class ChildCommentEntity {
     private int id;
     private CommentRef reference_type;
     private int reference_id;
