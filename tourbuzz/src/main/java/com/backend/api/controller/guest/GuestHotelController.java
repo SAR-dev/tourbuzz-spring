@@ -1,9 +1,11 @@
 package com.backend.api.controller.guest;
 
 import com.backend.api.entity.HotelEntity;
+import com.backend.api.entity.PlaceEntity;
 import com.backend.api.service.HotelService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,5 +23,11 @@ public class GuestHotelController {
     @GetMapping("/random/{count}")
     public List<HotelEntity> getRandomHotels(@PathVariable int count) {
         return hotelService.getRandomHotels(count);
+    }
+
+    @Tag(name = "Get Hotel By ID")
+    @GetMapping("/{id}")
+    public HotelEntity getHotelById(@PathVariable int id) throws NotFoundException {
+        return hotelService.getHotelById(id);
     }
 }

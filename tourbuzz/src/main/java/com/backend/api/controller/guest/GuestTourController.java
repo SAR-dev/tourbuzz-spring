@@ -28,6 +28,12 @@ public class GuestTourController {
         return tourService.getToursByPlaceId(placesId);
     }
 
+    @Tag(name = "Get Tour By Hotel")
+    @GetMapping("/hotel/{hotelsId}")
+    public List<TourListRes> getToursByHotelId(@PathVariable int hotelsId) {
+        return tourService.getToursByHotelId(hotelsId);
+    }
+
     @Tag(name = "Get Tour By Organizer")
     @GetMapping("/organizer/{organizersId}")
     public List<TourListRes> getToursByOrganizerId(@PathVariable int organizersId) {

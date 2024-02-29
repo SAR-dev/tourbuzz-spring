@@ -132,6 +132,21 @@
         ORDER BY t.id DESC
     </select>
 
+    <select id="getToursByHotelId" resultMap="tourListResultMap">
+        WITH res AS (
+            SELECT
+                DISTINCT tl.tours_id AS id
+            FROM tour.tour_logs tl
+            WHERE tl.hotels_id = #{hotelsId}
+        )
+        <include refid="tourSummaryQuery" />
+        WHERE t.id IN (
+            SELECT id FROM res
+        )
+        GROUP BY t.id, tt.id , o.id
+        ORDER BY t.id DESC
+    </select>
+
     <select id="getToursByOrganizerId" resultMap="tourListResultMap">
         <include refid="tourSummaryQuery" />
         WHERE t.organizers_id = #{organizersId}

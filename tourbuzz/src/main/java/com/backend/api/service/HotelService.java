@@ -8,11 +8,13 @@ import com.backend.api.request.admin.HotelUpdateReq;
 import com.backend.api.response.HotelCheckRes;
 import jakarta.xml.bind.ValidationException;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +29,12 @@ public class HotelService {
         return hotelRepository.getRandomHotels(count);
     }
 
-    public HotelEntity getHotelById(int id){
-        return hotelRepository.getHotelById(id);
+    public HotelEntity getHotelById(int id) throws NotFoundException {
+        HotelEntity hotel = hotelRepository.getHotelById(id);
+        if (Objects.isNull(hotel)) {
+            throw new NotFoundException(ErrorMessages.NOT_FOUND);
+        }
+        return hotel;
     }
 
     @Transactional
