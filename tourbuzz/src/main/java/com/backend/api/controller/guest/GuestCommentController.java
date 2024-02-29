@@ -18,11 +18,18 @@ public class GuestCommentController {
 
     @Tag(name = "Get Article Parent Comment")
     @GetMapping("/article/{id}/parents")
-    public List<ParentCommentEntity> getParentComments(
+    public List<ParentCommentEntity> getArticleParentComments(
             @PathVariable int id,
-            @RequestParam(name = "limit", defaultValue = "0") int limit
-    ){
+            @RequestParam(name = "limit", defaultValue = "0") int limit){
         return commentService.getParentCommentsByReferenceId(id, CommentRef.ARTICLE, limit);
+    }
+
+    @Tag(name = "Get Tour Parent Comment")
+    @GetMapping("/tour/{id}/parents")
+    public List<ParentCommentEntity> getTourParentComments(
+            @PathVariable int id,
+            @RequestParam(name = "limit", defaultValue = "0") int limit){
+        return commentService.getParentCommentsByReferenceId(id, CommentRef.TOUR, limit);
     }
 
     @Tag(name = "Get Article Child Comment")

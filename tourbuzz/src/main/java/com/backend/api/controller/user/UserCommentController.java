@@ -22,4 +22,11 @@ public class UserCommentController {
 //        validate for frequent comments because of spamming
         commentService.createComment(commentCreateReq, CommentRef.ARTICLE);
     }
+
+    @Tag(name = "Post Tour Comment")
+    @PostMapping("/tour")
+    public void createATourComment(@RequestBody CommentCreateReq commentCreateReq) throws Exception {
+//        validate for frequent comments because of spamming
+        commentService.createComment(commentCreateReq, CommentRef.TOUR);
+    }
 }
