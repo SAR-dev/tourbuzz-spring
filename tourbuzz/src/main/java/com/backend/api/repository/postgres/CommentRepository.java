@@ -14,7 +14,5 @@ public interface CommentRepository {
 
     List<ParentCommentEntity> getParentCommentsByReferenceId(int id, String referenceType, int limit);
 
-    List<ChildCommentEntity> getChildCommentsByParentId(int id, String referenceType);
-
     boolean checkCommentAuthor(int id, String email);
 }

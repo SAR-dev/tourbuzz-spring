@@ -21,11 +21,7 @@ public class CommentService {
         return commentRepository.getParentCommentsByReferenceId(id, referenceType.name(), limit);
     }
 
-    public List<ChildCommentEntity> getChildCommentsByParentId(int id, CommentRef referenceType){
-        return commentRepository.getChildCommentsByParentId(id, referenceType.name());
-    }
-
-    public void createComment(CommentCreateReq commentCreateReq, CommentRef commentRef) throws Exception {
+    public void createComment(CommentCreateReq commentCreateReq, CommentRef commentRef) {
         String email = authService.getLoggedInEmail();
         commentRepository.createComment(commentCreateReq, commentRef.name(), email);
     }
