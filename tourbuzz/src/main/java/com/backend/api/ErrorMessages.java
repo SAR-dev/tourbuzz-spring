@@ -23,5 +23,6 @@ public class ErrorMessages {
     public static final String MISSING_DATA = "Data missing from payloads.";
     public static final String SIGNIN_REQUIRED = "Please sign in first.";
     public static final String UNAUTHORIZED = "Not authorized";
+    public static final String MAX_COMMENT_ERROR = "You have exceeded comment limit. Please try again later.";
 }
 

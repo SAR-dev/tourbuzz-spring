@@ -21,4 +21,9 @@ public class ParentCommentEntity {
     private int child_count;
     private List<ChildCommentEntity> children;
     private UserEntity author;
+
+    public String getDetails() {
+        if(deleted) return null;
+        return details;
+    }
 }

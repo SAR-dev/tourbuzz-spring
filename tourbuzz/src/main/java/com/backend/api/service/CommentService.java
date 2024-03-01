@@ -1,11 +1,12 @@
 package com.backend.api.service;
 
+import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
-import com.backend.api.entity.ChildCommentEntity;
 import com.backend.api.entity.ParentCommentEntity;
 import com.backend.api.enums.CommentRef;
 import com.backend.api.repository.postgres.CommentRepository;
 import com.backend.api.request.CommentCreateReq;
+import com.backend.api.request.CommentUpdateReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final AuthService authService;
 
-    public List<ParentCommentEntity> getParentCommentsByReferenceId(int id, CommentRef referenceType, int limit){
-        return commentRepository.getParentCommentsByReferenceId(id, referenceType.name(), limit);
+    public List<ParentCommentEntity> getParentCommentsByReferenceId(int referenceId, CommentRef referenceType, int limit){
+        return commentRepository.getParentCommentsByReferenceId(referenceId, referenceType.name(), limit);
     }
 
     public void createComment(CommentCreateReq commentCreateReq, CommentRef commentRef) {
@@ -31,6 +32,38 @@ public class CommentService {
         boolean isAuthor = commentRepository.checkCommentAuthor(id, email);
         if(!isAuthor){
             throw new Exception(ErrorMessages.UNAUTHORIZED);
+        }
+    }
+
+    public void countCommentsIn5Minutes(int referenceId, CommentRef referenceType) throws Exception {
+        String email = authService.getLoggedInEmail();
+        int count = commentRepository.countCommentsIn5Minutes(referenceId, referenceType.name(), email);
+        if(count > Constants.MAX_COMMENT_COUNT_IN_5_MIN){
+            throw new Exception(ErrorMessages.MAX_COMMENT_ERROR);
+        }
+    }
+
+    public void updateCommentById(CommentUpdateReq commentUpdateReq) throws Exception {
+        checkCommentAuthor(commentUpdateReq.getId());
+        String email = authService.getLoggedInEmail();
+        int count = commentRepository.updateCommentById(commentUpdateReq, email);
+        if(count != 1){
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
+        }
+    }
+
+    public void deleteCommentById(int id) throws Exception {
+        checkCommentAuthor(id);
+        ParentCommentEntity parentCommentEntity = commentRepository.getCommentById(id);
+        System.out.println(parentCommentEntity.getChild_count());
+        int count;
+        if(parentCommentEntity.getChild_count() > 0){
+            count = commentRepository.softDeleteCommentById(id);
+        } else {
+            count = commentRepository.hardDeleteCommentById(id);
+        }
+        if(count != 1){
+            throw new Exception(ErrorMessages.DELETE_FAILED);
         }
     }
 }

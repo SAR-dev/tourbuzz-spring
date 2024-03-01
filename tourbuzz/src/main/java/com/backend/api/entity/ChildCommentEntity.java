@@ -19,4 +19,9 @@ public class ChildCommentEntity {
 
     private int child_count;
     private UserEntity author;
+
+    public String getDetails() {
+        if(deleted) return null;
+        return details;
+    }
 }

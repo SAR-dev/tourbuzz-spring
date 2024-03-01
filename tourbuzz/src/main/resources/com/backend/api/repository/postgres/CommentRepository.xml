@@ -29,10 +29,6 @@
         WITH res AS (
             SELECT
                 c.*,
-                CASE
-                    WHEN c.deleted THEN NULL
-                    ELSE c.details
-                END AS details,
                 (
                     SELECT COUNT(*)
                     FROM comments
@@ -40,32 +36,28 @@
                 ) AS child_count
             FROM public.comments c
             WHERE c.reference_type = CAST(#{referenceType} AS comment_reference_type)
-            AND c.reference_id = #{id}
+            AND c.reference_id = #{referenceId}
             AND c.parent_id IS NULL
-            ORDER BY c.created_at DESC
+            ORDER BY c.id DESC
             <if test="limit != 0">
                 LIMIT #{limit}
             </if>
         )
         SELECT * FROM res
-        ORDER BY created_at ASC
+        ORDER BY id ASC
     </select>
 
     <select id="getChildCommentsByParentId" resultMap="childCommentResultMap">
         SELECT
-            c.*,
-            CASE
-                WHEN c.deleted THEN NULL
-                ELSE c.details
-            END AS details
+            c.*
         FROM public.comments c
         WHERE c.reference_type = CAST(#{referenceType} AS comment_reference_type)
         AND c.parent_id = #{id}
-        ORDER BY c.created_at ASC
+        ORDER BY c.id ASC
     </select>
 
     <select id="checkCommentAuthor" resultType="boolean">
-        SELECT (
+        SELECT EXISTS(
             SELECT 1
             FROM public.comments c
             JOIN auth.users u ON c.users_id = u.id
@@ -74,8 +66,45 @@
         ) AS exists;
     </select>
 
-<!--    update comment, if deleted false-->
-<!--    delete comment, make deleted true-->
+    <select id="countCommentsIn5Minutes" resultType="int">
+        SELECT COUNT(*)
+        FROM public.comments c
+        WHERE c.reference_type = CAST(#{referenceType} AS comment_reference_type)
+        AND c.reference_id = #{referenceId}
+        AND c.users_id = (
+            SELECT id FROM auth.users u WHERE u.email = #{email}
+        )
+        AND c.created_at >= NOW() - INTERVAL '5 minutes';
+    </select>
+
+    <update id="updateCommentById">
+        UPDATE public.comments
+        SET details = #{data.details}
+        WHERE deleted IS FALSE
+        AND id = #{data.id}
+        AND users_id = (
+            SELECT id FROM auth.users u WHERE u.email = #{email}
+        )
+    </update>
+
+    <select id="getCommentById" resultMap="parentCommentResultMap">
+        SELECT
+            c.* ,
+            (
+                SELECT COUNT(*)
+                FROM comments
+                WHERE parent_id = c.id
+            ) AS child_count
+        FROM public.comments c WHERE c.id = #{id}
+    </select>
+
+    <delete id="hardDeleteCommentById">
+        DELETE FROM public.comments WHERE id = #{id}
+    </delete>
+
+    <update id="softDeleteCommentById">
+        UPDATE public.comments SET deleted = true WHERE id = #{id}
+    </update>
 
     <resultMap id="parentCommentResultMap" type="com.backend.api.entity.ParentCommentEntity">
         <association

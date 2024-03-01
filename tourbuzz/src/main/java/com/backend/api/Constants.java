@@ -31,4 +31,5 @@ public class Constants {
 
     public static final String AVATAR_GENERATOR_BASE_URL = "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
     public static final Integer TOUR_DATE_AFTER_MIN = 2;
+    public static final Integer MAX_COMMENT_COUNT_IN_5_MIN = 5;
 }
