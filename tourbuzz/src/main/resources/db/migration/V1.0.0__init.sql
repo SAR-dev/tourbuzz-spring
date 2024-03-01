@@ -22,8 +22,8 @@ END $$;
 --ENUMS
 
 --public
-CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE', 'TOUR_COMMENT');
-CREATE TYPE public.comment_reference_type AS ENUM('TOUR', 'ARTICLE');
+CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE');
+CREATE TYPE public.comment_reference_type AS ENUM('TOUR', 'ARTICLE', 'ORGANIZER', 'HOTEL', 'WRITER', 'PLACE');
 
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE public.status_type AS ENUM('DRAFT', 'PUBLISHED');
@@ -412,7 +412,6 @@ CREATE TABLE public.comments (
     reference_id    integer NOT NULL,
     parent_id       integer REFERENCES public.comments(id),
     users_id        integer NOT NULL REFERENCES auth.users(id),
-    title           text,
     details         text NOT NULL,
     deleted         boolean DEFAULT FALSE,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,

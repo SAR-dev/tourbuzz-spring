@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserRepository {
-    String createUserByEmail(String email);
+    int createUserByEmail(String email);
 
     UserEntity getUserByEmail(String email);
 

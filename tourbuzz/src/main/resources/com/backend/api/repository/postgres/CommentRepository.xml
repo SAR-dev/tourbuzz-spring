@@ -61,7 +61,7 @@
         FROM public.comments c
         WHERE c.reference_type = CAST(#{referenceType} AS comment_reference_type)
         AND c.parent_id = #{id}
-        ORDER BY c.created_at DESC
+        ORDER BY c.created_at ASC
     </select>
 
     <select id="checkCommentAuthor" resultType="boolean">
