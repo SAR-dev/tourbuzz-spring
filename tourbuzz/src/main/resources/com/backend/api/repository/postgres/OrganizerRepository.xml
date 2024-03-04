@@ -98,6 +98,18 @@
                 javaType="com.backend.api.entity.ImageEntity"
                 column="id = images_id"
         />
+        <collection
+                property="admins"
+                ofType="com.backend.api.entity.UserEntity"
+                select="com.backend.api.repository.postgres.ManagerRepository.getAdminsByOrganizerId"
+                column="id = id"
+        />
+        <collection
+                property="staffs"
+                ofType="com.backend.api.entity.UserEntity"
+                select="com.backend.api.repository.postgres.ManagerRepository.getStaffsByOrganizerId"
+                column="id = id"
+        />
     </resultMap>
 
 </mapper>

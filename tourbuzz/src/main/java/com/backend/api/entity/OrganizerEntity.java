@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 public class OrganizerEntity {
@@ -21,4 +22,6 @@ public class OrganizerEntity {
     private Timestamp updated_at;
 
     private ImageEntity avatar;
+    private List<UserEntity> admins;
+    private List<UserEntity> staffs;
 }

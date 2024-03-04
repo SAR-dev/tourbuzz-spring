@@ -12,17 +12,15 @@
             parent_id,
             </if>
             details
-        )
-        SELECT
-            u.id,
+        ) VALUES (
+            (SELECT id FROM auth.users u WHERE u.email = #{email}),
             CAST(#{referenceType} AS comment_reference_type),
             #{data.referenceId},
             <if test="data.parentId != 0">
             #{data.parentId},
             </if>
             #{data.details}
-        FROM auth.users u
-        WHERE u.email = #{email}
+        )
     </insert>
 
     <select id="getParentCommentsByReferenceId" resultMap="parentCommentResultMap">

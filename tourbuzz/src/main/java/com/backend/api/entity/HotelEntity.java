@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 public class HotelEntity {
@@ -19,4 +20,6 @@ public class HotelEntity {
 
     private DistrictEntity district;
     private ImageEntity avatar;
+    private List<UserEntity> admins;
+    private List<UserEntity> staffs;
 }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.ManagerRepository">
+    <insert id="createOrganizerManager">
+        INSERT INTO tour.organizer_managers (
+            users_id,
+            organizers_id,
+            position
+        ) VALUES (
+            (SELECT id FROM auth.users u WHERE u.email = #{email}),
+            #{organizersId},
+            CAST(#{position} AS manager_position_type)
+        ) ON CONFLICT (users_id, organizers_id)
+        DO UPDATE SET
+            position = EXCLUDED.position
+    </insert>
+
+    <insert id="createHotelManager">
+        INSERT INTO public.hotel_managers (
+            users_id,
+            hotels_id,
+            position
+        ) VALUES (
+            (SELECT id FROM auth.users u WHERE u.email = #{email}),
+            #{hotelsId},
+            CAST(#{position} AS manager_position_type)
+        ) ON CONFLICT (users_id, hotels_id)
+        DO UPDATE SET
+            position = EXCLUDED.position
+    </insert>
+
+    <select id="getAdminsByOrganizerId" resultType="com.backend.api.entity.UserEntity">
+        SELECT
+            u.*
+        FROM tour.organizer_managers om
+        JOIN auth.users u ON om.users_id = u.id
+        WHERE om.organizers_id = #{id}
+        AND om.position = CAST('ADMIN' AS manager_position_type)
+    </select>
+
+    <select id="getStaffsByOrganizerId" resultType="com.backend.api.entity.UserEntity">
+        SELECT
+            u.*
+        FROM tour.organizer_managers om
+        JOIN auth.users u ON om.users_id = u.id
+        WHERE om.organizers_id = #{id}
+        AND om.position = CAST('STAFF' AS manager_position_type)
+    </select>
+
+    <select id="getAdminsByHotelId" resultType="com.backend.api.entity.UserEntity">
+        SELECT
+            u.*
+        FROM public.hotel_managers hm
+        JOIN auth.users u ON hm.users_id = u.id
+        WHERE hm.hotels_id = #{id}
+        AND hm.position = CAST('ADMIN' AS manager_position_type)
+    </select>
+
+    <select id="getStaffsByHotelId" resultType="com.backend.api.entity.UserEntity">
+        SELECT
+            u.*
+        FROM public.hotel_managers hm
+        JOIN auth.users u ON hm.users_id = u.id
+        WHERE hm.hotels_id = #{id}
+        AND hm.position = CAST('STAFF' AS manager_position_type)
+    </select>
+
+    <delete id="deleteOrganizerManager">
+        DELETE FROM tour.organizer_managers
+        WHERE users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
+        AND organizers_id = #{organizersId}
+    </delete>
+
+    <delete id="deleteHotelManager">
+        DELETE FROM public.hotel_managers
+        WHERE users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
+        AND hotels_id = #{hotelsId}
+    </delete>
+</mapper>

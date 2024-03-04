@@ -82,8 +82,12 @@ public class AuthService {
     @Transactional
     public String getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
-        int id = userRepository.createUserByEmail(email);
+        int id = createUserByEmail(email);
         return generateAccessToken(email, id);
+    }
+
+    public int createUserByEmail(String email){
+        return userRepository.createUserByEmail(email);
     }
 
     @Transactional
