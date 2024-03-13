@@ -3,6 +3,7 @@ package com.backend.api.service;
 import com.backend.api.ErrorMessages;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
+import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +18,15 @@ public class PaymentService {
         return paymentRepository.getInvoiceNo(email, paymentType.name());
     }
 
-    public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId) throws Exception {
-        boolean updated = paymentRepository.registerPaymentIdWithInvoice(invoiceNo, paymentId) == 1;
+    public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
+        boolean updated = paymentRepository.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount) == 1;
+        if(!updated){
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
+        }
+    }
+
+    public void completePaymentWithPaymentId(PaymentRes paymentRes) throws Exception {
+        boolean updated = paymentRepository.completePaymentWithPaymentId(paymentRes) == 1;
         if(!updated){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }

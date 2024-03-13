@@ -4,18 +4,20 @@ import com.backend.api.Constants;
 import com.backend.api.GlobalStore;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.request.BkashPaymentCreateReq;
-import com.backend.api.response.BkashPaymentRes;
+import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -56,12 +58,13 @@ public class BkashService {
         String paymentId = (String) response.get("paymentID");
         String bkashURL = (String) response.get("bkashURL");
         String invoiceNo = paymentCreateReq.getInvoiceNo();
-        paymentService.registerPaymentIdWithInvoice(invoiceNo, paymentId);
+        double paymentAmount = paymentCreateReq.getAmount();
+        paymentService.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount);
 
         return bkashURL;
     }
 
-    public ResponseEntity<?> handlePaymentCallback(String paymentID){
+    public ResponseEntity<?> handlePaymentCallback(String paymentID) throws Exception {
         String idToken = globalStore.getIdToken();
 
         HttpHeaders headers = new HttpHeaders();
@@ -76,39 +79,25 @@ public class BkashService {
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.EXECUTE_PAYMENT_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
-        if (response == null || !response.containsKey("statusCode")) {
+
+        System.out.println(response.get("statusCode"));
+        System.out.println(response.get("statusCode") == "0000");
+        System.out.println(Objects.equals(response.get("statusCode"), "0000"));
+
+        if (!response.containsKey("statusCode") || !Objects.equals(response.get("statusCode"), "0000")) {
             throw new RuntimeException("Payment not successful");
         }
-        if(response.get("statusCode") != "0000"){
-            throw new RuntimeException("Payment failed");
-        }
 
-        BkashPaymentRes bkashPaymentRes = BkashPaymentRes.builder()
-                .paymentID((String) response.get("paymentID"))
-                .trxID((String) response.get("trxID"))
-                .transactionStatus((String) response.get("transactionStatus"))
-                .amount((Double) response.get("amount"))
+        PaymentRes paymentRes = PaymentRes.builder()
+                .paymentId((String) response.get("paymentID"))
+                .transactionId((String) response.get("trxID"))
+                .paymentAmount((Double) response.get("amount"))
                 .currency((String) response.get("currency"))
-                .paymentExecuteTime((LocalDateTime) response.get("paymentExecuteTime"))
-                .merchantInvoiceNumber((String) response.get("merchantInvoiceNumber"))
-                .payerReference((String) response.get("payerReference"))
-                .customerMsisdn((String) response.get("customerMsisdn"))
+                .paidAt((LocalDateTime) response.get("paymentExecuteTime"))
+                .referenceNo((String) response.get("payerReference"))
                 .build();
-
-//          paymentID=TR0011h41JZRV1710346285712,
-//          trxID=BCD40HCWAS,
-//          transactionStatus=Completed,
-//          amount=1,
-//          currency=BDT,
-//          intent=sale,
-//          paymentExecuteTime=2024-03-13T22:12:08:746 GMT+0600,
-//          merchantInvoiceNumber=Inv00987678,
-//          payerReference=01619777282,
-//          customerMsisdn=01619777282,
-//          statusCode=0000,
-//          statusMessage=Successful
-
-        return ResponseEntity.of(Optional.of(response));
+        paymentService.completePaymentWithPaymentId(paymentRes);
+        return ResponseEntity.of(Optional.of(paymentRes));
 
     }
 

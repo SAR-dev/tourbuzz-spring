@@ -6,7 +6,7 @@ CREATE TABLE public.payments (
     payment_type    text,
     transaction_id  text,
     payment_id      text,
-    amount          numeric,
+    payment_amount  numeric,
     currency        text,
     completed       boolean DEFAULT FALSE,
     paid_at         timestamp,

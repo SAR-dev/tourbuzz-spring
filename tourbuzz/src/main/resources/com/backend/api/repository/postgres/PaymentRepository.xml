@@ -15,7 +15,18 @@
 
     <update id="registerPaymentIdWithInvoice">
         UPDATE public.payments
-        SET payment_id = #{paymentId}
+        SET payment_id = #{paymentId}, payment_amount = #{paymentAmount}
         WHERE invoice_no = #{invoiceNo}
+    </update>
+
+    <update id="completePaymentWithPaymentId">
+        UPDATE public.payments
+        SET
+            transaction_id = #{transactionId},
+            payment_amount = #{paymentAmount},
+            currency = #{currency},
+            paid_at = #{paidAt},
+            reference_no = #{referenceNo}
+        WHERE payment_id = #{paymentId}
     </update>
 </mapper>
