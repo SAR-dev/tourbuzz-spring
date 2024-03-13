@@ -64,6 +64,7 @@ public class BkashService {
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.EXECUTE_PAYMENT_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
+        System.out.println(response);
         if (response == null || !response.containsKey("statusCode")) {
             throw new RuntimeException("Payment not successful");
         }
@@ -79,8 +80,8 @@ public class BkashService {
 //                "currency": "BDT",
 //                "intent": "sale",
 //                "paymentExecuteTime": "2024-03-13T18:38:55:682 GMT+0600",
-//                "merchantInvoiceNumber": "01619777282",
-//                "payerReference": "Inv972842984876022",
+//                "merchantInvoiceNumber": "Inv972842984876022",
+//                "payerReference": "01619777282",
 //                "customerMsisdn": "01619777282",
 //                "statusCode": "0000",
 //                "statusMessage": "Successful"
