@@ -3,13 +3,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.PaymentRepository">
-    <select id="getReferenceId" resultType="string">
+    <select id="getInvoiceNo" resultType="string">
         INSERT INTO public.payments (
             users_id,
             payment_type
         ) VALUES (
             (SELECT id FROM auth.users u WHERE u.email = #{email}),
             #{paymentType}
-        ) RETURNING reference_id
+        ) RETURNING invoice_no
     </select>
+
+    <update id="registerPaymentIdWithInvoice">
+        UPDATE public.payments
+        SET payment_id = #{paymentId}
+        WHERE invoice_no = #{invoiceNo}
+    </update>
 </mapper>

@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserBkashController {
     private final BkashService bkashService;
 
-    @Tag(name = "Get Reference Id")
-    @GetMapping("/reference")
-    public String getBkashReferenceId(){
-        return bkashService.getBkashReferenceId();
+    @Tag(name = "Get Invoice No")
+    @GetMapping("/invoice")
+    public String getBkashInvoiceNo(){
+        return bkashService.getBkashInvoiceNo();
     }
 }

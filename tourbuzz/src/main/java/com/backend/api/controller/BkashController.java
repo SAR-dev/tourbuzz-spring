@@ -16,7 +16,7 @@ public class BkashController {
 
     @Tag(name = "Get Payment Link")
     @PostMapping("/initialize")
-    public String getPaymentLink(@RequestBody BkashPaymentCreateReq paymentCreateReq) {
+    public String getPaymentLink(@RequestBody BkashPaymentCreateReq paymentCreateReq) throws Exception {
         return bkashService.getPaymentLink(paymentCreateReq);
     }
 

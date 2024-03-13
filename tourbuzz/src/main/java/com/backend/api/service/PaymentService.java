@@ -1,5 +1,6 @@
 package com.backend.api.service;
 
+import com.backend.api.ErrorMessages;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,8 +12,15 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final AuthService authService;
 
-    public String getReferenceId(PaymentType paymentType){
+    public String getInvoiceNo(PaymentType paymentType){
         String email = authService.getLoggedInEmail();
-        return paymentRepository.getReferenceId(email, paymentType.name());
+        return paymentRepository.getInvoiceNo(email, paymentType.name());
+    }
+
+    public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId) throws Exception {
+        boolean updated = paymentRepository.registerPaymentIdWithInvoice(invoiceNo, paymentId) == 1;
+        if(!updated){
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
+        }
     }
 }
