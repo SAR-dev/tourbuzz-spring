@@ -32,4 +32,18 @@ public class Constants {
     public static final String AVATAR_GENERATOR_BASE_URL = "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
     public static final Integer TOUR_DATE_AFTER_MIN = 2;
     public static final Integer MAX_COMMENT_COUNT_IN_5_MIN = 5;
+    public static class BKASH {
+        public static final String API_KEY = "4f6o0cjiki2rfm34kfdadl1eqq";
+        public static final String API_SECRET = "2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b";
+        public static final String USERNAME = "sandboxTokenizedUser02";
+        public static final String PASSWORD = "sandboxTokenizedUser02@12345";
+        public static final String CREATE_PAYMNET_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/create";
+        public static final String EXECUTE_PAYMENT_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/execute";
+        public static final String GRANT_TOKEN_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant";
+        public static final String QUERY_PAYMENT_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/status";
+        public static final String REFRESH_TOKEN_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/refresh";
+        public static final String REFUND_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/refund";
+        public static final String REFUND_STATUS_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/refund";
+        public static final String SEARCH_TRANSACTION_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/general/searchTransaction";
+    }
 }

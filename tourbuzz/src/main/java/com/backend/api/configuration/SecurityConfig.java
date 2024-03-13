@@ -25,6 +25,7 @@ public class SecurityConfig {
                 request.requestMatchers(
                         "/auth/**",
                                 "/guest/**",
+                                "/bkash/**",
                                 "/api-docs/**",
                                 "/api-docs.yaml/**",
                                 "/swagger-ui/**"
