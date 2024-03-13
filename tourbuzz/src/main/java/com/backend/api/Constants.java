@@ -45,5 +45,9 @@ public class Constants {
         public static final String REFUND_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/refund";
         public static final String REFUND_STATUS_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/refund";
         public static final String SEARCH_TRANSACTION_API = "https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/general/searchTransaction";
+        public static final String DEFAULT_MODE = "0011";
+        public static final String DEFAULT_CURRENCY = "BDT";
+        public static final String DEFAULT_INTENT = "sale";
+        public static final String DEFAULT_CALLBACK_URL = "http://localhost:8080/bkash/callback";
     }
 }

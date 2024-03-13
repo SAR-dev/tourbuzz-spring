@@ -1,13 +1,12 @@
 package com.backend.api.controller;
 
-import com.backend.api.entity.UserEntity;
+import com.backend.api.request.BkashPaymentCreateReq;
 import com.backend.api.service.BkashService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,8 +15,21 @@ public class BkashController {
     private final BkashService bkashService;
 
     @Tag(name = "Get Payment Link")
-    @GetMapping("")
-    public String getPaymentLink() {
-        return bkashService.getIdToken();
+    @PostMapping("/initialize")
+    public String getPaymentLink(@RequestBody BkashPaymentCreateReq paymentCreateReq) {
+        return bkashService.getPaymentLink(paymentCreateReq);
+    }
+
+    @Tag(name = "Payment Callback")
+    @GetMapping("/callback")
+    public ResponseEntity<?> handlePaymentCallback(
+            @RequestParam String paymentID,
+            @RequestParam String status
+    ){
+        if (!status.equals("success")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Payment was not successful. Status: " + status);
+        }
+        return bkashService.handlePaymentCallback(paymentID);
     }
 }
