@@ -2,6 +2,7 @@ package com.backend.api.service;
 
 import com.backend.api.Constants;
 import com.backend.api.GlobalStore;
+import com.backend.api.enums.PaymentType;
 import com.backend.api.request.BkashPaymentCreateReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -18,8 +19,12 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class BkashService {
-    private final RestTemplate restTemplate;
     private final GlobalStore globalStore;
+    private final PaymentService paymentService;
+
+    public String getBkashReferenceId(){
+        return paymentService.getReferenceId(PaymentType.BKASH);
+    }
 
     public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq){
         String idToken = globalStore.getIdToken();
@@ -64,6 +69,7 @@ public class BkashService {
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.EXECUTE_PAYMENT_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
+        System.out.println(response);
         if (response == null || !response.containsKey("statusCode")) {
             throw new RuntimeException("Payment not successful");
         }
@@ -89,4 +95,6 @@ public class BkashService {
         return ResponseEntity.of(Optional.of(response));
 
     }
+
+
 }
