@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -63,13 +64,29 @@ public class BkashService {
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.EXECUTE_PAYMENT_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
-
-        System.out.println(response);
-        if (response == null || !response.containsKey("paymentID")) {
-            throw new RuntimeException("Bkash URL not found");
+        if (response == null || !response.containsKey("statusCode")) {
+            throw new RuntimeException("Payment not successful");
+        }
+        if(response.get("statusCode") != "0000"){
+            throw new RuntimeException("Payment failed");
         }
 
-        return (ResponseEntity<?>) response.get("paymentID");
+//        {
+//            "paymentID": "TR0011IrU8fOT1710333508252",
+//                "trxID": "BCD30HAD8F",
+//                "transactionStatus": "Completed",
+//                "amount": "1",
+//                "currency": "BDT",
+//                "intent": "sale",
+//                "paymentExecuteTime": "2024-03-13T18:38:55:682 GMT+0600",
+//                "merchantInvoiceNumber": "01619777282",
+//                "payerReference": "Inv972842984876022",
+//                "customerMsisdn": "01619777282",
+//                "statusCode": "0000",
+//                "statusMessage": "Successful"
+//        }
+
+        return ResponseEntity.of(Optional.of(response));
 
     }
 }
