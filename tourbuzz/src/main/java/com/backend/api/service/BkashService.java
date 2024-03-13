@@ -2,26 +2,35 @@ package com.backend.api.service;
 
 import com.backend.api.Constants;
 import com.backend.api.GlobalStore;
+import com.backend.api.enums.PaymentType;
 import com.backend.api.request.BkashPaymentCreateReq;
+import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class BkashService {
-    private final RestTemplate restTemplate;
     private final GlobalStore globalStore;
+    private final PaymentService paymentService;
 
-    public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq){
+    public String getBkashInvoiceNo(){
+        return paymentService.getInvoiceNo(PaymentType.BKASH);
+    }
+
+    public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq) throws Exception {
         String idToken = globalStore.getIdToken();
 
         HttpHeaders headers = new HttpHeaders();
@@ -35,21 +44,27 @@ public class BkashService {
         payload.put("intent", Constants.BKASH.DEFAULT_INTENT);
         payload.put("callbackURL", Constants.BKASH.DEFAULT_CALLBACK_URL);
         payload.put("payerReference", paymentCreateReq.getPayerReference());
-        payload.put("merchantInvoiceNumber", paymentCreateReq.getMerchantInvoiceNumber());
+        payload.put("merchantInvoiceNumber", paymentCreateReq.getInvoiceNo());
         payload.put("amount", String.valueOf(paymentCreateReq.getAmount()));
 
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.CREATE_PAYMNET_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
-        if (response == null || !response.containsKey("bkashURL")) {
+        if (response == null || !response.containsKey("bkashURL") || !response.containsKey("paymentID")) {
             throw new RuntimeException("Bkash URL not found");
         }
 
-        return (String) response.get("bkashURL");
+        String paymentId = (String) response.get("paymentID");
+        String bkashURL = (String) response.get("bkashURL");
+        String invoiceNo = paymentCreateReq.getInvoiceNo();
+        double paymentAmount = paymentCreateReq.getAmount();
+        paymentService.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount);
+
+        return bkashURL;
     }
 
-    public ResponseEntity<?> handlePaymentCallback(String paymentID){
+    public ResponseEntity<?> handlePaymentCallback(String paymentID) throws Exception {
         String idToken = globalStore.getIdToken();
 
         HttpHeaders headers = new HttpHeaders();
@@ -64,30 +79,27 @@ public class BkashService {
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.EXECUTE_PAYMENT_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
-        System.out.println(response);
-        if (response == null || !response.containsKey("statusCode")) {
+
+        System.out.println(response.get("statusCode"));
+        System.out.println(response.get("statusCode") == "0000");
+        System.out.println(Objects.equals(response.get("statusCode"), "0000"));
+
+        if (!response.containsKey("statusCode") || !Objects.equals(response.get("statusCode"), "0000")) {
             throw new RuntimeException("Payment not successful");
         }
-        if(response.get("statusCode") != "0000"){
-            throw new RuntimeException("Payment failed");
-        }
 
-//        {
-//            "paymentID": "TR0011IrU8fOT1710333508252",
-//                "trxID": "BCD30HAD8F",
-//                "transactionStatus": "Completed",
-//                "amount": "1",
-//                "currency": "BDT",
-//                "intent": "sale",
-//                "paymentExecuteTime": "2024-03-13T18:38:55:682 GMT+0600",
-//                "merchantInvoiceNumber": "Inv972842984876022",
-//                "payerReference": "01619777282",
-//                "customerMsisdn": "01619777282",
-//                "statusCode": "0000",
-//                "statusMessage": "Successful"
-//        }
-
-        return ResponseEntity.of(Optional.of(response));
+        PaymentRes paymentRes = PaymentRes.builder()
+                .paymentId((String) response.get("paymentID"))
+                .transactionId((String) response.get("trxID"))
+                .paymentAmount((Double) response.get("amount"))
+                .currency((String) response.get("currency"))
+                .paidAt((LocalDateTime) response.get("paymentExecuteTime"))
+                .referenceNo((String) response.get("payerReference"))
+                .build();
+        paymentService.completePaymentWithPaymentId(paymentRes);
+        return ResponseEntity.of(Optional.of(paymentRes));
 
     }
+
+
 }

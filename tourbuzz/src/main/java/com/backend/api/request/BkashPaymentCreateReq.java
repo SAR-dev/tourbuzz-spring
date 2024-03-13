@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BkashPaymentCreateReq {
-    private String merchantInvoiceNumber;
+    private String invoiceNo;
     private String payerReference;
     private int amount;
 }

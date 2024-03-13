@@ -15,8 +15,8 @@ public class BkashController {
     private final BkashService bkashService;
 
     @Tag(name = "Get Payment Link")
-    @PostMapping("/initialize")
-    public String getPaymentLink(@RequestBody BkashPaymentCreateReq paymentCreateReq) {
+    @PostMapping("/payment-link")
+    public String getPaymentLink(@RequestBody BkashPaymentCreateReq paymentCreateReq) throws Exception {
         return bkashService.getPaymentLink(paymentCreateReq);
     }
 
@@ -25,7 +25,7 @@ public class BkashController {
     public ResponseEntity<?> handlePaymentCallback(
             @RequestParam String paymentID,
             @RequestParam String status
-    ){
+    ) throws Exception {
         if (!status.equals("success")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Payment was not successful. Status: " + status);
