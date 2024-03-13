@@ -79,12 +79,10 @@ public class BkashService {
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.EXECUTE_PAYMENT_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
+        assert response != null;
+        String statusCode = (String) response.get("statusCode");
 
-        System.out.println(response.get("statusCode"));
-        System.out.println(response.get("statusCode") == "0000");
-        System.out.println(Objects.equals(response.get("statusCode"), "0000"));
-
-        if (!response.containsKey("statusCode") || !Objects.equals(response.get("statusCode"), "0000")) {
+        if (!statusCode.equals("0000")) {
             throw new RuntimeException("Payment not successful");
         }
 
