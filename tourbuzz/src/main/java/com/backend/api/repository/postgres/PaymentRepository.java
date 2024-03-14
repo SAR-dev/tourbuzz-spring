@@ -20,4 +20,6 @@ public interface PaymentRepository {
     int createTicket(String email, @Param("data") InvoiceCreateReq invoiceCreateReq);
 
     void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);
+
+    double getPaymentAmountByInvoiceNo(String invoiceNo);
 }

@@ -58,4 +58,8 @@ public class PaymentService {
     public void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo){
         paymentRepository.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
     }
+
+    public double getPaymentAmountByInvoiceNo(String invoiceNo){
+        return paymentRepository.getPaymentAmountByInvoiceNo(invoiceNo);
+    }
 }

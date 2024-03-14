@@ -11,5 +11,4 @@ import lombok.Data;
 public class BkashPaymentCreateReq {
     private String invoiceNo;
     private String payerReference;
-    private int amount;
 }

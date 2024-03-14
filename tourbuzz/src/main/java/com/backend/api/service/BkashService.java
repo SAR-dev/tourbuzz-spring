@@ -19,7 +19,6 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +46,7 @@ public class BkashService {
         return Timestamp.valueOf(dateTime.toLocalDateTime());
     }
 
-    private static HttpEntity<Map<String, String>> getPaymentHttpEntity(BkashPaymentCreateReq paymentCreateReq, HttpHeaders headers) {
+    private static Map<String, String> getPaymentPayload(BkashPaymentCreateReq paymentCreateReq, double paymentAmount) {
         Map<String, String> payload = new HashMap<>();
         payload.put("mode", Constants.BKASH.DEFAULT_MODE);
         payload.put("currency", Constants.BKASH.DEFAULT_CURRENCY);
@@ -55,15 +54,17 @@ public class BkashService {
         payload.put("callbackURL", Constants.BKASH.DEFAULT_CALLBACK_URL);
         payload.put("payerReference", paymentCreateReq.getPayerReference());
         payload.put("merchantInvoiceNumber", paymentCreateReq.getInvoiceNo());
-        payload.put("amount", String.valueOf(paymentCreateReq.getAmount()));
+        payload.put("amount", String.valueOf(paymentAmount));
 
-        return new HttpEntity<>(payload, headers);
+        return payload;
     }
 
     public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq) throws Exception {
+        double paymentAmount = paymentService.getPaymentAmountByInvoiceNo(paymentCreateReq.getInvoiceNo());
         HttpHeaders headers = getDefaultHeaders();
 
-        HttpEntity<Map<String, String>> requestEntity = getPaymentHttpEntity(paymentCreateReq, headers);
+        Map<String, String> payload = getPaymentPayload(paymentCreateReq, paymentAmount);
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.CREATE_PAYMNET_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
@@ -74,7 +75,6 @@ public class BkashService {
         String paymentId = (String) response.get("paymentID");
         String bkashURL = (String) response.get("bkashURL");
         String invoiceNo = paymentCreateReq.getInvoiceNo();
-        double paymentAmount = paymentCreateReq.getAmount();
 
         paymentService.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount);
 

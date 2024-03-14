@@ -71,4 +71,14 @@
         ) ON CONFLICT (tickets_id, payments_id)
         DO NOTHING
     </insert>
+
+    <select id="getPaymentAmountByInvoiceNo" resultType="double">
+        SELECT
+            t.ticket_amount * pkg.price
+        FROM tour.ticket_payments tp
+        JOIN public.payments p ON tp.payments_id = p.id
+        JOIN tour.tickets t ON tp.tickets_id = t.id
+        JOIN tour.packages pkg ON t.packages_id = pkg.id
+        WHERE p.invoice_no = #{invoiceNo}
+    </select>
 </mapper>
