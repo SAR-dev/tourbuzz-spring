@@ -31,5 +31,7 @@ public class BkashController {
             throw new Exception("Payment was not successful. Status: " + status);
         }
         return bkashService.handlePaymentCallback(paymentID);
+
+//        Show success or error message here
     }
 }

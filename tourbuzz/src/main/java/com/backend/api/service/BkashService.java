@@ -46,6 +46,19 @@ public class BkashService {
         return Timestamp.valueOf(dateTime.toLocalDateTime());
     }
 
+    private static HttpEntity<Map<String, String>> getPaymentHttpEntity(BkashPaymentCreateReq paymentCreateReq, HttpHeaders headers) {
+        Map<String, String> payload = new HashMap<>();
+        payload.put("mode", Constants.BKASH.DEFAULT_MODE);
+        payload.put("currency", Constants.BKASH.DEFAULT_CURRENCY);
+        payload.put("intent", Constants.BKASH.DEFAULT_INTENT);
+        payload.put("callbackURL", Constants.BKASH.DEFAULT_CALLBACK_URL);
+        payload.put("payerReference", paymentCreateReq.getPayerReference());
+        payload.put("merchantInvoiceNumber", paymentCreateReq.getInvoiceNo());
+        payload.put("amount", String.valueOf(paymentCreateReq.getAmount()));
+
+        return new HttpEntity<>(payload, headers);
+    }
+
     public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq) throws Exception {
         HttpHeaders headers = getDefaultHeaders();
 
@@ -61,23 +74,10 @@ public class BkashService {
         String bkashURL = (String) response.get("bkashURL");
         String invoiceNo = paymentCreateReq.getInvoiceNo();
         double paymentAmount = paymentCreateReq.getAmount();
+
         paymentService.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount);
 
         return bkashURL;
-    }
-
-    private static HttpEntity<Map<String, String>> getPaymentHttpEntity(BkashPaymentCreateReq paymentCreateReq, HttpHeaders headers) {
-        Map<String, String> payload = new HashMap<>();
-        payload.put("mode", Constants.BKASH.DEFAULT_MODE);
-        payload.put("currency", Constants.BKASH.DEFAULT_CURRENCY);
-        payload.put("intent", Constants.BKASH.DEFAULT_INTENT);
-        payload.put("callbackURL", Constants.BKASH.DEFAULT_CALLBACK_URL);
-        payload.put("payerReference", paymentCreateReq.getPayerReference());
-        payload.put("merchantInvoiceNumber", paymentCreateReq.getInvoiceNo());
-        payload.put("amount", String.valueOf(paymentCreateReq.getAmount()));
-
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
-        return requestEntity;
     }
 
     public PaymentRes handlePaymentCallback(String paymentID) throws Exception {

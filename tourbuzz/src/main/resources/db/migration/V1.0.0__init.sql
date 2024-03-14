@@ -24,6 +24,7 @@ END $$;
 --public
 CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE');
 CREATE TYPE public.comment_reference_type AS ENUM('TOUR', 'ARTICLE', 'ORGANIZER', 'HOTEL', 'WRITER', 'PLACE');
+CREATE TYPE public.manager_position_type AS ENUM('ADMIN', 'STAFF');
 
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE public.status_type AS ENUM('DRAFT', 'PUBLISHED');
@@ -35,6 +36,7 @@ CREATE TYPE auth.status_type AS ENUM('DRAFT', 'PUBLISHED');
 --tour
 CREATE TYPE tour.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE tour.status_type AS ENUM('DRAFT', 'PUBLISHED');
+CREATE TYPE tour.manager_position_type AS ENUM('ADMIN', 'STAFF');
 
 --DOMAINS
 
@@ -366,21 +368,6 @@ CREATE TABLE tour.tour_logs_places (
     CONSTRAINT unq_tour_logs_places UNIQUE ( tour_logs_id, places_id )
 );
 
-CREATE TABLE tour.tickets (
-    id              serial PRIMARY KEY,
-    packages_id     integer NOT NULL REFERENCES tour.tours(id),
-    users_id        integer NOT NULL REFERENCES auth.users(id),
-    paid_amount     integer DEFAULT 0,
-    ticket_amount   integer NOT NULL,
-    payment_method  text,
-    note            text,
-    payment_invoice text NOT NULL,
-    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT unq_tickets UNIQUE ( payment_method, payment_invoice )
-);
-CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON tour.tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
-
 CREATE TABLE public.ads (
     id              serial PRIMARY KEY,
     title           text NOT NULL,
@@ -426,3 +413,79 @@ CREATE TABLE auth.admin(
     constraint CK_T1_Locked CHECK (Lock='X')
 );
 INSERT INTO auth.admin (secret) VALUES (gen_random_uuid());
+
+CREATE TABLE tour.organizer_managers (
+    id              serial PRIMARY KEY,
+    users_id        integer NOT NULL REFERENCES auth.users(id),
+    organizers_id   integer NOT NULL REFERENCES tour.organizers(id),
+    position        manager_position_type NOT NULL,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unq_organizer_managers UNIQUE ( users_id, organizers_id )
+);
+CREATE TRIGGER update_updated_at_organizer_managers BEFORE UPDATE ON tour.organizer_managers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE public.hotel_managers (
+    id              serial PRIMARY KEY,
+    users_id        integer NOT NULL REFERENCES auth.users(id),
+    hotels_id       integer NOT NULL REFERENCES public.hotels(id),
+    position        manager_position_type NOT NULL,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT unq_hotel_managers UNIQUE ( users_id, hotels_id )
+);
+CREATE TRIGGER update_updated_at_hotel_managers BEFORE UPDATE ON public.hotel_managers FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE public.payments (
+    id              serial PRIMARY KEY,
+    users_id        integer REFERENCES auth.users(id),
+    invoice_no      text NOT NULL UNIQUE,
+    reference_no    text,
+    payment_type    text,
+    transaction_id  text,
+    payment_id      text,
+    payment_amount  numeric,
+    currency        text,
+    completed       boolean DEFAULT FALSE,
+    paid_at         timestamp,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_payments BEFORE UPDATE ON public.payments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+-- Create a sequence to generate unique invoice numbers
+CREATE SEQUENCE invoice_number_seq START WITH 10000000;
+
+-- Create a trigger function to generate and set invoice number
+CREATE OR REPLACE FUNCTION generate_invoice_number()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- Set the invoice number to the next value from the sequence
+    NEW.invoice_no = LPAD(nextval('invoice_number_seq')::text, 8, '0');
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create a trigger to call the function before inserting into the payments table
+CREATE TRIGGER set_invoice_number
+BEFORE INSERT ON public.payments
+FOR EACH ROW
+EXECUTE FUNCTION generate_invoice_number();
+
+CREATE TABLE tour.tickets (
+    id              serial PRIMARY KEY,
+    packages_id     integer NOT NULL REFERENCES tour.tours(id),
+    users_id        integer NOT NULL REFERENCES auth.users(id),
+    ticket_amount   integer NOT NULL,
+    note            text,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON tour.tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE tour.ticket_payments (
+    id              serial PRIMARY KEY,
+    tickets_id      integer NOT NULL REFERENCES tour.tickets(id),
+    payments_id     integer NOT NULL REFERENCES public.payments(id),
+    CONSTRAINT unq_ticket_payments UNIQUE ( tickets_id, payments_id )
+);
