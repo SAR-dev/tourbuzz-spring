@@ -1,6 +1,7 @@
 package com.backend.api.controller;
 
 import com.backend.api.request.BkashPaymentCreateReq;
+import com.backend.api.response.PaymentRes;
 import com.backend.api.service.BkashService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -22,13 +23,12 @@ public class BkashController {
 
     @Tag(name = "Payment Callback")
     @GetMapping("/callback")
-    public ResponseEntity<?> handlePaymentCallback(
+    public PaymentRes handlePaymentCallback(
             @RequestParam String paymentID,
             @RequestParam String status
     ) throws Exception {
         if (!status.equals("success")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Payment was not successful. Status: " + status);
+            throw new Exception("Payment was not successful. Status: " + status);
         }
         return bkashService.handlePaymentCallback(paymentID);
     }

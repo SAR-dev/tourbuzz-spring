@@ -1,5 +1,6 @@
 package com.backend.api.controller.user;
 
+import com.backend.api.response.PaymentRes;
 import com.backend.api.service.BkashService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class UserBkashController {
 
     @Tag(name = "Check Invoice Status")
     @GetMapping("/invoice/{invoiceNo}")
-    public ResponseEntity<?> queryPaymentByInvoiceNo(@PathVariable String invoiceNo) throws Exception {
+    public PaymentRes queryPaymentByInvoiceNo(@PathVariable String invoiceNo) throws Exception {
         return bkashService.queryPaymentByInvoiceNo(invoiceNo);
     }
 }

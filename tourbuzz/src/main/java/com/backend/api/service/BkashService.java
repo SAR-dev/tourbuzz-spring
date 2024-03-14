@@ -80,7 +80,7 @@ public class BkashService {
         return requestEntity;
     }
 
-    public ResponseEntity<?> handlePaymentCallback(String paymentID) throws Exception {
+    public PaymentRes handlePaymentCallback(String paymentID) throws Exception {
         HttpHeaders headers = getDefaultHeaders();
 
         Map<String, String> payload = new HashMap<>();
@@ -108,10 +108,10 @@ public class BkashService {
                 .build();
         paymentService.updatePaymentWithPaymentId(paymentRes);
 
-        return ResponseEntity.of(Optional.of(paymentRes));
+        return paymentRes;
     }
 
-    public ResponseEntity<?> queryPaymentByInvoiceNo(String invoiceNo) throws Exception {
+    public PaymentRes queryPaymentByInvoiceNo(String invoiceNo) throws Exception {
         String paymentID = paymentService.getPaymentIdByInvoiceNo(invoiceNo);
 
         HttpHeaders headers = getDefaultHeaders();
@@ -141,6 +141,6 @@ public class BkashService {
                 .build();
         paymentService.updatePaymentWithPaymentId(paymentRes);
 
-        return ResponseEntity.of(Optional.of(paymentRes));
+        return paymentRes;
     }
 }
