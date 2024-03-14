@@ -224,3 +224,77 @@ VALUES
     ('Fashion Show Experts','fashionshowexperts','Bringing creativity and style to the runway.','Where Fashion Meets Innovation!','info@fashionshowexperts.com',(SELECT id FROM public.images ORDER BY random() LIMIT 1),'LEVEL1','http://www.fashionshowexperts.com','+1 (333) 333-3333'),
     ('Art & Culture Society','artculturesoc','Promoting diverse artistic expressions and cultural exchanges.','Celebrating Creativity!','info@artculturesoc.org',(SELECT id FROM public.images ORDER BY random() LIMIT 1),'LEVEL1','http://www.artculturesoc.org','+1 (777) 777-7777'),
     ('Education Event Planners','edueventplanners','Creating engaging and informative educational events.','Igniting Minds, Shaping Futures!','info@edueventplanners.com',(SELECT id FROM public.images ORDER BY random() LIMIT 1),'LEVEL1','http://www.edueventplanners.com','+1 (222) 111-5555');
+
+INSERT INTO public.articles (writers_id,title,slug,category,summary,subtitle,md_desc,image_ids,created_at,updated_at) VALUES
+	 (13,'The Importance of Tourism in the Modern World','the-importance-of-tourism-in-the-modern-world','Recommendation','In conclusion, tourism is a powerful force that shapes the global economy, culture, and environment. Its economic benefits drive growth and development, while its cultural and social impacts promote understanding and cooperation among people worldwide. However, to harness the full potential of tourism, it is essential to prioritize sustainability, responsible management, and community engagement. By embracing these principles, we can ensure that tourism continues to enrich lives and preserve our planet for future generations.','Tourism, a powerful force that shapes the global economy','# The Importance of Tourism in the Modern World
+
+Tourism plays a significant role in today''s global economy, culture, and society. It is not merely about leisure and relaxation; rather, it serves as a catalyst for economic growth, cultural exchange, and environmental conservation. In this article, we delve into the multifaceted impact of tourism and its importance in the modern world.
+
+## Economic Impact
+
+One of the most apparent benefits of tourism is its contribution to economic development. Tourism generates revenue through various channels, including accommodation, transportation, entertainment, and local businesses. Tourists spend money on lodging, food, souvenirs, and recreational activities, thereby stimulating the local economy and creating job opportunities. Moreover, tourism encourages investment in infrastructure such as hotels, airports, roads, and public facilities, which enhances the overall quality of life for residents.
+
+## Cultural Exchange
+
+Tourism facilitates cultural exchange by bringing people from different backgrounds, ethnicities, and nationalities together. Visitors immerse themselves in the local customs, traditions, cuisine, and lifestyle, fostering mutual understanding and appreciation. Conversely, residents have the opportunity to share their heritage, history, and values with tourists, preserving and promoting their cultural identity. Cultural tourism not only enriches the traveler''s experience but also promotes global harmony and tolerance.
+
+## Environmental Conservation
+
+While tourism can exert pressure on natural resources and ecosystems, it also plays a crucial role in environmental conservation. Sustainable tourism practices aim to minimize negative impacts on the environment while maximizing benefits for local communities. Eco-friendly initiatives such as wildlife conservation, habitat restoration, and responsible tourism guidelines help preserve biodiversity and protect fragile ecosystems. Additionally, eco-tourism promotes awareness of environmental issues and encourages travelers to adopt sustainable behaviors.
+
+## Social Benefits
+
+Tourism has numerous social benefits, including promoting cross-cultural understanding, fostering social cohesion, and empowering marginalized communities. By interacting with people from diverse backgrounds, tourists gain insight into different lifestyles, beliefs, and perspectives, fostering empathy and respect. Furthermore, tourism provides opportunities for cultural exchange and dialogue, breaking down barriers and building bridges between communities. Additionally, tourism can empower local residents by creating jobs, generating income, and supporting small businesses, thereby reducing poverty and inequality.
+
+## Conclusion
+
+In conclusion, tourism is a powerful force that shapes the global economy, culture, and environment. Its economic benefits drive growth and development, while its cultural and social impacts promote understanding and cooperation among people worldwide. However, to harness the full potential of tourism, it is essential to prioritize sustainability, responsible management, and community engagement. By embracing these principles, we can ensure that tourism continues to enrich lives and preserve our planet for future generations.
+','40,35,9','2024-03-14 23:54:26.603','2024-03-14 23:54:26.603'),
+	 (13,'The Importance of Tourism in the Modern Japan','the-importance-of-tourism-in-the-modern-japan','Recommendation','In conclusion, tourism is a powerful force that shapes the global economy, culture, and environment. Its economic benefits drive growth and development, while its cultural and social impacts promote understanding and cooperation among people worldwide. However, to harness the full potential of tourism, it is essential to prioritize sustainability, responsible management, and community engagement. By embracing these principles, we can ensure that tourism continues to enrich lives and preserve our planet for future generations.','Tourism, a powerful force that shapes the global economy','# The Importance of Tourism in the Modern World
+
+Tourism plays a significant role in today''s global economy, culture, and society. It is not merely about leisure and relaxation; rather, it serves as a catalyst for economic growth, cultural exchange, and environmental conservation. In this article, we delve into the multifaceted impact of tourism and its importance in the modern world.
+
+## Economic Impact
+
+One of the most apparent benefits of tourism is its contribution to economic development. Tourism generates revenue through various channels, including accommodation, transportation, entertainment, and local businesses. Tourists spend money on lodging, food, souvenirs, and recreational activities, thereby stimulating the local economy and creating job opportunities. Moreover, tourism encourages investment in infrastructure such as hotels, airports, roads, and public facilities, which enhances the overall quality of life for residents.
+
+## Cultural Exchange
+
+Tourism facilitates cultural exchange by bringing people from different backgrounds, ethnicities, and nationalities together. Visitors immerse themselves in the local customs, traditions, cuisine, and lifestyle, fostering mutual understanding and appreciation. Conversely, residents have the opportunity to share their heritage, history, and values with tourists, preserving and promoting their cultural identity. Cultural tourism not only enriches the traveler''s experience but also promotes global harmony and tolerance.
+
+## Environmental Conservation
+
+While tourism can exert pressure on natural resources and ecosystems, it also plays a crucial role in environmental conservation. Sustainable tourism practices aim to minimize negative impacts on the environment while maximizing benefits for local communities. Eco-friendly initiatives such as wildlife conservation, habitat restoration, and responsible tourism guidelines help preserve biodiversity and protect fragile ecosystems. Additionally, eco-tourism promotes awareness of environmental issues and encourages travelers to adopt sustainable behaviors.
+
+## Social Benefits
+
+Tourism has numerous social benefits, including promoting cross-cultural understanding, fostering social cohesion, and empowering marginalized communities. By interacting with people from diverse backgrounds, tourists gain insight into different lifestyles, beliefs, and perspectives, fostering empathy and respect. Furthermore, tourism provides opportunities for cultural exchange and dialogue, breaking down barriers and building bridges between communities. Additionally, tourism can empower local residents by creating jobs, generating income, and supporting small businesses, thereby reducing poverty and inequality.
+
+## Conclusion
+
+In conclusion, tourism is a powerful force that shapes the global economy, culture, and environment. Its economic benefits drive growth and development, while its cultural and social impacts promote understanding and cooperation among people worldwide. However, to harness the full potential of tourism, it is essential to prioritize sustainability, responsible management, and community engagement. By embracing these principles, we can ensure that tourism continues to enrich lives and preserve our planet for future generations.
+','40,35,9','2024-03-14 23:54:26.603','2024-03-14 23:54:26.603'),
+	 (13,'The Importance of Tourism in the Modern America','the-importance-of-tourism-in-the-modern-america','Recommendation','In conclusion, tourism is a powerful force that shapes the global economy, culture, and environment. Its economic benefits drive growth and development, while its cultural and social impacts promote understanding and cooperation among people worldwide. However, to harness the full potential of tourism, it is essential to prioritize sustainability, responsible management, and community engagement. By embracing these principles, we can ensure that tourism continues to enrich lives and preserve our planet for future generations.','Tourism, a powerful force that shapes the global economy','# The Importance of Tourism in the Modern World
+
+Tourism plays a significant role in today''s global economy, culture, and society. It is not merely about leisure and relaxation; rather, it serves as a catalyst for economic growth, cultural exchange, and environmental conservation. In this article, we delve into the multifaceted impact of tourism and its importance in the modern world.
+
+## Economic Impact
+
+One of the most apparent benefits of tourism is its contribution to economic development. Tourism generates revenue through various channels, including accommodation, transportation, entertainment, and local businesses. Tourists spend money on lodging, food, souvenirs, and recreational activities, thereby stimulating the local economy and creating job opportunities. Moreover, tourism encourages investment in infrastructure such as hotels, airports, roads, and public facilities, which enhances the overall quality of life for residents.
+
+## Cultural Exchange
+
+Tourism facilitates cultural exchange by bringing people from different backgrounds, ethnicities, and nationalities together. Visitors immerse themselves in the local customs, traditions, cuisine, and lifestyle, fostering mutual understanding and appreciation. Conversely, residents have the opportunity to share their heritage, history, and values with tourists, preserving and promoting their cultural identity. Cultural tourism not only enriches the traveler''s experience but also promotes global harmony and tolerance.
+
+## Environmental Conservation
+
+While tourism can exert pressure on natural resources and ecosystems, it also plays a crucial role in environmental conservation. Sustainable tourism practices aim to minimize negative impacts on the environment while maximizing benefits for local communities. Eco-friendly initiatives such as wildlife conservation, habitat restoration, and responsible tourism guidelines help preserve biodiversity and protect fragile ecosystems. Additionally, eco-tourism promotes awareness of environmental issues and encourages travelers to adopt sustainable behaviors.
+
+## Social Benefits
+
+Tourism has numerous social benefits, including promoting cross-cultural understanding, fostering social cohesion, and empowering marginalized communities. By interacting with people from diverse backgrounds, tourists gain insight into different lifestyles, beliefs, and perspectives, fostering empathy and respect. Furthermore, tourism provides opportunities for cultural exchange and dialogue, breaking down barriers and building bridges between communities. Additionally, tourism can empower local residents by creating jobs, generating income, and supporting small businesses, thereby reducing poverty and inequality.
+
+## Conclusion
+
+In conclusion, tourism is a powerful force that shapes the global economy, culture, and environment. Its economic benefits drive growth and development, while its cultural and social impacts promote understanding and cooperation among people worldwide. However, to harness the full potential of tourism, it is essential to prioritize sustainability, responsible management, and community engagement. By embracing these principles, we can ensure that tourism continues to enrich lives and preserve our planet for future generations.
+','40,35,9','2024-03-14 23:54:26.603','2024-03-14 23:54:26.603');
