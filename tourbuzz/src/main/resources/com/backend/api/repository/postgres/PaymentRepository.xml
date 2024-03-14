@@ -19,14 +19,33 @@
         WHERE invoice_no = #{invoiceNo}
     </update>
 
-    <update id="completePaymentWithPaymentId">
+    <update id="updatePaymentWithPaymentId">
         UPDATE public.payments
-        SET
-            transaction_id = #{transactionId},
+        <set>
             payment_amount = #{paymentAmount},
             currency = #{currency},
             paid_at = #{paidAt},
-            reference_no = #{referenceNo}
+            completed = #{completed},
+            reference_no = #{referenceNo},
+            <if test="transactionId != null">
+            transaction_id = #{transactionId},
+            </if>
+        </set>
         WHERE payment_id = #{paymentId}
     </update>
+
+    <select id="getPaymentIdByInvoiceNo" resultType="string">
+        SELECT
+            payment_id
+        FROM public.payments
+        WHERE invoice_no = #{invoiceNo}
+    </select>
+
+    <select id="getUserEmailByInvoiceNo" resultType="string">
+        SELECT
+            u.email
+        FROM public.payments p
+        JOIN auth.users u ON p.users_id = u.id
+        WHERE p.invoice_no = #{invoiceNo}
+    </select>
 </mapper>

@@ -11,13 +11,13 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -30,24 +30,26 @@ public class BkashService {
         return paymentService.getInvoiceNo(PaymentType.BKASH);
     }
 
-    public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq) throws Exception {
+    private HttpHeaders getDefaultHeaders(){
         String idToken = globalStore.getIdToken();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("authorization", idToken);
         headers.set("x-app-key", Constants.BKASH.API_KEY);
+        return headers;
+    }
 
-        Map<String, String> payload = new HashMap<>();
-        payload.put("mode", Constants.BKASH.DEFAULT_MODE);
-        payload.put("currency", Constants.BKASH.DEFAULT_CURRENCY);
-        payload.put("intent", Constants.BKASH.DEFAULT_INTENT);
-        payload.put("callbackURL", Constants.BKASH.DEFAULT_CALLBACK_URL);
-        payload.put("payerReference", paymentCreateReq.getPayerReference());
-        payload.put("merchantInvoiceNumber", paymentCreateReq.getInvoiceNo());
-        payload.put("amount", String.valueOf(paymentCreateReq.getAmount()));
+    private Timestamp getBkashPaidAt(String dateString){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss:SSS 'GMT'Z");
+        OffsetDateTime dateTime = OffsetDateTime.parse(dateString, formatter);
+        return Timestamp.valueOf(dateTime.toLocalDateTime());
+    }
 
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
+    public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq) throws Exception {
+        HttpHeaders headers = getDefaultHeaders();
+
+        HttpEntity<Map<String, String>> requestEntity = getPaymentHttpEntity(paymentCreateReq, headers);
         ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.CREATE_PAYMNET_API, requestEntity, Map.class);
 
         Map response = responseEntity.getBody();
@@ -64,13 +66,22 @@ public class BkashService {
         return bkashURL;
     }
 
-    public ResponseEntity<?> handlePaymentCallback(String paymentID) throws Exception {
-        String idToken = globalStore.getIdToken();
+    private static HttpEntity<Map<String, String>> getPaymentHttpEntity(BkashPaymentCreateReq paymentCreateReq, HttpHeaders headers) {
+        Map<String, String> payload = new HashMap<>();
+        payload.put("mode", Constants.BKASH.DEFAULT_MODE);
+        payload.put("currency", Constants.BKASH.DEFAULT_CURRENCY);
+        payload.put("intent", Constants.BKASH.DEFAULT_INTENT);
+        payload.put("callbackURL", Constants.BKASH.DEFAULT_CALLBACK_URL);
+        payload.put("payerReference", paymentCreateReq.getPayerReference());
+        payload.put("merchantInvoiceNumber", paymentCreateReq.getInvoiceNo());
+        payload.put("amount", String.valueOf(paymentCreateReq.getAmount()));
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("authorization", idToken);
-        headers.set("x-app-key", Constants.BKASH.API_KEY);
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
+        return requestEntity;
+    }
+
+    public ResponseEntity<?> handlePaymentCallback(String paymentID) throws Exception {
+        HttpHeaders headers = getDefaultHeaders();
 
         Map<String, String> payload = new HashMap<>();
         payload.put("paymentID", paymentID);
@@ -89,15 +100,47 @@ public class BkashService {
         PaymentRes paymentRes = PaymentRes.builder()
                 .paymentId((String) response.get("paymentID"))
                 .transactionId((String) response.get("trxID"))
-                .paymentAmount((Double) response.get("amount"))
+                .paymentAmount(Double.parseDouble((String) response.get("amount")))
                 .currency((String) response.get("currency"))
-                .paidAt((LocalDateTime) response.get("paymentExecuteTime"))
+                .paidAt(getBkashPaidAt((String) response.get("paymentExecuteTime")))
                 .referenceNo((String) response.get("payerReference"))
+                .completed(response.get("transactionStatus").equals("Completed"))
                 .build();
-        paymentService.completePaymentWithPaymentId(paymentRes);
-        return ResponseEntity.of(Optional.of(paymentRes));
+        paymentService.updatePaymentWithPaymentId(paymentRes);
 
+        return ResponseEntity.of(Optional.of(paymentRes));
     }
 
+    public ResponseEntity<?> queryPaymentByInvoiceNo(String invoiceNo) throws Exception {
+        String paymentID = paymentService.getPaymentIdByInvoiceNo(invoiceNo);
 
+        HttpHeaders headers = getDefaultHeaders();
+
+        Map<String, String> payload = new HashMap<>();
+        payload.put("paymentID", paymentID);
+
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
+        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.QUERY_PAYMENT_API, requestEntity, Map.class);
+
+        Map response = responseEntity.getBody();
+        assert response != null;
+        String statusCode = (String) response.get("statusCode");
+
+        if (!statusCode.equals("0000")) {
+            throw new RuntimeException("Payment not successful");
+        }
+
+        PaymentRes paymentRes = PaymentRes.builder()
+                .paymentId((String) response.get("paymentID"))
+                .transactionId((String) response.get("trxID"))
+                .paymentAmount(Double.parseDouble((String) response.get("amount")))
+                .currency((String) response.get("currency"))
+                .paidAt(getBkashPaidAt((String) response.get("paymentExecuteTime")))
+                .referenceNo((String) response.get("payerReference"))
+                .completed(response.get("transactionStatus").equals("Completed"))
+                .build();
+        paymentService.updatePaymentWithPaymentId(paymentRes);
+
+        return ResponseEntity.of(Optional.of(paymentRes));
+    }
 }

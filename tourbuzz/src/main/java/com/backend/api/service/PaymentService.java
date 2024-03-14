@@ -25,10 +25,23 @@ public class PaymentService {
         }
     }
 
-    public void completePaymentWithPaymentId(PaymentRes paymentRes) throws Exception {
-        boolean updated = paymentRepository.completePaymentWithPaymentId(paymentRes) == 1;
+    public void updatePaymentWithPaymentId(PaymentRes paymentRes) throws Exception {
+        boolean updated = paymentRepository.updatePaymentWithPaymentId(paymentRes) == 1;
         if(!updated){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
+    }
+
+    public String getUserEmailByInvoiceNo(String invoiceNo){
+        return paymentRepository.getUserEmailByInvoiceNo(invoiceNo);
+    }
+
+    public String getPaymentIdByInvoiceNo(String invoiceNo) throws Exception {
+        String loggedInEmail = authService.getLoggedInEmail();
+        String invoicedEmail = getUserEmailByInvoiceNo(invoiceNo);
+        if(!loggedInEmail.equals(invoicedEmail)){
+            throw new Exception(ErrorMessages.UNAUTHORIZED);
+        }
+        return paymentRepository.getPaymentIdByInvoiceNo(invoiceNo);
     }
 }

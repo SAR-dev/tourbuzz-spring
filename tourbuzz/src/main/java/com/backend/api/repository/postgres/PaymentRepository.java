@@ -9,5 +9,9 @@ public interface PaymentRepository {
 
     int registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount);
 
-    int completePaymentWithPaymentId(PaymentRes paymentRes);
+    int updatePaymentWithPaymentId(PaymentRes paymentRes);
+
+    String getPaymentIdByInvoiceNo(String invoiceNo);
+
+    String getUserEmailByInvoiceNo(String invoiceNo);
 }
