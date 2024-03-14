@@ -1,14 +1,12 @@
 package com.backend.api.controller.user;
 
+import com.backend.api.request.InvoiceCreateReq;
 import com.backend.api.response.PaymentRes;
 import com.backend.api.service.BkashService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,8 +16,8 @@ public class UserBkashController {
 
     @Tag(name = "Get Invoice No")
     @GetMapping("/invoice")
-    public String getBkashInvoiceNo(){
-        return bkashService.getBkashInvoiceNo();
+    public String getBkashInvoiceNo(@RequestBody InvoiceCreateReq invoiceCreateReq){
+        return bkashService.getBkashInvoiceNo(invoiceCreateReq);
     }
 
     @Tag(name = "Check Invoice Status")

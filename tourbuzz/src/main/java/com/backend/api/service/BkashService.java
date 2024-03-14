@@ -4,6 +4,7 @@ import com.backend.api.Constants;
 import com.backend.api.GlobalStore;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.request.BkashPaymentCreateReq;
+import com.backend.api.request.InvoiceCreateReq;
 import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -26,8 +27,8 @@ public class BkashService {
     private final GlobalStore globalStore;
     private final PaymentService paymentService;
 
-    public String getBkashInvoiceNo(){
-        return paymentService.getInvoiceNo(PaymentType.BKASH);
+    public String getBkashInvoiceNo(InvoiceCreateReq invoiceCreateReq){
+        return paymentService.getInvoiceNo(PaymentType.BKASH, invoiceCreateReq);
     }
 
     private HttpHeaders getDefaultHeaders(){

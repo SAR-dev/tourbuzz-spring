@@ -3,9 +3,11 @@ package com.backend.api.service;
 import com.backend.api.ErrorMessages;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
+import com.backend.api.request.InvoiceCreateReq;
 import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,9 +15,13 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final AuthService authService;
 
-    public String getInvoiceNo(PaymentType paymentType){
+    @Transactional
+    public String getInvoiceNo(PaymentType paymentType, InvoiceCreateReq invoiceCreateReq){
         String email = authService.getLoggedInEmail();
-        return paymentRepository.getInvoiceNo(email, paymentType.name());
+        String invoiceNo = paymentRepository.getInvoiceNo(email, paymentType.name());
+        int ticketsId = createTicket(email, invoiceCreateReq);
+        createTicketPaymentWithInvoice(ticketsId, invoiceNo);
+        return invoiceNo;
     }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
@@ -36,6 +42,10 @@ public class PaymentService {
         return paymentRepository.getUserEmailByInvoiceNo(invoiceNo);
     }
 
+    public int createTicket(String email, InvoiceCreateReq invoiceCreateReq){
+        return paymentRepository.createTicket(email, invoiceCreateReq);
+    }
+
     public String getPaymentIdByInvoiceNo(String invoiceNo) throws Exception {
         String loggedInEmail = authService.getLoggedInEmail();
         String invoicedEmail = getUserEmailByInvoiceNo(invoiceNo);
@@ -43,5 +53,9 @@ public class PaymentService {
             throw new Exception(ErrorMessages.UNAUTHORIZED);
         }
         return paymentRepository.getPaymentIdByInvoiceNo(invoiceNo);
+    }
+
+    public void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo){
+        paymentRepository.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
     }
 }
