@@ -461,7 +461,7 @@ CREATE OR REPLACE FUNCTION generate_invoice_number()
 RETURNS TRIGGER AS $$
 BEGIN
     -- Set the invoice number to the next value from the sequence
-    NEW.invoice_no = LPAD(nextval('invoice_number_seq')::text, 8, '0');
+    NEW.invoice_no = 'TBZ' || LPAD(nextval('invoice_number_seq')::text, 8, '0');
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;

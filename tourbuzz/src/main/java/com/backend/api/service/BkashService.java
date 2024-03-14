@@ -46,7 +46,10 @@ public class BkashService {
         return Timestamp.valueOf(dateTime.toLocalDateTime());
     }
 
-    private static Map<String, String> getPaymentPayload(BkashPaymentCreateReq paymentCreateReq, double paymentAmount) {
+    private static Map<String, String> getPaymentPayload(
+            BkashPaymentCreateReq paymentCreateReq,
+            double paymentAmount
+    ) {
         Map<String, String> payload = new HashMap<>();
         payload.put("mode", Constants.BKASH.DEFAULT_MODE);
         payload.put("currency", Constants.BKASH.DEFAULT_CURRENCY);
@@ -59,13 +62,39 @@ public class BkashService {
         return payload;
     }
 
+    private PaymentRes handlePayment(ResponseEntity<Map> responseEntity) throws Exception {
+        Map response = responseEntity.getBody();
+        assert response != null;
+        String statusCode = (String) response.get("statusCode");
+
+        if (!statusCode.equals("0000")) {
+            throw new RuntimeException("Payment not successful");
+        }
+
+        PaymentRes paymentRes = PaymentRes.builder()
+                .paymentId((String) response.get("paymentID"))
+                .transactionId((String) response.get("trxID"))
+                .paymentAmount(Double.parseDouble((String) response.get("amount")))
+                .currency((String) response.get("currency"))
+                .paidAt(getBkashPaidAt((String) response.get("paymentExecuteTime")))
+                .referenceNo((String) response.get("payerReference"))
+                .completed(response.get("transactionStatus").equals("Completed"))
+                .build();
+        paymentService.updatePaymentWithPaymentId(paymentRes);
+        return paymentRes;
+    }
+
     public String getPaymentLink(BkashPaymentCreateReq paymentCreateReq) throws Exception {
         double paymentAmount = paymentService.getPaymentAmountByInvoiceNo(paymentCreateReq.getInvoiceNo());
         HttpHeaders headers = getDefaultHeaders();
 
         Map<String, String> payload = getPaymentPayload(paymentCreateReq, paymentAmount);
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
-        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.CREATE_PAYMNET_API, requestEntity, Map.class);
+        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(
+                Constants.BKASH.CREATE_PAYMNET_API,
+                requestEntity,
+                Map.class
+        );
 
         Map response = responseEntity.getBody();
         if (response == null || !response.containsKey("bkashURL") || !response.containsKey("paymentID")) {
@@ -88,28 +117,13 @@ public class BkashService {
         payload.put("paymentID", paymentID);
 
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
-        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.EXECUTE_PAYMENT_API, requestEntity, Map.class);
+        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(
+                Constants.BKASH.EXECUTE_PAYMENT_API,
+                requestEntity,
+                Map.class
+        );
 
-        Map response = responseEntity.getBody();
-        assert response != null;
-        String statusCode = (String) response.get("statusCode");
-
-        if (!statusCode.equals("0000")) {
-            throw new RuntimeException("Payment not successful");
-        }
-
-        PaymentRes paymentRes = PaymentRes.builder()
-                .paymentId((String) response.get("paymentID"))
-                .transactionId((String) response.get("trxID"))
-                .paymentAmount(Double.parseDouble((String) response.get("amount")))
-                .currency((String) response.get("currency"))
-                .paidAt(getBkashPaidAt((String) response.get("paymentExecuteTime")))
-                .referenceNo((String) response.get("payerReference"))
-                .completed(response.get("transactionStatus").equals("Completed"))
-                .build();
-        paymentService.updatePaymentWithPaymentId(paymentRes);
-
-        return paymentRes;
+        return handlePayment(responseEntity);
     }
 
     public PaymentRes queryPaymentByInvoiceNo(String invoiceNo) throws Exception {
@@ -121,27 +135,11 @@ public class BkashService {
         payload.put("paymentID", paymentID);
 
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
-        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.QUERY_PAYMENT_API, requestEntity, Map.class);
-
-        Map response = responseEntity.getBody();
-        assert response != null;
-        String statusCode = (String) response.get("statusCode");
-
-        if (!statusCode.equals("0000")) {
-            throw new RuntimeException("Payment not successful");
-        }
-
-        PaymentRes paymentRes = PaymentRes.builder()
-                .paymentId((String) response.get("paymentID"))
-                .transactionId((String) response.get("trxID"))
-                .paymentAmount(Double.parseDouble((String) response.get("amount")))
-                .currency((String) response.get("currency"))
-                .paidAt(getBkashPaidAt((String) response.get("paymentExecuteTime")))
-                .referenceNo((String) response.get("payerReference"))
-                .completed(response.get("transactionStatus").equals("Completed"))
-                .build();
-        paymentService.updatePaymentWithPaymentId(paymentRes);
-
-        return paymentRes;
+        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(
+                Constants.BKASH.QUERY_PAYMENT_API,
+                requestEntity,
+                Map.class
+        );
+        return handlePayment(responseEntity);
     }
 }
