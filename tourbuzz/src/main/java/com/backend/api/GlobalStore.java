@@ -42,7 +42,11 @@ public class GlobalStore {
         payload.put("app_secret", Constants.BKASH.API_SECRET);
 
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
-        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(Constants.BKASH.GRANT_TOKEN_API, requestEntity, Map.class);
+        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(
+                Constants.BKASH.GRANT_TOKEN_API,
+                requestEntity,
+                Map.class
+        );
 
         Map response = responseEntity.getBody();
         if (response == null || !response.containsKey("id_token")) {
