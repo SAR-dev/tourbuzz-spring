@@ -6,7 +6,9 @@ import com.backend.api.repository.postgres.PackageRepository;
 import com.backend.api.request.admin.TourPackageCreatePayload;
 import com.backend.api.request.admin.TourPackageCreateReq;
 import com.backend.api.request.admin.TourPackageUpdatePayload;
+import com.backend.api.response.TourPackagePurchaseRes;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,14 @@ public class PackageService {
 
     public PackageEntity getPackageByTourIdAndTitle(int toursId, String title){
         return packageRepository.getPackageByTourIdAndTitle(toursId, title);
+    }
+
+    public TourPackagePurchaseRes getPackageById(int id) throws NotFoundException {
+        TourPackagePurchaseRes aPackage = packageRepository.getPackageById(id);
+        if (Objects.isNull(aPackage)) {
+            throw new NotFoundException(ErrorMessages.NOT_FOUND);
+        }
+        return aPackage;
     }
 
     @Transactional

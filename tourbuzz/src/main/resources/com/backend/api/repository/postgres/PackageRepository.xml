@@ -83,6 +83,10 @@
         ) WHERE packages.id = db.id
     </update>
 
+    <select id="getPackageById" resultMap="packageResultMap">
+        SELECT * FROM tour.packages WHERE id = #{id}
+    </select>
+
     <select id="getPackageByTourIdAndTitle" resultType="com.backend.api.entity.PackageEntity">
         SELECT * FROM tour.packages WHERE tours_id = #{toursId} AND title = #{title}
     </select>
@@ -94,5 +98,43 @@
     <delete id="deletePackageById">
         DELETE FROM tour.packages WHERE id = #{id}
     </delete>
+
+    <resultMap id="packageResultMap" type="com.backend.api.response.TourPackagePurchaseRes">
+        <association
+                property="tour"
+                select="getTourById"
+                javaType="com.backend.api.entity.TourEntity"
+                column="id = tours_id"
+        />
+        <association
+                property="tour_package"
+                select="getTourPackageById"
+                javaType="com.backend.api.entity.PackageEntity"
+                column="id = id"
+        />
+    </resultMap>
+
+    <select id="getTourById" resultMap="tourResultMap">
+        SELECT * FROM tour.tours WHERE id = #{id}
+    </select>
+
+    <resultMap id="tourResultMap" type="com.backend.api.entity.TourEntity">
+        <association
+                property="organizer"
+                select="com.backend.api.repository.postgres.OrganizerRepository.getOrganizerById"
+                javaType="com.backend.api.entity.OrganizerEntity"
+                column="id = organizers_id"
+        />
+        <association
+                property="avatar"
+                select="com.backend.api.repository.postgres.ImageRepository.getImageByImagesId"
+                javaType="com.backend.api.entity.ImageEntity"
+                column="id = images_id"
+        />
+    </resultMap>
+
+    <select id="getTourPackageById" resultType="com.backend.api.entity.PackageEntity">
+        SELECT * FROM tour.packages WHERE id = #{id}
+    </select>
 
 </mapper>
