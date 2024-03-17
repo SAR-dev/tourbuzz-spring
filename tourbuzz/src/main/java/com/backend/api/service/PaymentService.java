@@ -16,12 +16,19 @@ public class PaymentService {
     private final AuthService authService;
 
     @Transactional
-    public String getInvoiceNo(PaymentType paymentType, InvoiceCreateReq invoiceCreateReq){
+    public String getInvoiceNo(PaymentType paymentType, InvoiceCreateReq invoiceCreateReq) throws Exception {
         String email = authService.getLoggedInEmail();
         String invoiceNo = paymentRepository.getInvoiceNo(email, paymentType.name());
-        int ticketsId = createTicket(email, invoiceCreateReq);
-        createTicketPaymentWithInvoice(ticketsId, invoiceNo);
-        return invoiceNo;
+        int existingTicketsId = getPendingTicketId(invoiceCreateReq.getPackagesId(), email);
+        if(existingTicketsId == 0) {
+            updateTicket(invoiceCreateReq.getTicketAmount(), existingTicketsId);
+            createTicketPaymentWithInvoice(existingTicketsId, invoiceNo);
+            return invoiceNo;
+        } else {
+            int ticketsId = createTicket(email, invoiceCreateReq);
+            createTicketPaymentWithInvoice(ticketsId, invoiceNo);
+            return invoiceNo;
+        }
     }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
@@ -61,5 +68,16 @@ public class PaymentService {
 
     public double getPaymentAmountByInvoiceNo(String invoiceNo){
         return paymentRepository.getPaymentAmountByInvoiceNo(invoiceNo);
+    }
+
+    public int getPendingTicketId(int packagesId, String email){
+        return paymentRepository.getPendingTicketId(packagesId, email);
+    }
+
+    public void updateTicket(int ticketAmount, int id) throws Exception {
+        boolean updated = paymentRepository.updateTicket(ticketAmount, id) == 1;
+        if(!updated) {
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
+        }
     }
 }

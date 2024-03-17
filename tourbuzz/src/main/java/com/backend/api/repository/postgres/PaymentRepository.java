@@ -22,4 +22,8 @@ public interface PaymentRepository {
     void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);
 
     double getPaymentAmountByInvoiceNo(String invoiceNo);
+
+    int getPendingTicketId(int packagesId, String email);
+
+    int updateTicket(int ticketAmount, int id);
 }

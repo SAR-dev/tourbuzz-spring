@@ -1,6 +1,7 @@
 package com.backend.api.controller.user;
 
 import com.backend.api.request.InvoiceCreateReq;
+import com.backend.api.response.InvoicePaymentRes;
 import com.backend.api.response.PaymentRes;
 import com.backend.api.service.BkashService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,9 +16,9 @@ public class UserBkashController {
     private final BkashService bkashService;
 
     @Tag(name = "Get Invoice No")
-    @GetMapping("/invoice")
-    public String getBkashInvoiceNo(@RequestBody InvoiceCreateReq invoiceCreateReq){
-        return bkashService.getBkashInvoiceNo(invoiceCreateReq);
+    @PostMapping("/invoice")
+    public InvoicePaymentRes getBkashInvoiceNo(@RequestBody InvoiceCreateReq invoiceCreateReq) throws Exception {
+        return bkashService.getInvoicePaymentRes(invoiceCreateReq);
     }
 
     @Tag(name = "Check Invoice Status")
