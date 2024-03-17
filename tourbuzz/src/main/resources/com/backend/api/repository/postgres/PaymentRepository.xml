@@ -17,18 +17,6 @@
         WHERE invoice_no = #{invoiceNo}
     </update>
 
-    <update id="updateTicketAmountByInvoiceNo">
-        UPDATE tour.tickets
-        SET ticket_amount = #{ticketAmount}
-        WHERE id = (
-            SELECT
-                tp.tickets_id
-            FROM public.payments p
-            JOIN tour.ticket_payments tp ON tp.payments_id = p.id
-            WHERE p.invoice_no = #{invoiceNo}
-        )
-    </update>
-
     <update id="registerPaymentIdWithInvoice">
         UPDATE public.payments
         SET payment_id = #{paymentId}, payment_amount = #{paymentAmount}
@@ -64,29 +52,6 @@
         JOIN auth.users u ON p.users_id = u.id
         WHERE p.invoice_no = #{invoiceNo}
     </select>
-
-    <select id="createTicket" resultType="int">
-        INSERT INTO tour.tickets (
-            packages_id,
-            ticket_amount,
-            users_id
-        ) VALUES (
-            #{data.packagesId},
-            #{data.ticketAmount},
-            (SELECT id FROM auth.users u WHERE u.email = #{email})
-        ) RETURNING id
-    </select>
-
-    <insert id="createTicketPaymentWithInvoice">
-        INSERT INTO tour.ticket_payments (
-            tickets_id,
-            payments_id
-        ) VALUES (
-            #{ticketsId},
-            (SELECT id FROM public.payments WHERE invoice_no = #{invoiceNo})
-        ) ON CONFLICT (tickets_id, payments_id)
-        DO NOTHING
-    </insert>
 
     <select id="getPaymentAmountByInvoiceNo" resultType="double">
         SELECT

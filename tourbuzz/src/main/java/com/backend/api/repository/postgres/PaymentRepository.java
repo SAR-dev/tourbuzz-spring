@@ -18,13 +18,7 @@ public interface PaymentRepository {
 
     String getUserEmailByInvoiceNo(String invoiceNo);
 
-    int createTicket(String email, @Param("data") BookCreateReq bookCreateReq);
-
-    void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);
-
     double getPaymentAmountByInvoiceNo(String invoiceNo);
 
     int updatePaymentTypeByInvoiceNo(String paymentType, String invoiceNo);
-
-    int updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo);
 }

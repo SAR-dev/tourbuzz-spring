@@ -26,11 +26,12 @@ import java.util.Map;
 public class BkashService {
     private final GlobalStore globalStore;
     private final PaymentService paymentService;
+    private final TicketService ticketService;
 
     @Transactional
     public String getPaymentLink(PaymentCreateReq paymentCreateReq) throws Exception {
         paymentService.updatePaymentTypeByInvoiceNo(PaymentType.BKASH, paymentCreateReq.getInvoiceNo());
-        paymentService.updateTicketAmountByInvoiceNo(paymentCreateReq.getTicketAmount(), paymentCreateReq.getInvoiceNo());
+        ticketService.updateTicketAmountByInvoiceNo(paymentCreateReq.getTicketAmount(), paymentCreateReq.getInvoiceNo());
         return getPaymentLink(paymentCreateReq.getInvoiceNo());
     }
 

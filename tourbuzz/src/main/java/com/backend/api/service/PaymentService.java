@@ -15,13 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final AuthService authService;
+    private final TicketService ticketService;
 
     @Transactional
     public void bookInvoiceNo(BookCreateReq bookCreateReq) {
         String email = authService.getLoggedInEmail();
         String invoiceNo = paymentRepository.getInvoiceNo(email);
-        int ticketsId = createTicket(email, bookCreateReq);
-        createTicketPaymentWithInvoice(ticketsId, invoiceNo);
+        int ticketsId = ticketService.createTicket(email, bookCreateReq);
+        ticketService.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
     }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
@@ -42,9 +43,7 @@ public class PaymentService {
         return paymentRepository.getUserEmailByInvoiceNo(invoiceNo);
     }
 
-    public int createTicket(String email, BookCreateReq bookCreateReq){
-        return paymentRepository.createTicket(email, bookCreateReq);
-    }
+
 
     public String getPaymentIdByInvoiceNo(String invoiceNo) throws Exception {
         String loggedInEmail = authService.getLoggedInEmail();
@@ -55,23 +54,12 @@ public class PaymentService {
         return paymentRepository.getPaymentIdByInvoiceNo(invoiceNo);
     }
 
-    public void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo){
-        paymentRepository.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
-    }
-
     public double getPaymentAmountByInvoiceNo(String invoiceNo){
         return paymentRepository.getPaymentAmountByInvoiceNo(invoiceNo);
     }
 
     public void updatePaymentTypeByInvoiceNo(PaymentType paymentType, String invoiceNo) throws Exception {
         boolean updated = paymentRepository.updatePaymentTypeByInvoiceNo(paymentType.name(), invoiceNo) == 1;
-        if(!updated){
-            throw new Exception(ErrorMessages.UPDATE_FAILED);
-        }
-    }
-
-    public void updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo) throws Exception {
-        boolean updated = paymentRepository.updateTicketAmountByInvoiceNo(ticketAmount, invoiceNo) == 1;
         if(!updated){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
