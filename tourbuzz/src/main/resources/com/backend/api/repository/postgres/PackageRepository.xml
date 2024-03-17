@@ -12,6 +12,7 @@
             excluded,
             conditions,
             price,
+            threshold,
             status
         ) VALUES
         <foreach collection="tourPackages" item="item" separator=",">
@@ -22,6 +23,7 @@
             #{item.excluded},
             #{item.conditions},
             #{item.price},
+            #{threshold},
             CAST('PUBLISHED' AS status_type)
             )
         </foreach>
@@ -35,6 +37,7 @@
             excluded,
             conditions,
             price,
+            threshold,
             status
         ) VALUES (
             #{toursId},
@@ -43,6 +46,7 @@
             #{excluded},
             #{conditions},
             #{price},
+            #{threshold},
             CAST('DRAFT' AS status_type)
         )
     </insert>
@@ -56,6 +60,7 @@
             excluded = db.excluded,
             conditions = db.conditions,
             price = db.price,
+            threshold = db.threshold,
             status = db.status
         FROM(
         VALUES
@@ -68,6 +73,7 @@
             #{item.excluded},
             #{item.conditions},
             #{item.price},
+            #{item.threshold},
             CAST('PUBLISHED' AS status_type)
             )
         </foreach>
@@ -79,6 +85,7 @@
             excluded,
             conditions,
             price,
+            threshold,
             status
         ) WHERE packages.id = db.id
     </update>

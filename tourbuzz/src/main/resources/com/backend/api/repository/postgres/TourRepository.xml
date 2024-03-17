@@ -30,8 +30,7 @@
             start_at,
             finish_at,
             last_sell_at,
-            image_ids,
-            max_ticket_amount
+            image_ids
         ) VALUES (
             #{tourTypesId},
             #{organizersId},
@@ -51,8 +50,7 @@
             TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH24:MI'),
             TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH24:MI'),
             TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH24:MI'),
-            #{imageIdsStr},
-            #{maxTicketAmount}
+            #{imageIdsStr}
         ) RETURNING id
     </select>
 
@@ -77,8 +75,7 @@
             start_at = TO_TIMESTAMP(#{startAt}, 'DD/MM/YYYY HH24:MI'),
             finish_at = TO_TIMESTAMP(#{finishAt}, 'DD/MM/YYYY HH24:MI'),
             last_sell_at = TO_TIMESTAMP(#{lastSellAt}, 'DD/MM/YYYY HH24:MI'),
-            image_ids = #{imageIdsStr},
-            max_ticket_amount = #{maxTicketAmount}
+            image_ids = #{imageIdsStr}
         WHERE
         id = #{id}
     </update>

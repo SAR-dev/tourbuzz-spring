@@ -298,3 +298,5 @@ Tourism has numerous social benefits, including promoting cross-cultural underst
 
 In conclusion, tourism is a powerful force that shapes the global economy, culture, and environment. Its economic benefits drive growth and development, while its cultural and social impacts promote understanding and cooperation among people worldwide. However, to harness the full potential of tourism, it is essential to prioritize sustainability, responsible management, and community engagement. By embracing these principles, we can ensure that tourism continues to enrich lives and preserve our planet for future generations.
 ','40,35,9','2024-03-14 23:54:26.603','2024-03-14 23:54:26.603');
+
+
