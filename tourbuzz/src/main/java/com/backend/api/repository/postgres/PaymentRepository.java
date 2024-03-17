@@ -2,6 +2,7 @@ package com.backend.api.repository.postgres;
 
 import com.backend.api.request.InvoiceCreateReq;
 import com.backend.api.response.PaymentRes;
+import com.backend.api.response.TicketInvoiceRes;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,7 +24,7 @@ public interface PaymentRepository {
 
     double getPaymentAmountByInvoiceNo(String invoiceNo);
 
-    int getPendingTicketId(int packagesId, String email);
+    TicketInvoiceRes getPendingTicketId(int packagesId, String email);
 
     int updateTicket(int ticketAmount, int id);
 }

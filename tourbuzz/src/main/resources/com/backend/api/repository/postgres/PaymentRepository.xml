@@ -49,8 +49,10 @@
         WHERE p.invoice_no = #{invoiceNo}
     </select>
 
-    <select id="getPendingTicketId" resultType="int">
-        SELECT t.id
+    <select id="getPendingTicketId" resultType="com.backend.api.response.TicketInvoiceRes">
+        SELECT
+            t.id AS ticket_id,
+            p.invoice_no AS invoice_no
         FROM tour.tickets t
         JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
         JOIN public.payments p ON tp.payments_id = p.id

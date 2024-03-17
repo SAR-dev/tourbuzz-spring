@@ -5,9 +5,12 @@ import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
 import com.backend.api.request.InvoiceCreateReq;
 import com.backend.api.response.PaymentRes;
+import com.backend.api.response.TicketInvoiceRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -18,13 +21,12 @@ public class PaymentService {
     @Transactional
     public String getInvoiceNo(PaymentType paymentType, InvoiceCreateReq invoiceCreateReq) throws Exception {
         String email = authService.getLoggedInEmail();
-        String invoiceNo = paymentRepository.getInvoiceNo(email, paymentType.name());
-        int existingTicketsId = getPendingTicketId(invoiceCreateReq.getPackagesId(), email);
-        if(existingTicketsId == 0) {
-            updateTicket(invoiceCreateReq.getTicketAmount(), existingTicketsId);
-            createTicketPaymentWithInvoice(existingTicketsId, invoiceNo);
-            return invoiceNo;
+        TicketInvoiceRes ticketInvoiceRes = getPendingTicketId(invoiceCreateReq.getPackagesId(), email);
+        if(!Objects.isNull(ticketInvoiceRes)) {
+            updateTicket(invoiceCreateReq.getTicketAmount(), ticketInvoiceRes.getTicket_id());
+            return ticketInvoiceRes.getInvoice_no();
         } else {
+            String invoiceNo = paymentRepository.getInvoiceNo(email, paymentType.name());
             int ticketsId = createTicket(email, invoiceCreateReq);
             createTicketPaymentWithInvoice(ticketsId, invoiceNo);
             return invoiceNo;
@@ -70,7 +72,7 @@ public class PaymentService {
         return paymentRepository.getPaymentAmountByInvoiceNo(invoiceNo);
     }
 
-    public int getPendingTicketId(int packagesId, String email){
+    public TicketInvoiceRes getPendingTicketId(int packagesId, String email){
         return paymentRepository.getPendingTicketId(packagesId, email);
     }
 
