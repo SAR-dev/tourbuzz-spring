@@ -5,7 +5,7 @@ import com.backend.api.entity.TourEntity;
 import lombok.Data;
 
 @Data
-public class TourPackagePurchaseRes {
+public class TourPackageBookedRes {
     private PackageEntity tour_package;
     private TourEntity tour;
 }

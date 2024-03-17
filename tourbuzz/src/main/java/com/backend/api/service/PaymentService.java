@@ -3,14 +3,11 @@ package com.backend.api.service;
 import com.backend.api.ErrorMessages;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
-import com.backend.api.request.InvoiceCreateReq;
+import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
-import com.backend.api.response.TicketInvoiceRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -19,18 +16,11 @@ public class PaymentService {
     private final AuthService authService;
 
     @Transactional
-    public String getInvoiceNo(PaymentType paymentType, InvoiceCreateReq invoiceCreateReq) throws Exception {
+    public void bookInvoiceNo(PaymentCreateReq paymentCreateReq) {
         String email = authService.getLoggedInEmail();
-        TicketInvoiceRes ticketInvoiceRes = getPendingTicketId(invoiceCreateReq.getPackagesId(), email);
-        if(!Objects.isNull(ticketInvoiceRes)) {
-            updateTicket(invoiceCreateReq.getTicketAmount(), ticketInvoiceRes.getTicket_id());
-            return ticketInvoiceRes.getInvoice_no();
-        } else {
-            String invoiceNo = paymentRepository.getInvoiceNo(email, paymentType.name());
-            int ticketsId = createTicket(email, invoiceCreateReq);
-            createTicketPaymentWithInvoice(ticketsId, invoiceNo);
-            return invoiceNo;
-        }
+        String invoiceNo = paymentRepository.getInvoiceNo(email);
+        int ticketsId = createTicket(email, paymentCreateReq);
+        createTicketPaymentWithInvoice(ticketsId, invoiceNo);
     }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
@@ -51,8 +41,8 @@ public class PaymentService {
         return paymentRepository.getUserEmailByInvoiceNo(invoiceNo);
     }
 
-    public int createTicket(String email, InvoiceCreateReq invoiceCreateReq){
-        return paymentRepository.createTicket(email, invoiceCreateReq);
+    public int createTicket(String email, PaymentCreateReq paymentCreateReq){
+        return paymentRepository.createTicket(email, paymentCreateReq);
     }
 
     public String getPaymentIdByInvoiceNo(String invoiceNo) throws Exception {
@@ -72,13 +62,16 @@ public class PaymentService {
         return paymentRepository.getPaymentAmountByInvoiceNo(invoiceNo);
     }
 
-    public TicketInvoiceRes getPendingTicketId(int packagesId, String email){
-        return paymentRepository.getPendingTicketId(packagesId, email);
+    public void updatePaymentTypeByInvoiceNo(PaymentType paymentType, String invoiceNo) throws Exception {
+        boolean updated = paymentRepository.updatePaymentTypeByInvoiceNo(paymentType.name(), invoiceNo) == 1;
+        if(!updated){
+            throw new Exception(ErrorMessages.UPDATE_FAILED);
+        }
     }
 
-    public void updateTicket(int ticketAmount, int id) throws Exception {
-        boolean updated = paymentRepository.updateTicket(ticketAmount, id) == 1;
-        if(!updated) {
+    public void updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo) throws Exception {
+        boolean updated = paymentRepository.updateTicketAmountByInvoiceNo(ticketAmount, invoiceNo) == 1;
+        if(!updated){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }

@@ -1,14 +1,13 @@
 package com.backend.api.repository.postgres;
 
-import com.backend.api.request.InvoiceCreateReq;
+import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
-import com.backend.api.response.TicketInvoiceRes;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface PaymentRepository {
-    String getInvoiceNo(String email, String paymentType);
+    String getInvoiceNo(String email);
 
     int registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount);
 
@@ -18,13 +17,13 @@ public interface PaymentRepository {
 
     String getUserEmailByInvoiceNo(String invoiceNo);
 
-    int createTicket(String email, @Param("data") InvoiceCreateReq invoiceCreateReq);
+    int createTicket(String email, @Param("data") PaymentCreateReq paymentCreateReq);
 
     void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);
 
     double getPaymentAmountByInvoiceNo(String invoiceNo);
 
-    TicketInvoiceRes getPendingTicketId(int packagesId, String email);
+    int updatePaymentTypeByInvoiceNo(String paymentType, String invoiceNo);
 
-    int updateTicket(int ticketAmount, int id);
+    int updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo);
 }

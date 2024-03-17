@@ -83,10 +83,6 @@
         ) WHERE packages.id = db.id
     </update>
 
-    <select id="getPackageById" resultMap="packageResultMap">
-        SELECT * FROM tour.packages WHERE id = #{id}
-    </select>
-
     <select id="getPackageByTourIdAndTitle" resultType="com.backend.api.entity.PackageEntity">
         SELECT * FROM tour.packages WHERE tours_id = #{toursId} AND title = #{title}
     </select>
@@ -99,7 +95,11 @@
         DELETE FROM tour.packages WHERE id = #{id}
     </delete>
 
-    <resultMap id="packageResultMap" type="com.backend.api.response.TourPackagePurchaseRes">
+    <select id="getPackageById" resultMap="packageResultMap">
+        SELECT * FROM tour.packages WHERE id = #{id}
+    </select>
+
+    <resultMap id="packageResultMap" type="com.backend.api.response.TourPackageBookedRes">
         <association
                 property="tour"
                 select="getTourById"

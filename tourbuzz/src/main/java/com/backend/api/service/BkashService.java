@@ -3,8 +3,7 @@ package com.backend.api.service;
 import com.backend.api.Constants;
 import com.backend.api.GlobalStore;
 import com.backend.api.enums.PaymentType;
-import com.backend.api.request.InvoiceCreateReq;
-import com.backend.api.response.InvoicePaymentRes;
+import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -28,14 +27,10 @@ public class BkashService {
     private final PaymentService paymentService;
 
     @Transactional
-    public InvoicePaymentRes getInvoicePaymentRes(InvoiceCreateReq invoiceCreateReq) throws Exception {
-        String invoiceNo = getBkashInvoiceNo(invoiceCreateReq);
-        String paymentLink = getPaymentLink(invoiceNo);
-        return InvoicePaymentRes.builder().invoice_no(invoiceNo).payment_link(paymentLink).build();
-    }
-
-    public String getBkashInvoiceNo(InvoiceCreateReq invoiceCreateReq) throws Exception {
-        return paymentService.getInvoiceNo(PaymentType.BKASH, invoiceCreateReq);
+    public String getPaymentLink(PaymentCreateReq paymentCreateReq) throws Exception {
+        paymentService.updatePaymentTypeByInvoiceNo(PaymentType.BKASH, paymentCreateReq.getInvoiceNo());
+        paymentService.updateTicketAmountByInvoiceNo(paymentCreateReq.getTicketAmount(), paymentCreateReq.getInvoiceNo());
+        return getPaymentLink(paymentCreateReq.getInvoiceNo());
     }
 
     private HttpHeaders getDefaultHeaders(){

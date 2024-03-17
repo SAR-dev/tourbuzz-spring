@@ -8,10 +8,10 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class InvoiceCreateReq {
+public class PaymentCreateReq {
     @NotBlank
     @NotNull
-    private int packagesId;
+    private String invoiceNo;
 
     @NotBlank
     @NotNull

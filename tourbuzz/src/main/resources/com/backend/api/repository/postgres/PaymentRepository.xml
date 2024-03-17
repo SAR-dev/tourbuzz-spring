@@ -5,13 +5,29 @@
 <mapper namespace="com.backend.api.repository.postgres.PaymentRepository">
     <select id="getInvoiceNo" resultType="string">
         INSERT INTO public.payments (
-            users_id,
-            payment_type
+            users_id
         ) VALUES (
-            (SELECT id FROM auth.users u WHERE u.email = #{email}),
-            #{paymentType}
+            (SELECT id FROM auth.users u WHERE u.email = #{email})
         ) RETURNING invoice_no
     </select>
+
+    <update id="updatePaymentTypeByInvoiceNo">
+        UPDATE public.payments
+        SET payment_type = #{paymentType}
+        WHERE invoice_no = #{invoiceNo}
+    </update>
+
+    <update id="updateTicketAmountByInvoiceNo">
+        UPDATE tour.tickets
+        SET ticket_amount = #{ticketAmount}
+        WHERE id = (
+            SELECT
+                tp.tickets_id
+            FROM public.payments p
+            JOIN tour.ticket_payments tp ON tp.payments_id = p.id
+            WHERE p.invoice_no = #{invoiceNo}
+        )
+    </update>
 
     <update id="registerPaymentIdWithInvoice">
         UPDATE public.payments
@@ -49,18 +65,6 @@
         WHERE p.invoice_no = #{invoiceNo}
     </select>
 
-    <select id="getPendingTicketId" resultType="com.backend.api.response.TicketInvoiceRes">
-        SELECT
-            t.id AS ticket_id,
-            p.invoice_no AS invoice_no
-        FROM tour.tickets t
-        JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
-        JOIN public.payments p ON tp.payments_id = p.id
-        WHERE t.packages_id = #{packagesId}
-        AND t.users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
-        AND p.completed IS FALSE
-    </select>
-
     <select id="createTicket" resultType="int">
         INSERT INTO tour.tickets (
             packages_id,
@@ -72,12 +76,6 @@
             (SELECT id FROM auth.users u WHERE u.email = #{email})
         ) RETURNING id
     </select>
-
-    <update id="updateTicket">
-        UPDATE tour.tickets
-        SET ticket_amount = #{ticketAmount}
-        WHERE id = #{id}
-    </update>
 
     <insert id="createTicketPaymentWithInvoice">
         INSERT INTO tour.ticket_payments (

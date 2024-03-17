@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.TicketRepository">
+    <select id="getTicketsByUser" resultMap="ticketResultMap">
+        SELECT * FROM tour.tickets t
+        JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
+        WHERE users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
+    </select>
+
+    <resultMap id="ticketResultMap" type="com.backend.api.entity.TicketEntity">
+        <association
+                property="booked_package"
+                select="com.backend.api.repository.postgres.PackageRepository.getPackageById"
+                javaType="com.backend.api.response.TourPackageBookedRes"
+                column="id = packages_id"
+        />
+        <association
+                property="payment"
+                select="getPaymentById"
+                javaType="com.backend.api.entity.PaymentEntity"
+                column="id = payments_id"
+        />
+    </resultMap>
+
+    <select id="getPaymentById" resultType="com.backend.api.entity.PaymentEntity">
+        SELECT * FROM public.payments WHERE id = #{id}
+    </select>
+
+</mapper>

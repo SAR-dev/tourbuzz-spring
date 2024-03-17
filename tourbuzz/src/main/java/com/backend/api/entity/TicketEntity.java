@@ -1,6 +1,6 @@
 package com.backend.api.entity;
 
-import lombok.Builder;
+import com.backend.api.response.TourPackageBookedRes;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -10,11 +10,11 @@ public class TicketEntity {
     private int id;
     private int packages_id;
     private int users_id;
-    private int paid_amount;
     private int ticket_amount;
-    private String payment_method;
-    private String payment_invoice;
     private String note;
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    private PaymentEntity payment;
+    private TourPackageBookedRes booked_package;
 }

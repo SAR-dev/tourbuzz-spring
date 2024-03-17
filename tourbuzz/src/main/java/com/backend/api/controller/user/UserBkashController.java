@@ -1,12 +1,10 @@
 package com.backend.api.controller.user;
 
-import com.backend.api.request.InvoiceCreateReq;
-import com.backend.api.response.InvoicePaymentRes;
+import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
 import com.backend.api.service.BkashService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserBkashController {
     private final BkashService bkashService;
 
-    @Tag(name = "Get Invoice No")
-    @PostMapping("/invoice")
-    public InvoicePaymentRes getBkashInvoiceNo(@RequestBody InvoiceCreateReq invoiceCreateReq) throws Exception {
-        return bkashService.getInvoicePaymentRes(invoiceCreateReq);
+    @Tag(name = "Get Payment Link")
+    @PostMapping("/payment-link")
+    public String getPaymentLink(@RequestBody PaymentCreateReq paymentCreateReq) throws Exception {
+        return bkashService.getPaymentLink(paymentCreateReq);
     }
 
     @Tag(name = "Check Invoice Status")

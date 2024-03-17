@@ -4,7 +4,7 @@ import com.backend.api.entity.PackageEntity;
 import com.backend.api.request.admin.TourPackageCreatePayload;
 import com.backend.api.request.admin.TourPackageCreateReq;
 import com.backend.api.request.admin.TourPackageUpdatePayload;
-import com.backend.api.response.TourPackagePurchaseRes;
+import com.backend.api.response.TourPackageBookedRes;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -19,8 +19,6 @@ public interface PackageRepository {
     int updatePackages(@Param("toursId") int toursId, @Param("tourPackages") List<TourPackageUpdatePayload> tourPackageUpdatePayloads);
 
     PackageEntity getPackageByTourIdAndTitle(int toursId, String title);
-
-    TourPackagePurchaseRes getPackageById(int id);
 
     int deletePackageById(int id);
 
