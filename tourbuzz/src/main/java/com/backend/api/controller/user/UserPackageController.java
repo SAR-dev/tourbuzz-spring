@@ -1,5 +1,6 @@
 package com.backend.api.controller.user;
 
+import com.backend.api.request.BookCreateReq;
 import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.service.PackageService;
 import com.backend.api.service.PaymentService;
@@ -16,7 +17,7 @@ public class UserPackageController {
 
     @Tag(name = "Book Invoice No")
     @PostMapping("/book")
-    public void bookBkashInvoiceNo(@RequestBody PaymentCreateReq paymentCreateReq) throws Exception {
-        paymentService.bookInvoiceNo(paymentCreateReq);
+    public void bookBkashInvoiceNo(@RequestBody BookCreateReq bookCreateReq) throws Exception {
+        paymentService.bookInvoiceNo(bookCreateReq);
     }
 }

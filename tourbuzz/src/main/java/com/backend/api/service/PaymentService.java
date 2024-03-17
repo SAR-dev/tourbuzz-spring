@@ -3,6 +3,7 @@ package com.backend.api.service;
 import com.backend.api.ErrorMessages;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
+import com.backend.api.request.BookCreateReq;
 import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,10 @@ public class PaymentService {
     private final AuthService authService;
 
     @Transactional
-    public void bookInvoiceNo(PaymentCreateReq paymentCreateReq) {
+    public void bookInvoiceNo(BookCreateReq bookCreateReq) {
         String email = authService.getLoggedInEmail();
         String invoiceNo = paymentRepository.getInvoiceNo(email);
-        int ticketsId = createTicket(email, paymentCreateReq);
+        int ticketsId = createTicket(email, bookCreateReq);
         createTicketPaymentWithInvoice(ticketsId, invoiceNo);
     }
 
@@ -41,8 +42,8 @@ public class PaymentService {
         return paymentRepository.getUserEmailByInvoiceNo(invoiceNo);
     }
 
-    public int createTicket(String email, PaymentCreateReq paymentCreateReq){
-        return paymentRepository.createTicket(email, paymentCreateReq);
+    public int createTicket(String email, BookCreateReq bookCreateReq){
+        return paymentRepository.createTicket(email, bookCreateReq);
     }
 
     public String getPaymentIdByInvoiceNo(String invoiceNo) throws Exception {

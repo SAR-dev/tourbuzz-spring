@@ -1,5 +1,6 @@
 package com.backend.api.repository.postgres;
 
+import com.backend.api.request.BookCreateReq;
 import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,7 +18,7 @@ public interface PaymentRepository {
 
     String getUserEmailByInvoiceNo(String invoiceNo);
 
-    int createTicket(String email, @Param("data") PaymentCreateReq paymentCreateReq);
+    int createTicket(String email, @Param("data") BookCreateReq bookCreateReq);
 
     void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);
 

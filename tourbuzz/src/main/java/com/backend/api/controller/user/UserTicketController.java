@@ -21,4 +21,6 @@ public class UserTicketController {
     public List<TicketEntity> getTicketsByUser() {
         return ticketService.getTicketsByUser();
     }
+
+//    Delete ticket if not completed
 }

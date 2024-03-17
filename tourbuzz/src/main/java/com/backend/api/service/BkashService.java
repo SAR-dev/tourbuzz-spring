@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -74,12 +75,15 @@ public class BkashService {
             throw new RuntimeException("Payment not successful");
         }
 
+        String paymentExecuteTime = (String) response.get("paymentExecuteTime");
+        Timestamp paidAt = (paymentExecuteTime != null && !paymentExecuteTime.isEmpty()) ? getBkashPaidAt(paymentExecuteTime) : null;
+
         PaymentRes paymentRes = PaymentRes.builder()
                 .paymentId((String) response.get("paymentID"))
                 .transactionId((String) response.get("trxID"))
                 .paymentAmount(Double.parseDouble((String) response.get("amount")))
                 .currency((String) response.get("currency"))
-                .paidAt(getBkashPaidAt((String) response.get("paymentExecuteTime")))
+                .paidAt(paidAt)
                 .referenceNo((String) response.get("payerReference"))
                 .completed(response.get("transactionStatus").equals("Completed"))
                 .build();

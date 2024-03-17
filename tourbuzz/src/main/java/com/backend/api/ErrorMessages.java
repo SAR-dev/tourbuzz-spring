@@ -24,5 +24,6 @@ public class ErrorMessages {
     public static final String SIGNIN_REQUIRED = "Please sign in first.";
     public static final String UNAUTHORIZED = "Not authorized";
     public static final String MAX_COMMENT_ERROR = "You have exceeded comment limit. Please try again later.";
+    public static final String PAYMENT_NOT_COMPLETED = "Payment not completed.";
 }
 

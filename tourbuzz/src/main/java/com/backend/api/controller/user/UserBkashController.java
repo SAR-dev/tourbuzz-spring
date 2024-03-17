@@ -1,5 +1,6 @@
 package com.backend.api.controller.user;
 
+import com.backend.api.ErrorMessages;
 import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
 import com.backend.api.service.BkashService;
@@ -21,7 +22,10 @@ public class UserBkashController {
 
     @Tag(name = "Check Invoice Status")
     @GetMapping("/invoice/{invoiceNo}")
-    public PaymentRes queryPaymentByInvoiceNo(@PathVariable String invoiceNo) throws Exception {
-        return bkashService.queryPaymentByInvoiceNo(invoiceNo);
+    public void queryPaymentByInvoiceNo(@PathVariable String invoiceNo) throws Exception {
+        PaymentRes paymentRes = bkashService.queryPaymentByInvoiceNo(invoiceNo);
+        if(!paymentRes.isCompleted()){
+            throw new Exception(ErrorMessages.PAYMENT_NOT_COMPLETED);
+        }
     }
 }

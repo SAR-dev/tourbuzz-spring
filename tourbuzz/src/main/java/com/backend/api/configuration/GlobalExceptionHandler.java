@@ -50,21 +50,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleAuthorizationServiceException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorInfo(ex, HttpStatus.UNAUTHORIZED, "Authorization Error: " + ex.getMessage()));
+                .body(new ErrorInfo(ex, HttpStatus.UNAUTHORIZED, ex.getMessage()));
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<?> handleAuthenticationException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
-                .body(new ErrorInfo(ex, HttpStatus.UNAUTHORIZED, "Authentication Error: " + ex.getMessage()));
+                .body(new ErrorInfo(ex, HttpStatus.UNAUTHORIZED, ex.getMessage()));
     }
 
     @ExceptionHandler(IOException.class)
     public ResponseEntity<?> handleIOException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorInfo(ex, HttpStatus.BAD_REQUEST, "IO Error: " + ex.getMessage()));
+                .body(new ErrorInfo(ex, HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -92,14 +92,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleRuntimeException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorInfo(ex, HttpStatus.INTERNAL_SERVER_ERROR, "Runtime Error: " + ex.getMessage()));
+                .body(new ErrorInfo(ex, HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage()));
     }
 
     @ExceptionHandler(AuthException.class)
     public ResponseEntity<?> handleAuthException(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorInfo(ex, HttpStatus.UNAUTHORIZED, "Authorization Error: " + ex.getMessage()));
+                .body(new ErrorInfo(ex, HttpStatus.UNAUTHORIZED, ex.getMessage()));
     }
 
     @ExceptionHandler({
