@@ -60,7 +60,7 @@ public class TicketService {
         }
     }
 
-    public void deleteTicketByInvoiceNo(int id) throws Exception {
+    public void deleteTicketByInvoiceNo(int id) {
         ticketRepository.deleteTicket(id);
     }
 
@@ -68,7 +68,7 @@ public class TicketService {
         return ticketRepository.getTicketPaymentByInvoiceNo(invoiceNo);
     }
 
-    public void deleteTicketPaymentByInvoiceNo(String invoiceNo) throws Exception {
+    public void deleteTicketPaymentByInvoiceNo(String invoiceNo) {
         ticketRepository.deleteTicketPaymentByInvoiceNo(invoiceNo);
     }
 }
