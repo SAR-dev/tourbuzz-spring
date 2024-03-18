@@ -119,7 +119,22 @@
                 javaType="com.backend.api.entity.PackageEntity"
                 column="id = id"
         />
+        <association
+                property="ticket_sold"
+                select="getTicketSoldCountByPackage"
+                javaType="int"
+                column="id = id"
+        />
     </resultMap>
+
+    <select id="getTicketSoldCountByPackage" resultType="int">
+        SELECT COALESCE(SUM(t.ticket_amount), 0)
+        FROM tour.ticket_payments tp
+        JOIN public.payments p ON tp.payments_id = p.id
+        JOIN tour.tickets t ON tp.tickets_id = t.id
+        WHERE p.completed IS TRUE
+        AND t.packages_id = #{id}
+    </select>
 
     <select id="getTourById" resultMap="tourResultMap">
         SELECT * FROM tour.tours WHERE id = #{id}

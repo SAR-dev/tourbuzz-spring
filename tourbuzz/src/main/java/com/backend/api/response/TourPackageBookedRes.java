@@ -8,4 +8,5 @@ import lombok.Data;
 public class TourPackageBookedRes {
     private PackageEntity tour_package;
     private TourEntity tour;
+    private int ticket_sold;
 }

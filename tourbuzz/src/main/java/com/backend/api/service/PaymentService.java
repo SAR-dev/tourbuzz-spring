@@ -21,8 +21,13 @@ public class PaymentService {
     public void bookInvoiceNo(BookCreateReq bookCreateReq) {
         String email = authService.getLoggedInEmail();
         String invoiceNo = paymentRepository.getInvoiceNo(email);
-        int ticketsId = ticketService.createTicket(email, bookCreateReq);
-        ticketService.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
+        try {
+            System.out.println(bookCreateReq);
+            int ticketsId = ticketService.createTicket(email, bookCreateReq);
+            ticketService.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {

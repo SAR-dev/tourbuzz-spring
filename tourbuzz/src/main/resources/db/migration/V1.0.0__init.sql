@@ -474,7 +474,7 @@ EXECUTE FUNCTION generate_invoice_number();
 
 CREATE TABLE tour.tickets (
     id              serial PRIMARY KEY,
-    packages_id     integer NOT NULL REFERENCES tour.tours(id),
+    packages_id     integer NOT NULL REFERENCES tour.packages(id),
     users_id        integer NOT NULL REFERENCES auth.users(id),
     ticket_amount   integer NOT NULL,
     note            text,
