@@ -17,7 +17,7 @@ public class UserController {
 
     @Tag(name = "Get Self Data")
     @GetMapping("/me")
-    public UserEntity getLoggedInUser() {
+    public UserEntity getLoggedInUser() throws Exception {
         String email = authService.getLoggedInEmail();
         return userService.getUserByEmail(email);
     }

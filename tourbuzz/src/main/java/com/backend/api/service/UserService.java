@@ -7,13 +7,19 @@ import com.backend.api.request.admin.UserUpdateReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserEntity getUserByEmail(String email){
-        return userRepository.getUserByEmail(email);
+    public UserEntity getUserByEmail(String email) throws Exception {
+        UserEntity userEntity = userRepository.getUserByEmail(email);
+        if(Objects.isNull(userEntity)){
+            throw new Exception(ErrorMessages.INVALID_TOKEN);
+        }
+        return userEntity;
     }
 
     public void updateUserByEmail(UserUpdateReq userUpdateReq, String email) throws Exception {
