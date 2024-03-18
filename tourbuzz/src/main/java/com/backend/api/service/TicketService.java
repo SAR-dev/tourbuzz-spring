@@ -61,7 +61,7 @@ public class TicketService {
     }
 
     public void deleteTicketByInvoiceNo(int id) throws Exception {
-        ticketRepository.deleteTicket(id)
+        ticketRepository.deleteTicket(id);
     }
 
     public TicketPaymentEntity getTicketPaymentByInvoiceNo(String invoiceNo){
