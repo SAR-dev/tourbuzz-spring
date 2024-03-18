@@ -487,5 +487,6 @@ CREATE TABLE tour.ticket_payments (
     id              serial PRIMARY KEY,
     tickets_id      integer NOT NULL REFERENCES tour.tickets(id),
     payments_id     integer NOT NULL REFERENCES public.payments(id),
-    CONSTRAINT unq_ticket_payments UNIQUE ( tickets_id, payments_id )
+    CONSTRAINT unq_ticket_payments_tickets UNIQUE ( tickets_id ),
+    CONSTRAINT unq_ticket_payments_payments UNIQUE ( payments_id )
 );

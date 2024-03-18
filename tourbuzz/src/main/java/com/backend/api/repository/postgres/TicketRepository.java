@@ -1,6 +1,7 @@
 package com.backend.api.repository.postgres;
 
 import com.backend.api.entity.TicketEntity;
+import com.backend.api.entity.TicketPaymentEntity;
 import com.backend.api.request.BookCreateReq;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,4 +17,10 @@ public interface TicketRepository {
     void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);
 
     int updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo);
+
+    int deleteTicket(int id);
+
+    TicketPaymentEntity getTicketPaymentByInvoiceNo(String invoiceNo);
+
+    int deleteTicketPaymentByInvoiceNo(String invoiceNo);
 }

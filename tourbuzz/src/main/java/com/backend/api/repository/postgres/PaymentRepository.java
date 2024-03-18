@@ -1,13 +1,16 @@
 package com.backend.api.repository.postgres;
 
-import com.backend.api.request.BookCreateReq;
-import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface PaymentRepository {
+    boolean checkIfInvoiceIsCompleted(String invoiceNo);
+
+    String getPaymentEmailByInvoiceNo(String invoiceNo);
+
+    int deletePayment(int id);
+
     String getInvoiceNo(String email);
 
     int registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount);

@@ -1,6 +1,7 @@
 package com.backend.api.service;
 
 import com.backend.api.Constants;
+import com.backend.api.ErrorMessages;
 import com.backend.api.GlobalStore;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.request.PaymentCreateReq;
@@ -30,6 +31,8 @@ public class BkashService {
 
     @Transactional
     public String getPaymentLink(PaymentCreateReq paymentCreateReq) throws Exception {
+        boolean completed = paymentService.checkIfInvoiceIsCompleted(paymentCreateReq.getInvoiceNo());
+        if(completed) throw new Exception(ErrorMessages.PAYMENT_COMPLETED);
         paymentService.updatePaymentTypeByInvoiceNo(PaymentType.BKASH, paymentCreateReq.getInvoiceNo());
         ticketService.updateTicketAmountByInvoiceNo(paymentCreateReq.getTicketAmount(), paymentCreateReq.getInvoiceNo());
         return getPaymentLink(paymentCreateReq.getInvoiceNo());
@@ -73,7 +76,7 @@ public class BkashService {
         String statusCode = (String) response.get("statusCode");
 
         if (!statusCode.equals("0000")) {
-            throw new RuntimeException("Payment not successful");
+            throw new RuntimeException("Payment not completed");
         }
 
         String paymentExecuteTime = (String) response.get("paymentExecuteTime");

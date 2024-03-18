@@ -3,26 +3,22 @@ package com.backend.api.service;
 import com.backend.api.ErrorMessages;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
-import com.backend.api.request.BookCreateReq;
-import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final AuthService authService;
-    private final TicketService ticketService;
 
-    @Transactional
-    public void bookInvoiceNo(BookCreateReq bookCreateReq) {
-        String email = authService.getLoggedInEmail();
-        String invoiceNo = paymentRepository.getInvoiceNo(email);
-        int ticketsId = ticketService.createTicket(email, bookCreateReq);
-        ticketService.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
+    public boolean checkIfInvoiceIsCompleted(String invoiceNo){
+        return paymentRepository.checkIfInvoiceIsCompleted(invoiceNo);
+    }
+
+    public String getPaymentEmailByInvoiceNo(String invoiceNo){
+        return paymentRepository.getPaymentEmailByInvoiceNo(invoiceNo);
     }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
@@ -63,5 +59,14 @@ public class PaymentService {
         if(!updated){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
+    }
+
+    public void deletePayment(int id) throws Exception {
+        boolean deleted = paymentRepository.deletePayment(id) == 1;
+        if(!deleted) throw new Exception(ErrorMessages.DELETE_FAILED);
+    }
+
+    public String getInvoiceNo(String email){
+        return paymentRepository.getInvoiceNo(email);
     }
 }

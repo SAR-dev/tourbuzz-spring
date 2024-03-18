@@ -1,12 +1,13 @@
 package com.backend.api.controller.user;
 
 import com.backend.api.entity.TicketEntity;
+import com.backend.api.request.BookCancelReq;
+import com.backend.api.request.BookCreateReq;
+import com.backend.api.service.PaymentService;
 import com.backend.api.service.TicketService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +23,16 @@ public class UserTicketController {
         return ticketService.getTicketsByUser();
     }
 
-//    Delete ticket if not completed
+    @Tag(name = "Book Invoice No")
+    @PostMapping("/book")
+    public void bookInvoiceNo(@RequestBody BookCreateReq bookCreateReq) {
+        ticketService.bookInvoiceNo(bookCreateReq);
+    }
+
+    @Tag(name = "Cancel Invoice No")
+    @PostMapping("/cancel")
+    public void cancelInvoiceNo(@RequestBody BookCancelReq bookCancelReq) throws Exception {
+        ticketService.cancelInvoiceNo(bookCancelReq);
+    }
+
 }

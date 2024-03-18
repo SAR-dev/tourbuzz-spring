@@ -20,6 +20,6 @@ public class ErrorInfo {
         this.status = httpStatus.value();
         this.error = httpStatus.name();
         this.trace = ex.getMessage();
-        this.message = msg.substring(0, 200);
+        this.message = msg;
     }
 }

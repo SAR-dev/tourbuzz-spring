@@ -3,6 +3,22 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.PaymentRepository">
+    <select id="checkIfInvoiceIsCompleted" resultType="boolean">
+        SELECT completed FROM public.payments WHERE invoice_no = #{invoiceNo}
+    </select>
+
+    <select id="getPaymentEmailByInvoiceNo" resultType="string">
+        SELECT u.email
+        FROM public.payments p
+        JOIN auth.users u ON p.users_id = u.id
+        WHERE invoice_no = #{invoiceNo}
+    </select>
+
+    <delete id="deletePayment">
+        DELETE FROM public.payments
+        WHERE id = #{id}
+    </delete>
+
     <select id="getInvoiceNo" resultType="string">
         INSERT INTO public.payments (
             users_id
