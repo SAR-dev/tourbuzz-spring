@@ -26,7 +26,6 @@ public class SecurityConfig {
                         "/auth/**",
                                 "/guest/**",
                                 "/bkash/**",
-                                "/admin/tours/**",
                                 "/api-docs/**",
                                 "/api-docs.yaml/**",
                                 "/swagger-ui/**"

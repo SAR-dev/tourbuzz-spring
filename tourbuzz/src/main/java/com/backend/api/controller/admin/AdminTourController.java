@@ -28,7 +28,7 @@ public class AdminTourController {
     @Tag(name = "Create Tour")
     @PostMapping("")
     public void createTour(@Valid @RequestBody TourCreateReq tourCreateReq) throws Exception {
-//        authService.verifyAdminToken();
+        authService.verifyAdminToken();
         tourService.createTour(tourCreateReq);
     }
 
