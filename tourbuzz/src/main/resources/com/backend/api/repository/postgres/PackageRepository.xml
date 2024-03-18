@@ -23,7 +23,7 @@
             #{item.excluded},
             #{item.conditions},
             #{item.price},
-            #{threshold},
+            #{item.threshold},
             CAST('PUBLISHED' AS status_type)
             )
         </foreach>

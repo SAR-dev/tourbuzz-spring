@@ -1,0 +1,826 @@
+{
+  "tour": {
+    "tour_type": {
+      "id": 85,
+      "name": "Trek through Enchanted Forests",
+      "slug": "enchanted-forests-trek",
+      "details": "Discover the magic of enchanted forests with a trek through mystical landscapes and ancient trees",
+      "created_at": "2024-03-17T23:15:54.821+00:00",
+      "updated_at": "2024-03-17T23:15:54.821+00:00"
+    },
+    "organizer": {
+      "id": 5,
+      "name": "Health & Wellness Summit",
+      "username": "wellnesssummit",
+      "description": "Promoting holistic health and well-being for all.",
+      "slogan": "Nurturing Body, Mind & Spirit!",
+      "email": "info@wellnesssummit.org",
+      "images_id": 5,
+      "verification": "LEVEL1",
+      "social_link": "http://www.wellnesssummit.org",
+      "contact_no": "+1 (444) 444-4444",
+      "created_at": "2024-03-17T23:15:54.821+00:00",
+      "updated_at": "2024-03-17T23:15:54.821+00:00",
+      "avatar": {
+        "id": 5,
+        "title": "Image 5 Title",
+        "source_url": "https://i.ibb.co/QDwV2br/sad-miku-1a-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/QDwV2br/sad-miku-1a-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/QDwV2br/sad-miku-1a-jpg.jpg",
+        "created_at": "2024-03-17T23:15:54.821+00:00",
+        "updated_at": "2024-03-17T23:15:54.821+00:00"
+      },
+      "admins": [],
+      "staffs": []
+    },
+    "avatar": {
+      "id": 42,
+      "title": "simon-berger-boyXZfqpwpU-unsplash.jpg",
+      "source_url": "https://i.ibb.co/2cS6PGv/simon-berger-boy-XZfqpwp-U-unsplash-jpg.jpg",
+      "thumbnail_url": "https://i.ibb.co/j3z5Gny/simon-berger-boy-XZfqpwp-U-unsplash-jpg.jpg",
+      "optimized_url": "https://i.ibb.co/wp7LC5S/simon-berger-boy-XZfqpwp-U-unsplash-jpg.jpg",
+      "created_at": "2024-03-18T04:57:09.762+00:00",
+      "updated_at": "2024-03-18T04:57:09.762+00:00"
+    },
+    "title": "Legends of the Lost Empire Tour",
+    "slug": "legends-of-the-lost-empire-tour",
+    "md_desc": "## Tour Description:\nEmbark on an epic journey through ancient ruins, mystical landscapes, and forgotten civilizations on the \"Legends of the Lost Empire Tour.\" This adventure-packed tour offers a unique opportunity to explore some of the world's most intriguing archaeological sites and uncover the secrets of lost empires.\n\n## Attractions:\n\n### 1. Lost City of Atlantis\n- **Location:** Submerged beneath the waters of the Atlantic Ocean\n- **Highlights:** Explore the ruins of the legendary city of Atlantis, believed to have been lost thousands of years ago. Discover ancient artifacts and unravel the mysteries of this enigmatic civilization.\n\n### 2. Machu Picchu\n- **Location:** Peru, South America\n- **Highlights:** Trek through the breathtaking Andean mountains to reach the ancient Inca city of Machu Picchu. Marvel at the stunning architecture, intricate stone structures, and panoramic views of the surrounding valleys.\n\n### 3. Petra\n- **Location:** Jordan, Middle East\n- **Highlights:** Step back in time as you wander through the rose-red sandstone cliffs of Petra. Admire the elaborate carvings and tombs of this UNESCO World Heritage site, once the thriving capital of the Nabatean Kingdom.\n\n### 4. Angkor Wat\n- **Location:** Cambodia, Southeast Asia\n- **Highlights:** Explore the vast temple complex of Angkor Wat, the largest religious monument in the world. Marvel at the intricately carved bas-reliefs, towering spires, and serene surroundings of this ancient Khmer masterpiece.\n\n## Tour Itinerary:\n\n### Day 1: Arrival\n- Arrive at the designated starting point for the tour.\n- Meet your tour guide and fellow travelers.\n- Orientation and briefing about the upcoming itinerary.\n\n### Day 2-5: Exploration\n- Visit the Lost City of Atlantis and uncover its secrets.\n- Journey to Machu Picchu and hike the Inca Trail.\n- Explore the ancient ruins of Petra and learn about its history.\n- Discover the majestic temples of Angkor Wat and surrounding Angkor Archaeological Park.\n\n### Day 6: Departure\n- Bid farewell to your fellow travelers and tour guide.\n- Departure from the tour's endpoint.\n\n## Additional Information:\n- **Duration:** 6 days\n- **Difficulty:** Moderate to challenging (some trekking and walking required)\n- **Accommodation:** Comfortable hotels or lodges\n- **Transportation:** Provided throughout the tour\n- **Meals:** Included (breakfast, lunch, and dinner)\n- **Group Size:** Small to medium-sized group\n\nDon't miss this once-in-a-lifetime opportunity to embark on the adventure of a lifetime and uncover the legends of the lost empire!\n",
+    "highlights": "- **Lost City of Atlantis:** Explore the submerged ruins of Atlantis, a legendary civilization lost beneath the waters of the Atlantic Ocean.\n\n- **Machu Picchu:** Trek through the Andean mountains to discover the ancient Inca city of Machu Picchu, renowned for its breathtaking scenery and mysterious history.\n\n- **Petra:** Wander through the rose-red cliffs of Petra in Jordan, marveling at the intricate carvings and tombs of this ancient Nabatean city.\n\n- **Angkor Wat:** Explore the majestic temples of Angkor Wat in Cambodia, the largest religious monument in the world, and uncover the secrets of the Khmer Empire.\n\nDon't miss out on these extraordinary experiences as you journey through the realms of ancient civilizations on the \"Legends of the Lost Empire Tour\"!\n",
+    "faq": "### 1. How do I book the tour?\n- You can book the tour online through our website or contact our customer service team for assistance.\n\n### 2. Are there any age restrictions for the tour?\n- While there are no strict age restrictions, participants should be in good health and able to undertake moderate physical activity.\n\n### 3. Is travel insurance required for the tour?\n- While travel insurance is not mandatory, we highly recommend purchasing comprehensive travel insurance to cover any unforeseen circumstances.\n\n### 4. Are entrance fees to attractions included in the tour price?\n- Yes, entrance fees to all attractions mentioned in the itinerary are included in the tour price.\n\n### 5. What is the maximum group size for the tour?\n- The tour typically accommodates a small to medium-sized group for a more personalized experience.\n",
+    "video_link": "https://www.youtube.com/watch?v=CskfvgEItPA",
+    "group_size": "20 person per group",
+    "group_info": "Everyone is welcome",
+    "transports": "Mostly Bus, Train and Ship",
+    "cancel_ins": "In the event that you need to cancel your tour booking, please refer to the following cancellation policy:\n\n- **Cancellation Period:** \n  - Cancellations made [X number of days/hours] prior to the tour departure date will receive a full refund.\n  - Cancellations made within [Y number of days/hours] of the tour departure date may incur a cancellation fee.\n- **Refunds:** \n  - Refunds will be processed within [Z number of days] from the date of cancellation.\n- **Exceptions:** \n  - Certain tours or promotional tickets may have different cancellation policies, please check the specific terms and conditions applicable to your booking.\n  \nPlease contact our customer service team for assistance with cancellations or any further inquiries regarding our cancellation policy.\n",
+    "start_ins": "## Pickup Location:\n- **Location:** [Specify the pickup location, including any landmarks or specific instructions]\n- **Time:** [Specify the pickup time]\n- **Contact Person:** [Provide the name and contact information of the tour coordinator or representative]\n- **Instructions:** \n  - Please arrive at the pickup location at least 15 minutes before the scheduled departure time.\n  - Ensure that you have all necessary travel documents and belongings with you.\n  - If you encounter any issues or delays, please contact the provided contact person immediately.",
+    "finish_ins": "## Dropoff Location:\n- **Location:** [Specify the dropoff location, including any landmarks or specific instructions]\n- **Time:** [Specify the approximate dropoff time]\n- **Instructions:** \n  - Upon arrival at the dropoff location, please gather all your belongings and disembark from the vehicle.\n  - If you have any feedback or comments about the tour, feel free to share them with our tour guide or representative.\n  - Ensure that you have all your personal belongings before leaving the dropoff location.\n  - If you need assistance with transportation or accommodations after the tour, please inform our staff, and we will be happy to assist you.\n",
+    "start_at": "01/05/2024 08:00",
+    "finish_at": "03/05/2024 12:00",
+    "last_sell_at": "25/04/2024 12:00",
+    "images": [
+      {
+        "id": 43,
+        "title": "osama-elsayed-vqRMXgVtGXM-unsplash.jpg",
+        "source_url": "https://i.ibb.co/72v3NSv/osama-elsayed-vq-RMXg-Vt-GXM-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/3B1xYT1/osama-elsayed-vq-RMXg-Vt-GXM-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/J5nYFcn/osama-elsayed-vq-RMXg-Vt-GXM-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:57:19.889+00:00",
+        "updated_at": "2024-03-18T04:57:19.889+00:00"
+      },
+      {
+        "id": 41,
+        "title": "download.jpg",
+        "source_url": "https://i.ibb.co/MD9VKDh/download-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/fYQpZYS/download-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/PZthJZY/download-jpg.jpg",
+        "created_at": "2024-03-18T04:52:52.334+00:00",
+        "updated_at": "2024-03-18T04:52:52.334+00:00"
+      },
+      {
+        "id": 44,
+        "title": "flying-carpet-Si1MFhSLNWY-unsplash.jpg",
+        "source_url": "https://i.ibb.co/9N6SDgy/flying-carpet-Si1-MFh-SLNWY-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/CzgDc8V/flying-carpet-Si1-MFh-SLNWY-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/80qtCsP/flying-carpet-Si1-MFh-SLNWY-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:57:35.714+00:00",
+        "updated_at": "2024-03-18T04:57:35.714+00:00"
+      },
+      {
+        "id": 45,
+        "title": "aussieactive-GNdp2Q4VZjw-unsplash.jpg",
+        "source_url": "https://i.ibb.co/LSNFVsc/aussieactive-GNdp2-Q4-VZjw-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/PxDLqVP/aussieactive-GNdp2-Q4-VZjw-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/tBLGV1v/aussieactive-GNdp2-Q4-VZjw-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:57:42.761+00:00",
+        "updated_at": "2024-03-18T04:57:42.761+00:00"
+      },
+      {
+        "id": 46,
+        "title": "spencer-davis-ONVA6s03hg8-unsplash.jpg",
+        "source_url": "https://i.ibb.co/1rFyBwy/spencer-davis-ONVA6s03hg8-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/LxVjB2j/spencer-davis-ONVA6s03hg8-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/YcHnJqn/spencer-davis-ONVA6s03hg8-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:57:47.238+00:00",
+        "updated_at": "2024-03-18T04:57:47.238+00:00"
+      },
+      {
+        "id": 47,
+        "title": "dario-morandotti-rxv2qwYPe6s-unsplash.jpg",
+        "source_url": "https://i.ibb.co/MRBYDn9/dario-morandotti-rxv2qw-YPe6s-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/K9KMj6m/dario-morandotti-rxv2qw-YPe6s-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/xMFpSh3/dario-morandotti-rxv2qw-YPe6s-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:58:31.124+00:00",
+        "updated_at": "2024-03-18T04:58:31.124+00:00"
+      },
+      {
+        "id": 48,
+        "title": "color-crescent-RYfZxZwnPas-unsplash.jpg",
+        "source_url": "https://i.ibb.co/hD2Fw96/color-crescent-RYf-Zx-Zwn-Pas-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/ZWcz7Xj/color-crescent-RYf-Zx-Zwn-Pas-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/2gc3Hh9/color-crescent-RYf-Zx-Zwn-Pas-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:58:38.974+00:00",
+        "updated_at": "2024-03-18T04:58:38.974+00:00"
+      },
+      {
+        "id": 49,
+        "title": "eugene-tkachenko-TF47p5PHW18-unsplash.jpg",
+        "source_url": "https://i.ibb.co/ZNPxjM1/eugene-tkachenko-TF47p5-PHW18-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/b7ZX0KR/eugene-tkachenko-TF47p5-PHW18-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/FnMzrDq/eugene-tkachenko-TF47p5-PHW18-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:58:58.772+00:00",
+        "updated_at": "2024-03-18T04:58:58.772+00:00"
+      },
+      {
+        "id": 50,
+        "title": "andres-dallimonti-00Xo8z-bimM-unsplash.jpg",
+        "source_url": "https://i.ibb.co/hXKYbvZ/andres-dallimonti-00-Xo8z-bim-M-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/HNrh6Qx/andres-dallimonti-00-Xo8z-bim-M-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/0BfsT3F/andres-dallimonti-00-Xo8z-bim-M-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:59:19.731+00:00",
+        "updated_at": "2024-03-18T04:59:19.731+00:00"
+      },
+      {
+        "id": 51,
+        "title": "hana-el-zohiry-QYJMC68EDQg-unsplash.jpg",
+        "source_url": "https://i.ibb.co/Xbwy4zs/hana-el-zohiry-QYJMC68-EDQg-unsplash-jpg.jpg",
+        "thumbnail_url": "https://i.ibb.co/567Y958/hana-el-zohiry-QYJMC68-EDQg-unsplash-jpg.jpg",
+        "optimized_url": "https://i.ibb.co/mGxvBHq/hana-el-zohiry-QYJMC68-EDQg-unsplash-jpg.jpg",
+        "created_at": "2024-03-18T04:59:36.646+00:00",
+        "updated_at": "2024-03-18T04:59:36.646+00:00"
+      }
+    ],
+    "tour_types_id": 85,
+    "organizers_id": 5,
+    "images_id": 42,
+    "image_ids": [
+      43,
+      41,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ]
+  },
+  "tour_logs": [
+    {
+      "hotel": {
+        "id": 2,
+        "districts_id": 2,
+        "images_id": 24,
+        "name": "Ocean View Resort",
+        "map_link": "https://maps.google.com/oceanviewresort",
+        "website": "http://www.oceanviewresort.com",
+        "review": "Amazing views, comfortable rooms.",
+        "created_at": "2024-03-17T23:15:54.821+00:00",
+        "updated_at": "2024-03-17T23:15:54.821+00:00",
+        "district": {
+          "id": 2,
+          "name": "Patuakhali",
+          "divisions_id": 1,
+          "division": {
+            "id": 1,
+            "name": "Barisal"
+          }
+        },
+        "avatar": {
+          "id": 24,
+          "title": "Image 4 Title",
+          "source_url": "https://i.ibb.co/GPZC87f/wallpaperflare-com-wallpaper-1-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/GPZC87f/wallpaperflare-com-wallpaper-1-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/GPZC87f/wallpaperflare-com-wallpaper-1-jpg.jpg",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00"
+        },
+        "admins": [],
+        "staffs": []
+      },
+      "title": "Arrival and Orientation",
+      "description": "Morning:\n- Arrive at the meeting point or airport.\n- Meet the tour guide and others.\n- Go to the hotel.\n- Check-in and relax.\n\nAfternoon:\n- Gather for an orientation.\n- Learn about the tour.\n- Get safety instructions.\n- Ask questions.\n\nEvening:\n- Have a welcome dinner.\n- Get to know others.\n- Rest or explore.\n- Prepare for tomorrow.\n\nAdditional Info:\n- Meals: Welcome dinner included.\n- Stay: Overnight at the hotel.\n- Transport: Airport transfer provided.\n- Remember: Be on time and tell us about any special needs.",
+      "date": "01/05/2024",
+      "places": [
+        {
+          "id": 17,
+          "images_id": 34,
+          "districts_id": 17,
+          "name": "Santorini",
+          "type": "Island",
+          "postal_code": "84700",
+          "map_link": "https://maps.example.com/santorini",
+          "description": "A stunning Greek island in the Aegean Sea, known for its white-washed buildings, stunning sunsets, and volcanic landscapes.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 17,
+            "name": "Bandarban",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 34,
+            "title": "Image 4 Title",
+            "source_url": "https://i.ibb.co/GPZC87f/wallpaperflare-com-wallpaper-1-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/GPZC87f/wallpaperflare-com-wallpaper-1-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/GPZC87f/wallpaperflare-com-wallpaper-1-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 13,
+          "images_id": 20,
+          "districts_id": 13,
+          "name": "The Colosseum",
+          "type": "Historical Landmark",
+          "postal_code": "00184",
+          "map_link": "https://maps.example.com/colosseum",
+          "description": "An ancient amphitheater in Rome, known for its architectural grandeur and historical significance as a venue for gladiatorial contests.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 13,
+            "name": "Comilla",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 20,
+            "title": "Image 10 Title",
+            "source_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 10,
+          "images_id": 27,
+          "districts_id": 10,
+          "name": "The Louvre",
+          "type": "Museum",
+          "postal_code": "75001",
+          "map_link": "https://maps.example.com/thelouvre",
+          "description": "One of the world's largest and most visited art museums, housing thousands of works of art and historical artifacts.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 10,
+            "name": "Khagrachhari",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 27,
+            "title": "Image 7 Title",
+            "source_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "thumbnail_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "optimized_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 9,
+          "images_id": 2,
+          "districts_id": 9,
+          "name": "Taj Mahal",
+          "type": "Landmark",
+          "postal_code": "282001",
+          "map_link": "https://maps.example.com/tajmahal",
+          "description": "A magnificent white marble mausoleum, built by Mughal Emperor Shah Jahan in memory of his wife Mumtaz Mahal.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 9,
+            "name": "Lakshmipur",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 2,
+            "title": "Image 2 Title",
+            "source_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        }
+      ],
+      "images": [
+        {
+          "id": 52,
+          "title": "seif-amr-MdQ7PZ_BxaI-unsplash.jpg",
+          "source_url": "https://i.ibb.co/X75ZTCr/seif-amr-Md-Q7-PZ-Bxa-I-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/HtPDQHf/seif-amr-Md-Q7-PZ-Bxa-I-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/ZBg6CMp/seif-amr-Md-Q7-PZ-Bxa-I-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T05:08:50.743+00:00",
+          "updated_at": "2024-03-18T05:08:50.743+00:00"
+        },
+        {
+          "id": 53,
+          "title": "aussieactive-oTRD-P4nU8Q-unsplash.jpg",
+          "source_url": "https://i.ibb.co/fYxKwX0/aussieactive-o-TRD-P4n-U8-Q-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/HDHM8Kg/aussieactive-o-TRD-P4n-U8-Q-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/ccrpnyT/aussieactive-o-TRD-P4n-U8-Q-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T05:08:56.225+00:00",
+          "updated_at": "2024-03-18T05:08:56.225+00:00"
+        },
+        {
+          "id": 54,
+          "title": "pradeep-gopal-6uJDEQx-cho-unsplash.jpg",
+          "source_url": "https://i.ibb.co/dMK3v40/pradeep-gopal-6u-JDEQx-cho-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/W5KdXvW/pradeep-gopal-6u-JDEQx-cho-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/F37f14b/pradeep-gopal-6u-JDEQx-cho-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T05:09:01.688+00:00",
+          "updated_at": "2024-03-18T05:09:01.688+00:00"
+        },
+        {
+          "id": 55,
+          "title": "youhana-nassif-9BZVf-jEDwU-unsplash.jpg",
+          "source_url": "https://i.ibb.co/5LS1ZZB/youhana-nassif-9-BZVf-j-EDw-U-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/SBM6SSR/youhana-nassif-9-BZVf-j-EDw-U-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/njYwppz/youhana-nassif-9-BZVf-j-EDw-U-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T05:09:07.313+00:00",
+          "updated_at": "2024-03-18T05:09:07.313+00:00"
+        }
+      ],
+      "hotels_id": 2,
+      "place_ids": [
+        17,
+        13,
+        10,
+        9
+      ],
+      "image_ids": [
+        52,
+        53,
+        54,
+        55
+      ]
+    },
+    {
+      "hotel": {
+        "id": 12,
+        "districts_id": 2,
+        "images_id": 8,
+        "name": "Seaside Resort",
+        "map_link": "https://maps.google.com/seasideresort",
+        "website": "http://www.seasideresort.com",
+        "review": "Tranquil seaside location, perfect for relaxation.",
+        "created_at": "2024-03-17T23:15:54.821+00:00",
+        "updated_at": "2024-03-17T23:15:54.821+00:00",
+        "district": {
+          "id": 2,
+          "name": "Patuakhali",
+          "divisions_id": 1,
+          "division": {
+            "id": 1,
+            "name": "Barisal"
+          }
+        },
+        "avatar": {
+          "id": 8,
+          "title": "Image 8 Title",
+          "source_url": "https://i.ibb.co/ky9M9BH/imm3jirbdsp2tljshjbg-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/ky9M9BH/imm3jirbdsp2tljshjbg-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/ky9M9BH/imm3jirbdsp2tljshjbg-jpg.jpg",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00"
+        },
+        "admins": [],
+        "staffs": []
+      },
+      "title": "Exploration Begins",
+      "description": "Morning:\n- Enjoy breakfast at the hotel.\n- Gather at the designated meeting point.\n\nMid-Morning:\n- Depart for the first attraction of the tour.\n\nLate Morning - Early Afternoon:\n- Explore the attraction with the tour guide.\n- Learn about its history and significance.\n- Take photos and enjoy the scenery.\n\nLunchtime:\n- Break for lunch at a local restaurant or picnic spot.\n\nAfternoon:\n- Continue exploring the attraction.\n- Participate in any optional activities or guided tours.\n- Interact with locals and fellow travelers.\n\nLate Afternoon:\n- Return to the hotel or accommodation.\n\nEvening:\n- Free time to relax or explore the local area.\n- Dinner on your own or with the group (optional).\n\nAdditional Info:\n- Meals: Breakfast included; other meals at your own expense.\n- Stay: Overnight at the same hotel or accommodation.\n- Transport: Provided throughout the day.\n- Remember: Wear comfortable clothing and shoes, and bring water and sunscreen.",
+      "date": "02/05/2024",
+      "places": [
+        {
+          "id": 14,
+          "images_id": 12,
+          "districts_id": 14,
+          "name": "Great Barrier Reef",
+          "type": "Natural Landmark",
+          "postal_code": "4802",
+          "map_link": "https://maps.example.com/greatbarrierreef",
+          "description": "The world's largest coral reef system, stretching over 2,300 kilometers and home to diverse marine life and ecosystems.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 14,
+            "name": "Chittagong",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 12,
+            "title": "Image 2 Title",
+            "source_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 16,
+          "images_id": 37,
+          "districts_id": 16,
+          "name": "Statue of Liberty",
+          "type": "Landmark",
+          "postal_code": "10004",
+          "map_link": "https://maps.example.com/statueofliberty",
+          "description": "A symbol of freedom and democracy, located on Liberty Island in New York Harbor.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 16,
+            "name": "Brahmanbaria",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 37,
+            "title": "Image 7 Title",
+            "source_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "thumbnail_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "optimized_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 13,
+          "images_id": 20,
+          "districts_id": 13,
+          "name": "The Colosseum",
+          "type": "Historical Landmark",
+          "postal_code": "00184",
+          "map_link": "https://maps.example.com/colosseum",
+          "description": "An ancient amphitheater in Rome, known for its architectural grandeur and historical significance as a venue for gladiatorial contests.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 13,
+            "name": "Comilla",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 20,
+            "title": "Image 10 Title",
+            "source_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 9,
+          "images_id": 2,
+          "districts_id": 9,
+          "name": "Taj Mahal",
+          "type": "Landmark",
+          "postal_code": "282001",
+          "map_link": "https://maps.example.com/tajmahal",
+          "description": "A magnificent white marble mausoleum, built by Mughal Emperor Shah Jahan in memory of his wife Mumtaz Mahal.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 9,
+            "name": "Lakshmipur",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 2,
+            "title": "Image 2 Title",
+            "source_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        }
+      ],
+      "images": [
+        {
+          "id": 51,
+          "title": "hana-el-zohiry-QYJMC68EDQg-unsplash.jpg",
+          "source_url": "https://i.ibb.co/Xbwy4zs/hana-el-zohiry-QYJMC68-EDQg-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/567Y958/hana-el-zohiry-QYJMC68-EDQg-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/mGxvBHq/hana-el-zohiry-QYJMC68-EDQg-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T04:59:36.646+00:00",
+          "updated_at": "2024-03-18T04:59:36.646+00:00"
+        },
+        {
+          "id": 50,
+          "title": "andres-dallimonti-00Xo8z-bimM-unsplash.jpg",
+          "source_url": "https://i.ibb.co/hXKYbvZ/andres-dallimonti-00-Xo8z-bim-M-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/HNrh6Qx/andres-dallimonti-00-Xo8z-bim-M-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/0BfsT3F/andres-dallimonti-00-Xo8z-bim-M-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T04:59:19.731+00:00",
+          "updated_at": "2024-03-18T04:59:19.731+00:00"
+        },
+        {
+          "id": 48,
+          "title": "color-crescent-RYfZxZwnPas-unsplash.jpg",
+          "source_url": "https://i.ibb.co/hD2Fw96/color-crescent-RYf-Zx-Zwn-Pas-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/ZWcz7Xj/color-crescent-RYf-Zx-Zwn-Pas-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/2gc3Hh9/color-crescent-RYf-Zx-Zwn-Pas-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T04:58:38.974+00:00",
+          "updated_at": "2024-03-18T04:58:38.974+00:00"
+        }
+      ],
+      "hotels_id": 12,
+      "place_ids": [
+        14,
+        16,
+        13,
+        9
+      ],
+      "image_ids": [
+        51,
+        50,
+        48
+      ]
+    },
+    {
+      "hotel": {
+        "id": 1,
+        "districts_id": 1,
+        "images_id": 28,
+        "name": "Sunset Hotel",
+        "map_link": "https://maps.google.com/sunsethotel",
+        "website": "http://www.sunsethotel.com",
+        "review": "Great place to stay, excellent service.",
+        "created_at": "2024-03-17T23:15:54.821+00:00",
+        "updated_at": "2024-03-17T23:15:54.821+00:00",
+        "district": {
+          "id": 1,
+          "name": "Pirojpur",
+          "divisions_id": 1,
+          "division": {
+            "id": 1,
+            "name": "Barisal"
+          }
+        },
+        "avatar": {
+          "id": 28,
+          "title": "Image 8 Title",
+          "source_url": "https://i.ibb.co/ky9M9BH/imm3jirbdsp2tljshjbg-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/ky9M9BH/imm3jirbdsp2tljshjbg-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/ky9M9BH/imm3jirbdsp2tljshjbg-jpg.jpg",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00"
+        },
+        "admins": [],
+        "staffs": []
+      },
+      "title": "Discovering New Horizons",
+      "description": "Morning:\n- Enjoy breakfast at the hotel.\n- Meet up with the group at the designated time.\n\nMid-Morning:\n- Depart for the next destination on the itinerary.\n\nLate Morning - Early Afternoon:\n- Arrive at the new location and begin exploration.\n- Engage in guided tours or activities led by the tour guide.\n- Immerse yourself in the culture and history of the area.\n\nLunchtime:\n- Take a break for lunch at a local eatery, trying out regional delicacies.\n\nAfternoon:\n- Continue exploring the destination.\n- Visit landmarks, museums, or other points of interest.\n- Capture memorable moments with photos or sketches.\n\nLate Afternoon:\n- Wrap up the day's activities and head back to the hotel or accommodation.\n\nEvening:\n- Enjoy leisure time to relax or explore the surroundings.\n- Group dinner option available for those interested in dining together.\n\nAdditional Info:\n- Meals: Breakfast provided; lunch and dinner at your own expense.\n- Accommodation: Overnight stay at the same hotel or accommodation.\n- Transportation: Provided throughout the day.\n- Recommendations: Wear comfortable attire and footwear suitable for walking.",
+      "date": "03/05/2024",
+      "places": [
+        {
+          "id": 10,
+          "images_id": 27,
+          "districts_id": 10,
+          "name": "The Louvre",
+          "type": "Museum",
+          "postal_code": "75001",
+          "map_link": "https://maps.example.com/thelouvre",
+          "description": "One of the world's largest and most visited art museums, housing thousands of works of art and historical artifacts.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 10,
+            "name": "Khagrachhari",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 27,
+            "title": "Image 7 Title",
+            "source_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "thumbnail_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "optimized_url": "https://i.ibb.co/kBBrpG8/disneyland-61-webp.webp",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 9,
+          "images_id": 2,
+          "districts_id": 9,
+          "name": "Taj Mahal",
+          "type": "Landmark",
+          "postal_code": "282001",
+          "map_link": "https://maps.example.com/tajmahal",
+          "description": "A magnificent white marble mausoleum, built by Mughal Emperor Shah Jahan in memory of his wife Mumtaz Mahal.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 9,
+            "name": "Lakshmipur",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 2,
+            "title": "Image 2 Title",
+            "source_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/Pc3tS77/374490815-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 12,
+          "images_id": 11,
+          "districts_id": 12,
+          "name": "Petra",
+          "type": "Archaeological Site",
+          "postal_code": "71882",
+          "map_link": "https://maps.example.com/petra",
+          "description": "An ancient city carved into rose-colored rock cliffs, located in present-day Jordan and a UNESCO World Heritage Site.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 12,
+            "name": "Cox's Bazar",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 11,
+            "title": "Image 1 Title",
+            "source_url": "https://i.ibb.co/6rGm685/exterior-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/6rGm685/exterior-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/6rGm685/exterior-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 15,
+          "images_id": 9,
+          "districts_id": 15,
+          "name": "Angkor Wat",
+          "type": "Historical Landmark",
+          "postal_code": "17252",
+          "map_link": "https://maps.example.com/angkorwat",
+          "description": "A UNESCO World Heritage Site and the largest religious monument in the world, located in Cambodia.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 15,
+            "name": "Chandpur",
+            "divisions_id": 2,
+            "division": {
+              "id": 2,
+              "name": "Chittagong"
+            }
+          },
+          "avatar": {
+            "id": 9,
+            "title": "Image 9 Title",
+            "source_url": "https://i.ibb.co/0VYQPk3/Disneyland-DXDDD2-webp.webp",
+            "thumbnail_url": "https://i.ibb.co/0VYQPk3/Disneyland-DXDDD2-webp.webp",
+            "optimized_url": "https://i.ibb.co/0VYQPk3/Disneyland-DXDDD2-webp.webp",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        },
+        {
+          "id": 18,
+          "images_id": 20,
+          "districts_id": 18,
+          "name": "Yellowstone National Park",
+          "type": "National Park",
+          "postal_code": "82190",
+          "map_link": "https://maps.example.com/yellowstone",
+          "description": "America's first national park, known for its geothermal features, wildlife, and scenic beauty.",
+          "created_at": "2024-03-17T23:15:54.821+00:00",
+          "updated_at": "2024-03-17T23:15:54.821+00:00",
+          "district": {
+            "id": 18,
+            "name": "Tangail",
+            "divisions_id": 3,
+            "division": {
+              "id": 3,
+              "name": "Dhaka"
+            }
+          },
+          "avatar": {
+            "id": 20,
+            "title": "Image 10 Title",
+            "source_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "thumbnail_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "optimized_url": "https://i.ibb.co/S0gTkkh/download-jpg.jpg",
+            "created_at": "2024-03-17T23:15:54.821+00:00",
+            "updated_at": "2024-03-17T23:15:54.821+00:00"
+          }
+        }
+      ],
+      "images": [
+        {
+          "id": 46,
+          "title": "spencer-davis-ONVA6s03hg8-unsplash.jpg",
+          "source_url": "https://i.ibb.co/1rFyBwy/spencer-davis-ONVA6s03hg8-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/LxVjB2j/spencer-davis-ONVA6s03hg8-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/YcHnJqn/spencer-davis-ONVA6s03hg8-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T04:57:47.238+00:00",
+          "updated_at": "2024-03-18T04:57:47.238+00:00"
+        },
+        {
+          "id": 45,
+          "title": "aussieactive-GNdp2Q4VZjw-unsplash.jpg",
+          "source_url": "https://i.ibb.co/LSNFVsc/aussieactive-GNdp2-Q4-VZjw-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/PxDLqVP/aussieactive-GNdp2-Q4-VZjw-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/tBLGV1v/aussieactive-GNdp2-Q4-VZjw-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T04:57:42.761+00:00",
+          "updated_at": "2024-03-18T04:57:42.761+00:00"
+        },
+        {
+          "id": 44,
+          "title": "flying-carpet-Si1MFhSLNWY-unsplash.jpg",
+          "source_url": "https://i.ibb.co/9N6SDgy/flying-carpet-Si1-MFh-SLNWY-unsplash-jpg.jpg",
+          "thumbnail_url": "https://i.ibb.co/CzgDc8V/flying-carpet-Si1-MFh-SLNWY-unsplash-jpg.jpg",
+          "optimized_url": "https://i.ibb.co/80qtCsP/flying-carpet-Si1-MFh-SLNWY-unsplash-jpg.jpg",
+          "created_at": "2024-03-18T04:57:35.714+00:00",
+          "updated_at": "2024-03-18T04:57:35.714+00:00"
+        }
+      ],
+      "hotels_id": 1,
+      "place_ids": [
+        10,
+        9,
+        12,
+        15,
+        18
+      ],
+      "image_ids": [
+        46,
+        45,
+        44
+      ]
+    }
+  ],
+  "packages": [
+    {
+      "title": "Student",
+      "included": "### 1. Guided Tours:\n- **Professional Tour Guide:** Knowledgeable and experienced guides will lead students through each destination, providing insights into the history and significance of the sites.\n- **Interactive Learning:** Engaging commentary and interactive activities tailored to student groups to enhance learning and engagement.\n\n### 2. Accommodation:\n- **Comfortable Lodging:** Stay in well-selected accommodations suitable for student travelers, ensuring safety, comfort, and convenience.\n- **Shared Rooms:** Accommodations include shared rooms with fellow students, promoting camaraderie and social interaction.\n\n### 3. Meals:\n- **Daily Breakfast:** Start each day with a nutritious breakfast to fuel the day's adventures.\n- **Group Lunches:** Enjoy group lunches at local eateries or picnic spots, providing an opportunity to sample regional cuisine and bond with classmates.\n- **Dinner Options:** Recommendations for affordable dining options near accommodations, allowing students to explore local food culture independently.\n\n### 4. Transportation:\n- **Roundtrip Transportation:** Airport transfers and transportation between attractions included in the package.\n- **Comfortable Transport:** Travel in comfortable vehicles with experienced drivers, ensuring safety and convenience throughout the journey.\n\n### 5. Educational Materials:\n- **Pre-Tour Resources:** Access to educational materials, including reading lists, videos, and online resources, to prepare students for the tour and deepen their understanding of the destinations.\n- **On-Site Learning:** Supplemental materials and activities provided during the tour to reinforce learning and foster curiosity about the ancient civilizations visited.\n\n### 6. Support:\n- **24/7 Support:** Dedicated support staff available round the clock to assist with any inquiries or emergencies during the tour.\n- **Student-Friendly Assistance:** Tailored assistance for student groups, including guidance on travel documentation, safety protocols, and cultural etiquette.\n\n## Pricing:\n- **Affordable Rates:** Special discounted rates exclusively for student groups.\n- **Group Discounts:** Additional discounts available for larger student groups.\n\n## Additional Information:\n- **Group Size:** Minimum group size required.\n- **Age Restrictions:** Suitable for students aged [insert age range].\n- **Booking:** Contact us to book your student group's unforgettable adventure today!",
+      "excluded": "## 1. Airfare:\n- International or domestic airfare to and from the tour's starting and ending locations is not included in the package.\n- Students are responsible for booking their flights to join the tour.\n\n## 2. Personal Expenses:\n- Expenses of a personal nature, such as souvenirs, additional snacks or drinks, laundry, and optional activities not specified in the itinerary, are not covered.\n- Students should budget accordingly for any additional purchases or activities beyond the tour's offerings.\n\n## 3. Travel Insurance:\n- Travel insurance, including medical, trip cancellation, and baggage insurance, is not included in the package.\n- We highly recommend that students purchase comprehensive travel insurance to cover any unforeseen circumstances or emergencies during the tour.\n\n## 4. Visa and Entry Fees:\n- Visa fees, entry permits, and any related processing fees required for entry into the tour destinations are not included.\n- Students are responsible for obtaining necessary visas and permits prior to the tour departure.\n\n## 5. Optional Gratuities:\n- Gratuities for tour guides, drivers, and other service providers are not included in the package price.\n- While tipping is discretionary, it is customary to tip for excellent service if students feel inclined to do so.\n\n## 6. Additional Transportation:\n- Transportation outside of the scheduled tour activities, such as taxis, public transportation, or private transfers for personal excursions, is not included.\n- Students are responsible for arranging and covering the cost of any additional transportation needed during free time or independent exploration.\n\n## 7. Meals Not Specified:\n- Meals not specifically mentioned in the itinerary, such as dinners during free evenings or snacks between meals, are not included.\n- Students are free to explore local dining options independently during free time, with recommendations provided by the tour guide.\n\n## 8. Additional Accommodations:\n- Any additional accommodations required before or after the scheduled tour dates are not included.\n- Students should arrange and cover the cost of any pre- or post-tour accommodations as needed.\n\n## Note:\n- It is essential for students to review the excluded services carefully and plan accordingly to ensure a smooth and enjoyable tour experience.\n- If students have any questions or require clarification on the excluded services, they are encouraged to reach out to our team for assistance.",
+      "conditions": "Please read the following terms and conditions carefully before booking your tour with us:\n\n1. **Booking Confirmation:**\n   - Your booking is confirmed upon receipt of full payment or a specified deposit, as outlined in the booking confirmation.\n\n2. **Payment:**\n   - Full payment is required by the specified due date to secure your reservation.\n   - Payment methods accepted include credit/debit cards, bank transfers, or other specified payment options.\n\n3. **Cancellation and Refund Policy:**\n   - Cancellations made [X number of days] or more prior to the tour departure date will receive a full refund, minus any applicable processing fees.\n   - Cancellations made within [Y number of days] of the tour departure date may result in a partial refund or forfeiture of the entire tour cost, depending on the cancellation policy specified for your booking.\n   - No refunds will be provided for no-shows or cancellations made after the tour has commenced.\n   - Refunds will be processed within [Z number of days] from the date of cancellation.\n\n4. **Changes and Amendments:**\n   - Any changes or amendments to your booking, including alterations to the tour itinerary, accommodation, or group size, may be subject to additional fees or penalties.\n   - We reserve the right to make changes to the tour itinerary, accommodations, or other tour arrangements due to unforeseen circumstances or events beyond our control. In such cases, we will make reasonable efforts to provide suitable alternatives or compensation.\n\n5. **Travel Documents and Insurance:**\n   - It is the responsibility of the traveler to ensure they possess valid passports, visas, and any other necessary travel documents required for entry to the destinations included in the tour itinerary.\n   - We strongly recommend purchasing comprehensive travel insurance to cover any unforeseen circumstances, including trip cancellations, medical emergencies, or travel disruptions.\n\n6. **Health and Safety:**\n   - Participants must ensure they are in good health and able to undertake the physical activities and demands of the tour.\n   - We reserve the right to deny participation to any traveler who, in the opinion of the tour guide or representative, is unfit to participate due to health, safety, or other concerns.\n\n7. **Liability:**\n   - We shall not be liable for any loss, injury, or damage to person or property, including but not limited to accidents, illness, theft, or natural disasters, arising from participation in the tour.\n   - Participants are responsible for their own personal belongings and valuables throughout the duration of the tour.\n\n8. **Behavior and Conduct:**\n   - Participants are expected to behave responsibly and respectfully towards fellow travelers, tour guides, and locals at all times.\n   - We reserve the right to remove any participant from the tour whose behavior is deemed disruptive, offensive, or in violation of local laws or regulations, without refund or compensation.\n\n9. **Force Majeure:**\n   - We shall not be liable for any failure or delay in performing our obligations under these terms and conditions due to circumstances beyond our reasonable control, including but not limited to acts of God, natural disasters, war, terrorism, or government restrictions.\n\n10. **Acceptance of Terms:**\n    - By booking a tour with us, you acknowledge and agree to abide by these terms and conditions in their entirety.\n\nFor any questions or clarifications regarding these terms and conditions, please contact our customer service team before booking your tour.\n",
+      "price": 20000,
+      "threshold": 50
+    },
+    {
+      "title": "Professional",
+      "included": "### 1. Guided Tours:\n- **Professional Tour Guide:** Knowledgeable and experienced guides will lead students through each destination, providing insights into the history and significance of the sites.\n- **Interactive Learning:** Engaging commentary and interactive activities tailored to student groups to enhance learning and engagement.\n\n### 2. Accommodation:\n- **Comfortable Lodging:** Stay in well-selected accommodations suitable for student travelers, ensuring safety, comfort, and convenience.\n- **Shared Rooms:** Accommodations include shared rooms with fellow students, promoting camaraderie and social interaction.\n\n### 3. Meals:\n- **Daily Breakfast:** Start each day with a nutritious breakfast to fuel the day's adventures.\n- **Group Lunches:** Enjoy group lunches at local eateries or picnic spots, providing an opportunity to sample regional cuisine and bond with classmates.\n- **Dinner Options:** Recommendations for affordable dining options near accommodations, allowing students to explore local food culture independently.\n\n### 4. Transportation:\n- **Roundtrip Transportation:** Airport transfers and transportation between attractions included in the package.\n- **Comfortable Transport:** Travel in comfortable vehicles with experienced drivers, ensuring safety and convenience throughout the journey.\n\n### 5. Educational Materials:\n- **Pre-Tour Resources:** Access to educational materials, including reading lists, videos, and online resources, to prepare students for the tour and deepen their understanding of the destinations.\n- **On-Site Learning:** Supplemental materials and activities provided during the tour to reinforce learning and foster curiosity about the ancient civilizations visited.\n\n### 6. Support:\n- **24/7 Support:** Dedicated support staff available round the clock to assist with any inquiries or emergencies during the tour.\n- **Student-Friendly Assistance:** Tailored assistance for student groups, including guidance on travel documentation, safety protocols, and cultural etiquette.\n\n## Pricing:\n- **Affordable Rates:** Special discounted rates exclusively for student groups.\n- **Group Discounts:** Additional discounts available for larger student groups.\n\n## Additional Information:\n- **Group Size:** Minimum group size required.\n- **Age Restrictions:** Suitable for students aged [insert age range].\n- **Booking:** Contact us to book your student group's unforgettable adventure today!\n",
+      "excluded": "While our \"Explorer's Student Special\" package includes comprehensive services to ensure an enriching and memorable experience, there are certain services that are not included:\n\n## 1. Airfare:\n- International or domestic airfare to and from the tour's starting and ending locations is not included in the package.\n- Students are responsible for booking their flights to join the tour.\n\n## 2. Personal Expenses:\n- Expenses of a personal nature, such as souvenirs, additional snacks or drinks, laundry, and optional activities not specified in the itinerary, are not covered.\n- Students should budget accordingly for any additional purchases or activities beyond the tour's offerings.\n\n## 3. Travel Insurance:\n- Travel insurance, including medical, trip cancellation, and baggage insurance, is not included in the package.\n- We highly recommend that students purchase comprehensive travel insurance to cover any unforeseen circumstances or emergencies during the tour.\n\n## 4. Visa and Entry Fees:\n- Visa fees, entry permits, and any related processing fees required for entry into the tour destinations are not included.\n- Students are responsible for obtaining necessary visas and permits prior to the tour departure.\n\n## 5. Optional Gratuities:\n- Gratuities for tour guides, drivers, and other service providers are not included in the package price.\n- While tipping is discretionary, it is customary to tip for excellent service if students feel inclined to do so.\n\n## 6. Additional Transportation:\n- Transportation outside of the scheduled tour activities, such as taxis, public transportation, or private transfers for personal excursions, is not included.\n- Students are responsible for arranging and covering the cost of any additional transportation needed during free time or independent exploration.\n\n## 7. Meals Not Specified:\n- Meals not specifically mentioned in the itinerary, such as dinners during free evenings or snacks between meals, are not included.\n- Students are free to explore local dining options independently during free time, with recommendations provided by the tour guide.\n\n## 8. Additional Accommodations:\n- Any additional accommodations required before or after the scheduled tour dates are not included.\n- Students should arrange and cover the cost of any pre- or post-tour accommodations as needed.\n\n## Note:\n- It is essential for students to review the excluded services carefully and plan accordingly to ensure a smooth and enjoyable tour experience.\n- If students have any questions or require clarification on the excluded services, they are encouraged to reach out to our team for assistance.\n",
+      "conditions": "Please read the following terms and conditions carefully before booking your tour with us:\n\n1. **Booking Confirmation:**\n   - Your booking is confirmed upon receipt of full payment or a specified deposit, as outlined in the booking confirmation.\n\n2. **Payment:**\n   - Full payment is required by the specified due date to secure your reservation.\n   - Payment methods accepted include credit/debit cards, bank transfers, or other specified payment options.\n\n3. **Cancellation and Refund Policy:**\n   - Cancellations made [X number of days] or more prior to the tour departure date will receive a full refund, minus any applicable processing fees.\n   - Cancellations made within [Y number of days] of the tour departure date may result in a partial refund or forfeiture of the entire tour cost, depending on the cancellation policy specified for your booking.\n   - No refunds will be provided for no-shows or cancellations made after the tour has commenced.\n   - Refunds will be processed within [Z number of days] from the date of cancellation.\n\n4. **Changes and Amendments:**\n   - Any changes or amendments to your booking, including alterations to the tour itinerary, accommodation, or group size, may be subject to additional fees or penalties.\n   - We reserve the right to make changes to the tour itinerary, accommodations, or other tour arrangements due to unforeseen circumstances or events beyond our control. In such cases, we will make reasonable efforts to provide suitable alternatives or compensation.\n\n5. **Travel Documents and Insurance:**\n   - It is the responsibility of the traveler to ensure they possess valid passports, visas, and any other necessary travel documents required for entry to the destinations included in the tour itinerary.\n   - We strongly recommend purchasing comprehensive travel insurance to cover any unforeseen circumstances, including trip cancellations, medical emergencies, or travel disruptions.\n\n6. **Health and Safety:**\n   - Participants must ensure they are in good health and able to undertake the physical activities and demands of the tour.\n   - We reserve the right to deny participation to any traveler who, in the opinion of the tour guide or representative, is unfit to participate due to health, safety, or other concerns.\n\n7. **Liability:**\n   - We shall not be liable for any loss, injury, or damage to person or property, including but not limited to accidents, illness, theft, or natural disasters, arising from participation in the tour.\n   - Participants are responsible for their own personal belongings and valuables throughout the duration of the tour.\n\n8. **Behavior and Conduct:**\n   - Participants are expected to behave responsibly and respectfully towards fellow travelers, tour guides, and locals at all times.\n   - We reserve the right to remove any participant from the tour whose behavior is deemed disruptive, offensive, or in violation of local laws or regulations, without refund or compensation.\n\n9. **Force Majeure:**\n   - We shall not be liable for any failure or delay in performing our obligations under these terms and conditions due to circumstances beyond our reasonable control, including but not limited to acts of God, natural disasters, war, terrorism, or government restrictions.\n\n10. **Acceptance of Terms:**\n    - By booking a tour with us, you acknowledge and agree to abide by these terms and conditions in their entirety.\n\nFor any questions or clarifications regarding these terms and conditions, please contact our customer service team before booking your tour.\n",
+      "price": 50000,
+      "threshold": 100
+    }
+  ]
+}

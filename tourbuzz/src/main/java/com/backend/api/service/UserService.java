@@ -5,6 +5,7 @@ import com.backend.api.entity.UserEntity;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.request.admin.UserUpdateReq;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -14,10 +15,10 @@ import java.util.Objects;
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserEntity getUserByEmail(String email) throws Exception {
+    public UserEntity getUserByEmail(String email) throws NotFoundException {
         UserEntity userEntity = userRepository.getUserByEmail(email);
         if(Objects.isNull(userEntity)){
-            throw new Exception(ErrorMessages.INVALID_TOKEN);
+            throw new NotFoundException(ErrorMessages.INVALID_TOKEN);
         }
         return userEntity;
     }

@@ -85,11 +85,6 @@ public class TourCreatePayload {
     @Size(min = 1, max = 10)
     private List<Integer> imageIds;
 
-    @NotNull
-    @Min(1)
-    @Max(9999)
-    private Integer maxTicketAmount;
-
     private String imageIdsStr;
     public String getImageIdsStr() {
         if(imageIds.isEmpty()){

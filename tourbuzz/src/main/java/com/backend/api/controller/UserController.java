@@ -6,6 +6,7 @@ import com.backend.api.service.AuthService;
 import com.backend.api.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class UserController {
 
     @Tag(name = "Get Self Data")
     @GetMapping("/me")
-    public UserEntity getLoggedInUser() throws Exception {
+    public UserEntity getLoggedInUser() throws NotFoundException {
         String email = authService.getLoggedInEmail();
         return userService.getUserByEmail(email);
     }
