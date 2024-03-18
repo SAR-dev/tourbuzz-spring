@@ -38,7 +38,6 @@ public class AuthService {
 
     private final AdminService adminService;
 
-//    Magic Link
     public String generateMagicToken(String email){
         Instant now = Instant.now();
         return JWT.create()
@@ -68,7 +67,6 @@ public class AuthService {
         return decodedJWT.getSubject();
     }
 
-//    Access Token
     public String generateAccessToken(String email, int id){
         Instant now = Instant.now();
         return JWT.create()
@@ -111,7 +109,6 @@ public class AuthService {
         return auth.getName();
     }
 
-//    Admin Key
     public String generateAdminKey(String email) {
         String secret = adminService.getSecret();
         Instant now = Instant.now();
@@ -145,7 +142,6 @@ public class AuthService {
         getEmailFromMagicToken(signInReq.getMagicToken());
     }
 
-//    Admin Token
     public String generateAdminToken() {
         String secret = adminService.getSecret();
         Instant now = Instant.now();

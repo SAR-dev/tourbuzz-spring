@@ -9,7 +9,7 @@ public interface PaymentRepository {
 
     String getPaymentEmailByInvoiceNo(String invoiceNo);
 
-    int deletePayment(int id);
+    void deletePayment(int id);
 
     String getInvoiceNo(String email);
 

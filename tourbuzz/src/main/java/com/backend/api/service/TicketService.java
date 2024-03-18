@@ -54,17 +54,14 @@ public class TicketService {
     }
 
     public void updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo) throws Exception {
-        boolean updated = ticketRepository.updateTicketAmountByInvoiceNo(ticketAmount, invoiceNo) == 1;
-        if(!updated){
+        int count = ticketRepository.updateTicketAmountByInvoiceNo(ticketAmount, invoiceNo);
+        if(count != 1){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
 
     public void deleteTicketByInvoiceNo(int id) throws Exception {
-        boolean deleted = ticketRepository.deleteTicket(id) == 1;
-        if(!deleted){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+        ticketRepository.deleteTicket(id)
     }
 
     public TicketPaymentEntity getTicketPaymentByInvoiceNo(String invoiceNo){
@@ -72,9 +69,6 @@ public class TicketService {
     }
 
     public void deleteTicketPaymentByInvoiceNo(String invoiceNo) throws Exception {
-        boolean deleted = ticketRepository.deleteTicketPaymentByInvoiceNo(invoiceNo) == 1;
-        if(!deleted){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+        ticketRepository.deleteTicketPaymentByInvoiceNo(invoiceNo);
     }
 }

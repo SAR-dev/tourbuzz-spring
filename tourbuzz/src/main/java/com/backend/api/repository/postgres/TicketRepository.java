@@ -18,9 +18,9 @@ public interface TicketRepository {
 
     int updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo);
 
-    int deleteTicket(int id);
+    void deleteTicket(int id);
 
     TicketPaymentEntity getTicketPaymentByInvoiceNo(String invoiceNo);
 
-    int deleteTicketPaymentByInvoiceNo(String invoiceNo);
+    void deleteTicketPaymentByInvoiceNo(String invoiceNo);
 }

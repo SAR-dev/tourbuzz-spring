@@ -22,15 +22,15 @@ public class PaymentService {
     }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
-        boolean updated = paymentRepository.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount) == 1;
-        if(!updated){
+        int count = paymentRepository.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount);
+        if(count != 1){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
 
     public void updatePaymentWithPaymentId(PaymentRes paymentRes) throws Exception {
-        boolean updated = paymentRepository.updatePaymentWithPaymentId(paymentRes) == 1;
-        if(!updated){
+        int count = paymentRepository.updatePaymentWithPaymentId(paymentRes);
+        if(count != 1){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
@@ -38,8 +38,6 @@ public class PaymentService {
     public String getUserEmailByInvoiceNo(String invoiceNo){
         return paymentRepository.getUserEmailByInvoiceNo(invoiceNo);
     }
-
-
 
     public String getPaymentIdByInvoiceNo(String invoiceNo) throws Exception {
         String loggedInEmail = authService.getLoggedInEmail();
@@ -55,15 +53,14 @@ public class PaymentService {
     }
 
     public void updatePaymentTypeByInvoiceNo(PaymentType paymentType, String invoiceNo) throws Exception {
-        boolean updated = paymentRepository.updatePaymentTypeByInvoiceNo(paymentType.name(), invoiceNo) == 1;
-        if(!updated){
+        int count = paymentRepository.updatePaymentTypeByInvoiceNo(paymentType.name(), invoiceNo);
+        if(count != 1){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
     }
 
-    public void deletePayment(int id) throws Exception {
-        boolean deleted = paymentRepository.deletePayment(id) == 1;
-        if(!deleted) throw new Exception(ErrorMessages.DELETE_FAILED);
+    public void deletePayment(int id) {
+        paymentRepository.deletePayment(id);
     }
 
     public String getInvoiceNo(String email){
