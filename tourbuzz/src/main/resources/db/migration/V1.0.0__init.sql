@@ -453,6 +453,16 @@ CREATE TABLE public.payments (
 );
 CREATE TRIGGER update_updated_at_payments BEFORE UPDATE ON public.payments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
+CREATE TABLE public.files (
+    id              serial PRIMARY KEY,
+    filename        text,
+    link            text,
+    note            text,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_files BEFORE UPDATE ON public.files FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
 -- Create a sequence to generate unique invoice numbers
 CREATE SEQUENCE invoice_number_seq START WITH 10000000;
 
@@ -489,4 +499,11 @@ CREATE TABLE tour.ticket_payments (
     payments_id     integer NOT NULL REFERENCES public.payments(id),
     CONSTRAINT unq_ticket_payments_tickets UNIQUE ( tickets_id ),
     CONSTRAINT unq_ticket_payments_payments UNIQUE ( payments_id )
+);
+
+CREATE TABLE tour.ticket_files (
+    id              serial PRIMARY KEY,
+    tickets_id      integer NOT NULL REFERENCES tour.tickets(id),
+    files_id        integer NOT NULL REFERENCES public.files(id),
+    CONSTRAINT unq_ticket_files UNIQUE ( files_id )
 );
