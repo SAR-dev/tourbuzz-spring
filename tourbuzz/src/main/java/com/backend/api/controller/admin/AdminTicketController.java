@@ -2,6 +2,7 @@ package com.backend.api.controller.admin;
 
 import com.backend.api.entity.ArticleEntity;
 import com.backend.api.entity.TicketEntity;
+import com.backend.api.request.admin.FileCreateReq;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.PaginationService;
@@ -10,10 +11,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,5 +34,15 @@ public class AdminTicketController {
         List<TicketEntity> ticketEntities = ticketService.getTickets();
         Page<TicketEntity> pageInfo = (Page<TicketEntity>) ticketEntities;
         return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+    }
+
+    @Tag(name = "Add Ticket File")
+    @PostMapping("/files/{id}")
+    public void addTicketFile(
+            @RequestParam FileCreateReq fileCreateReq,
+            @PathVariable int id
+    ) throws Exception {
+        authService.verifyAdminToken();
+        ticketService.createTicketFile(id, fileCreateReq);
     }
 }

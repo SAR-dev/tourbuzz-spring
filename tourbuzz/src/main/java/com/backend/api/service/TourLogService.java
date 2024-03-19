@@ -67,11 +67,8 @@ public class TourLogService {
         return tourLogRepository.getTourLogByTourIdAndDate(toursId, date);
     }
 
-    public void deleteTourLogsById(int id) throws Exception {
-        int count = tourLogRepository.deleteTourLogsById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteTourLogsById(int id) {
+        tourLogRepository.deleteTourLogsById(id);
     }
 
     public List<Integer> getTourLogIdsByTourId(int toursId){
@@ -85,10 +82,7 @@ public class TourLogService {
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
         List<Integer> tourLogIds = tourLogUpdatePayloads.stream().map(TourLogUpdatePayload::getId).toList();
-        int pCount = tourLogRepository.deleteTourLogPlaces(tourLogIds);
-        if(pCount < 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+        tourLogRepository.deleteTourLogPlaces(tourLogIds);
         List<TourLogPlacePayload> tourLogPlacePayloads = new ArrayList<>();
         for(TourLogUpdatePayload tourLogUpdatePayload : tourLogUpdatePayloads) {
             tourLogUpdatePayload.getPlaceIds().forEach(placeId -> {

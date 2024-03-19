@@ -30,5 +30,5 @@ public interface OrganizerRepository {
 
     int updateOrganizer(OrganizerUpdateReq organizerUpdateReq);
 
-    int deleteOrganizerById(int id);
+    void deleteOrganizerById(int id);
 }

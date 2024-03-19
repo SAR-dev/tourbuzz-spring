@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.PaymentRepository">
+
     <select id="getInvoiceNo" resultType="string">
         INSERT INTO public.payments (
             users_id
@@ -92,4 +93,5 @@
                 column="id = users_id"
         />
     </resultMap>
+
 </mapper>

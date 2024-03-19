@@ -15,5 +15,5 @@ public interface ImageRepository {
 
     List<ImageEntity> getImages();
 
-    int deleteImage(int id);
+    void deleteImage(int id);
 }

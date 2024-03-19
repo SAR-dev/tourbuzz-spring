@@ -50,11 +50,8 @@ public class WriterService {
         return writerRepository.getWriterById(id);
     }
 
-    public void deleteWriterById(int id) throws Exception {
-        int count = writerRepository.deleteWriterById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteWriterById(int id) {
+        writerRepository.deleteWriterById(id);
     }
 
     public void updateWriter(WriterUpdateReq writerUpdateReq) throws Exception {

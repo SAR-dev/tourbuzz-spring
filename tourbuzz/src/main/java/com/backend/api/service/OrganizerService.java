@@ -67,10 +67,7 @@ public class OrganizerService {
     }
 
     @Transactional
-    public void deleteOrganizerById(int id) throws Exception {
-        int count = organizerRepository.deleteOrganizerById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteOrganizerById(int id) {
+        organizerRepository.deleteOrganizerById(id);
     }
 }

@@ -9,7 +9,7 @@ public interface ManagerRepository {
 
     void createHotelManager(HotelManagerCreateReq hotelManagerCreateReq);
 
-    int deleteOrganizerManager(OrganizerManagerDeleteReq organizerManagerDeleteReq);
+    void deleteOrganizerManager(OrganizerManagerDeleteReq organizerManagerDeleteReq);
 
-    int deleteHotelManager(HotelManagerDeleteReq hotelManagerDeleteReq);
+    void deleteHotelManager(HotelManagerDeleteReq hotelManagerDeleteReq);
 }

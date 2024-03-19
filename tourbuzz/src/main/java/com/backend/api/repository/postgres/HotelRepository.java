@@ -22,5 +22,5 @@ public interface HotelRepository {
 
     int updateHotel(HotelUpdateReq hotelUpdateReq);
 
-    int deleteHotelById(int id);
+    void deleteHotelById(int id);
 }

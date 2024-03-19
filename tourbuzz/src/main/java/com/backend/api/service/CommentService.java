@@ -55,15 +55,13 @@ public class CommentService {
     public void deleteCommentById(int id) throws Exception {
         checkCommentAuthor(id);
         ParentCommentEntity parentCommentEntity = commentRepository.getCommentById(id);
-        System.out.println(parentCommentEntity.getChild_count());
-        int count;
         if(parentCommentEntity.getChild_count() > 0){
-            count = commentRepository.softDeleteCommentById(id);
+            int count = commentRepository.softDeleteCommentById(id);
+            if(count != 1){
+                throw new Exception(ErrorMessages.DELETE_FAILED);
+            }
         } else {
-            count = commentRepository.hardDeleteCommentById(id);
-        }
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
+            commentRepository.hardDeleteCommentById(id);
         }
     }
 }

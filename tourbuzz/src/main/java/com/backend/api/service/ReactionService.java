@@ -50,12 +50,9 @@ public class ReactionService {
         return reactionRepository.checkIfReactionExists(emojiReactionReq, email);
     }
 
-    public void deleteReaction(ReactionReq emojiReactionReq) throws Exception {
+    public void deleteReaction(ReactionReq emojiReactionReq) {
         String email = authService.getLoggedInEmail();
-        int count = reactionRepository.deleteReaction(emojiReactionReq, email);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+        reactionRepository.deleteReaction(emojiReactionReq, email);
     }
 
     public void createReaction(ReactionReq emojiReactionReq) {

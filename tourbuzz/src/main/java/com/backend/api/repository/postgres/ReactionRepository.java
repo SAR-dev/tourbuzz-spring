@@ -13,7 +13,7 @@ public interface ReactionRepository {
 
     boolean checkIfReactionExists(@Param("data")ReactionReq emojiReactionReq, String email);
 
-    int deleteReaction(@Param("data")ReactionReq emojiReactionReq, String email);
+    void deleteReaction(@Param("data")ReactionReq emojiReactionReq, String email);
 
     void createReaction(@Param("data")ReactionReq emojiReactionReq, String email);
 }

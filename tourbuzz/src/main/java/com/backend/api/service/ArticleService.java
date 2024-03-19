@@ -62,11 +62,8 @@ public class ArticleService {
         return article;
     }
 
-    public void deleteArticleById(int id) throws Exception {
-        int count = articleRepository.deleteArticleById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteArticleById(int id) {
+        articleRepository.deleteArticleById(id);
     }
 
     public void updateArticle(ArticleUpdateReq articleUpdateReq) throws Exception {

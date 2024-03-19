@@ -25,17 +25,11 @@ public class ManagerService {
         managerRepository.createHotelManager(hotelManagerCreateReq);
     }
 
-    public void deleteOrganizerManager(OrganizerManagerDeleteReq organizerManagerDeleteReq) throws Exception {
-        int count = managerRepository.deleteOrganizerManager(organizerManagerDeleteReq);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteOrganizerManager(OrganizerManagerDeleteReq organizerManagerDeleteReq) {
+        managerRepository.deleteOrganizerManager(organizerManagerDeleteReq);
     }
 
-    public void deleteHotelManager(HotelManagerDeleteReq hotelManagerDeleteReq) throws Exception {
-        int count = managerRepository.deleteHotelManager(hotelManagerDeleteReq);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteHotelManager(HotelManagerDeleteReq hotelManagerDeleteReq) {
+        managerRepository.deleteHotelManager(hotelManagerDeleteReq);
     }
 }

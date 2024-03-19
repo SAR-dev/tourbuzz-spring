@@ -22,7 +22,7 @@ public interface CommentRepository {
 
     ParentCommentEntity getCommentById(int id);
 
-    int hardDeleteCommentById(int id);
+    void hardDeleteCommentById(int id);
 
     int softDeleteCommentById(int id);
 }

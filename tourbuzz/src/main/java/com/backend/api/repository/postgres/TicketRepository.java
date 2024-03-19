@@ -23,4 +23,6 @@ public interface TicketRepository {
     void deleteTicket(int id);
 
     void deleteTicketPaymentByInvoiceNo(String invoiceNo);
+
+    void createTicketFile(int ticketsId, int filesId);
 }

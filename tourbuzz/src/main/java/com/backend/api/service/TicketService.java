@@ -7,6 +7,7 @@ import com.backend.api.entity.TicketPaymentEntity;
 import com.backend.api.repository.postgres.TicketRepository;
 import com.backend.api.request.BookCancelReq;
 import com.backend.api.request.BookCreateReq;
+import com.backend.api.request.admin.FileCreateReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final PaymentService paymentService;
     private final AuthService authService;
+    private final FileService fileService;
 
     public List<TicketEntity> getTickets(){
         return ticketRepository.getTickets();
@@ -77,5 +79,11 @@ public class TicketService {
         TicketEntity ticketEntity = ticketRepository.getTicketByInvoiceNo(invoiceNo);
         if(Objects.isNull(ticketEntity)) throw new Exception(ErrorMessages.NOT_FOUND);
         return ticketEntity;
+    }
+
+    @Transactional
+    public void createTicketFile(int ticketsId, FileCreateReq fileCreateReq){
+        int filesId = fileService.createFile(fileCreateReq);
+        ticketRepository.createTicketFile(ticketsId, filesId);
     }
 }

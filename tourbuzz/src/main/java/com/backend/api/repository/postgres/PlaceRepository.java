@@ -19,7 +19,7 @@ public interface PlaceRepository {
 
     int updatePlace(PlaceUpdateReq placeUpdateReq);
 
-    int deletePlaceById(int id);
+    void deletePlaceById(int id);
 
     List<PlaceEntity> getPlaces(String name);
 

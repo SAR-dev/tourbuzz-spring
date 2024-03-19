@@ -16,7 +16,7 @@ public interface TourLogRepository {
 
     int updateTourLogs(@Param("toursId") int toursId, @Param("tourLogs") List<TourLogUpdatePayload> tourLogUpdatePayloads);
 
-    int deleteTourLogPlaces(@Param("tourLogIds") List<Integer> tourLogIds);
+    void deleteTourLogPlaces(@Param("tourLogIds") List<Integer> tourLogIds);
 
     void createDraftTourLog(TourLogCreateReq tourLogCreateReq);
 
@@ -24,7 +24,7 @@ public interface TourLogRepository {
 
     void createTourLogsPlaces(@Param("tourLogsPlaces") List<TourLogPlacePayload> tourLogPlacePayloads);
 
-    int deleteTourLogsById(int id);
+    void deleteTourLogsById(int id);
 
     List<Integer> getTourLogIdsByTourId(int toursId);
 }

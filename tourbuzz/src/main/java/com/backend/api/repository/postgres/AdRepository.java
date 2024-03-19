@@ -13,7 +13,7 @@ public interface AdRepository {
 
     int updateAd(AdUpdateReq adUpdateReq);
 
-    int deleteAdById(int id);
+    void deleteAdById(int id);
 
     List<AdEntity> getAds();
 

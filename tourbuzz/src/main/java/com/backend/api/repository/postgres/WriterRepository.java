@@ -24,5 +24,5 @@ public interface WriterRepository {
 
     int updateWriter(WriterUpdateReq writerUpdateReq);
 
-    int deleteWriterById(int id);
+    void deleteWriterById(int id);
 }

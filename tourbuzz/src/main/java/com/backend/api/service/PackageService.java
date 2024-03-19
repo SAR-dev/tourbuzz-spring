@@ -38,11 +38,8 @@ public class PackageService {
     }
 
     @Transactional
-    public void deletePackageById(int id) throws Exception {
-        int count = packageRepository.deletePackageById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deletePackageById(int id) {
+        packageRepository.deletePackageById(id);
     }
 
     public List<Integer> getPackageIdsByTourId(int toursId){

@@ -47,11 +47,8 @@ public class TourTypeService {
         return tourTypeRepository.getTourTypeById(id);
     }
 
-    public void deleteTourTypeById(int id) throws Exception {
-        int count = tourTypeRepository.deleteTourTypeById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteTourTypeById(int id) {
+        tourTypeRepository.deleteTourTypeById(id);
     }
 
     public void updateTourType(TourTypeUpdateReq tourTypeUpdateReq) throws Exception {

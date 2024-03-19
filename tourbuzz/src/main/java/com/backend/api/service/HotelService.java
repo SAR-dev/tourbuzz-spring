@@ -50,11 +50,8 @@ public class HotelService {
         hotelRepository.createHotel(hotelCreateReq);
     }
 
-    public void deleteHotelById(int id) throws Exception {
-        int count = hotelRepository.deleteHotelById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteHotelById(int id) {
+        hotelRepository.deleteHotelById(id);
     }
 
     public void updateHotel(HotelUpdateReq hotelUpdateReq) throws Exception {

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.backend.api.repository.postgres.FileRepository">
+
+    <select id="createFile" resultType="int">
+        INSERT INTO public.files (
+            filename,
+            link,
+            note
+        ) VALUES (
+            #{filename},
+            #{link},
+            #{note}
+        ) RETURNING id
+    </select>
+
+    <update id="updateFile">
+        UPDATE public.files
+        SET
+            filename = #{filename},
+            link = #{link},
+            note = #{note}
+        WHERE id = #{filesId}
+    </update>
+
+    <delete id="deleteFile">
+        DELETE FROM public.files WHERE id = #{id}
+    </delete>
+
+    <select id="getFileById" resultType="com.backend.api.entity.FileEntity">
+        SELECT * FROM public.files WHERE id = #{id}
+    </select>
+
+</mapper>

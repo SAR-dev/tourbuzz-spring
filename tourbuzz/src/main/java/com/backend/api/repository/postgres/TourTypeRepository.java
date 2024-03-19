@@ -20,5 +20,5 @@ public interface TourTypeRepository {
 
     TourTypeEntity getTourTypeById(int id);
 
-    int deleteTourTypeById(int id);
+    void deleteTourTypeById(int id);
 }

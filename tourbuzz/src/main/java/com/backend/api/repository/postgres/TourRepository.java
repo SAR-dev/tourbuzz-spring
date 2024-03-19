@@ -31,5 +31,5 @@ public interface TourRepository {
 
     TourEntity getTourBySlug(String slug);
 
-    int deleteTourById(int id);
+    void deleteTourById(int id);
 }

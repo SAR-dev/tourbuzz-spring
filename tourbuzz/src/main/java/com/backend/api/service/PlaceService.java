@@ -35,11 +35,8 @@ public class PlaceService {
         placeRepository.createPlace(placeCreateReq);
     }
 
-    public void deletePlaceById(int id) throws Exception {
-        int count = placeRepository.deletePlaceById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deletePlaceById(int id) {
+        placeRepository.deletePlaceById(id);
     }
 
     public void updatePlace(PlaceUpdateReq placeUpdateReq) throws Exception {

@@ -27,11 +27,8 @@ public class AdService {
         return adRepository.getAdById(id);
     }
 
-    public void deleteAdById(int id) throws Exception {
-        int count = adRepository.deleteAdById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+    public void deleteAdById(int id) {
+        adRepository.deleteAdById(id);
     }
 
     public void updateAd(AdUpdateReq adUpdateReq) throws Exception {

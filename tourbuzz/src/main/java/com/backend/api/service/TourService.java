@@ -164,10 +164,7 @@ public class TourService {
 
     @Transactional
     public void deleteTourById(int id) throws Exception {
-        int count = tourRepository.deleteTourById(id);
-        if(count != 1){
-            throw new Exception(ErrorMessages.DELETE_FAILED);
-        }
+        tourRepository.deleteTourById(id);
     }
 
     @Transactional

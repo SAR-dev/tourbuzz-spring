@@ -31,7 +31,7 @@ public interface ArticleRepository {
 
     int updateArticle(ArticleUpdateReq articleUpdateReq);
 
-    int deleteArticleById(int id);
+    void deleteArticleById(int id);
 
     List<ArticleCategoryRes> getArticleCategories();
 }
