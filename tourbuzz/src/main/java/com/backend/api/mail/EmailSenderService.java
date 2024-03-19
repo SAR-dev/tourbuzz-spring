@@ -38,7 +38,7 @@ public class EmailSenderService {
     }
 
     public void sendMagicLink(String recipient, String token) throws MessagingException {
-        EmailModel emailModel = EmailModel.builder().to(recipient).subject("HEADER: Magic Link").template("magic-link.html").build();
+        EmailModel emailModel = EmailModel.builder().to(recipient).subject("HEADER: Magic Link").template(Constants.TEMPLATES.MAGIC_LINK).build();
         Map<String, Object> properties = new HashMap<>();
         properties.put("magicToken", token);
         emailModel.setProperties(properties);

@@ -1,7 +1,5 @@
 package com.backend.api;
 
-import org.springframework.beans.factory.annotation.Value;
-
 public class Constants {
     public static class HEADER {
         public static final String ADMIN_HEADER_NAME = "x-api-key";
@@ -32,6 +30,12 @@ public class Constants {
     public static final String AVATAR_GENERATOR_BASE_URL = "https://api.dicebear.com/7.x/adventurer-neutral/svg?seed=";
     public static final Integer TOUR_DATE_AFTER_MIN = 2;
     public static final Integer MAX_COMMENT_COUNT_IN_5_MIN = 5;
+    public static class TEMPLATES {
+        public static final String VARIABLE_NAME = "data";
+        public static final String MAGIC_LINK = "magic-link.html";
+        public static final String PAYMENT_SUCCESS = "payment-success.html";
+        public static final String PAYMENT_FAILED = "payment-failed.html";
+    }
     public static class BKASH {
         public static final String API_KEY = "4f6o0cjiki2rfm34kfdadl1eqq";
         public static final String API_SECRET = "2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b";
