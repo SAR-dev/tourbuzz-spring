@@ -4,6 +4,7 @@ import com.backend.api.response.TourPackageBookedRes;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 public class TicketEntity {
@@ -17,4 +18,5 @@ public class TicketEntity {
 
     private PaymentEntity payment;
     private TourPackageBookedRes booked_package;
+    private List<FileEntity> files;
 }

@@ -12,6 +12,8 @@ import java.util.List;
 public interface TicketRepository {
     List<TicketEntity> getTicketsByUser(String email);
 
+    TicketEntity getTicketByInvoiceNo(String invoiceNo);
+
     int createTicket(String email, @Param("data") BookCreateReq bookCreateReq);
 
     void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);

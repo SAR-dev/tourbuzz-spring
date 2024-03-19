@@ -3,6 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.TicketRepository">
+    <select id="getTicketByInvoiceNo" resultMap="ticketResultMap">
+        SELECT
+            t.*,
+            tp.payments_id
+        FROM tour.tickets t
+        JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
+        JOIN public.payments p ON tp.payments_id = p.id
+        WHERE p.invoice_no = #{invoiceNo}
+    </select>
+
     <update id="updateTicketAmountByInvoiceNo">
         UPDATE tour.tickets
         SET ticket_amount = #{ticketAmount}
@@ -65,7 +75,10 @@
     </insert>
 
     <select id="getTicketsByUser" resultMap="ticketResultMap">
-        SELECT * FROM tour.tickets t
+        SELECT
+            t.*,
+            tp.payments_id
+        FROM tour.tickets t
         JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
         WHERE users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
     </select>
@@ -83,10 +96,24 @@
                 javaType="com.backend.api.entity.PaymentEntity"
                 column="id = payments_id"
         />
+        <collection
+                property="files"
+                ofType="com.backend.api.entity.FileEntity"
+                select="getFilesByTicketId"
+                column="id = id"
+        />
     </resultMap>
 
     <select id="getPaymentById" resultType="com.backend.api.entity.PaymentEntity">
         SELECT * FROM public.payments WHERE id = #{id}
+    </select>
+
+    <select id="getFilesByTicketId" resultType="com.backend.api.entity.FileEntity">
+        SELECT
+            f.*
+        FROM tour.ticket_files tf
+        JOIN public.files f ON tf.files_id = f.id
+        WHERE tf.tickets_id = #{id}
     </select>
 
 </mapper>

@@ -35,4 +35,9 @@ public class UserTicketController {
         ticketService.cancelInvoiceNo(bookCancelReq);
     }
 
+    @Tag(name = "Get Ticket By Invoice No")
+    @GetMapping("/{invoiceNo}")
+    public TicketEntity getTicketByInvoiceNo(@PathVariable String invoiceNo) throws Exception {
+        return ticketService.getTicketByInvoiceNo(invoiceNo);
+    }
 }

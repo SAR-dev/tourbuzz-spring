@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -70,5 +71,14 @@ public class TicketService {
 
     public void deleteTicketPaymentByInvoiceNo(String invoiceNo) {
         ticketRepository.deleteTicketPaymentByInvoiceNo(invoiceNo);
+    }
+
+    public TicketEntity getTicketByInvoiceNo(String invoiceNo) throws Exception {
+        String email = authService.getLoggedInEmail();
+        String invoicedEmail = paymentService.getPaymentEmailByInvoiceNo(invoiceNo);
+        if(!invoicedEmail.equals(email)) throw new Exception(ErrorMessages.UNAUTHORIZED);
+        TicketEntity ticketEntity = ticketRepository.getTicketByInvoiceNo(invoiceNo);
+        if(Objects.isNull(ticketEntity)) throw new Exception(ErrorMessages.NOT_FOUND);
+        return ticketEntity;
     }
 }
