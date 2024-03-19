@@ -33,7 +33,9 @@
             tp.payments_id
         FROM tour.tickets t
         JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
-        WHERE users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
+        JOIN public.payments p ON tp.payments_id = p.id
+        WHERE p.users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
+        ORDER BY p.completed ASC
     </select>
 
     <select id="getTicketByInvoiceNo" resultMap="ticketResultMap">
