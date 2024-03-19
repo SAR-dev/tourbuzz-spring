@@ -26,5 +26,7 @@ public class ErrorMessages {
     public static final String MAX_COMMENT_ERROR = "You have exceeded comment limit. Please try again later.";
     public static final String PAYMENT_NOT_COMPLETED = "Payment not completed.";
     public static final String PAYMENT_COMPLETED = "Payment not completed.";
+    public static final String TICKET_SOLD_OUT = "Ticket already sold out";
+    public static final String MAX_TICKET_EXCEEDS = "Your requested ticket amount exceeds remaining amount";
 }
 

@@ -37,7 +37,6 @@ public class PackageService {
         return packageRepository.getPackageByTourIdAndTitle(toursId, title);
     }
 
-    @Transactional
     public void deletePackageById(int id) {
         packageRepository.deletePackageById(id);
     }
@@ -52,5 +51,9 @@ public class PackageService {
         if(count < 1){
             throw new Exception(ErrorMessages.UPDATE_FAILED);
         }
+    }
+
+    public TourPackageBookedRes getPackageById(int id){
+        return packageRepository.getPackageById(id);
     }
 }

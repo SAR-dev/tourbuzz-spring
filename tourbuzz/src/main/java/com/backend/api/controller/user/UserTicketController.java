@@ -25,7 +25,7 @@ public class UserTicketController {
 
     @Tag(name = "Book Invoice No")
     @PostMapping("/book")
-    public void bookInvoiceNo(@RequestBody BookCreateReq bookCreateReq) {
+    public void bookInvoiceNo(@RequestBody BookCreateReq bookCreateReq) throws Exception {
         ticketService.bookInvoiceNo(bookCreateReq);
     }
 

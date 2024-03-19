@@ -22,5 +22,7 @@ public interface PackageRepository {
 
     void deletePackageById(int id);
 
+    TourPackageBookedRes getPackageById(int id);
+
     List<Integer> getPackageIdsByTourId(int toursId);
 }

@@ -16,6 +16,8 @@ public interface TicketRepository {
 
     TicketEntity getTicketByInvoiceNo(String invoiceNo);
 
+    TicketEntity getTicketById(int id);
+
     int createTicket(String email, @Param("data") BookCreateReq bookCreateReq);
 
     int updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo);

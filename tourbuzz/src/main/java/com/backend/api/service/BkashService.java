@@ -4,6 +4,7 @@ import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
 import com.backend.api.GlobalStore;
 import com.backend.api.entity.PaymentEntity;
+import com.backend.api.entity.TicketEntity;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.request.PaymentCreateReq;
 import com.backend.api.response.PaymentRes;
@@ -33,7 +34,11 @@ public class BkashService {
     @Transactional
     public String getPaymentLink(PaymentCreateReq paymentCreateReq) throws Exception {
         PaymentEntity payment = paymentService.getPaymentByInvoiceNo(paymentCreateReq.getInvoiceNo());
-        if(payment.isCompleted()) throw new Exception(ErrorMessages.PAYMENT_COMPLETED);
+        TicketEntity ticket = ticketService.getTicketByInvoiceNo(paymentCreateReq.getInvoiceNo());
+        ticketService.validateTicketCount(ticket.getPackages_id(), ticket.getTicket_amount());
+        if(payment.isCompleted()) {
+            throw new Exception(ErrorMessages.PAYMENT_COMPLETED);
+        }
         paymentService.updatePaymentTypeByInvoiceNo(PaymentType.BKASH, paymentCreateReq.getInvoiceNo());
         ticketService.updateTicketAmountByInvoiceNo(paymentCreateReq.getTicketAmount(), paymentCreateReq.getInvoiceNo());
         return getPaymentLink(paymentCreateReq.getInvoiceNo());

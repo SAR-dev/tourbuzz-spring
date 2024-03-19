@@ -46,6 +46,16 @@
         WHERE p.invoice_no = #{invoiceNo}
     </select>
 
+    <select id="getTicketById" resultMap="ticketResultMap">
+        SELECT
+            t.*,
+            tp.payments_id
+        FROM tour.tickets t
+        JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
+        JOIN public.payments p ON tp.payments_id = p.id
+        WHERE p.invoice_no = #{invoiceNo}
+    </select>
+
     <update id="updateTicketAmountByInvoiceNo">
         UPDATE tour.tickets
         SET ticket_amount = #{ticketAmount}
