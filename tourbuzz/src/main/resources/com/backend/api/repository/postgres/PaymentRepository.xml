@@ -57,7 +57,7 @@
     </select>
 
     <select id="getPaymentByInvoiceNo" resultMap="paymentResultMap">
-        SELECT * FROM public.payments WHERE id = #{id}
+        SELECT * FROM public.payments WHERE invoice_no = #{invoiceNo}
     </select>
 
     <select id="getPaymentAmountByInvoiceNo" resultType="double">
