@@ -3,22 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.PaymentRepository">
-    <select id="checkIfInvoiceIsCompleted" resultType="boolean">
-        SELECT completed FROM public.payments WHERE invoice_no = #{invoiceNo}
-    </select>
-
-    <select id="getPaymentEmailByInvoiceNo" resultType="string">
-        SELECT u.email
-        FROM public.payments p
-        JOIN auth.users u ON p.users_id = u.id
-        WHERE invoice_no = #{invoiceNo}
-    </select>
-
-    <delete id="deletePayment">
-        DELETE FROM public.payments
-        WHERE id = #{id}
-    </delete>
-
     <select id="getInvoiceNo" resultType="string">
         INSERT INTO public.payments (
             users_id
@@ -27,15 +11,28 @@
         ) RETURNING invoice_no
     </select>
 
+    <insert id="createTicketPaymentByInvoiceNo">
+        INSERT INTO tour.ticket_payments (
+            tickets_id,
+            payments_id
+        ) VALUES (
+            #{ticketsId},
+            (SELECT id FROM public.payments WHERE invoice_no = #{invoiceNo})
+        )
+    </insert>
+
     <update id="updatePaymentTypeByInvoiceNo">
         UPDATE public.payments
-        SET payment_type = #{paymentType}
+        SET
+            payment_type = #{paymentType}
         WHERE invoice_no = #{invoiceNo}
     </update>
 
     <update id="registerPaymentIdWithInvoice">
         UPDATE public.payments
-        SET payment_id = #{paymentId}, payment_amount = #{paymentAmount}
+        SET
+            payment_id = #{paymentId},
+            payment_amount = #{paymentAmount}
         WHERE invoice_no = #{invoiceNo}
     </update>
 
@@ -48,25 +45,18 @@
             completed = #{completed},
             reference_no = #{referenceNo},
             <if test="transactionId != null">
-            transaction_id = #{transactionId},
+                transaction_id = #{transactionId},
             </if>
         </set>
         WHERE payment_id = #{paymentId}
     </update>
 
-    <select id="getPaymentIdByInvoiceNo" resultType="string">
-        SELECT
-            payment_id
-        FROM public.payments
-        WHERE invoice_no = #{invoiceNo}
+    <select id="getPaymentById" resultMap="paymentResultMap">
+        SELECT * FROM public.payments WHERE id = #{id}
     </select>
 
-    <select id="getUserEmailByInvoiceNo" resultType="string">
-        SELECT
-            u.email
-        FROM public.payments p
-        JOIN auth.users u ON p.users_id = u.id
-        WHERE p.invoice_no = #{invoiceNo}
+    <select id="getPaymentByInvoiceNo" resultMap="paymentResultMap">
+        SELECT * FROM public.payments WHERE id = #{id}
     </select>
 
     <select id="getPaymentAmountByInvoiceNo" resultType="double">
@@ -78,4 +68,28 @@
         JOIN tour.packages pkg ON t.packages_id = pkg.id
         WHERE p.invoice_no = #{invoiceNo}
     </select>
+
+    <select id="getTicketPaymentByInvoiceNo" resultType="com.backend.api.entity.TicketPaymentEntity">
+        SELECT * FROM tour.ticket_payments
+        WHERE tickets_id = (
+            SELECT
+            tp.tickets_id
+            FROM public.payments p
+            JOIN tour.ticket_payments tp ON tp.payments_id = p.id
+            WHERE p.invoice_no = #{invoiceNo}
+        )
+    </select>
+
+    <delete id="deletePayment">
+        DELETE FROM public.payments WHERE id = #{id}
+    </delete>
+
+    <resultMap id="paymentResultMap" type="com.backend.api.entity.PaymentEntity">
+        <association
+                property="user"
+                select="com.backend.api.repository.postgres.UserRepository.getUserById"
+                javaType="com.backend.api.entity.UserEntity"
+                column="id = users_id"
+        />
+    </resultMap>
 </mapper>

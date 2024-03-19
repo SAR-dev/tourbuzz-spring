@@ -20,4 +20,6 @@ public class PaymentEntity {
     private boolean completed;
     private Timestamp created_at;
     private Timestamp updated_at;
+
+    private UserEntity user;
 }

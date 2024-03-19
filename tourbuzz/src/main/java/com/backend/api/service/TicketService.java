@@ -1,6 +1,7 @@
 package com.backend.api.service;
 
 import com.backend.api.ErrorMessages;
+import com.backend.api.entity.PaymentEntity;
 import com.backend.api.entity.TicketEntity;
 import com.backend.api.entity.TicketPaymentEntity;
 import com.backend.api.repository.postgres.TicketRepository;
@@ -20,22 +21,26 @@ public class TicketService {
     private final PaymentService paymentService;
     private final AuthService authService;
 
+    public List<TicketEntity> getTickets(){
+        return ticketRepository.getTickets();
+    }
+
     @Transactional
     public void bookInvoiceNo(BookCreateReq bookCreateReq) {
         String email = authService.getLoggedInEmail();
         String invoiceNo = paymentService.getInvoiceNo(email);
         int ticketsId = createTicket(email, bookCreateReq);
-        createTicketPaymentWithInvoice(ticketsId, invoiceNo);
+        paymentService.createTicketPaymentByInvoiceNo(ticketsId, invoiceNo);
     }
 
     @Transactional
     public void cancelInvoiceNo(BookCancelReq bookCancelReq) throws Exception {
         String email = authService.getLoggedInEmail();
-        String invoicedEmail = paymentService.getPaymentEmailByInvoiceNo(bookCancelReq.getInvoiceNo());
+        String invoicedEmail = paymentService.getUserEmailByInvoiceNo(bookCancelReq.getInvoiceNo());
         if(!invoicedEmail.equals(email)) throw new Exception(ErrorMessages.UNAUTHORIZED);
-        boolean completed = paymentService.checkIfInvoiceIsCompleted(bookCancelReq.getInvoiceNo());
-        if(completed) throw new Exception(ErrorMessages.PAYMENT_COMPLETED);
-        TicketPaymentEntity ticketPayment = getTicketPaymentByInvoiceNo(bookCancelReq.getInvoiceNo());
+        PaymentEntity payment = paymentService.getPaymentByInvoiceNo(bookCancelReq.getInvoiceNo());
+        if(payment.isCompleted()) throw new Exception(ErrorMessages.PAYMENT_COMPLETED);
+        TicketPaymentEntity ticketPayment = paymentService.getTicketPaymentByInvoiceNo(bookCancelReq.getInvoiceNo());
         deleteTicketPaymentByInvoiceNo(bookCancelReq.getInvoiceNo());
         deleteTicketByInvoiceNo(ticketPayment.getTickets_id());
         paymentService.deletePayment(ticketPayment.getPayments_id());
@@ -50,10 +55,6 @@ public class TicketService {
         return ticketRepository.createTicket(email, bookCreateReq);
     }
 
-    public void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo){
-        ticketRepository.createTicketPaymentWithInvoice(ticketsId, invoiceNo);
-    }
-
     public void updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo) throws Exception {
         int count = ticketRepository.updateTicketAmountByInvoiceNo(ticketAmount, invoiceNo);
         if(count != 1){
@@ -65,17 +66,13 @@ public class TicketService {
         ticketRepository.deleteTicket(id);
     }
 
-    public TicketPaymentEntity getTicketPaymentByInvoiceNo(String invoiceNo){
-        return ticketRepository.getTicketPaymentByInvoiceNo(invoiceNo);
-    }
-
     public void deleteTicketPaymentByInvoiceNo(String invoiceNo) {
         ticketRepository.deleteTicketPaymentByInvoiceNo(invoiceNo);
     }
 
     public TicketEntity getTicketByInvoiceNo(String invoiceNo) throws Exception {
         String email = authService.getLoggedInEmail();
-        String invoicedEmail = paymentService.getPaymentEmailByInvoiceNo(invoiceNo);
+        String invoicedEmail = paymentService.getUserEmailByInvoiceNo(invoiceNo);
         if(!invoicedEmail.equals(email)) throw new Exception(ErrorMessages.UNAUTHORIZED);
         TicketEntity ticketEntity = ticketRepository.getTicketByInvoiceNo(invoiceNo);
         if(Objects.isNull(ticketEntity)) throw new Exception(ErrorMessages.NOT_FOUND);

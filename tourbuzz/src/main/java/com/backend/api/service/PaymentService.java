@@ -1,6 +1,8 @@
 package com.backend.api.service;
 
 import com.backend.api.ErrorMessages;
+import com.backend.api.entity.PaymentEntity;
+import com.backend.api.entity.TicketPaymentEntity;
 import com.backend.api.enums.PaymentType;
 import com.backend.api.repository.postgres.PaymentRepository;
 import com.backend.api.response.PaymentRes;
@@ -12,14 +14,6 @@ import org.springframework.stereotype.Service;
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final AuthService authService;
-
-    public boolean checkIfInvoiceIsCompleted(String invoiceNo){
-        return paymentRepository.checkIfInvoiceIsCompleted(invoiceNo);
-    }
-
-    public String getPaymentEmailByInvoiceNo(String invoiceNo){
-        return paymentRepository.getPaymentEmailByInvoiceNo(invoiceNo);
-    }
 
     public void registerPaymentIdWithInvoice(String invoiceNo, String paymentId, double paymentAmount) throws Exception {
         int count = paymentRepository.registerPaymentIdWithInvoice(invoiceNo, paymentId, paymentAmount);
@@ -36,7 +30,8 @@ public class PaymentService {
     }
 
     public String getUserEmailByInvoiceNo(String invoiceNo){
-        return paymentRepository.getUserEmailByInvoiceNo(invoiceNo);
+        PaymentEntity payment = paymentRepository.getPaymentByInvoiceNo(invoiceNo);
+        return payment.getUser().getEmail();
     }
 
     public String getPaymentIdByInvoiceNo(String invoiceNo) throws Exception {
@@ -45,7 +40,8 @@ public class PaymentService {
         if(!loggedInEmail.equals(invoicedEmail)){
             throw new Exception(ErrorMessages.UNAUTHORIZED);
         }
-        return paymentRepository.getPaymentIdByInvoiceNo(invoiceNo);
+        PaymentEntity payment = paymentRepository.getPaymentByInvoiceNo(invoiceNo);
+        return payment.getPayment_id();
     }
 
     public double getPaymentAmountByInvoiceNo(String invoiceNo){
@@ -65,5 +61,17 @@ public class PaymentService {
 
     public String getInvoiceNo(String email){
         return paymentRepository.getInvoiceNo(email);
+    }
+
+    public void createTicketPaymentByInvoiceNo(int ticketsId, String invoiceNo){
+        paymentRepository.createTicketPaymentByInvoiceNo(ticketsId, invoiceNo);
+    }
+
+    public TicketPaymentEntity getTicketPaymentByInvoiceNo(String invoiceNo){
+        return paymentRepository.getTicketPaymentByInvoiceNo(invoiceNo);
+    }
+
+    public PaymentEntity getPaymentByInvoiceNo(String invoiceNo){
+        return paymentRepository.getPaymentByInvoiceNo(invoiceNo);
     }
 }

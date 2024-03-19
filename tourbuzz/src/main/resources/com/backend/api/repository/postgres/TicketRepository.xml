@@ -3,6 +3,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.postgres.TicketRepository">
+    <select id="createTicket" resultType="int">
+        INSERT INTO tour.tickets (
+            packages_id,
+            ticket_amount,
+            users_id
+        ) VALUES (
+            #{data.packagesId},
+            #{data.ticketAmount},
+            (SELECT id FROM auth.users u WHERE u.email = #{email})
+        ) RETURNING id
+    </select>
+
+    <select id="getTickets" resultMap="ticketResultMap">
+        SELECT
+            t.*,
+            tp.payments_id
+        FROM tour.tickets t
+        JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
+        JOIN public.payments p ON tp.payments_id = p.id
+        WHERE p.completed IS TRUE
+        ORDER BY t.packages_id ASC, id DESC
+    </select>
+
+    <select id="getTicketsByUser" resultMap="ticketResultMap">
+        SELECT
+            t.*,
+            tp.payments_id
+        FROM tour.tickets t
+        JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
+        WHERE users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
+    </select>
+
     <select id="getTicketByInvoiceNo" resultMap="ticketResultMap">
         SELECT
             t.*,
@@ -25,22 +57,6 @@
         )
     </update>
 
-    <delete id="deleteTicket">
-        DELETE FROM tour.tickets
-        WHERE id = #{id}
-    </delete>
-
-    <select id="getTicketPaymentByInvoiceNo" resultType="com.backend.api.entity.TicketPaymentEntity">
-        SELECT * FROM tour.ticket_payments
-        WHERE tickets_id = (
-            SELECT
-            tp.tickets_id
-            FROM public.payments p
-            JOIN tour.ticket_payments tp ON tp.payments_id = p.id
-            WHERE p.invoice_no = #{invoiceNo}
-        )
-    </select>
-
     <delete id="deleteTicketPaymentByInvoiceNo">
         DELETE FROM tour.ticket_payments
         WHERE tickets_id = (
@@ -52,36 +68,9 @@
         )
     </delete>
 
-    <select id="createTicket" resultType="int">
-        INSERT INTO tour.tickets (
-            packages_id,
-            ticket_amount,
-            users_id
-        ) VALUES (
-            #{data.packagesId},
-            #{data.ticketAmount},
-            (SELECT id FROM auth.users u WHERE u.email = #{email})
-        ) RETURNING id
-    </select>
-
-    <insert id="createTicketPaymentWithInvoice">
-        INSERT INTO tour.ticket_payments (
-            tickets_id,
-            payments_id
-        ) VALUES (
-            #{ticketsId},
-            (SELECT id FROM public.payments WHERE invoice_no = #{invoiceNo})
-        )
-    </insert>
-
-    <select id="getTicketsByUser" resultMap="ticketResultMap">
-        SELECT
-            t.*,
-            tp.payments_id
-        FROM tour.tickets t
-        JOIN tour.ticket_payments tp ON tp.tickets_id = t.id
-        WHERE users_id = (SELECT id FROM auth.users u WHERE u.email = #{email})
-    </select>
+    <delete id="deleteTicket">
+        DELETE FROM tour.tickets WHERE id = #{id}
+    </delete>
 
     <resultMap id="ticketResultMap" type="com.backend.api.entity.TicketEntity">
         <association
@@ -92,7 +81,7 @@
         />
         <association
                 property="payment"
-                select="getPaymentById"
+                select="com.backend.api.repository.postgres.PaymentRepository.getPaymentById"
                 javaType="com.backend.api.entity.PaymentEntity"
                 column="id = payments_id"
         />
@@ -103,10 +92,6 @@
                 column="id = id"
         />
     </resultMap>
-
-    <select id="getPaymentById" resultType="com.backend.api.entity.PaymentEntity">
-        SELECT * FROM public.payments WHERE id = #{id}
-    </select>
 
     <select id="getFilesByTicketId" resultType="com.backend.api.entity.FileEntity">
         SELECT

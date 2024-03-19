@@ -10,19 +10,17 @@ import java.util.List;
 
 @Mapper
 public interface TicketRepository {
+    List<TicketEntity> getTickets();
+
     List<TicketEntity> getTicketsByUser(String email);
 
     TicketEntity getTicketByInvoiceNo(String invoiceNo);
 
     int createTicket(String email, @Param("data") BookCreateReq bookCreateReq);
 
-    void createTicketPaymentWithInvoice(int ticketsId, String invoiceNo);
-
     int updateTicketAmountByInvoiceNo(int ticketAmount, String invoiceNo);
 
     void deleteTicket(int id);
-
-    TicketPaymentEntity getTicketPaymentByInvoiceNo(String invoiceNo);
 
     void deleteTicketPaymentByInvoiceNo(String invoiceNo);
 }
