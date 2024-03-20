@@ -48,6 +48,10 @@ public class PaymentService {
         return paymentRepository.getPaymentAmountByInvoiceNo(invoiceNo);
     }
 
+    public PaymentEntity getCompletedPaymentByPaymentId(String paymentId, PaymentType paymentType){
+        return paymentRepository.getCompletedPaymentByPaymentId(paymentId, paymentType.name());
+    }
+
     public void updatePaymentTypeByInvoiceNo(PaymentType paymentType, String invoiceNo) throws Exception {
         int count = paymentRepository.updatePaymentTypeByInvoiceNo(paymentType.name(), invoiceNo);
         if(count != 1){

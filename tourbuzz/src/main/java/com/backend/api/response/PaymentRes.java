@@ -13,7 +13,6 @@ public class PaymentRes {
     private String transactionId;
     private double paymentAmount;
     private String currency;
-    private Timestamp paidAt;
     private String referenceNo;
     private boolean completed;
 }

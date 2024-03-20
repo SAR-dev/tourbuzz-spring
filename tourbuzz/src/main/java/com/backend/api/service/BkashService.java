@@ -23,6 +23,7 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -85,16 +86,12 @@ public class BkashService {
             throw new RuntimeException("Payment not completed");
         }
 
-        String paymentExecuteTime = (String) response.get("paymentExecuteTime");
-        Timestamp paidAt = (paymentExecuteTime != null && !paymentExecuteTime.isEmpty()) ? getBkashPaidAt(paymentExecuteTime) : null;
-
         PaymentRes paymentRes = PaymentRes.builder()
                 .paymentId((String) response.get("paymentID"))
                 .transactionId((String) response.get("trxID"))
                 .paymentAmount(Double.parseDouble((String) response.get("amount")))
                 .currency((String) response.get("currency"))
-                .paidAt(paidAt)
-                .referenceNo((String) response.get("payerReference"))
+                .referenceNo((String) response.get("customerMsisdn"))
                 .completed(response.get("transactionStatus").equals("Completed"))
                 .build();
         paymentService.updatePaymentWithPaymentId(paymentRes);
@@ -127,19 +124,31 @@ public class BkashService {
     }
 
     public PaymentRes handlePaymentCallback(String paymentID) throws Exception {
-        HttpHeaders headers = getDefaultHeaders();
+        PaymentEntity payment = paymentService.getCompletedPaymentByPaymentId(paymentID, PaymentType.BKASH);
+        if(Objects.isNull(payment)) {
+            HttpHeaders headers = getDefaultHeaders();
 
-        Map<String, String> payload = new HashMap<>();
-        payload.put("paymentID", paymentID);
+            Map<String, String> payload = new HashMap<>();
+            payload.put("paymentID", paymentID);
 
-        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
-        ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(
-                Constants.BKASH.EXECUTE_PAYMENT_API,
-                requestEntity,
-                Map.class
-        );
+            HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(payload, headers);
+            ResponseEntity<Map> responseEntity = new RestTemplate().postForEntity(
+                    Constants.BKASH.EXECUTE_PAYMENT_API,
+                    requestEntity,
+                    Map.class
+            );
 
-        return handlePayment(responseEntity);
+            return handlePayment(responseEntity);
+        } else {
+            return PaymentRes.builder()
+                    .paymentId(payment.getPayment_id())
+                    .transactionId(payment.getTransaction_id())
+                    .paymentAmount(payment.getPayment_amount())
+                    .currency(payment.getCurrency())
+                    .referenceNo(payment.getReference_no())
+                    .completed(payment.isCompleted())
+                    .build();
+        }
     }
 
     public PaymentRes queryPaymentByInvoiceNo(String invoiceNo) throws Exception {

@@ -21,6 +21,8 @@ public interface PaymentRepository {
 
     PaymentEntity getPaymentByInvoiceNo(String invoiceNo);
 
+    PaymentEntity getCompletedPaymentByPaymentId(String paymentId, String paymentType);
+
     void deletePayment(int id);
 
     String getInvoiceNo(String email);

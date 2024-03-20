@@ -60,6 +60,13 @@
         SELECT * FROM public.payments WHERE invoice_no = #{invoiceNo}
     </select>
 
+    <select id="getCompletedPaymentByPaymentId" resultMap="paymentResultMap">
+        SELECT * FROM public.payments
+        WHERE payment_id = #{paymentId}
+        AND payment_type = #{paymentType}
+        AND completed IS TRUE
+    </select>
+
     <select id="getPaymentAmountByInvoiceNo" resultType="double">
         SELECT
             t.ticket_amount * pkg.price

@@ -21,7 +21,7 @@ public class BkashController {
     public String handlePaymentCallback(
             @RequestParam String paymentID,
             @RequestParam String status
-    ) throws Exception {
+    ) {
         if (!status.equals("success")) {
             String templateName = Constants.TEMPLATES.PAYMENT_FAILED;
             Context context = new Context();

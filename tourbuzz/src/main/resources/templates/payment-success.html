@@ -20,20 +20,20 @@
 <body>
 <div class="h-screen w-full flex justify-center items-center">
     <div>
-        <div class="p-5 rounded w-96 border border-gray-300">
-            <div class="text-3xl text-center">✅</div>
-            <div class="text-center font-medium text-xl mt-2">Payment Completed</div>
-            <div class="mt-5 border border-gray-300 rounded grid grid-cols-2">
+        <div class="p-5 rounded border border-gray-300" style="width: 35rem">
+            <div class="text-4xl text-center">✅</div>
+            <div class="text-center font-medium text-xl mt-5">Payment Completed</div>
+            <div class="mt-5 border border-gray-300 rounded grid grid-cols-3">
                 <div class="p-3 font-medium border-b border-r border-gray-300">Payment ID</div>
-                <div class="p-3 font-medium border-b border-gray-300 text-right" th:text="${data.paymentId}"></div>
+                <div class="p-3 font-medium border-b border-gray-300 text-right col-span-2" th:text="${data.paymentId}"></div>
                 <div class="p-3 font-medium border-b border-r border-gray-300">Transaction ID</div>
-                <div class="p-3 font-medium border-b border-gray-300 text-right" th:text="${data.transactionId}"></div>
+                <div class="p-3 font-medium border-b border-gray-300 text-right col-span-2" th:text="${data.transactionId}"></div>
                 <div class="p-3 font-medium border-b border-r border-gray-300">Amount</div>
-                <div class="p-3 font-medium border-b border-gray-300 text-right" th:text="${data.paymentAmount}"></div>
+                <div class="p-3 font-medium border-b border-gray-300 text-right col-span-2" th:text="${data.paymentAmount}"></div>
                 <div class="p-3 font-medium border-b border-r border-gray-300">Currency</div>
-                <div class="p-3 font-medium border-b border-gray-300 text-right" th:text="${data.currency}"></div>
+                <div class="p-3 font-medium border-b border-gray-300 text-right col-span-2" th:text="${data.currency}"></div>
                 <div class="p-3 font-medium border-r border-gray-300">Reference No</div>
-                <div class="p-3 font-medium border-gray-300 text-right" th:text="${data.referenceNo}"></div>
+                <div class="p-3 font-medium border-gray-300 text-right col-span-2" th:text="${data.referenceNo}"></div>
             </div>
         </div>
 
