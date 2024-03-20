@@ -110,7 +110,7 @@
         <association
                 property="tour"
                 select="getTourById"
-                javaType="com.backend.api.entity.TourEntity"
+                javaType="com.backend.api.entity.TourShortEntity"
                 column="id = tours_id"
         />
         <association
@@ -140,7 +140,7 @@
         SELECT * FROM tour.tours WHERE id = #{id}
     </select>
 
-    <resultMap id="tourResultMap" type="com.backend.api.entity.TourEntity">
+    <resultMap id="tourResultMap" type="com.backend.api.entity.TourShortEntity">
         <association
                 property="organizer"
                 select="com.backend.api.repository.postgres.OrganizerRepository.getOrganizerById"
