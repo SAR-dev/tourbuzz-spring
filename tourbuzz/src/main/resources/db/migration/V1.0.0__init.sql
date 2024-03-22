@@ -482,6 +482,7 @@ CREATE TABLE tour.ticket_files (
 
 CREATE TABLE ecom.categories (
     id              serial PRIMARY KEY,
+    priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
     name            text NOT NULL,
     slug            _slug NOT NULL UNIQUE,
     images_id       integer NOT NULL REFERENCES public.images(id),
@@ -490,9 +491,34 @@ CREATE TABLE ecom.categories (
 );
 CREATE TRIGGER update_updated_at_categories BEFORE UPDATE ON ecom.categories FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
+CREATE TABLE ecom.brands (
+    id              serial PRIMARY KEY,
+    priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
+    name            text NOT NULL,
+    slug            _slug NOT NULL UNIQUE,
+    images_id       integer NOT NULL REFERENCES public.images(id),
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_brands BEFORE UPDATE ON ecom.brands FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE ecom.series (
+    id              serial PRIMARY KEY,
+    priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
+    name            text NOT NULL,
+    slug            _slug NOT NULL UNIQUE,
+    images_id       integer NOT NULL REFERENCES public.images(id),
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_series BEFORE UPDATE ON ecom.series FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
 CREATE TABLE ecom.products (
     id              serial PRIMARY KEY,
     categories_id   integer NOT NULL REFERENCES ecom.categories(id),
+    series_id       integer NOT NULL REFERENCES ecom.series(id),
+    brands_id       integer NOT NULL REFERENCES ecom.brands(id),
+    priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
     title           text NOT NULL,
     slug            _slug NOT NULL UNIQUE,
     subtitle        text,

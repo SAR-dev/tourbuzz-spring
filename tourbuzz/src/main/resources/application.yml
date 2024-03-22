@@ -5,9 +5,9 @@ spring:
   datasource:
     postgres:
       hikari:
-        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://ep-snowy-limit-a1oqtfke-pooler.ap-southeast-1.aws.neon.tech:5432/tourbuzz}
-        username: ${POSTGRES_USERNAME:tourbuzz_owner}
-        password: ${POSTGRES_PASSWORD:c2gALeNSRYa0}
+        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz}
+        username: ${POSTGRES_USERNAME:postgres}
+        password: ${POSTGRES_PASSWORD:admin}
         driver-class-name: org.postgresql.Driver
         auto-commit: false
         minimum-idle: 10
@@ -45,9 +45,9 @@ pagehelper:
 server:
   port: ${PORT:8080}
 flyway:
-  url: ${POSTGRES_URL:jdbc:postgresql://ep-snowy-limit-a1oqtfke-pooler.ap-southeast-1.aws.neon.tech:5432/tourbuzz}
-  username: ${POSTGRES_USERNAME:tourbuzz_owner}
-  password: ${POSTGRES_PASSWORD:c2gALeNSRYa0}
+  url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz}
+  username: ${POSTGRES_USERNAME:postgres}
+  password: ${POSTGRES_PASSWORD:admin}
   driver-class-name: org.postgresql.Driver
   baselineOnMigrate: true
   locations: classpath:db/migration/{vendor}
