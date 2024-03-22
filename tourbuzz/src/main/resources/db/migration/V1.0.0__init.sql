@@ -19,11 +19,18 @@ BEGIN
   END IF;
 END $$;
 
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'ecom') THEN
+    CREATE SCHEMA public;
+  END IF;
+END $$;
+
 --ENUMS
 
 --public
-CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE');
-CREATE TYPE public.comment_reference_type AS ENUM('TOUR', 'ARTICLE', 'ORGANIZER', 'HOTEL', 'WRITER', 'PLACE');
+CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE', 'PRODUCT');
+CREATE TYPE public.comment_reference_type AS ENUM('TOUR', 'ARTICLE', 'PRODUCT', 'ORGANIZER', 'HOTEL', 'WRITER', 'PLACE');
 CREATE TYPE public.manager_position_type AS ENUM('ADMIN', 'STAFF');
 
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
@@ -61,6 +68,8 @@ CREATE DOMAIN auth._link AS TEXT
     CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
 CREATE DOMAIN auth.number_list AS TEXT
     CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
+CREATE DOMAIN auth.word_list AS TEXT
+    CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
 CREATE DOMAIN auth._slug AS TEXT
     CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
@@ -73,9 +82,24 @@ CREATE DOMAIN tour._link AS TEXT
     CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
 CREATE DOMAIN tour.number_list AS TEXT
     CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
+CREATE DOMAIN tour.word_list AS TEXT
+    CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
 CREATE DOMAIN tour._slug AS TEXT
     CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
+--ecom
+CREATE DOMAIN ecom._username AS TEXT
+    CHECK (VALUE ~* '^(?=.{4,50}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]+(?<![_.-])$');
+CREATE DOMAIN ecom._email AS TEXT
+    CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
+CREATE DOMAIN ecom._link AS TEXT
+    CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
+CREATE DOMAIN ecom.number_list AS TEXT
+    CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
+CREATE DOMAIN ecom.word_list AS TEXT
+    CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
+CREATE DOMAIN ecom._slug AS TEXT
+    CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
 --Update Function
 
@@ -310,7 +334,7 @@ CREATE TABLE tour.packages (
     included        text NOT NULL,
     excluded        text NOT NULL,
     conditions      text NOT NULL,
-    price           integer NOT NULL,
+    price           numeric NOT NULL,
     threshold       integer NOT NULL,
     status          status_type NOT NULL DEFAULT 'PUBLISHED',
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
@@ -495,10 +519,8 @@ CREATE TRIGGER update_updated_at_tickets BEFORE UPDATE ON tour.tickets FOR EACH 
 
 CREATE TABLE tour.ticket_payments (
     id              serial PRIMARY KEY,
-    tickets_id      integer NOT NULL REFERENCES tour.tickets(id),
-    payments_id     integer NOT NULL REFERENCES public.payments(id),
-    CONSTRAINT unq_ticket_payments_tickets UNIQUE ( tickets_id ),
-    CONSTRAINT unq_ticket_payments_payments UNIQUE ( payments_id )
+    tickets_id      integer NOT NULL UNIQUE REFERENCES tour.tickets(id),
+    payments_id     integer NOT NULL UNIQUE REFERENCES public.payments(id)
 );
 
 CREATE TABLE tour.ticket_files (
@@ -506,4 +528,39 @@ CREATE TABLE tour.ticket_files (
     tickets_id      integer NOT NULL REFERENCES tour.tickets(id),
     files_id        integer NOT NULL REFERENCES public.files(id),
     CONSTRAINT unq_ticket_files UNIQUE ( files_id )
+);
+
+CREATE TABLE ecom.categories (
+    id              serial PRIMARY KEY,
+    name            text NOT NULL,
+    slug            _slug NOT NULL UNIQUE,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_categories BEFORE UPDATE ON ecom.categories FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE ecom.products (
+    id              serial PRIMARY KEY,
+    categories_id   integer NOT NULL REFERENCES ecom.categories(id),
+    name            text NOT NULL,
+    slug            _slug NOT NULL UNIQUE,
+    seo             text,
+    video_link      _link,
+    image_ids       number_list,
+    description     text NOT NULL,
+    actual_price    numeric NOT NULL,
+    offer_price     numeric NOT NULL,
+    active          boolean DEFAULT TRUE,
+    threshold       integer NOT NULL,
+    tags            word_list,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_products BEFORE UPDATE ON ecom.products FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE ecom.favourites (
+    id              serial PRIMARY KEY,
+    users_id        integer NOT NULL REFERENCES auth.users(id),
+    products_id     integer NOT NULL REFERENCES ecom.products(id),
+    CONSTRAINT unq_favourites UNIQUE ( users_id, products_id)
 );

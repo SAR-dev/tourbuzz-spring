@@ -6,5 +6,6 @@ public enum CommentRef {
     ORGANIZER,
     HOTEL,
     WRITER,
-    PLACE
+    PLACE,
+    PRODUCT
 }
