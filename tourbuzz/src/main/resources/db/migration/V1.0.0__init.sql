@@ -492,8 +492,9 @@ CREATE TRIGGER update_updated_at_categories BEFORE UPDATE ON ecom.categories FOR
 CREATE TABLE ecom.products (
     id              serial PRIMARY KEY,
     categories_id   integer NOT NULL REFERENCES ecom.categories(id),
-    name            text NOT NULL,
+    title           text NOT NULL,
     slug            _slug NOT NULL UNIQUE,
+    subtitle        text,
     seo             text,
     video_link      _link,
     image_ids       number_list,

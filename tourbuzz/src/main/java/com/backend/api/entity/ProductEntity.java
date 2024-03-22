@@ -9,8 +9,9 @@ import java.util.List;
 public class ProductEntity {
     private int id;
     private int categories_id;
-    private String name;
+    private String title;
     private String slug;
+    private String subtitle;
     private String seo;
     private String video_link;
     private String image_ids;
