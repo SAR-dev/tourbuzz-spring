@@ -22,7 +22,7 @@ END $$;
 DO $$
 BEGIN
   IF NOT EXISTS (SELECT 1 FROM pg_namespace WHERE nspname = 'ecom') THEN
-    CREATE SCHEMA public;
+    CREATE SCHEMA ecom;
   END IF;
 END $$;
 
@@ -32,18 +32,8 @@ END $$;
 CREATE TYPE public.emoji_reference_type AS ENUM('TOUR', 'ARTICLE', 'PRODUCT');
 CREATE TYPE public.comment_reference_type AS ENUM('TOUR', 'ARTICLE', 'PRODUCT', 'ORGANIZER', 'HOTEL', 'WRITER', 'PLACE');
 CREATE TYPE public.manager_position_type AS ENUM('ADMIN', 'STAFF');
-
 CREATE TYPE public.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
 CREATE TYPE public.status_type AS ENUM('DRAFT', 'PUBLISHED');
-
---auth
-CREATE TYPE auth.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE auth.status_type AS ENUM('DRAFT', 'PUBLISHED');
-
---tour
-CREATE TYPE tour.level_type AS ENUM('LEVEL1', 'LEVEL2', 'LEVEL3', 'LEVEL4', 'LEVEL5');
-CREATE TYPE tour.status_type AS ENUM('DRAFT', 'PUBLISHED');
-CREATE TYPE tour.manager_position_type AS ENUM('ADMIN', 'STAFF');
 
 --DOMAINS
 
@@ -56,49 +46,9 @@ CREATE DOMAIN public._link AS TEXT
     CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
 CREATE DOMAIN public.number_list AS TEXT
     CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
+CREATE DOMAIN public.word_list AS TEXT
+    CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
 CREATE DOMAIN public._slug AS TEXT
-    CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
-
---auth
-CREATE DOMAIN auth._username AS TEXT
-    CHECK (VALUE ~* '^(?=.{4,50}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]+(?<![_.-])$');
-CREATE DOMAIN auth._email AS TEXT
-    CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
-CREATE DOMAIN auth._link AS TEXT
-    CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
-CREATE DOMAIN auth.number_list AS TEXT
-    CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
-CREATE DOMAIN auth.word_list AS TEXT
-    CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
-CREATE DOMAIN auth._slug AS TEXT
-    CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
-
---tour
-CREATE DOMAIN tour._username AS TEXT
-    CHECK (VALUE ~* '^(?=.{4,50}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]+(?<![_.-])$');
-CREATE DOMAIN tour._email AS TEXT
-    CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
-CREATE DOMAIN tour._link AS TEXT
-    CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
-CREATE DOMAIN tour.number_list AS TEXT
-    CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
-CREATE DOMAIN tour.word_list AS TEXT
-    CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
-CREATE DOMAIN tour._slug AS TEXT
-    CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
-
---ecom
-CREATE DOMAIN ecom._username AS TEXT
-    CHECK (VALUE ~* '^(?=.{4,50}$)(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._-]+(?<![_.-])$');
-CREATE DOMAIN ecom._email AS TEXT
-    CHECK (VALUE ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$');
-CREATE DOMAIN ecom._link AS TEXT
-    CHECK (VALUE ~* '^(https?:\/\/)?([\w\-])+\.{1}([a-zA-Z]{2,63})([\/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)$');
-CREATE DOMAIN ecom.number_list AS TEXT
-    CHECK ( VALUE ~* '^\d+(,\d+)*|()$');
-CREATE DOMAIN ecom.word_list AS TEXT
-    CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
-CREATE DOMAIN ecom._slug AS TEXT
     CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
 
 --Update Function
@@ -563,4 +513,21 @@ CREATE TABLE ecom.favourites (
     users_id        integer NOT NULL REFERENCES auth.users(id),
     products_id     integer NOT NULL REFERENCES ecom.products(id),
     CONSTRAINT unq_favourites UNIQUE ( users_id, products_id)
+);
+
+CREATE TABLE ecom.purchases (
+    id              serial PRIMARY KEY,
+    products_id     integer NOT NULL REFERENCES ecom.products(id),
+    users_id        integer NOT NULL REFERENCES auth.users(id),
+    product_amount  integer NOT NULL,
+    note            text,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_purchases BEFORE UPDATE ON tour.tickets FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE ecom.purchase_payments (
+    id              serial PRIMARY KEY,
+    purchases_id    integer NOT NULL UNIQUE REFERENCES ecom.purchases(id),
+    payments_id     integer NOT NULL UNIQUE REFERENCES public.payments(id)
 );
