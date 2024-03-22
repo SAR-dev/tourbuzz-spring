@@ -484,6 +484,7 @@ CREATE TABLE ecom.categories (
     id              serial PRIMARY KEY,
     name            text NOT NULL,
     slug            _slug NOT NULL UNIQUE,
+    images_id       integer NOT NULL REFERENCES public.images(id),
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
