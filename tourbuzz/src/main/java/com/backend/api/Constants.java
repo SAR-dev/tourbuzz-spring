@@ -1,6 +1,8 @@
 package com.backend.api;
 
 public class Constants {
+    public static final String FRONTEND_BASE_URL = "http://localhost:3000";
+    public static final String BACKEND_BASE_URL = "http://localhost:8080";
     public static class HEADER {
         public static final String ADMIN_HEADER_NAME = "x-api-key";
         public static final String ACCESS_HEADER_NAME = "Authorization";
@@ -52,6 +54,6 @@ public class Constants {
         public static final String DEFAULT_MODE = "0011";
         public static final String DEFAULT_CURRENCY = "BDT";
         public static final String DEFAULT_INTENT = "sale";
-        public static final String DEFAULT_CALLBACK_URL = "http://localhost:8080/bkash/callback";
+        public static final String DEFAULT_CALLBACK_URL = BACKEND_BASE_URL + "/bkash/callback";
     }
 }
