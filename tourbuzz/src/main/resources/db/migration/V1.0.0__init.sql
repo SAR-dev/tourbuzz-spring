@@ -485,7 +485,7 @@ CREATE TABLE ecom.categories (
     priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
     name            text NOT NULL,
     slug            _slug NOT NULL UNIQUE,
-    emojicon        text NOT NULL,
+    images_id       integer NOT NULL REFERENCES public.images(id),
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
