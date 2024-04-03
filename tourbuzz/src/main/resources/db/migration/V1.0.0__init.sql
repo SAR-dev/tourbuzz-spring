@@ -528,6 +528,7 @@ CREATE TABLE ecom.products (
     description     text NOT NULL,
     actual_price    numeric NOT NULL,
     offer_price     numeric NOT NULL,
+    points          numeric DEFAULT 0,
     active          boolean DEFAULT TRUE,
     threshold       integer NOT NULL,
     tags            word_list,
