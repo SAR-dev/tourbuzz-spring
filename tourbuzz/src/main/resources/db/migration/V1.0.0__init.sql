@@ -537,6 +537,16 @@ CREATE TABLE ecom.products (
 );
 CREATE TRIGGER update_updated_at_products BEFORE UPDATE ON ecom.products FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
+CREATE TABLE ecom.promotions (
+    id              serial PRIMARY KEY,
+    products_id     integer NOT NULL REFERENCES ecom.products(id),
+    start_at        timestamp DEFAULT CURRENT_TIMESTAMP,
+    finish_at       timestamp DEFAULT CURRENT_TIMESTAMP,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_promotions BEFORE UPDATE ON ecom.promotions FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
 CREATE TABLE ecom.history (
     id              serial PRIMARY KEY,
     users_id        integer NOT NULL REFERENCES auth.users(id),
