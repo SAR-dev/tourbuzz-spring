@@ -541,7 +541,8 @@ CREATE TABLE ecom.history (
     id              serial PRIMARY KEY,
     users_id        integer NOT NULL REFERENCES auth.users(id),
     products_id     integer NOT NULL REFERENCES ecom.products(id),
-    created_at      timestamp DEFAULT CURRENT_TIMESTAMP
+    visit_count     integer DEFAULT 1,
+    last_visited_at timestamp DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE ecom.favourites (
