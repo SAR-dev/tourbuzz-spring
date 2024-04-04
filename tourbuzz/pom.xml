@@ -140,6 +140,21 @@
 			<artifactId>sqlite-jdbc</artifactId>
 			<version>3.42.0.0</version>
 		</dependency>
+
+		<!--User agent parser-->
+		<dependency>
+			<groupId>com.github.ua-parser</groupId>
+			<artifactId>uap-java</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+
+		<!--Geolocation-->
+		<dependency>
+			<groupId>com.maxmind.geoip2</groupId>
+			<artifactId>geoip2</artifactId>
+			<version>4.2.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
