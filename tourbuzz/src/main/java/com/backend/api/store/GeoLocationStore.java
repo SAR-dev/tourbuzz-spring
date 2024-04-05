@@ -1,18 +1,15 @@
-package com.backend.api.service;
+package com.backend.api.store;
 
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import ua_parser.Client;
@@ -21,19 +18,18 @@ import ua_parser.Parser;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.Objects;
 
 import static java.util.Objects.nonNull;
 
 @Component
-public class GeoLocationService {
+@RequiredArgsConstructor
+public class GeoLocationStore {
     private final Parser uaParser = new Parser();
-
     @Autowired
     private ApplicationContext ctx;
-
+    @Autowired
+    HttpServletRequest httpServletRequest;
     private static final String UNKNOWN = "UNKNOWN";
-
     private DatabaseReader databaseReader;
 
     @PostConstruct
@@ -43,12 +39,11 @@ public class GeoLocationService {
         this.databaseReader = new DatabaseReader.Builder(file).build();
     }
 
-    public void verifyDevice(User user, HttpServletRequest request) throws IOException, GeoIp2Exception {
-
-        String ip = extractIp(request);
+    public void verifyDevice() throws IOException, GeoIp2Exception {
+        String ip = extractIp(httpServletRequest);
         String location = getIpLocation(ip);
 
-        String deviceDetails = getDeviceDetails(request.getHeader("user-agent"));
+        String deviceDetails = getDeviceDetails(httpServletRequest.getHeader("user-agent"));
 
 //      Get user and check and verify to do whatever needed
 

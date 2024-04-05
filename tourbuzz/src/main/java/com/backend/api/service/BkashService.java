@@ -2,7 +2,7 @@ package com.backend.api.service;
 
 import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
-import com.backend.api.GlobalStore;
+import com.backend.api.store.GlobalStore;
 import com.backend.api.entity.PaymentEntity;
 import com.backend.api.entity.TicketEntity;
 import com.backend.api.enums.PaymentType;
@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
