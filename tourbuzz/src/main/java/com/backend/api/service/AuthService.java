@@ -8,6 +8,7 @@ import com.backend.api.Constants;
 import com.backend.api.ErrorMessages;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
+import com.backend.api.request.DeviceLogReq;
 import com.backend.api.request.UserSignInReq;
 import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.store.GeoLocationStore;
@@ -35,13 +36,9 @@ import java.util.concurrent.CompletableFuture;
 public class AuthService {
     @Autowired
     HttpServletRequest httpServletRequest;
-
     private final UserRepository userRepository;
-
     private final EmailSenderService emailSenderService;
-
     private final AdminService adminService;
-
     private final GeoLocationStore geoLocationStore;
 
     public String generateMagicToken(String email){
@@ -83,17 +80,20 @@ public class AuthService {
                 .sign(Algorithm.HMAC256(Constants.JWT.ACCESS_TOKEN_SECRET_KEY));
     }
 
+    public void registerDevice(String token){
+        try {
+            String email = getEmailFromMagicToken(token);
+            DeviceLogReq deviceLogReq = geoLocationStore.registerDeviceLog(email);
+            userRepository.createUserDeviceLog(deviceLogReq);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     @Transactional
     public String getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
         int id = createUserByEmail(email);
-        CompletableFuture.runAsync(() -> {
-            try {
-                geoLocationStore.registerDeviceLog(email);
-            } catch (Exception e) {
-                System.out.println(e.getCause());
-            }
-        });
         return generateAccessToken(email, id);
     }
 

@@ -46,17 +46,16 @@ public class GeoLocationStore {
     }
 
     @Transactional
-    public void registerDeviceLog(String email) throws IOException, GeoIp2Exception {
+    public DeviceLogReq registerDeviceLog(String email) throws IOException, GeoIp2Exception {
         String ip = extractIp();
         String location = getIpLocation(ip);
         String deviceDetails = getDeviceDetails();
-        DeviceLogReq req = DeviceLogReq.builder()
+        return DeviceLogReq.builder()
                 .email(email)
                 .ip(ip)
                 .location(location)
                 .device(deviceDetails)
                 .build();
-        userService.createUserDeviceLog(req);
     }
 
     private String extractIp() {

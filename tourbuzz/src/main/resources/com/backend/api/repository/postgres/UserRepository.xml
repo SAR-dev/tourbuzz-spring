@@ -5,7 +5,8 @@
 <mapper namespace="com.backend.api.repository.postgres.UserRepository">
 
     <select id="createUserByEmail" resultType="int">
-        INSERT INTO auth.users (email) VALUES ( #{email} )
+        INSERT INTO auth.users (email)
+        VALUES ( #{email} )
         ON CONFLICT (email)
         DO UPDATE SET
             last_logged_in = CURRENT_TIMESTAMP

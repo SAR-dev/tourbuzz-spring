@@ -36,6 +36,7 @@ public class AuthController {
         authService.verifySignInAdminRequest(request);
 
         String accessToken = authService.getAccessToken(request.getMagicToken());
+        authService.registerDevice(request.getMagicToken());
         String adminToken = authService.generateAdminToken();
         return AdminAccessTokenRes
                 .builder()
@@ -52,6 +53,7 @@ public class AuthController {
         authService.verifySignInUserRequest(request);
 
         String accessToken = authService.getAccessToken(request.getMagicToken());
+        authService.registerDevice(request.getMagicToken());
         return UserAccessTokenRes
                 .builder()
                 .accessToken(accessToken)

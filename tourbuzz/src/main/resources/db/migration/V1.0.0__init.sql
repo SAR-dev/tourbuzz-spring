@@ -179,6 +179,7 @@ CREATE TABLE auth.users (
     facebook_id     text,
     youtube_id      text,
     twitter_id      text,
+    last_logged_in  timestamp,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
