@@ -20,7 +20,6 @@ public class UserEntity {
     private String youtube_id;
     private String twitter_id;
     private int images_id;
-    private Timestamp last_logged_in;
     private Timestamp created_at;
     private Timestamp updated_at;
 

@@ -11,7 +11,6 @@ import com.github.pagehelper.PageHelper;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;

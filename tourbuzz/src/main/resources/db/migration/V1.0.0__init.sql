@@ -179,11 +179,21 @@ CREATE TABLE auth.users (
     facebook_id     text,
     youtube_id      text,
     twitter_id      text,
-    last_logged_in  timestamp DEFAULT CURRENT_TIMESTAMP,
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_users BEFORE UPDATE ON auth.users FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TABLE auth.devices (
+    id              serial PRIMARY KEY,
+    users_id        integer REFERENCES auth.users(id),
+    ip              text,
+    device          text,
+    location        text,
+    created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
+    updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TRIGGER update_updated_at_devices BEFORE UPDATE ON auth.devices FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE public.writers (
     id              serial PRIMARY KEY,

@@ -60,4 +60,18 @@
         />
     </resultMap>
 
+    <insert id="createUserDeviceLog">
+        INSERT INTO auth.devices (
+            users_id,
+            ip,
+            device,
+            location
+        ) VALUES (
+            (SELECT id FROM auth.users WHERE email = #{email}),
+            #{ip},
+            #{device},
+            #{location}
+        )
+    </insert>
+
 </mapper>

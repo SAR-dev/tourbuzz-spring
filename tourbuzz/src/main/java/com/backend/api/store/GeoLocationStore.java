@@ -1,6 +1,10 @@
 package com.backend.api.store;
 
+import com.backend.api.request.DeviceLogReq;
+import com.backend.api.service.AuthService;
+import com.backend.api.service.UserService;
 import com.maxmind.geoip2.DatabaseReader;
+import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.CityResponse;
 import jakarta.annotation.PostConstruct;
@@ -10,8 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ua_parser.Client;
 import ua_parser.Parser;
 
@@ -24,6 +28,8 @@ import static java.util.Objects.nonNull;
 @Component
 @RequiredArgsConstructor
 public class GeoLocationStore {
+    private final UserService userService;
+
     private final Parser uaParser = new Parser();
     @Autowired
     private ApplicationContext ctx;
@@ -39,24 +45,28 @@ public class GeoLocationStore {
         this.databaseReader = new DatabaseReader.Builder(file).build();
     }
 
-    public void verifyDevice() throws IOException, GeoIp2Exception {
-        String ip = extractIp(httpServletRequest);
+    @Transactional
+    public void registerDeviceLog(String email) throws IOException, GeoIp2Exception {
+        String ip = extractIp();
         String location = getIpLocation(ip);
-
-        String deviceDetails = getDeviceDetails(httpServletRequest.getHeader("user-agent"));
-
-//      Get user and check and verify to do whatever needed
-
+        String deviceDetails = getDeviceDetails();
+        DeviceLogReq req = DeviceLogReq.builder()
+                .email(email)
+                .ip(ip)
+                .location(location)
+                .device(deviceDetails)
+                .build();
+        userService.createUserDeviceLog(req);
     }
 
-    private String extractIp(HttpServletRequest request) {
+    private String extractIp() {
         String clientIp;
-        String clientXForwardedForIp = request
+        String clientXForwardedForIp = httpServletRequest
                 .getHeader("x-forwarded-for");
         if (nonNull(clientXForwardedForIp)) {
             clientIp = parseXForwardedHeader(clientXForwardedForIp);
         } else {
-            clientIp = request.getRemoteAddr();
+            clientIp = httpServletRequest.getRemoteAddr();
         }
         return clientIp;
     }
@@ -65,7 +75,9 @@ public class GeoLocationStore {
         return header.split(" *, *")[0];
     }
 
-    private String getDeviceDetails(String userAgent) {
+    private String getDeviceDetails() {
+        String userAgent = httpServletRequest
+                .getHeader("user-agent");
         String deviceDetails = UNKNOWN;
 
         Client client = uaParser.parse(userAgent);
@@ -78,19 +90,20 @@ public class GeoLocationStore {
     }
 
     private String getIpLocation(String ip) throws IOException, GeoIp2Exception {
-
         String location = UNKNOWN;
-
         InetAddress ipAddress = InetAddress.getByName(ip);
 
-        CityResponse cityResponse = databaseReader.city(ipAddress);
-        if (nonNull(cityResponse) &&
-                nonNull(cityResponse.getCity()) &&
-                !StringUtils.isEmpty(cityResponse.getCity().getName())) {
+        try {
+            CityResponse cityResponse = databaseReader.city(ipAddress);
+            if (nonNull(cityResponse) &&
+                    nonNull(cityResponse.getCity()) &&
+                    !StringUtils.isEmpty(cityResponse.getCity().getName())) {
 
-            location = cityResponse.getCity().getName();
+                location = cityResponse.getCity().getName();
+            }
+            return location;
+        } catch (AddressNotFoundException e){
+            return location;
         }
-
-        return location;
     }
 }

@@ -17,9 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.sql.Timestamp;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -52,12 +49,6 @@ public class BkashService {
         headers.set("authorization", idToken);
         headers.set("x-app-key", Constants.BKASH.API_KEY);
         return headers;
-    }
-
-    private Timestamp getBkashPaidAt(String dateString){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss:SSS 'GMT'Z");
-        OffsetDateTime dateTime = OffsetDateTime.parse(dateString, formatter);
-        return Timestamp.valueOf(dateTime.toLocalDateTime());
     }
 
     private static Map<String, String> getPaymentPayload(

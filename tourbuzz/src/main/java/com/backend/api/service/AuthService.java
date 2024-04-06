@@ -10,6 +10,8 @@ import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.request.UserSignInReq;
 import com.backend.api.request.admin.AdminSignInReq;
+import com.backend.api.store.GeoLocationStore;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +24,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +41,8 @@ public class AuthService {
     private final EmailSenderService emailSenderService;
 
     private final AdminService adminService;
+
+    private final GeoLocationStore geoLocationStore;
 
     public String generateMagicToken(String email){
         Instant now = Instant.now();
@@ -81,6 +87,13 @@ public class AuthService {
     public String getAccessToken(String token) throws Exception {
         String email = getEmailFromMagicToken(token);
         int id = createUserByEmail(email);
+        CompletableFuture.runAsync(() -> {
+            try {
+                geoLocationStore.registerDeviceLog(email);
+            } catch (Exception e) {
+                System.out.println(e.getCause());
+            }
+        });
         return generateAccessToken(email, id);
     }
 

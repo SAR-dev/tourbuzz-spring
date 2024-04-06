@@ -3,6 +3,7 @@ package com.backend.api.service;
 import com.backend.api.ErrorMessages;
 import com.backend.api.entity.UserEntity;
 import com.backend.api.repository.postgres.UserRepository;
+import com.backend.api.request.DeviceLogReq;
 import com.backend.api.request.admin.UserUpdateReq;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.javassist.NotFoundException;
@@ -30,5 +31,7 @@ public class UserService {
         }
     }
 
-
+    public void createUserDeviceLog(DeviceLogReq deviceLogReq){
+        userRepository.createUserDeviceLog(deviceLogReq);
+    }
 }
