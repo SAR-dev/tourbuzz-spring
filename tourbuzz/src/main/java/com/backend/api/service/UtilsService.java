@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
-public class ConverterService {
+public class UtilsService {
     public LocalDate parseStringToDate(String dateString, String dateFormat) throws Exception {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);

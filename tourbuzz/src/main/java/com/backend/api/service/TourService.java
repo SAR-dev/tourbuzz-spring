@@ -23,7 +23,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class TourService {
     private final TourRepository tourRepository;
-    private final ConverterService converterService;
+    private final UtilsService utilsService;
     private final ValidationService validationService;
     private final TourLogService tourLogService;
     private final PackageService packageService;
@@ -59,9 +59,9 @@ public class TourService {
             messages.add(ErrorMessages.TITLE_EXISTS);
         }
 
-        LocalDate tourStartsAt = converterService.parseStringToDate(tourCreateReq.getTour().getStartAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourFinishAt = converterService.parseStringToDate(tourCreateReq.getTour().getFinishAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourLastSellAt = converterService.parseStringToDate(tourCreateReq.getTour().getLastSellAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourStartsAt = utilsService.parseStringToDate(tourCreateReq.getTour().getStartAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourFinishAt = utilsService.parseStringToDate(tourCreateReq.getTour().getFinishAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourLastSellAt = utilsService.parseStringToDate(tourCreateReq.getTour().getLastSellAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
 
         LocalDate dateAfterTwoDays = LocalDate.now().plusDays(Constants.TOUR_DATE_AFTER_MIN);
         if(!tourStartsAt.isAfter(dateAfterTwoDays)){
@@ -75,12 +75,12 @@ public class TourService {
         }
         List<LocalDate> tourLogsDates = new ArrayList<>();
         for(String dateString : tourCreateReq.getTourLogs().stream().map(TourLogCreatePayload::getDate).toList()) {
-            tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DATES.DD_MM_YYYY_FORMAT));
+            tourLogsDates.add(utilsService.parseStringToDate(dateString, Constants.DATES.DD_MM_YYYY_FORMAT));
         }
-        if(!validationService.areDatesUnique(tourLogsDates)){
+        if(validationService.areDatesNotUnique(tourLogsDates)){
             messages.add(ErrorMessages.NON_UNIQUE_TOUR_LOG_DATE);
         }
-        if(!validationService.areDatesInRange(tourLogsDates, tourStartsAt, tourFinishAt)){
+        if(validationService.areDatesNotInRange(tourLogsDates, tourStartsAt, tourFinishAt)){
             messages.add(ErrorMessages.TOUR_LOG_SHOULD_BE_BETWEEN_START_END);
         }
 
@@ -104,9 +104,9 @@ public class TourService {
 
         List<String> messages = new ArrayList<>();
 
-        LocalDate tourStartsAt = converterService.parseStringToDate(tourUpdateReq.getTour().getStartAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourFinishAt = converterService.parseStringToDate(tourUpdateReq.getTour().getFinishAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
-        LocalDate tourLastSellAt = converterService.parseStringToDate(tourUpdateReq.getTour().getLastSellAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourStartsAt = utilsService.parseStringToDate(tourUpdateReq.getTour().getStartAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourFinishAt = utilsService.parseStringToDate(tourUpdateReq.getTour().getFinishAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
+        LocalDate tourLastSellAt = utilsService.parseStringToDate(tourUpdateReq.getTour().getLastSellAt(), Constants.DATES.DD_MM_YYYY_HH_MM_FORMAT);
 
         if(!tourFinishAt.isAfter(tourStartsAt)){
             messages.add(ErrorMessages.TOUR_FINISH_SHOULD_BE_AFTER_START);
@@ -116,12 +116,12 @@ public class TourService {
         }
         List<LocalDate> tourLogsDates = new ArrayList<>();
         for(String dateString : tourUpdateReq.getTourLogs().stream().map(TourLogUpdatePayload::getDate).toList()) {
-            tourLogsDates.add(converterService.parseStringToDate(dateString, Constants.DATES.DD_MM_YYYY_FORMAT));
+            tourLogsDates.add(utilsService.parseStringToDate(dateString, Constants.DATES.DD_MM_YYYY_FORMAT));
         }
-        if(!validationService.areDatesUnique(tourLogsDates)){
+        if(validationService.areDatesNotUnique(tourLogsDates)){
             messages.add(ErrorMessages.NON_UNIQUE_TOUR_LOG_DATE);
         }
-        if(!validationService.areDatesInRange(tourLogsDates, tourStartsAt, tourFinishAt)){
+        if(validationService.areDatesNotInRange(tourLogsDates, tourStartsAt, tourFinishAt)){
             messages.add(ErrorMessages.TOUR_LOG_SHOULD_BE_BETWEEN_START_END);
         }
 

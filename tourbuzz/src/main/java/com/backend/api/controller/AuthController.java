@@ -26,7 +26,7 @@ public class AuthController {
 
     @Tag(name = "Get Admin Key")
     @GetMapping("/admin-login-key/{email}")
-    public String getAdminToken(@PathVariable String email) throws Exception {
+    public String getAdminToken(@PathVariable String email) {
         return authService.generateAdminKey(email);
     }
 

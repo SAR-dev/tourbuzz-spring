@@ -9,23 +9,23 @@ import java.util.Set;
 
 @Service
 public class ValidationService {
-    public boolean areDatesUnique(List<LocalDate> tourLogsDates) {
+    public boolean areDatesNotUnique(List<LocalDate> tourLogsDates) {
         Set<LocalDate> dateSet = new HashSet<>();
 
         for (LocalDate date : tourLogsDates) {
             if (!dateSet.add(date)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
-    public boolean areDatesInRange(List<LocalDate> tourLogsDates, LocalDate startDate, LocalDate endDate) {
+    public boolean areDatesNotInRange(List<LocalDate> tourLogsDates, LocalDate startDate, LocalDate endDate) {
         for (LocalDate date : tourLogsDates) {
             if (date.isBefore(startDate) || date.isAfter(endDate)) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
