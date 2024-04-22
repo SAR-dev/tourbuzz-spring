@@ -1,6 +1,11 @@
 package com.backend.api;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class Constants {
+    @Value("${local}")
+    public boolean local;
+
     public static final String FRONTEND_BASE_URL = "http://localhost:3000";
     public static final String BACKEND_BASE_URL = "http://localhost:8080";
     public static class HEADER {

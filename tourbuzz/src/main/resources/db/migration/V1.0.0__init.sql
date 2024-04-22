@@ -142,6 +142,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+--Ecom Product Code Function
+
+CREATE OR REPLACE FUNCTION generate_product_code() RETURNS TRIGGER AS $$
+DECLARE
+    new_product_code varchar(6);
+BEGIN
+    -- Generate a random 6-digit alphanumeric code
+    new_product_code := substr(md5(random()::text), 1, 6);
+
+    -- Check if the generated code already exists
+    WHILE EXISTS (SELECT 1 FROM ecom.products WHERE product_code = new_product_code) LOOP
+        new_product_code := substr(md5(random()::text), 1, 6);
+    END LOOP;
+
+    -- Assign the generated code to the NEW row being inserted
+    NEW.product_code := new_product_code;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
 --Schema
 
 CREATE TABLE public.images (
@@ -529,6 +550,7 @@ CREATE TABLE ecom.products (
     categories_id   integer NOT NULL REFERENCES ecom.categories(id),
     series_id       integer NOT NULL REFERENCES ecom.series(id),
     brands_id       integer NOT NULL REFERENCES ecom.brands(id),
+    product_code    varchar(6) UNIQUE,
     priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
     title           text NOT NULL,
     slug            _slug NOT NULL UNIQUE,
@@ -547,6 +569,8 @@ CREATE TABLE ecom.products (
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_products BEFORE UPDATE ON ecom.products FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+
+CREATE TRIGGER assign_product_code BEFORE INSERT ON ecom.products FOR EACH ROW EXECUTE FUNCTION generate_product_code();
 
 CREATE TABLE ecom.promotions (
     id              serial PRIMARY KEY,
