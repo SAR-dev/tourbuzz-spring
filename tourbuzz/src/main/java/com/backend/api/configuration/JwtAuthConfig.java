@@ -26,7 +26,7 @@ import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthConfig extends OncePerRequestFilter {
     private final AuthService authService;
     private static final String DEFAULT_PASSWORD = "";
     private static final List<GrantedAuthority> DEFAULT_AUTHORITIES = new ArrayList<>();

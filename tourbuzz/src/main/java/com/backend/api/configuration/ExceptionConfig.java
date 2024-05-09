@@ -36,7 +36,7 @@ import java.util.Objects;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class ExceptionConfig {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<?> handleMethodNotSupported(Exception ex) {
         return ResponseEntity

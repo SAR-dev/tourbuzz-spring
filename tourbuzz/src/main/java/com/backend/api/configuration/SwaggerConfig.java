@@ -28,4 +28,4 @@ import org.springframework.context.annotation.Configuration;
                 @SecurityRequirement(name = "apiKeyAuth")
         }
 )
-class OpenAPIConfig {}
+public class SwaggerConfig {}

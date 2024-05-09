@@ -9,7 +9,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import java.nio.charset.StandardCharsets;
 
 @Configuration
-public class ThymeleafTemplateConfig {
+public class ThymeleafConfig {
 
     @Bean
     public SpringTemplateEngine springTemplateEngine() {

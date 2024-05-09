@@ -1,6 +1,5 @@
 package com.backend.api.configuration;
 
-import com.maxmind.geoip2.DatabaseReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,15 +11,12 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.client.RestTemplate;
-import ua_parser.Parser;
-
-import java.io.IOException;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtAuthConfig jwtAuthConfig;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -37,7 +33,7 @@ public class SecurityConfig {
                         .permitAll()
                         .anyRequest()
                         .authenticated()
-        ).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        ).addFilterBefore(jwtAuthConfig, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
