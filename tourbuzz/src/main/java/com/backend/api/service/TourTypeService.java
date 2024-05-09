@@ -27,10 +27,10 @@ public class TourTypeService {
     public void createTourType(TourTypeCreateReq tourTypeCreateReq) throws Exception {
         TourTypeCheckRes tourTypeCheckRes = checkTourType(tourTypeCreateReq);
         List<String> messages = new ArrayList<>();
-        if(tourTypeCheckRes.isSlug_exists()){
+        if(tourTypeCheckRes.isSlugExists()){
             messages.add(ErrorMessages.SLUG_EXISTS);
         }
-        if(tourTypeCheckRes.isName_exists()){
+        if(tourTypeCheckRes.isNameExists()){
             messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){

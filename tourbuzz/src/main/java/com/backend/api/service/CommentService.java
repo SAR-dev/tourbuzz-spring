@@ -55,7 +55,7 @@ public class CommentService {
     public void deleteCommentById(int id) throws Exception {
         checkCommentAuthor(id);
         ParentCommentEntity parentCommentEntity = commentRepository.getCommentById(id);
-        if(parentCommentEntity.getChild_count() > 0){
+        if(parentCommentEntity.getChildCount() > 0){
             int count = commentRepository.softDeleteCommentById(id);
             if(count != 1){
                 throw new Exception(ErrorMessages.DELETE_FAILED);

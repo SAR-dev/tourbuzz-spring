@@ -41,7 +41,7 @@ public class HotelService {
     public void createHotel(HotelCreateReq hotelCreateReq) throws Exception {
         HotelCheckRes hotelCheckRes = checkHotel(hotelCreateReq);
         List<String> messages = new ArrayList<>();
-        if(hotelCheckRes.isName_exists()){
+        if(hotelCheckRes.isNameExists()){
             messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){

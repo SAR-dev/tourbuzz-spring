@@ -1,15 +1,18 @@
 package com.backend.api.entity;
 
 import com.backend.api.enums.Status;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Data;
 
 import java.sql.Timestamp;
 
 @Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PackageEntity {
     private int id;
-    private int tours_id;
+    private int toursId;
     private String title;
     private String included;
     private String excluded;
@@ -17,6 +20,6 @@ public class PackageEntity {
     private int price;
     private Status status;
     private int threshold;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 }

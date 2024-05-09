@@ -1,25 +1,21 @@
 package com.backend.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.github.pagehelper.Page;
 import lombok.Data;
 
 @Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PaginatedRes {
     private Page<?> data;
-    @JsonProperty("page_no")
     private int pageNo;
-    @JsonProperty("page_size")
     private int pageSize;
-    @JsonProperty("has_prev")
     private boolean hasPrev;
-    @JsonProperty("has_next")
     private boolean hasNext;
 
-    @JsonProperty("total_result")
     private long totalResult;
-
-    @JsonProperty("total_pages")
     private long totalPages;
 
     public boolean getHasPrev() {

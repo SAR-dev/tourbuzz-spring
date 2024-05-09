@@ -1,12 +1,15 @@
 package com.backend.api.response;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class WriterCheckRes {
-    private boolean email_exists;
-    private boolean username_exists;
-    private boolean name_exists;
+    private boolean emailExists;
+    private boolean usernameExists;
+    private boolean nameExists;
 }

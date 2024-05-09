@@ -23,13 +23,13 @@ public class OrganizerService {
     public void createOrganizer(OrganizerCreateReq organizerCreateReq) throws Exception {
         OrganizerCheckRes organizerCheckRes = checkOrganizer(organizerCreateReq);
         List<String> messages = new ArrayList<>();
-        if(organizerCheckRes.isEmail_exists()){
+        if(organizerCheckRes.isEmailExists()){
             messages.add(ErrorMessages.EMAIL_EXISTS);
         }
-        if(organizerCheckRes.isUsername_exists()){
+        if(organizerCheckRes.isUsernameExists()){
             messages.add(ErrorMessages.USERNAME_EXISTS);
         }
-        if(organizerCheckRes.isName_exists()){
+        if(organizerCheckRes.isNameExists()){
             messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){

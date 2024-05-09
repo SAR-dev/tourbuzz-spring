@@ -1,6 +1,8 @@
 package com.backend.api.response;
 
 import com.backend.api.entity.ImageEntity;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
@@ -11,36 +13,37 @@ import java.util.Date;
 import java.util.List;
 
 @Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TourListRes {
     private int id;
-    private int tour_types_id;
-    private int organizers_id;
-    private int images_id;
+    private int tourTypesId;
+    private int organizersId;
+    private int imagesId;
     private String title;
-    private String video_link;
+    private String videoLink;
     private String slug;
     private String highlights;
-    private String group_size;
-    private String group_info;
+    private String groupSize;
+    private String groupInfo;
     private String transports;
-    private Timestamp start_at;
-    private Timestamp finish_at;
-    private Timestamp last_sell_at;
-    private String image_ids;
+    private Timestamp startAt;
+    private Timestamp finishAt;
+    private Timestamp lastSellAt;
+    private String imageIds;
 
-    private String tour_type_name;
-    private String organizer_name;
-    private String organizer_verification;
+    private String tourTypeName;
+    private String organizerName;
+    private String organizerVerification;
 
     @Getter(AccessLevel.NONE)
-    private String place_names;
-    private List<String> place_names_list;
+    private String placeNames;
+    private List<String> placeNamesList;
     @Getter(AccessLevel.NONE)
-    private String district_names;
-    private List<String> district_names_list;
+    private String districtNames;
+    private List<String> districtNamesList;
     @Getter(AccessLevel.NONE)
-    private String package_prices;
-    private List<Integer> package_prices_list;
+    private String packagePrices;
+    private List<Integer> packagePricesList;
 
     private List<ImageEntity> images;
     private ImageEntity avatar;
@@ -48,19 +51,19 @@ public class TourListRes {
     private boolean expired;
 
     public boolean isExpired() {
-        return getLast_sell_at().before(new Date());
+        return getLastSellAt().before(new Date());
     }
 
 
-    public List<String> getPlace_names_list() {
-        return Arrays.stream(place_names.split(",")).toList();
+    public List<String> getPlaceNamesList() {
+        return Arrays.stream(placeNames.split(",")).toList();
     }
 
-    public List<String> getDistrict_names_list() {
-        return Arrays.stream(district_names.split(",")).toList();
+    public List<String> getDistrictNamesList() {
+        return Arrays.stream(districtNames.split(",")).toList();
     }
 
-    public List<Integer> getPackage_prices_list() {
-        return Arrays.stream(package_prices.split(",")).map(String::trim).map(Integer::parseInt).toList();
+    public List<Integer> getPackagePricesList() {
+        return Arrays.stream(packagePrices.split(",")).map(String::trim).map(Integer::parseInt).toList();
     }
 }

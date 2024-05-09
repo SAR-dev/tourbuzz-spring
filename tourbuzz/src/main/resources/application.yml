@@ -35,9 +35,6 @@ spring:
           starttls:
             enable: true
         debug: false
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: false
 pagehelper:
   helperDialect: postgresql
   reasonable: true

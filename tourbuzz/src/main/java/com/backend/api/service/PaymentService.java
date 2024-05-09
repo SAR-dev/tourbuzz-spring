@@ -41,7 +41,7 @@ public class PaymentService {
             throw new Exception(ErrorMessages.UNAUTHORIZED);
         }
         PaymentEntity payment = paymentRepository.getPaymentByInvoiceNo(invoiceNo);
-        return payment.getPayment_id();
+        return payment.getPaymentId();
     }
 
     public double getPaymentAmountByInvoiceNo(String invoiceNo){

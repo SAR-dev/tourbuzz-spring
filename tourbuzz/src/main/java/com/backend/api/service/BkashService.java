@@ -32,7 +32,7 @@ public class BkashService {
     public String getPaymentLink(PaymentCreateReq paymentCreateReq) throws Exception {
         PaymentEntity payment = paymentService.getPaymentByInvoiceNo(paymentCreateReq.getInvoiceNo());
         TicketEntity ticket = ticketService.getTicketByInvoiceNo(paymentCreateReq.getInvoiceNo());
-        ticketService.validateTicketCount(ticket.getPackages_id(), ticket.getTicket_amount());
+        ticketService.validateTicketCount(ticket.getPackagesId(), ticket.getTicketAmount());
         if(payment.isCompleted()) {
             throw new Exception(ErrorMessages.PAYMENT_COMPLETED);
         }
@@ -131,11 +131,11 @@ public class BkashService {
             return handlePayment(responseEntity);
         } else {
             return PaymentRes.builder()
-                    .paymentId(payment.getPayment_id())
-                    .transactionId(payment.getTransaction_id())
-                    .paymentAmount(payment.getPayment_amount())
+                    .paymentId(payment.getPaymentId())
+                    .transactionId(payment.getTransactionId())
+                    .paymentAmount(payment.getPaymentAmount())
                     .currency(payment.getCurrency())
-                    .referenceNo(payment.getReference_no())
+                    .referenceNo(payment.getReferenceNo())
                     .completed(payment.isCompleted())
                     .build();
         }

@@ -30,10 +30,10 @@ public class ArticleService {
     public void createArticle(ArticleCreateReq articleCreateReq) throws ValidationException {
         ArticleCheckRes articleCheckRes = checkArticle(articleCreateReq);
         List<String> messages = new ArrayList<>();
-        if(articleCheckRes.isSlug_exists()){
+        if(articleCheckRes.isSlugExists()){
             messages.add(ErrorMessages.SLUG_EXISTS);
         }
-        if(articleCheckRes.isTitle_exists()){
+        if(articleCheckRes.isTitleExists()){
             messages.add(ErrorMessages.TITLE_EXISTS);
         }
         if(!messages.isEmpty()){

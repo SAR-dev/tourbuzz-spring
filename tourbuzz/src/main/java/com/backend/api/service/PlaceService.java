@@ -26,7 +26,7 @@ public class PlaceService {
     public void createPlace(PlaceCreateReq placeCreateReq) throws Exception {
         PlaceCheckRes placeCheckRes = checkPlace(placeCreateReq);
         List<String> messages = new ArrayList<>();
-        if(placeCheckRes.isName_exists()){
+        if(placeCheckRes.isNameExists()){
             messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){

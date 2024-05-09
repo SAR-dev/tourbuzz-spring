@@ -1,7 +1,6 @@
 package com.backend.api.service;
 
 import com.backend.api.ErrorMessages;
-import com.backend.api.entity.PackageEntity;
 import com.backend.api.entity.PaymentEntity;
 import com.backend.api.entity.TicketEntity;
 import com.backend.api.entity.TicketPaymentEntity;
@@ -41,8 +40,8 @@ public class TicketService {
 
     public void validateTicketCount(int packagesId, int ticketAmount) throws Exception {
         TourPackageBookedRes packageEntity = packageService.getPackageById(packagesId);
-        int sold = packageEntity.getTicket_sold();
-        int max = packageEntity.getTour_package().getThreshold();
+        int sold = packageEntity.getTicketSold();
+        int max = packageEntity.getTourPackage().getThreshold();
         if(sold >= max){
             throw new Exception(ErrorMessages.TICKET_SOLD_OUT);
         }
@@ -64,8 +63,8 @@ public class TicketService {
         }
         TicketPaymentEntity ticketPayment = paymentService.getTicketPaymentByInvoiceNo(bookCancelReq.getInvoiceNo());
         deleteTicketPaymentByInvoiceNo(bookCancelReq.getInvoiceNo());
-        deleteTicketByInvoiceNo(ticketPayment.getTickets_id());
-        paymentService.deletePayment(ticketPayment.getPayments_id());
+        deleteTicketByInvoiceNo(ticketPayment.getTicketsId());
+        paymentService.deletePayment(ticketPayment.getPaymentsId());
     }
 
     public List<TicketEntity> getTicketsByUser(){

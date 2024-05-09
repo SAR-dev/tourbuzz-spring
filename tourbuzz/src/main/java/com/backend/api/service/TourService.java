@@ -52,10 +52,10 @@ public class TourService {
     public void verifyCreateTour(TourCreateReq tourCreateReq) throws Exception {
         TourCheckRes tourCheckRes = checkTour(tourCreateReq.getTour());
         List<String> messages = new ArrayList<>();
-        if(tourCheckRes.isSlug_exists()){
+        if(tourCheckRes.isSlugExists()){
             messages.add(ErrorMessages.SLUG_EXISTS);
         }
-        if(tourCheckRes.isTitle_exists()){
+        if(tourCheckRes.isTitleExists()){
             messages.add(ErrorMessages.TITLE_EXISTS);
         }
 

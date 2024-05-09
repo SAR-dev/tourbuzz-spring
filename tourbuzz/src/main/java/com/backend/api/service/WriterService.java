@@ -27,13 +27,13 @@ public class WriterService {
     public void createWriter(WriterCreateReq writerCreateReq) throws Exception {
         WriterCheckRes writerCheckRes = checkWriter(writerCreateReq);
         List<String> messages = new ArrayList<>();
-        if(writerCheckRes.isEmail_exists()){
+        if(writerCheckRes.isEmailExists()){
             messages.add(ErrorMessages.EMAIL_EXISTS);
         }
-        if(writerCheckRes.isUsername_exists()){
+        if(writerCheckRes.isUsernameExists()){
             messages.add(ErrorMessages.USERNAME_EXISTS);
         }
-        if(writerCheckRes.isName_exists()){
+        if(writerCheckRes.isNameExists()){
             messages.add(ErrorMessages.NAME_EXISTS);
         }
         if(!messages.isEmpty()){
