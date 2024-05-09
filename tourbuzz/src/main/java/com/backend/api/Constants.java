@@ -11,6 +11,7 @@ public class Constants {
     public static class HEADER {
         public static final String ADMIN_HEADER_NAME = "x-api-key";
         public static final String ACCESS_HEADER_NAME = "Authorization";
+        public static final String ACCESS_HEADER_STARTS_WITH = "Bearer ";
     }
 
     public static class DATES {

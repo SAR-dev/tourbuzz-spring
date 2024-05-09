@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthService authService;
 
-    @Tag(name = "Get Magic Link")
+    @Tag(name = "Get Magic Link And Key")
     @PostMapping("/magic-link")
     public void reqMagicLink(@RequestBody MagicLinkReq request) throws MessagingException {
         authService.emailMagicLink(request.getEmail());
