@@ -8,8 +8,10 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UserSignInReq {
+public class UserSignInKeyReq {
     @NotBlank
-    @NotNull
-    private String magicToken;
+    private String email;
+
+    @NotBlank
+    private String magicKey;
 }

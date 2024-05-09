@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS tokens;
+CREATE TABLE tokens (
+	"key" TEXT NOT NULL,
+	email TEXT NOT NULL,
+	value TEXT NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	CONSTRAINT tokens_pk PRIMARY KEY ("key")
+);

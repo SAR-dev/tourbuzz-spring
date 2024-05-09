@@ -3,5 +3,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.backend.api.repository.sqlite.TokenRepository">
+    <select id="getRandomKey" resultType="string">
+        SELECT substr(hex(randomblob(8)), 0, 11);
+    </select>
 
+    <select id="countKey" resultType="int">
+        SELECT COUNT(*) FROM tokens WHERE key = #{key}
+    </select>
+
+    <insert id="createKey">
+        INSERT INTO tokens (key, email, value) VALUES (#{key}, #{email}, #{value})
+    </insert>
+
+    <select id="getValueByKeyAndEmail" resultType="string">
+        SELECT value FROM tokens WHERE key = #{key} AND email = #{email}
+    </select>
 </mapper>

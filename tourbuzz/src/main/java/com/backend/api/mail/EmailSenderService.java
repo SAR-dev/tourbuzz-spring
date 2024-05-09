@@ -37,10 +37,12 @@ public class EmailSenderService {
         emailSender.send(message);
     }
 
-    public void sendMagicLink(String recipient, String token) throws MessagingException {
+    public void sendMagicLink(String recipient, String key, String token) throws MessagingException {
         EmailModel emailModel = EmailModel.builder().to(recipient).subject("HEADER: Magic Link").template(Constants.TEMPLATES.MAGIC_LINK).build();
         Map<String, Object> properties = new HashMap<>();
+        properties.put("magicKey", key);
         properties.put("magicToken", token);
+        properties.put("clientLink", "http://localhost:8080/verify/");
         emailModel.setProperties(properties);
         sendHtmlMessage(emailModel);
     }

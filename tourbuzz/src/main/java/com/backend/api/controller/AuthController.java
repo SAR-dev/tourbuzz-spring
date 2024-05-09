@@ -2,7 +2,8 @@ package com.backend.api.controller;
 
 import com.backend.api.Constants;
 import com.backend.api.request.MagicLinkReq;
-import com.backend.api.request.UserSignInReq;
+import com.backend.api.request.UserSignInKeyReq;
+import com.backend.api.request.UserSignInTokenReq;
 import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.response.admin.AdminAccessTokenRes;
 import com.backend.api.response.UserAccessTokenRes;
@@ -47,13 +48,27 @@ public class AuthController {
                 .build();
     }
 
-    @Tag(name = "User Sign In")
-    @PostMapping("/user-sign-in")
-    public UserAccessTokenRes userSignIn(@RequestBody UserSignInReq request) throws Exception {
-        authService.verifySignInUserRequest(request);
+    @Tag(name = "User Sign In By Token")
+    @PostMapping("/user-sign-in-token")
+    public UserAccessTokenRes userSignInByToken(@RequestBody UserSignInTokenReq request) throws Exception {
+        authService.verifySignInMagicTokenUserRequest(request.getMagicToken());
 
         String accessToken = authService.getAccessToken(request.getMagicToken());
         authService.registerDevice(request.getMagicToken());
+        return UserAccessTokenRes
+                .builder()
+                .accessToken(accessToken)
+                .accessTokenHeader(Constants.HEADER.ACCESS_HEADER_NAME)
+                .build();
+    }
+
+    @Tag(name = "User Sign In By Key")
+    @PostMapping("/user-sign-in-key")
+    public UserAccessTokenRes userSignInByKey(@RequestBody UserSignInKeyReq request) throws Exception {
+        String magicToken = authService.verifySignInMagicKeyUserRequestAndGetMagicToken(request.getEmail(), request.getMagicKey());
+
+        String accessToken = authService.getAccessToken(magicToken);
+        authService.registerDevice(magicToken);
         return UserAccessTokenRes
                 .builder()
                 .accessToken(accessToken)

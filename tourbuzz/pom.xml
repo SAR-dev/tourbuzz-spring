@@ -134,7 +134,7 @@
 			<version>2.1.0</version>
 		</dependency>
 
-		<!--SQlite-->
+		<!--SQLite-->
 		<dependency>
 			<groupId>org.xerial</groupId>
 			<artifactId>sqlite-jdbc</artifactId>

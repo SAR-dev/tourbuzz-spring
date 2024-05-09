@@ -9,14 +9,13 @@ import com.backend.api.ErrorMessages;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.request.DeviceLogReq;
-import com.backend.api.request.UserSignInReq;
 import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.store.GeoLocationStore;
-import com.maxmind.geoip2.exception.GeoIp2Exception;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.CredentialsExpiredException;
@@ -25,11 +24,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +37,7 @@ public class AuthService {
     private final EmailSenderService emailSenderService;
     private final AdminService adminService;
     private final GeoLocationStore geoLocationStore;
+    private final TokenService tokenService;
 
     public String generateMagicToken(String email){
         Instant now = Instant.now();
@@ -50,9 +48,11 @@ public class AuthService {
                 .sign(Algorithm.HMAC256(Constants.JWT.MAGIC_TOKEN_SECRET_KEY));
     }
 
+    @Transactional
     public void emailMagicLink(String email) throws MessagingException {
         String token = generateMagicToken(email);
-        emailSenderService.sendMagicLink(email, token);
+        String key = tokenService.storeTokenAndKey(email, token);
+        emailSenderService.sendMagicLink(email, key, token);
     }
 
     @Transactional
@@ -151,8 +151,15 @@ public class AuthService {
         }
     }
 
-    public void verifySignInUserRequest(UserSignInReq signInReq) throws Exception {
-        getEmailFromMagicToken(signInReq.getMagicToken());
+    public void verifySignInMagicTokenUserRequest(String magicToken) throws Exception {
+        getEmailFromMagicToken(magicToken);
+    }
+
+    public String verifySignInMagicKeyUserRequestAndGetMagicToken(String email, String magicKey) throws Exception {
+        String magicToken = tokenService.getValueByKeyAndEmail(magicKey, email);
+        if(StringUtils.isEmpty(magicToken)) throw new Exception(ErrorMessages.INVALID_TOKEN);
+        getEmailFromMagicToken(magicToken);
+        return magicToken;
     }
 
     public String generateAdminToken() {
