@@ -1,6 +1,7 @@
 package com.backend.api.configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
 import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -14,8 +15,17 @@ import org.springframework.context.annotation.Configuration;
         bearerFormat = "JWT",
         scheme = "bearer"
 )
+@SecurityScheme(
+        name = "apiKeyAuth",
+        type = SecuritySchemeType.APIKEY,
+        in = SecuritySchemeIn.HEADER,
+        paramName = "X-API-KEY"
+)
 @OpenAPIDefinition(
-        info = @Info(title = "Sample API", version = "v1"),
-        security = @SecurityRequirement(name = "basicAuth")
+        info = @Info(title = "Guest or Public API", version = "v1"),
+        security = {
+                @SecurityRequirement(name = "basicAuth"),
+                @SecurityRequirement(name = "apiKeyAuth")
+        }
 )
 class OpenAPIConfig {}
