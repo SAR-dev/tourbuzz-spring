@@ -11,4 +11,6 @@ public interface TokenRepository {
     void createKey(String key, String email, String value);
 
     String getValueByKeyAndEmail(String key, String email);
+
+    void removeKey(String key);
 }

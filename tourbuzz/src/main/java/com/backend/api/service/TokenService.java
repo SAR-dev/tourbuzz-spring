@@ -25,4 +25,8 @@ public class TokenService {
     public String getValueByKeyAndEmail(String key, String email){
         return tokenRepository.getValueByKeyAndEmail(key, email);
     }
+
+    public void removeKey(String key){
+        tokenRepository.removeKey(key);
+    }
 }

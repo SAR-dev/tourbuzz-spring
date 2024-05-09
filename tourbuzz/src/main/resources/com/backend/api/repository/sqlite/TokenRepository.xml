@@ -4,7 +4,7 @@
 
 <mapper namespace="com.backend.api.repository.sqlite.TokenRepository">
     <select id="getRandomKey" resultType="string">
-        SELECT substr(hex(randomblob(8)), 0, 11);
+        SELECT substr(hex(randomblob(8)), 0, 9);
     </select>
 
     <select id="countKey" resultType="int">
@@ -18,4 +18,8 @@
     <select id="getValueByKeyAndEmail" resultType="string">
         SELECT value FROM tokens WHERE key = #{key} AND email = #{email}
     </select>
+
+    <delete id="removeKey">
+        DELETE FROM tokens WHERE key = #{key}
+    </delete>
 </mapper>

@@ -159,6 +159,7 @@ public class AuthService {
         String magicToken = tokenService.getValueByKeyAndEmail(magicKey, email);
         if(StringUtils.isEmpty(magicToken)) throw new Exception(ErrorMessages.INVALID_TOKEN);
         getEmailFromMagicToken(magicToken);
+        tokenService.removeKey(magicKey);
         return magicToken;
     }
 
