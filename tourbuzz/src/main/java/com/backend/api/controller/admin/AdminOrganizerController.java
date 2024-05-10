@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.OrganizerEntity;
+import com.backend.api.filter.AdminOrganizerFilter;
 import com.backend.api.request.admin.OrganizerCreateReq;
 import com.backend.api.request.admin.OrganizerUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -33,17 +34,12 @@ public class AdminOrganizerController {
 
     @Tag(name = "Get Organizer List")
     @GetMapping("")
-    public PaginatedRes getOrganizers(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "email", defaultValue = "") String email,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getOrganizers(@Valid AdminOrganizerFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
-        List<OrganizerEntity> organizerEntities = organizerService.getOrganizers(name, email);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
+        List<OrganizerEntity> organizerEntities = organizerService.getOrganizers(filter.getName(), filter.getEmail());
         Page<OrganizerEntity> pageInfo = (Page<OrganizerEntity>) organizerEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Update Organizer")

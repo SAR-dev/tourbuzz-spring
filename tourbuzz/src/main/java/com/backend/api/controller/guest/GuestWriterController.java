@@ -1,6 +1,7 @@
 package com.backend.api.controller.guest;
 
 import com.backend.api.entity.WriterEntity;
+import com.backend.api.filter.GuestWriterFilter;
 import com.backend.api.request.admin.WriterCreateReq;
 import com.backend.api.request.admin.WriterUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -25,15 +26,10 @@ public class GuestWriterController {
 
     @Tag(name = "Get Writers List")
     @GetMapping("")
-    public PaginatedRes getWriters(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "email", defaultValue = "") String email,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) {
-        PageHelper.startPage(pageNo, pageSize);
-        List<WriterEntity> writerEntities = writerService.getWriters(name, email);
+    public PaginatedRes getWriters(@Valid GuestWriterFilter filter) {
+        PageHelper.startPage(filter.getPageNo(), filter.getPageNo());
+        List<WriterEntity> writerEntities = writerService.getWriters(filter.getName(), filter.getEmail());
         Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageNo());
     }
 }

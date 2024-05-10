@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.AdEntity;
+import com.backend.api.filter.AdminAdFilter;
 import com.backend.api.request.admin.AdCreateReq;
 import com.backend.api.request.admin.AdUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -33,15 +34,12 @@ public class AdminAdController {
 
     @Tag(name = "Get Ad List")
     @GetMapping("")
-    public PaginatedRes getAds(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getAds(@Valid AdminAdFilter adminAdFilter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
+        PageHelper.startPage(adminAdFilter.getPageNo(), adminAdFilter.getPageSize());
         List<AdEntity> adEntities = adService.getAds();
         Page<AdEntity> pageInfo = (Page<AdEntity>) adEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, adminAdFilter.getPageNo(), adminAdFilter.getPageSize());
     }
 
     @Tag(name = "Update Ad")

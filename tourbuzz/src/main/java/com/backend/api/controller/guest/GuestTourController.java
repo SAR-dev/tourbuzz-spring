@@ -1,6 +1,7 @@
 package com.backend.api.controller.guest;
 
 import com.backend.api.entity.TourEntity;
+import com.backend.api.filter.GuestTourFilter;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.response.TourListRes;
 import com.backend.api.service.PaginationService;
@@ -10,6 +11,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,14 +27,11 @@ public class GuestTourController {
 
     @Tag(name = "Get Tour List")
     @GetMapping("")
-    public PaginatedRes getTours(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) {
-        PageHelper.startPage(pageNo, pageSize);
+    public PaginatedRes getTours(@Valid GuestTourFilter filter) {
+        PageHelper.startPage(filter.getPageNo(), filter.getPageNo());
         List<TourListRes> tourEntities = tourService.getTours();
         Page<TourListRes> pageInfo = (Page<TourListRes>) tourEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageNo());
     }
 
     @Tag(name = "Upcoming Tours")

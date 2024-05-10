@@ -1,5 +1,6 @@
 package com.backend.api.controller.admin;
 
+import com.backend.api.filter.AdminEnquiryFilter;
 import com.backend.api.request.admin.EnquiryAnswerReq;
 import com.backend.api.response.GroupedEnquiryRes;
 import com.backend.api.response.PaginatedRes;
@@ -32,14 +33,11 @@ public class AdminEnquiryController {
 
     @Tag(name = "Get Enquiry List")
     @GetMapping("")
-    public PaginatedRes getEnquiries(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getEnquiries(@Valid AdminEnquiryFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
         List<GroupedEnquiryRes> groupedEnquiryRes = enquiryService.getGroupedEnquiries();
         Page<GroupedEnquiryRes> pageInfo = (Page<GroupedEnquiryRes>) groupedEnquiryRes;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 }

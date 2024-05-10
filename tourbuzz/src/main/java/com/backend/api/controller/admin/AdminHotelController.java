@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.HotelEntity;
+import com.backend.api.filter.AdminHotelFilter;
 import com.backend.api.request.admin.HotelCreateReq;
 import com.backend.api.request.admin.HotelUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -33,16 +34,12 @@ public class AdminHotelController {
 
     @Tag(name = "Get Hotel List")
     @GetMapping("")
-    public PaginatedRes getHotels(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getHotels(@Valid AdminHotelFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
-        List<HotelEntity> hotelEntities = hotelService.getHotels(name);
+        PageHelper.startPage(filter.getPageSize(), filter.getPageSize());
+        List<HotelEntity> hotelEntities = hotelService.getHotels(filter.getName());
         Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageSize(), filter.getPageSize());
     }
 
     @Tag(name = "Update Hotel")

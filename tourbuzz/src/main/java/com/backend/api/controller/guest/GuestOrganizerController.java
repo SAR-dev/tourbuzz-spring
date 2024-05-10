@@ -2,6 +2,7 @@ package com.backend.api.controller.guest;
 
 import com.backend.api.entity.HotelEntity;
 import com.backend.api.entity.OrganizerEntity;
+import com.backend.api.filter.GuestOrganizerFilter;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.HotelService;
 import com.backend.api.service.OrganizerService;
@@ -9,6 +10,7 @@ import com.backend.api.service.PaginationService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,16 +25,11 @@ public class GuestOrganizerController {
 
     @Tag(name = "Get Organizer List")
     @GetMapping("")
-    public PaginatedRes getOrganizers(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "email", defaultValue = "") String email,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
-        PageHelper.startPage(pageNo, pageSize);
-        List<OrganizerEntity> organizerEntities = organizerService.getOrganizers(name, email);
+    public PaginatedRes getOrganizers(@Valid GuestOrganizerFilter filter) {
+        PageHelper.startPage(filter.getPageNo(), filter.getPageNo());
+        List<OrganizerEntity> organizerEntities = organizerService.getOrganizers(filter.getName(), filter.getEmail());
         Page<OrganizerEntity> pageInfo = (Page<OrganizerEntity>) organizerEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageNo());
     }
 
     @Tag(name = "Random Organizers")

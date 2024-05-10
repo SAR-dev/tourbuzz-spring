@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.PlaceEntity;
+import com.backend.api.filter.AdminPlaceFilter;
 import com.backend.api.request.admin.PlaceCreateReq;
 import com.backend.api.request.admin.PlaceUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -34,16 +35,12 @@ public class AdminPlaceController {
 
     @Tag(name = "Get Place List")
     @GetMapping("")
-    public PaginatedRes getPlaces(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getPlaces(@Valid AdminPlaceFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
-        List<PlaceEntity> placeEntities = placeService.getPlaces(name);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
+        List<PlaceEntity> placeEntities = placeService.getPlaces(filter.getName());
         Page<PlaceEntity> pageInfo = (Page<PlaceEntity>) placeEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Get Place Types")

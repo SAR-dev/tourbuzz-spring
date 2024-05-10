@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.ImageEntity;
+import com.backend.api.filter.AdminImageFilter;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.AuthService;
 import com.backend.api.service.PaginationService;
@@ -8,6 +9,7 @@ import com.backend.api.service.ImageService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,15 +43,12 @@ public class AdminImageController {
 
     @Tag(name = "Get Images List")
     @GetMapping("")
-    public PaginatedRes getImages(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getImages(@Valid AdminImageFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
         List<ImageEntity> imageEntities = imageService.getImages();
         Page<ImageEntity> pageInfo = (Page<ImageEntity>) imageEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Delete Image")

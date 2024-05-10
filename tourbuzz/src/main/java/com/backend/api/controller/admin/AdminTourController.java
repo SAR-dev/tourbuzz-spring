@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.TourEntity;
+import com.backend.api.filter.AdminTourFilter;
 import com.backend.api.request.admin.TourCreateReq;
 import com.backend.api.request.admin.TourUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -34,15 +35,12 @@ public class AdminTourController {
 
     @Tag(name = "Get Tour List")
     @GetMapping("")
-    public PaginatedRes getTours(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getTours(@Valid AdminTourFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
         List<TourListRes> tourEntities = tourService.getTours();
         Page<TourListRes> pageInfo = (Page<TourListRes>) tourEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Update Tour")

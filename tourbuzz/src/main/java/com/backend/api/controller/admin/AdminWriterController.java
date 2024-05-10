@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.WriterEntity;
+import com.backend.api.filter.AdminWriterFilter;
 import com.backend.api.request.admin.WriterCreateReq;
 import com.backend.api.request.admin.WriterUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -33,17 +34,12 @@ public class AdminWriterController {
 
     @Tag(name = "Get Writers List")
     @GetMapping("")
-    public PaginatedRes getWriters(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "email", defaultValue = "") String email,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getWriters(@Valid AdminWriterFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
-        List<WriterEntity> writerEntities = writerService.getWriters(name, email);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
+        List<WriterEntity> writerEntities = writerService.getWriters(filter.getName(), filter.getEmail());
         Page<WriterEntity> pageInfo = (Page<WriterEntity>) writerEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Update Writer")

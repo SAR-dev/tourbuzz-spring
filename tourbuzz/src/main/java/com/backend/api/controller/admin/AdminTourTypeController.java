@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.TourTypeEntity;
+import com.backend.api.filter.AdminTourTypeFilter;
 import com.backend.api.request.admin.TourTypeCreateReq;
 import com.backend.api.request.admin.TourTypeUpdateReq;
 import com.backend.api.response.PaginatedRes;
@@ -33,16 +34,12 @@ public class AdminTourTypeController {
 
     @Tag(name = "Get Tour Type List")
     @GetMapping("")
-    public PaginatedRes getTourTypes(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getTourTypes(@Valid AdminTourTypeFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
-        List<TourTypeEntity> tourTypeEntities = tourTypeService.getTourTypes(name);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
+        List<TourTypeEntity> tourTypeEntities = tourTypeService.getTourTypes(filter.getName());
         Page<TourTypeEntity> pageInfo = (Page<TourTypeEntity>) tourTypeEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Update Tour Type")

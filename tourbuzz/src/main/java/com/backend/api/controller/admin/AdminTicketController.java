@@ -2,6 +2,7 @@ package com.backend.api.controller.admin;
 
 import com.backend.api.entity.ArticleEntity;
 import com.backend.api.entity.TicketEntity;
+import com.backend.api.filter.AdminTicketFilter;
 import com.backend.api.request.admin.FileCreateReq;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.AuthService;
@@ -10,6 +11,7 @@ import com.backend.api.service.TicketService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,15 +27,12 @@ public class AdminTicketController {
 
     @Tag(name = "Get Ticket List")
     @GetMapping("")
-    public PaginatedRes getTickets(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getTickets(@Valid AdminTicketFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
         List<TicketEntity> ticketEntities = ticketService.getTickets();
         Page<TicketEntity> pageInfo = (Page<TicketEntity>) ticketEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Add Ticket File")

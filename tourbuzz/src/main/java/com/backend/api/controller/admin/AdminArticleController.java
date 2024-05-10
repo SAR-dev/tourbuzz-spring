@@ -1,6 +1,7 @@
 package com.backend.api.controller.admin;
 
 import com.backend.api.entity.ArticleEntity;
+import com.backend.api.filter.AdminArticleFilter;
 import com.backend.api.request.admin.ArticleCreateReq;
 import com.backend.api.request.admin.ArticleUpdateReq;
 import com.backend.api.response.ArticleCategoryRes;
@@ -34,15 +35,12 @@ public class AdminArticleController {
 
     @Tag(name = "Get Articles List")
     @GetMapping("")
-    public PaginatedRes getArticles(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
+    public PaginatedRes getArticles(@Valid AdminArticleFilter filter) throws Exception {
         authService.verifyAdminToken();
-        PageHelper.startPage(pageNo, pageSize);
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
         List<ArticleEntity> articleEntities = articleService.getArticles();
         Page<ArticleEntity> pageInfo = (Page<ArticleEntity>) articleEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Get Article Categories")

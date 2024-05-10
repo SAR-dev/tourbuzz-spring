@@ -2,12 +2,14 @@ package com.backend.api.controller.guest;
 
 import com.backend.api.entity.ArticleEntity;
 import com.backend.api.entity.TourEntity;
+import com.backend.api.filter.GuestArticleFilter;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.ArticleService;
 import com.backend.api.service.PaginationService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -23,14 +25,11 @@ public class GuestArticleController {
 
     @Tag(name = "Get Articles List")
     @GetMapping("")
-    public PaginatedRes getArticles(
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
-        PageHelper.startPage(pageNo, pageSize);
+    public PaginatedRes getArticles(@Valid GuestArticleFilter filter) {
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
         List<ArticleEntity> articleEntities = articleService.getArticles();
         Page<ArticleEntity> pageInfo = (Page<ArticleEntity>) articleEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Latest Articles")

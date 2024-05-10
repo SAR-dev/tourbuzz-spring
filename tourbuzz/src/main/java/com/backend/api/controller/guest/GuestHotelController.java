@@ -2,12 +2,14 @@ package com.backend.api.controller.guest;
 
 import com.backend.api.entity.HotelEntity;
 import com.backend.api.entity.PlaceEntity;
+import com.backend.api.filter.GuestHotelFilter;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.HotelService;
 import com.backend.api.service.PaginationService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -23,15 +25,11 @@ public class GuestHotelController {
 
     @Tag(name = "Get Hotel List")
     @GetMapping("")
-    public PaginatedRes getHotels(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
-        PageHelper.startPage(pageNo, pageSize);
-        List<HotelEntity> hotelEntities = hotelService.getHotels(name);
+    public PaginatedRes getHotels(@Valid GuestHotelFilter filter) {
+        PageHelper.startPage(filter.getPageNo(), filter.getPageSize());
+        List<HotelEntity> hotelEntities = hotelService.getHotels(filter.getName());
         Page<HotelEntity> pageInfo = (Page<HotelEntity>) hotelEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageSize());
     }
 
     @Tag(name = "Random Hotels")

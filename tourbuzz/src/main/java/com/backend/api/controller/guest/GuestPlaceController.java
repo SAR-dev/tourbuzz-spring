@@ -1,12 +1,14 @@
 package com.backend.api.controller.guest;
 
 import com.backend.api.entity.PlaceEntity;
+import com.backend.api.filter.GuestPlaceFilter;
 import com.backend.api.response.PaginatedRes;
 import com.backend.api.service.PaginationService;
 import com.backend.api.service.PlaceService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +24,11 @@ public class GuestPlaceController {
 
     @Tag(name = "Get Place List")
     @GetMapping("")
-    public PaginatedRes getPlaces(
-            @RequestParam(name = "name", defaultValue = "") String name,
-            @RequestParam(name = "page_no", defaultValue = "1") int pageNo,
-            @RequestParam(name = "page_size", defaultValue = "20") int pageSize
-    ) throws Exception {
-        PageHelper.startPage(pageNo, pageSize);
-        List<PlaceEntity> placeEntities = placeService.getPlaces(name);
+    public PaginatedRes getPlaces(@Valid GuestPlaceFilter filter) throws Exception {
+        PageHelper.startPage(filter.getPageNo(), filter.getPageNo());
+        List<PlaceEntity> placeEntities = placeService.getPlaces(filter.getName());
         Page<PlaceEntity> pageInfo = (Page<PlaceEntity>) placeEntities;
-        return paginationService.getPaginatedData(pageInfo, pageNo, pageSize);
+        return paginationService.getPaginatedData(pageInfo, filter.getPageNo(), filter.getPageNo());
     }
 
     @Tag(name = "Popular Places")
