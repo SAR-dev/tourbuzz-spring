@@ -72,8 +72,8 @@ public class BkashService {
         assert response != null;
         String statusCode = (String) response.get("statusCode");
 
-        if (!statusCode.equals("0000")) {
-            throw new RuntimeException("Payment not completed");
+        if (!statusCode.equals(Constants.BKASH.PAYMENT_NOT_COMPLETED_CODE)) {
+            throw new Exception(ErrorMessages.PAYMENT_NOT_COMPLETED);
         }
 
         PaymentRes paymentRes = PaymentRes.builder()
@@ -102,7 +102,7 @@ public class BkashService {
 
         Map response = responseEntity.getBody();
         if (response == null || !response.containsKey("bkashURL") || !response.containsKey("paymentID")) {
-            throw new RuntimeException("Bkash URL not found");
+            throw new Exception(ErrorMessages.BKASH_URL_NOT_FOUND);
         }
 
         String paymentId = (String) response.get("paymentID");

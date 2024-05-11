@@ -28,5 +28,6 @@ public class ErrorMessages {
     public static final String PAYMENT_COMPLETED = "Payment not completed.";
     public static final String TICKET_SOLD_OUT = "Ticket already sold out";
     public static final String MAX_TICKET_EXCEEDS = "Your requested ticket amount exceeds remaining amount";
+    public static final String BKASH_URL_NOT_FOUND = "Bkash URL not found";
 }
 

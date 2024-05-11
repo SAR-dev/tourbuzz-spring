@@ -42,7 +42,10 @@ pagehelper:
   params: count=countSql
 server:
   port: ${PORT:8080}
+  url: ${SERVER_URL:localhost:8080}
+client:
+  url: ${CLIENT_URL:localhost:3030}
 springdoc:
   api-docs:
     path: /api-docs
-local: true
+

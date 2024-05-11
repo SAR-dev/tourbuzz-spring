@@ -3,11 +3,12 @@ package com.backend.api;
 import org.springframework.beans.factory.annotation.Value;
 
 public class Constants {
-    @Value("${local}")
-    public boolean local;
+    @Value("${server.url}")
+    private static String BACKEND_BASE_URL;
 
-    public static final String FRONTEND_BASE_URL = "http://localhost:3000";
-    public static final String BACKEND_BASE_URL = "http://localhost:8080";
+    @Value("${client.url}")
+    private static String FRONTEND_BASE_URL;
+
     public static class HEADER {
         public static final String ADMIN_HEADER_NAME = "x-api-key";
         public static final String ACCESS_HEADER_NAME = "Authorization";
@@ -61,5 +62,6 @@ public class Constants {
         public static final String DEFAULT_CURRENCY = "BDT";
         public static final String DEFAULT_INTENT = "sale";
         public static final String DEFAULT_CALLBACK_URL = BACKEND_BASE_URL + "/bkash/callback";
+        public static final String PAYMENT_NOT_COMPLETED_CODE = "0000";
     }
 }
