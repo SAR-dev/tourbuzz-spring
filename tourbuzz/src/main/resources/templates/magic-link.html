@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="x-apple-disable-message-reformatting">
@@ -61,34 +61,42 @@
                                     Thank you for choosing TourBuzz! Your security is our top priority, and we want to ensure that your account remains safe.
                                     <br>
                                     <br>
-                                    As part of our two-factor authentication process, we have generated a Magic Token for your account. Please keep this token confidential and do not share it with anyone.
+                                    As part of our two-factor authentication process, we are mailing you details for logging in your account. Please keep this email confidential and do not share it with anyone.
                                     <br>
                                     <br>
                                     Copy this code to continue
                                     <br>
                                     <br>
-                                    <code style="border-radius: 4px; padding: 2px 6px; white-space: normal; font-size: 24px; letter-spacing: 5px; border: 1px solid #e2e8f0; background-color: #f8fafc; color: #ec4899;" th:text="${magicKey}"></code>
+                                    <code
+                                        style="border-radius: 4px; padding: 2px 6px; white-space: normal; font-size: 24px; letter-spacing: 5px; border: 1px solid #e2e8f0; background-color: #f8fafc; color: #ec4899;"
+                                        th:text="${magicKey}"
+                                    ></code>
                                     <br>
                                     <br>
-                                    Or click this button to login
+                                    Or click this button to Sign In
                                     <br>
                                     <br>
                                 </p>
                                 <div>
-                                    <a th:href="${clientLink} + ${magicToken}" style="display: inline-block; border-radius: 4px; background-color: #4338ca; padding: 16px 24px; font-size: 16px; font-weight: 600; line-height: 1; color: #f8fafc; text-decoration: none">
-                                        <!--[if mso]>
-                        <i style="mso-font-width: 150%; mso-text-raise: 30px" hidden>&emsp;</i>
-                      <![endif]-->
-                                        <span style="mso-text-raise: 16px">
-                    Verify Sign in
-                  </span>
-                                        <!--[if mso]>
-                        <i hidden style="mso-font-width: 150%;">&emsp;&#8203;</i>
-                      <![endif]-->
+                                    <a
+                                        th:href="${clientLink} + ${magicToken}"
+                                        style="display: inline-block; border-radius: 4px; background-color: #4338ca; padding: 16px 24px; font-size: 16px; font-weight: 600; line-height: 1; color: #f8fafc; text-decoration: none"
+                                    >
+                                        <i style="mso-font-width: 150%; mso-text-raise: 30px" hidden>&emsp;</i>
+                                        <span style="mso-text-raise: 16px">Verify Sign in</span>
+                                        <i hidden style="mso-font-width: 150%;">&emsp;&#8203;</i>
                                     </a>
                                 </div>
                                 <p></p>
                                 <div role="separator" style="background-color: #e2e8f0; height: 1px; line-height: 1px; margin: 32px 0">&zwj;</div>
+                                <p style="margin: 0;">
+                                </p>
+                                <div style="font-size: 14px; font-weight: 500">This email was requested from</div>
+                                <div style="font-size: 14px; font-weight: 500;">IP: <span th:text="${ip}"></span></div>
+                                <div style="font-size: 14px; font-weight: 500;">Device: <span th:text="${device}"></span></div>
+                                <div style="font-size: 14px; font-weight: 500;">Location: <span th:text="${location}"></span></div>
+                                <p></p>
+                                <div role="separator" style="background-color: #e2e8f0; height: 1px; line-height: 1px; margin: 32px 0;">&zwj;</div>
                                 <p style="margin: 0;">
                                     If you didn't request for this email, please ignore this email.
                                     <br>

@@ -5,7 +5,7 @@ spring:
   datasource:
     postgres:
       hikari:
-        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz-test}
+        jdbc-url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/tourbuzz}
         username: ${POSTGRES_USERNAME:postgres}
         password: ${POSTGRES_PASSWORD:admin}
         driver-class-name: org.postgresql.Driver

@@ -12,7 +12,6 @@ import java.util.List;
 public class ProductEntity {
     private int id;
     private int categoriesId;
-    private int seriesId;
     private int brandsId;
     private String title;
     private String slug;
@@ -31,6 +30,5 @@ public class ProductEntity {
 
     private CategoryEntity category;
     private List<ImageEntity> images;
-    private SeriesEntity series;
     private BrandEntity brand;
 }

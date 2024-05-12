@@ -50,6 +50,8 @@ CREATE DOMAIN public.word_list AS TEXT
     CHECK ( VALUE ~* '^\w+(,\w+)*|()$');
 CREATE DOMAIN public._slug AS TEXT
     CHECK (VALUE ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$');
+CREATE DOMAIN _code AS TEXT
+   CHECK (VALUE ~ '^[A-Z0-9]{4}$');
 
 --Update Function
 
@@ -149,7 +151,7 @@ DECLARE
     new_product_code varchar(6);
 BEGIN
     -- Generate a random 6-digit alphanumeric code
-    new_product_code := substr(md5(random()::text), 1, 6);
+    new_product_code := upper(substr(md5(random()::text), 1, 6));
 
     -- Check if the generated code already exists
     WHILE EXISTS (SELECT 1 FROM ecom.products WHERE product_code = new_product_code) LOOP
@@ -534,27 +536,24 @@ CREATE TABLE ecom.brands (
 );
 CREATE TRIGGER update_updated_at_brands BEFORE UPDATE ON ecom.brands FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
-CREATE TABLE ecom.series (
+CREATE TABLE ecom.assortments (
     id              serial PRIMARY KEY,
-    priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
-    name            text NOT NULL,
-    slug            _slug NOT NULL UNIQUE,
-    images_id       integer NOT NULL REFERENCES public.images(id),
+    title           text NOT NULL,
+    details         text NOT NULL,
+    code            _code NOT NULL UNIQUE CHECK (LENGTH(code) = 6),
     created_at      timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TRIGGER update_updated_at_series BEFORE UPDATE ON ecom.series FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+CREATE TRIGGER update_updated_at_assortment BEFORE UPDATE ON ecom.assortments FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 CREATE TABLE ecom.products (
     id              serial PRIMARY KEY,
     categories_id   integer NOT NULL REFERENCES ecom.categories(id),
-    series_id       integer NOT NULL REFERENCES ecom.series(id),
     brands_id       integer NOT NULL REFERENCES ecom.brands(id),
-    product_code    varchar(6) UNIQUE,
+    product_code    _code NOT NULL UNIQUE CHECK (LENGTH(product_code) = 6),
     priority        integer DEFAULT 1 CHECK (priority >= 1 AND priority <= 100),
     title           text NOT NULL,
-    slug            _slug NOT NULL UNIQUE,
-    subtitle        text,
+    features        text,
     seo             text,
     video_link      _link,
     image_ids       number_list,
@@ -569,8 +568,14 @@ CREATE TABLE ecom.products (
     updated_at      timestamp DEFAULT CURRENT_TIMESTAMP
 );
 CREATE TRIGGER update_updated_at_products BEFORE UPDATE ON ecom.products FOR EACH ROW EXECUTE FUNCTION update_updated_at();
-
 CREATE TRIGGER assign_product_code BEFORE INSERT ON ecom.products FOR EACH ROW EXECUTE FUNCTION generate_product_code();
+
+CREATE TABLE ecom.assortment_products (
+    id              serial PRIMARY KEY,
+    assortment_id   integer NOT NULL REFERENCES ecom.assortments(id),
+    products_id     integer NOT NULL REFERENCES ecom.products(id),
+    CONSTRAINT unq_assortment_products UNIQUE ( assortment_id, products_id )
+);
 
 CREATE TABLE ecom.promotions (
     id              serial PRIMARY KEY,
@@ -613,3 +618,5 @@ CREATE TABLE ecom.purchase_payments (
     purchases_id    integer NOT NULL UNIQUE REFERENCES ecom.purchases(id),
     payments_id     integer NOT NULL UNIQUE REFERENCES public.payments(id)
 );
+
+--threshold => max sale amount

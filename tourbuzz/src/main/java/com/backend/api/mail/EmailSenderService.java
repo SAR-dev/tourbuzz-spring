@@ -1,6 +1,7 @@
 package com.backend.api.mail;
 
 import com.backend.api.Constants;
+import com.backend.api.request.MagicLinkMailData;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +38,19 @@ public class EmailSenderService {
         emailSender.send(message);
     }
 
-    public void sendMagicLink(String recipient, String key, String token) throws MessagingException {
-        EmailModel emailModel = EmailModel.builder().to(recipient).subject("HEADER: Magic Link").template(Constants.TEMPLATES.MAGIC_LINK).build();
+    public void sendMagicLink(MagicLinkMailData mailData) throws MessagingException {
+        EmailModel emailModel = EmailModel.builder()
+                .to(mailData.getEmail())
+                .subject(Constants.MAGIC_LINK.MAIL_HEADER)
+                .template(Constants.TEMPLATES.MAGIC_LINK)
+                .build();
         Map<String, Object> properties = new HashMap<>();
-        properties.put("magicKey", key);
-        properties.put("magicToken", token);
-        properties.put("clientLink", "http://localhost:8080/verify/");
+        properties.put("magicKey", mailData.getKey());
+        properties.put("magicToken", mailData.getToken());
+        properties.put("ip", mailData.getIp());
+        properties.put("device", mailData.getDevice());
+        properties.put("location", mailData.getLocation());
+        properties.put("clientLink", Constants.MAGIC_LINK.TOKEN_VERIFY_URL);
         emailModel.setProperties(properties);
         sendHtmlMessage(emailModel);
     }

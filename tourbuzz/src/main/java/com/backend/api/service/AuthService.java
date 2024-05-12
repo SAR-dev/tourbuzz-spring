@@ -9,8 +9,10 @@ import com.backend.api.ErrorMessages;
 import com.backend.api.mail.EmailSenderService;
 import com.backend.api.repository.postgres.UserRepository;
 import com.backend.api.request.DeviceLogReq;
+import com.backend.api.request.MagicLinkMailData;
 import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.store.GeoLocationStore;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -49,10 +52,19 @@ public class AuthService {
     }
 
     @Transactional
-    public void emailMagicLink(String email) throws MessagingException {
+    public void emailMagicLink(String email) throws MessagingException, IOException, GeoIp2Exception {
         String token = generateMagicToken(email);
         String key = tokenService.storeTokenAndKey(email, token);
-        emailSenderService.sendMagicLink(email, key, token);
+        DeviceLogReq deviceLogReq = geoLocationStore.getDeviceDetails(email);
+        MagicLinkMailData mailData = MagicLinkMailData.builder()
+                .email(email)
+                .key(key)
+                .token(token)
+                .ip(deviceLogReq.getIp())
+                .device(deviceLogReq.getDevice())
+                .location(deviceLogReq.getLocation())
+                .build();
+        emailSenderService.sendMagicLink(mailData);
     }
 
     @Transactional
@@ -83,7 +95,7 @@ public class AuthService {
     public void registerDevice(String token){
         try {
             String email = getEmailFromMagicToken(token);
-            DeviceLogReq deviceLogReq = geoLocationStore.registerDeviceLog(email);
+            DeviceLogReq deviceLogReq = geoLocationStore.getDeviceDetails(email);
             userRepository.createUserDeviceLog(deviceLogReq);
         } catch (Exception e) {
             System.out.println(e.getMessage());

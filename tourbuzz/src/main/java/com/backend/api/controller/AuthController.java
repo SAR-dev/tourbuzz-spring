@@ -8,10 +8,13 @@ import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.response.admin.AdminAccessTokenRes;
 import com.backend.api.response.UserAccessTokenRes;
 import com.backend.api.service.AuthService;
+import com.maxmind.geoip2.exception.GeoIp2Exception;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,7 +24,7 @@ public class AuthController {
 
     @Tag(name = "Get Magic Link And Key")
     @PostMapping("/magic-link")
-    public void reqMagicLink(@RequestBody MagicLinkReq request) throws MessagingException {
+    public void reqMagicLink(@RequestBody MagicLinkReq request) throws MessagingException, IOException, GeoIp2Exception {
         authService.emailMagicLink(request.getEmail());
     }
 

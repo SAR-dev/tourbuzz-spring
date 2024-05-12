@@ -1,8 +1,6 @@
 package com.backend.api.store;
 
 import com.backend.api.request.DeviceLogReq;
-import com.backend.api.service.AuthService;
-import com.backend.api.service.UserService;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.exception.AddressNotFoundException;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
@@ -28,25 +26,26 @@ import static java.util.Objects.nonNull;
 @Component
 @RequiredArgsConstructor
 public class GeoLocationStore {
-    private final UserService userService;
-
     private final Parser uaParser = new Parser();
     @Autowired
     private ApplicationContext ctx;
     @Autowired
     HttpServletRequest httpServletRequest;
     private static final String UNKNOWN = "UNKNOWN";
+    private static final String DEVICE_DETAILS_HEADER = "user-agent";
+    private static final String DEVICE_IP_HEADER = "x-forwarded-for";
+    private static final String GEOLOCATION_FILE_DIR = "classpath:GeoLite2-City.mmdb";
     private DatabaseReader databaseReader;
 
     @PostConstruct
     public void init() throws IOException {
-        Resource resource = ctx.getResource("classpath:GeoLite2-City.mmdb");
+        Resource resource = ctx.getResource(GEOLOCATION_FILE_DIR);
         File file = resource.getFile();
         this.databaseReader = new DatabaseReader.Builder(file).build();
     }
 
     @Transactional
-    public DeviceLogReq registerDeviceLog(String email) throws IOException, GeoIp2Exception {
+    public DeviceLogReq getDeviceDetails(String email) throws IOException, GeoIp2Exception {
         String ip = extractIp();
         String location = getIpLocation(ip);
         String deviceDetails = getDeviceDetails();
@@ -60,8 +59,7 @@ public class GeoLocationStore {
 
     private String extractIp() {
         String clientIp;
-        String clientXForwardedForIp = httpServletRequest
-                .getHeader("x-forwarded-for");
+        String clientXForwardedForIp = httpServletRequest.getHeader(DEVICE_IP_HEADER);
         if (nonNull(clientXForwardedForIp)) {
             clientIp = parseXForwardedHeader(clientXForwardedForIp);
         } else {
@@ -75,16 +73,17 @@ public class GeoLocationStore {
     }
 
     private String getDeviceDetails() {
-        String userAgent = httpServletRequest
-                .getHeader("user-agent");
+        String userAgent = httpServletRequest.getHeader(DEVICE_DETAILS_HEADER);
         String deviceDetails = UNKNOWN;
 
         Client client = uaParser.parse(userAgent);
         if (nonNull(client)) {
-            deviceDetails = client.userAgent.family + " " + client.userAgent.major + "." + client.userAgent.minor +
-                    " - " + client.os.family + " " + client.os.major + "." + client.os.minor;
+            String osDetails = client.os.family + " " + client.os.major;
+            if (nonNull(client.os.minor)) osDetails += "." + client.os.minor;
+            String clientDetails = client.userAgent.family + " " + client.userAgent.major;
+            if (nonNull(client.userAgent.minor)) clientDetails += "." + client.userAgent.minor;
+            deviceDetails = clientDetails + " - " + osDetails;
         }
-
         return deviceDetails;
     }
 

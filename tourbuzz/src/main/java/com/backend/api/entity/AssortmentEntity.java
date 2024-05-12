@@ -8,13 +8,12 @@ import java.sql.Timestamp;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SeriesEntity {
+public class AssortmentEntity {
     private int id;
-    private String name;
-    private String slug;
+    private String title;
+    private String details;
+    private String code;
     private int imagesId;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-
-    private ImageEntity avatar;
 }
