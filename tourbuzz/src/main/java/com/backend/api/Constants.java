@@ -1,13 +1,28 @@
 package com.backend.api;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Constants {
     @Value("${server.url}")
     public static String BACKEND_BASE_URL;
 
     @Value("${client.url}")
     public static String FRONTEND_BASE_URL;
+
+    @Autowired
+    public Constants(
+            @Value("${server.url}") String backendUrl,
+            @Value("${client.url}") String frontendUrl
+    ) {
+        BACKEND_BASE_URL = backendUrl;
+        FRONTEND_BASE_URL = frontendUrl;
+    }
+
+    public static String RESEND_API_KEY = "re_gdKAtZAj_AgzBESfAd2zBUTJf6PTZKdJZ";
+    public static String RESEND_SENDER = "TourBuzz <onboarding@resend.dev>";
 
     public static class HEADER {
         public static final String ADMIN_HEADER_NAME = "x-api-key";

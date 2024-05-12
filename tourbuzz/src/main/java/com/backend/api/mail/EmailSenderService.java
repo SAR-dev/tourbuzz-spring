@@ -2,11 +2,14 @@ package com.backend.api.mail;
 
 import com.backend.api.Constants;
 import com.backend.api.request.MagicLinkMailData;
+import com.resend.Resend;
+import com.resend.core.exception.ResendException;
+import com.resend.services.emails.model.CreateEmailOptions;
+import com.resend.services.emails.model.CreateEmailResponse;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class EmailSenderService {
+    Resend resend = new Resend(Constants.RESEND_API_KEY);
+
     private final JavaMailSender emailSender;
     private final SpringTemplateEngine templateEngine;
 
@@ -34,11 +39,26 @@ public class EmailSenderService {
         String html = templateEngine.process(emailModel.getTemplate(), context);
         helper.setText(html, true);
 
-        log.info("Sending emailModel: {} with html body: {}", emailModel, html);
+        log.info("Sending emailModel by mail: {} with html body: {}", emailModel, html);
         emailSender.send(message);
     }
 
-    public void sendMagicLink(MagicLinkMailData mailData) throws MessagingException {
+    public void sendEmailByResend(EmailModel emailModel) throws ResendException {
+        Context context = new Context();
+        context.setVariables(emailModel.getProperties());
+        String html = templateEngine.process(emailModel.getTemplate(), context);
+        CreateEmailOptions params = CreateEmailOptions.builder()
+                .from(Constants.RESEND_SENDER)
+                .to(emailModel.getTo())
+                .subject(emailModel.getSubject())
+                .html(html)
+                .build();
+
+        log.info("Sending emailModel by resend: {} with html body: {}", emailModel, html);
+        CreateEmailResponse data = resend.emails().send(params);
+    }
+
+    public void sendMagicLink(MagicLinkMailData mailData) throws Exception {
         EmailModel emailModel = EmailModel.builder()
                 .to(mailData.getEmail())
                 .subject(Constants.MAGIC_LINK.MAIL_HEADER)
@@ -52,6 +72,6 @@ public class EmailSenderService {
         properties.put("location", mailData.getLocation());
         properties.put("clientLink", Constants.MAGIC_LINK.TOKEN_VERIFY_URL);
         emailModel.setProperties(properties);
-        sendHtmlMessage(emailModel);
+        sendEmailByResend(emailModel);
     }
 }

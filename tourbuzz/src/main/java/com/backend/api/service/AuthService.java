@@ -13,6 +13,7 @@ import com.backend.api.request.MagicLinkMailData;
 import com.backend.api.request.admin.AdminSignInReq;
 import com.backend.api.store.GeoLocationStore;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.resend.core.exception.ResendException;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void emailMagicLink(String email) throws MessagingException, IOException, GeoIp2Exception {
+    public void emailMagicLink(String email) throws Exception {
         String token = generateMagicToken(email);
         String key = tokenService.storeTokenAndKey(email, token);
         DeviceLogReq deviceLogReq = geoLocationStore.getDeviceDetails(email);

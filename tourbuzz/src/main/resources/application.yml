@@ -48,4 +48,3 @@ client:
 springdoc:
   api-docs:
     path: /api-docs
-

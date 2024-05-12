@@ -9,6 +9,7 @@ import com.backend.api.response.admin.AdminAccessTokenRes;
 import com.backend.api.response.UserAccessTokenRes;
 import com.backend.api.service.AuthService;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
+import com.resend.core.exception.ResendException;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class AuthController {
 
     @Tag(name = "Get Magic Link And Key")
     @PostMapping("/magic-link")
-    public void reqMagicLink(@RequestBody MagicLinkReq request) throws MessagingException, IOException, GeoIp2Exception {
+    public void reqMagicLink(@RequestBody MagicLinkReq request) throws Exception {
         authService.emailMagicLink(request.getEmail());
     }
 
