@@ -23,7 +23,7 @@ public class BkashController {
             @RequestParam String status
     ) {
         if (!status.equals("success")) {
-            String templateName = Constants.TEMPLATES.PAYMENT_FAILED;
+            String templateName = Constants.TEMPLATES.PAYMENT_FAILED_HTML;
             Context context = new Context();
             context.setVariable(Constants.TEMPLATES.VARIABLE_NAME, null);
             return templateEngine.process(templateName, context);
@@ -33,15 +33,15 @@ public class BkashController {
             String templateName;
             Context context = new Context();
             if(paymentRes.isCompleted()) {
-                templateName = Constants.TEMPLATES.PAYMENT_SUCCESS;
+                templateName = Constants.TEMPLATES.PAYMENT_SUCCESS_HTML;
                 context.setVariable(Constants.TEMPLATES.VARIABLE_NAME, paymentRes);
             } else {
-                templateName = Constants.TEMPLATES.PAYMENT_FAILED;
+                templateName = Constants.TEMPLATES.PAYMENT_FAILED_HTML;
                 context.setVariable(Constants.TEMPLATES.VARIABLE_NAME, null);
             }
             return templateEngine.process(templateName, context);
         }catch (Exception e){
-            String templateName = Constants.TEMPLATES.PAYMENT_FAILED;
+            String templateName = Constants.TEMPLATES.PAYMENT_FAILED_HTML;
             Context context = new Context();
             context.setVariable(Constants.TEMPLATES.VARIABLE_NAME, null);
             return templateEngine.process(templateName, context);

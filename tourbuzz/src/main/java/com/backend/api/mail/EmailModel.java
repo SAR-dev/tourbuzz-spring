@@ -11,7 +11,8 @@ public class EmailModel {
     private String to;
     private String subject;
     private String text;
-    private String template;
+    private String htmlTemplate;
+    private String textTemplate;
     private Map<String, Object> properties;
 }
 

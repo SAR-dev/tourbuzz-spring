@@ -1,0 +1,19 @@
+Hey there 🤗,
+Thank you for choosing TourBuzz! Your security is our top priority, and we want to ensure that your account remains safe.
+As part of our two-factor authentication process, we are mailing you details for logging in your account. Please keep this email confidential and do not share it with anyone.
+
+Copy this code to continue:
+[[${magicKey}]]
+
+Or use this link:
+[[${clientLink} + ${magicToken}]]
+
+This email was requested from:
+IP: [[${ip}]]
+Device: [[${device}]]
+Location: [[${location}]]
+
+If you didn't request for this email, please ignore this email.
+
+Thanks,
+The TourBuzz Team

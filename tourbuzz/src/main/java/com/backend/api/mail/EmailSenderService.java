@@ -36,7 +36,7 @@ public class EmailSenderService {
         context.setVariables(emailModel.getProperties());
         helper.setTo(emailModel.getTo());
         helper.setSubject(emailModel.getSubject());
-        String html = templateEngine.process(emailModel.getTemplate(), context);
+        String html = templateEngine.process(emailModel.getHtmlTemplate(), context);
         helper.setText(html, true);
 
         log.info("Sending emailModel by mail: {} with html body: {}", emailModel, html);
@@ -46,23 +46,27 @@ public class EmailSenderService {
     public void sendEmailByResend(EmailModel emailModel) throws ResendException {
         Context context = new Context();
         context.setVariables(emailModel.getProperties());
-        String html = templateEngine.process(emailModel.getTemplate(), context);
+        String html = templateEngine.process(emailModel.getHtmlTemplate(), context);
+        String text = templateEngine.process(emailModel.getTextTemplate(), context);
         CreateEmailOptions params = CreateEmailOptions.builder()
                 .from(Constants.RESEND_SENDER)
                 .to(emailModel.getTo())
                 .subject(emailModel.getSubject())
                 .html(html)
+                .text(text)
                 .build();
 
-        log.info("Sending emailModel by resend: {} with html body: {}", emailModel, html);
+        log.info("Sending emailModel by resend: {} with text: {}", emailModel, text);
         CreateEmailResponse data = resend.emails().send(params);
+        log.info(data.toString());
     }
 
     public void sendMagicLink(MagicLinkMailData mailData) throws Exception {
         EmailModel emailModel = EmailModel.builder()
                 .to(mailData.getEmail())
                 .subject(Constants.MAGIC_LINK.MAIL_HEADER)
-                .template(Constants.TEMPLATES.MAGIC_LINK)
+                .htmlTemplate(Constants.TEMPLATES.MAGIC_LINK_HTML)
+                .textTemplate(Constants.TEMPLATES.MAGIC_LINK_TEXT)
                 .build();
         Map<String, Object> properties = new HashMap<>();
         properties.put("magicKey", mailData.getKey());

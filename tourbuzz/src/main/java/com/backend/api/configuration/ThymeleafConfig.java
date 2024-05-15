@@ -15,6 +15,7 @@ public class ThymeleafConfig {
     public SpringTemplateEngine springTemplateEngine() {
         SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
         springTemplateEngine.addTemplateResolver(emailTemplateResolver());
+        springTemplateEngine.addTemplateResolver(txtTemplateResolver());
         return springTemplateEngine;
     }
 
@@ -26,5 +27,15 @@ public class ThymeleafConfig {
         emailTemplateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         emailTemplateResolver.setCacheable(false);
         return emailTemplateResolver;
+    }
+
+    public ClassLoaderTemplateResolver txtTemplateResolver() {
+        ClassLoaderTemplateResolver txtTemplateResolver = new ClassLoaderTemplateResolver();
+        txtTemplateResolver.setPrefix("/templates/");
+        txtTemplateResolver.setSuffix(".txt");
+        txtTemplateResolver.setTemplateMode(TemplateMode.TEXT);
+        txtTemplateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
+        txtTemplateResolver.setCacheable(false);
+        return txtTemplateResolver;
     }
 }

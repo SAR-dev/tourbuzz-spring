@@ -57,9 +57,10 @@ public class Constants {
 
     public static class TEMPLATES {
         public static final String VARIABLE_NAME = "data";
-        public static final String MAGIC_LINK = "magic-link.html";
-        public static final String PAYMENT_SUCCESS = "payment-success.html";
-        public static final String PAYMENT_FAILED = "payment-failed.html";
+        public static final String MAGIC_LINK_HTML = "magic-link.html";
+        public static final String MAGIC_LINK_TEXT = "magic-link.txt";
+        public static final String PAYMENT_SUCCESS_HTML = "payment-success.html";
+        public static final String PAYMENT_FAILED_HTML = "payment-failed.html";
     }
 
     public static class BKASH {
