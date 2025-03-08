@@ -22,13 +22,13 @@ COPY . .
 # Set environment variables
 ARG PORT
 ENV PORT=${PORT}
-ENV POSTGRES_URL=jdbc:postgresql://ep-snowy-limit-a1oqtfke-pooler.ap-southeast-1.aws.neon.tech:5432/tourbuzz
-ENV POSTGRES_USERNAME=tourbuzz_owner
-ENV POSTGRES_PASSWORD=c2gALeNSRYa0
-ENV MAIL_HOST=smtp.gmail.com
-ENV MAIL_PORT=587
-ENV MAIL_USERNAME=sayedarrafi142403@gmail.com
-ENV MAIL_PASSWORD=nzxbsooilavoalqt
+ENV POSTGRES_URL=
+ENV POSTGRES_USERNAME=
+ENV POSTGRES_PASSWORD=
+ENV MAIL_HOST=
+ENV MAIL_PORT=
+ENV MAIL_USERNAME=
+ENV MAIL_PASSWORD=
 
 # Expose the specified port
 EXPOSE ${PORT}
