@@ -14,7 +14,7 @@ spring:
         maximum-pool-size: 10
     sqlite:
       hikari:
-        jdbc-url: jdbc:sqlite:sqlite/db.sqlite
+        jdbc-url: jdbc:sqlite:sqlite/sqlite.db
         username:
         password:
         driver-class-name: org.sqlite.JDBC
