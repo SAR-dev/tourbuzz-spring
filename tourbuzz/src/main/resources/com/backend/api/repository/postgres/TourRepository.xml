@@ -192,7 +192,7 @@
 
     <resultMap id="tourResultMap" type="com.backend.api.entity.TourEntity">
         <association
-                property="tour_type"
+                property="tourType"
                 select="com.backend.api.repository.postgres.TourTypeRepository.getTourTypeById"
                 javaType="com.backend.api.entity.TourTypeEntity"
                 column="id = tour_types_id"
@@ -216,7 +216,7 @@
                 column="ids = image_ids"
         />
         <collection
-                property="tour_logs"
+                property="tourLogs"
                 ofType="com.backend.api.entity.TourLogEntity"
                 select="selectTourLogsByTourId"
                 column="id = id"

@@ -34,7 +34,7 @@ public class TourEntity {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
-    private TourTypeEntity typeEntity;
+    private TourTypeEntity tourType;
     private OrganizerEntity organizer;
     private ImageEntity avatar;
     private List<ImageEntity> images;
